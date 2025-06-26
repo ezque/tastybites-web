@@ -9,13 +9,18 @@
             <div class="inputs">
                 <div class="text-input-group">
                     <span class="material-icons-outlined">email</span>
-                    <input placeholder="Email">
+                    <input
+                        placeholder="Email"
+                        name="email"
+                        v-model="email"
+                    />
                 </div>
                 <div class="text-input-group">
                     <span class="material-icons-outlined">lock</span>
                     <input
                         :type="showPassword ? 'text' : 'password'"
                         placeholder="Password"
+                        name="password"
                         v-model="password"
                     />
                     <span class="material-icons-outlined visibility-icon" @click="togglePassword">
@@ -40,24 +45,37 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue'
+import { ref } from 'vue'
+import axios from 'axios'
 
-    const loading  = ref(false)
-    const password = ref('')
-    const showPassword = ref(false)
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
+const loading = ref(false)
 
-    function togglePassword() {
-        showPassword.value = !showPassword.value
+function togglePassword() {
+    showPassword.value = !showPassword.value
+}
+
+async function handleLogin() {
+    loading.value = true
+    try {
+        const response = await axios.post('/login-post', {
+            email: email.value,
+            password: password.value
+        })
+
+        // Redirect to the appropriate dashboard
+        const redirectUrl = response.data.redirect_url
+        window.location.href = redirectUrl
+    } catch (error) {
+        alert(error.response?.data?.message || 'Login failed')
+    } finally {
+        loading.value = false
     }
-
-    function handleLogin() {
-        loading.value = true
-
-        setTimeout(() => {
-            loading.value = false
-        }, 2000)
-    }
+}
 </script>
+
 
 <style scoped>
     .container {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -66,8 +67,56 @@ class AuthController extends Controller
         ]);
     }
 
-    public function loginPost(Request $request): \Illuminate\Http\JsonResponse
+    public function loginPost(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        if ($user->status !== 'active') {
+            return response()->json(['message' => 'Your account is not active.'], 403);
+        }
+
+        $redirectUrl = match ($user->role) {
+            'admin' => '/admin-dashboard',
+            'chef'  => '/chef-dashboard',
+            default => '/user-dashboard',
+        };
+
+        // Check mode
+        $mode = $request->input('mode', 'web');
+
+        if ($mode === 'api') {
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Login successful.',
+                'token' => $token,
+                'redirect_url' => $redirectUrl,
+                'user' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'role' => $user->role,
+                ]
+            ]);
+        }
+
+        // Session-based login for web
+        Auth::login($user); // OR Auth::attempt($credentials)
+        $request->session()->regenerate();
+
+        return response()->json([
+            'message' => 'Login successful.',
+            'redirect_url' => $redirectUrl,
+        ]);
     }
+
 }

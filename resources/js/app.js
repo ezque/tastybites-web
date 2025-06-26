@@ -6,6 +6,11 @@ import 'material-icons/iconfont/material-icons.css';
 import '../css/app.css';
 import axios from 'axios';
 
+const token = localStorage.getItem('auth_token')
+if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
+
 createInertiaApp({
     resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({el, App, props, plugin}) {
