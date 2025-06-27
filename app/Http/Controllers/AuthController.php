@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserInfo;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -30,13 +31,13 @@ class AuthController extends Controller
             'userName' => 'required|string|max:255|unique:user_info,userName',
             'role' => 'required|in:user,chef',
             'experience' => 'required_if:role,chef|string|nullable',
-            'credentials' => 'required_if:role,chef|file|nullable',
-
+            'credentials' => 'required_if:role,chef|string|nullable',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+
 
         $user = User::create([
             'email' => $request->email,
@@ -45,12 +46,6 @@ class AuthController extends Controller
             'role' => $request->role,
         ]);
 
-        $credentialsPath = null;
-        if ($request->hasFile('credentials')) {
-            $credentialsPath = $request->file('credentials')->store('credentials', 'public');
-        }
-
-
         UserInfo::create([
             'userID' => $user->id,
             'fullName' => $request->fullName,
@@ -58,7 +53,7 @@ class AuthController extends Controller
             'profilePath' => null,
             'coverPath' => null,
             'experience' => $request->role === 'chef' ? $request->experience : null,
-            'credentials' => $credentialsPath,
+            'credentials' => $request->role === 'chef' ? $request->credentials : null,
         ]);
 
         return response()->json([
@@ -71,52 +66,43 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $credentials = $request->only('email', 'password');
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        $remember = $request->has('remember'); // important if you're handling "remember me"
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            $redirect = match ($user->role ?? 'user') {
+                'admin' => '/admin-dashboard',
+                'chef' => '/chef-dashboard',
+                default => '/user-dashboard',
+            };
+
+            return response()->json(['redirect' => $redirect]);
         }
-
-        if ($user->status !== 'active') {
-            return response()->json(['message' => 'Your account is not active.'], 403);
-        }
-
-        $redirectUrl = match ($user->role) {
-            'admin' => '/admin-dashboard',
-            'chef'  => '/chef-dashboard',
-            default => '/user-dashboard',
-        };
-
-        // Check mode
-        $mode = $request->input('mode', 'web');
-
-        if ($mode === 'api') {
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            return response()->json([
-                'message' => 'Login successful.',
-                'token' => $token,
-                'redirect_url' => $redirectUrl,
-                'user' => [
-                    'id' => $user->id,
-                    'email' => $user->email,
-                    'name' => $user->name,
-                    'role' => $user->role,
-                ]
-            ]);
-        }
-
-        // Session-based login for web
-        Auth::login($user); // OR Auth::attempt($credentials)
-        $request->session()->regenerate();
 
         return response()->json([
-            'message' => 'Login successful.',
-            'redirect_url' => $redirectUrl,
-        ]);
+            'errors' => ['email' => ['Invalid credentials.']],
+        ], 422);
+    }
+
+
+    public function logout(Request $request)
+    {
+        \Log::info('Logout route hit.');
+
+        Auth::logout(); // Logout the user
+
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+
+        return redirect('/'); // Redirect to home or login page
     }
 
 }

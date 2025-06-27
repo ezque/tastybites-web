@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@inertiajs/inertia-vue3": "^0.6.0",
+        "@inertiajs/vue3": "^2.0.13",
         "@vitejs/plugin-vue": "^5.2.4",
         "material-icons": "^1.13.14",
         "vue": "^3.5.16",

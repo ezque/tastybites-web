@@ -1,80 +1,92 @@
 <template>
     <div class="container">
-        <img src="/public/images/register_back - rotated.png" class="background-image"/>
+        <img src="/public/images/register_back - rotated.png" class="background-image" />
         <div class="leftside-container">
             <img src="/public/images/tastybites_plate.png" class="logo-plate" />
         </div>
         <div class="rightside-container">
             <h1 class="page-label">Welcome Back!</h1>
             <div class="inputs">
+                <p v-if="errors.email" class="error-message">{{ errors.email[0] }}</p>
                 <div class="text-input-group">
                     <span class="material-icons-outlined">email</span>
-                    <input
-                        placeholder="Email"
-                        name="email"
-                        v-model="email"
-                    />
+                    <input placeholder="Email" v-model="form.email" id="email" />
                 </div>
+
+                <p v-if="errors.password" class="error-message">{{ errors.password[0] }}</p>
                 <div class="text-input-group">
                     <span class="material-icons-outlined">lock</span>
                     <input
                         :type="showPassword ? 'text' : 'password'"
                         placeholder="Password"
-                        name="password"
-                        v-model="password"
+                        v-model="form.password"
                     />
                     <span class="material-icons-outlined visibility-icon" @click="togglePassword">
-                        {{ showPassword ? 'visibility_off' : 'visibility' }}
-                    </span>
+            {{ showPassword ? 'visibility_off' : 'visibility' }}
+          </span>
                 </div>
             </div>
 
             <div class="remember-me-group">
-                <input type="checkbox">
-                <label>Remember me</label>
+                <input type="checkbox" v-model="form.remember" id="remember" />
+                <label for="remember">Remember me</label>
             </div>
+
             <button class="submit-button" @click="handleLogin" :disabled="loading">
                 <span v-if="loading" class="spinner"></span>
                 <span v-else>LOGIN</span>
             </button>
-            <p class="below-button-text">Don't have an account? <a href="/register">Register</a> </p>
-            <img src="/public/images/tastybites_logo.png" class="form-footer-logo"/>
-        </div>
 
+            <p class="below-button-text">Don't have an account? <a href="/register">Register</a></p>
+            <img src="/public/images/tastybites_logo.png" class="form-footer-logo" />
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import axios from 'axios'
 
-const email = ref('')
-const password = ref('')
-const showPassword = ref(false)
 const loading = ref(false)
+const showPassword = ref(false)
+const errors = reactive({})
 
 function togglePassword() {
     showPassword.value = !showPassword.value
 }
 
-async function handleLogin() {
+const form = reactive({
+    email: '',
+    password: '',
+    remember: false
+})
+
+const handleLogin = async () => {
     loading.value = true
+    Object.keys(errors).forEach((key) => delete errors[key])
+
     try {
-        const response = await axios.post('/login-post', {
-            email: email.value,
-            password: password.value
+        const response = await axios.post('/login-post', form, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            }
         })
 
-        // Redirect to the appropriate dashboard
-        const redirectUrl = response.data.redirect_url
-        window.location.href = redirectUrl
+        if (response.data.redirect) {
+            window.location.href = response.data.redirect
+        }
     } catch (error) {
-        alert(error.response?.data?.message || 'Login failed')
+        if (error.response?.status === 422) {
+            Object.assign(errors, error.response.data.errors)
+        } else {
+            console.error('Unexpected login error:', error)
+        }
     } finally {
         loading.value = false
     }
 }
 </script>
+
 
 
 <style scoped>
@@ -213,5 +225,9 @@ async function handleLogin() {
     .visibility-icon {
         cursor: pointer;
         user-select: none;
+    }
+    .error-message {
+        color: #ff4d4f;
+        font-size: 0.875rem;
     }
 </style>
