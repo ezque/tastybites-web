@@ -1,17 +1,13 @@
 <template>
-    <button @click="handleLogout">Logout</button>
+    <Header :user="user"/>
+    <h1>Admin Dashboard</h1>
 </template>
 
 <script setup>
-import  { Inertia} from "@inertiajs/inertia";
-const handleLogout = () => {
-    if (confirm('Are you sure you want to logout?')) {
-        Inertia.post('/logout', {}, {
-            onFinish: () => {
-                window.location.reload();
-            }
-        });
-    }
-};
+    import Header from '../../Component/Header.vue';
+
+    defineProps({
+        user: Object
+    })
 
 </script>

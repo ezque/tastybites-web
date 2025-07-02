@@ -12,19 +12,71 @@
                 <div class="profile-container">
 
                 </div>
-                <h1>{{ user?.user_info?.fullName ?? 'User' }}</h1>
+                <h1>{{ capitalizedfullName }}</h1>
             </button>
         </div>
         <div class="menu-container">
+            <div class="menu-profile-container">
+
+            </div>
+            <div class="menu-user-info">
+                <h1>{{ capitalizedfullName }}</h1>
+                <h6>{{ user?.role }}</h6>
+            </div>
+            <div class="menu-buttons-container">
+                <button v-if="profileIcon">
+                    <img :src="profileIcon" alt="Profile Icon" />
+                    <h1>Profile</h1>
+                </button>
+                <span class="white-line" v-if="profileIcon"></span>
+                <button>
+                    <img src="/public/images/Button-icon/settings.png" alt="img" />
+                    <h1>Settings</h1>
+                </button>
+                <span class="white-line"></span>
+                <button @click="handleLogout">
+                    <img src="/public/images/Button-icon/logout.png" alt="img" />
+                    <h1>Logout</h1>
+                </button>
+            </div>
 
         </div>
     </div>
 </template>
 
 <script setup>
-    defineProps({
+    import { computed } from 'vue';
+    import {Inertia} from "@inertiajs/inertia";
+    const props = defineProps({
         user: Object
     })
+
+    const capitalizedfullName = computed(() => {
+        const name = props.user?.user_info?.fullName ?? 'User'
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
+    })
+    const profileIcon = computed(() => {
+        if (props.user?.role === 'chef') {
+            return '/images/Button-icon/chef_white.png';
+        } else if (props.user?.role === 'user') {
+            return '/images/Button-icon/user_white.png';
+        } else {
+            return null;
+        }
+    });
+    const handleLogout = () => {
+        if (confirm('Are you sure you want to logout?')) {
+            Inertia.post('/logout', {}, {
+                onFinish: () => {
+                    window.location.reload();
+                }
+            });
+        }
+    };
 </script>
 
 <style scoped>
@@ -82,13 +134,73 @@
     }
     .menu-container {
         position: absolute;
-        width: 100px;
-        height: 100px;
-        border: 1px solid black;
+        padding: 20px 20px 20px 20px;
         right: 1%;
         top: 10%;
         display: flex;
-        flex-direction: row;
-
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        background-color: #435F77;
+        border-radius: 20px 0 20px 20px;
+    }
+    .menu-profile-container {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #BB98B8;
+        margin: 0;
+    }
+    .menu-user-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 10px;
+    }
+    .menu-user-info h1 {
+        margin: 0;
+        font-size: 1.2em;
+        color: white;
+        font-family: 'Poppins', sans-serif;
+    }
+    .menu-user-info h6 {
+        margin: 0;
+        color: white;
+        font-family: 'Poppins', sans-serif;
+        font-weight: normal;
+        font-style: italic;
+    }
+    .menu-buttons-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 5px;
+    }
+    .menu-buttons-container button {
+        width: 60%;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .menu-buttons-container button img {
+        width: 30px;
+        height: auto;
+    }
+    .menu-buttons-container button h1 {
+        font-size: 1.2em;
+        color: white;
+        margin-left: 10px;
+        text-align: left;
+        font-family: 'Poppins', sans-serif;
+    }
+    .white-line {
+        width: 60%;
+        border: 1px solid white;
     }
 </style>
