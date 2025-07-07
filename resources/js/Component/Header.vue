@@ -8,14 +8,14 @@
             <button class="rs-button">
                 <img src="/public/images/Button-icon/notifications.png"/>
             </button>
-            <button class="menu-button">
+            <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
 
                 </div>
                 <h1>{{ capitalizedfullName }}</h1>
             </button>
         </div>
-        <div class="menu-container">
+        <div class="menu-container" v-if="isMenuVisible">
             <div class="menu-profile-container">
 
             </div>
@@ -35,7 +35,7 @@
                 </button>
                 <span class="white-line"></span>
                 <button @click="handleLogout">
-                    <img src="/public/images/Button-icon/logout.png" alt="img" />
+                    <img src="/public/images/Button-icon/logout(3).png" alt="img" />
                     <h1>Logout</h1>
                 </button>
             </div>
@@ -45,11 +45,18 @@
 </template>
 
 <script setup>
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
     import {Inertia} from "@inertiajs/inertia";
+
     const props = defineProps({
         user: Object
     })
+
+    const isMenuVisible = ref(false);
+
+    const toggleMenu = () => {
+        isMenuVisible.value = !isMenuVisible.value;
+    }
 
     const capitalizedfullName = computed(() => {
         const name = props.user?.user_info?.fullName ?? 'User'
@@ -87,6 +94,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 20px;
+        margin: 0;
     }
     .logo {
         width: 150px;
@@ -143,6 +151,7 @@
         margin: 0;
         background-color: #435F77;
         border-radius: 20px 0 20px 20px;
+        min-width: 200px;
     }
     .menu-profile-container {
         width: 100px;
