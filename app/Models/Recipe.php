@@ -15,6 +15,7 @@ class Recipe extends Model
         'video_path',
         'gCash_path',
         'receipt_path',
+        'gcash_number',
         'is_free',
         'price',
         'status',

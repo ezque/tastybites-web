@@ -171,7 +171,7 @@
                                     <label>GCash</label>
                                     <input
                                         placeholder="Number"
-                                        v-model="gcashNumber"
+                                        v-model="gcash_number"
                                     />
                                 </div>
                                 <div class="total-amount-container">
@@ -226,7 +226,7 @@
     const description = ref('');
     const videoLink = ref('');
     const price = ref('');
-    const gcashNumber = ref('');
+    const gcash_number = ref('');
     const recipeImage = ref('');
     const recipeImagePreview = ref(null);
     const qrImage = ref('');
@@ -322,7 +322,7 @@
             formData.append('description', description.value);
             formData.append('video_path', videoLink.value);
             formData.append('price', price.value);
-            formData.append('gcashNumber', gcashNumber.value);
+            formData.append('gcash_number', gcash_number.value);
             formData.append('is_free', price.value === '' || price.value === '0' ? 1 : 0);
             formData.append('status', 1); // assuming status 1 = active
 
