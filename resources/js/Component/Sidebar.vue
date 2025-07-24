@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="sidebar-container">
         <div class="button-container">
             <button
                 :class="{ active: active === homeKey }"
@@ -57,7 +57,6 @@
 </template>
 
 <script setup>
-
     import {Inertia} from "@inertiajs/inertia";
     import {computed} from "vue";
     import Recipes from "@/Component/Recipes.vue";
@@ -105,8 +104,8 @@
 </script>
 
 <style scoped>
-    .container {
-        width: 8%;
+    .sidebar-container {
+        width: 7%;
         height: 100%;
         background-color: #B5BFDE;
         display: flex;
@@ -128,7 +127,7 @@
         justify-content: center;
         padding-top: 10px;
         padding-bottom: 10px;
-        border-radius: 20px 0 0 20px;
+        border-radius: 30px 0 0 30px;
         border: none;
         background-color: transparent;
         cursor: pointer;
@@ -138,7 +137,7 @@
         background-color: #E0E7FF;
     }
     .button-container button img {
-        width: 45px;
+        width: 40px;
         height: auto;
     }
     .button-container button h1 {
@@ -146,16 +145,19 @@
         margin: 0;
     }
     .logout-container {
-        width: 100%;
+        width: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 30px;
+        position: fixed;
+        bottom: -30px;
+        left: 10px;
     }
     .logout-bttn {
         padding: 10px;
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
         border: none;
         background-color: transparent;
         cursor: pointer;

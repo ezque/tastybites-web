@@ -12,6 +12,7 @@ class UserInfo extends Model
         'userID',
         'userName',
         'fullName',
+        'gender',
         'profilePath',
         'coverPath',
         'experience',

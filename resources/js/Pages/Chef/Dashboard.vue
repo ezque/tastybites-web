@@ -5,7 +5,8 @@
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'ChefHome'" />
             <Income v-if="activeComponent === 'ChefIncome'"/>
-            <Recipes v-if="activeComponent === 'Recipes'" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" />
+            <AddRecipe v-if="activeComponent === 'AddRecipe'" />
         </div>
     </div>
 </template>
@@ -18,6 +19,7 @@
     import Home from "@/Component/Chef/Home.vue";
     import Income from "@/Component/Chef/Income.vue";
     import Recipes from "@/Component/Recipes.vue";
+    import AddRecipe from "@/Component/Chef/AddRecipe.vue";
 
     import {computed, ref} from "vue";
 

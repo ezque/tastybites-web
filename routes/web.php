@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChefController;
+use App\Http\Controllers\RecipeController;
 
 
 
@@ -20,4 +21,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/chef-dashboard', [ChefController::class, 'dashboard']);
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
 
+    Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
 });
+

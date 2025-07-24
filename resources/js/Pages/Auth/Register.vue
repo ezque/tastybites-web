@@ -23,6 +23,14 @@
                     <span class="material-icons-outlined">email</span>
                     <input placeholder="Email" v-model="email" />
                 </div>
+                <div class="text-input-group">
+                    <span class="material-icons-outlined">person</span>
+                    <select v-model="gender">
+                        <option disabled value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
 
                 <div class="text-input-group">
                     <span class="material-icons-outlined">lock</span>
@@ -107,6 +115,7 @@ const password = ref('')
 const confirmPassword = ref('')
 const fullName = ref('')
 const userName = ref('')
+const gender = ref('')
 const email = ref('')
 const experience = ref('')
 const credentials = ref('')
@@ -158,6 +167,7 @@ async function handleLogin() {
     const formData = new FormData()
     formData.append('fullName', fullName.value)
     formData.append('userName', userName.value)
+    formData.append('gender', gender.value)
     formData.append('email', email.value)
     formData.append('password', password.value)
     formData.append('password_confirmation', confirmPassword.value)
@@ -307,6 +317,15 @@ async function handleLogin() {
 
     .text-input-group span {
         color: #AFADAD;
+    }
+    .text-input-group select {
+        flex: 1;
+        height: 100%;
+        border: none;
+        outline: none;
+        margin-left: 10px;
+        color: #AFADAD;
+        font-family: 'Poppins', sans-serif;
     }
     .submit-button {
         width: 100%;

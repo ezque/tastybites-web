@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Rouge+Script&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Laravel Inertia App</title>
+    <title>Tasty Bites</title>
     @vite('resources/js/app.js')
 </head>
 <body>
