@@ -1,6 +1,9 @@
 <template>
     <div class="add-recipe-container">
         <div class="top-container">
+            <button type="button" @click="emit('navigate', 'Recipes')" :class="{ active: active === 'Recipes' }">
+                <img src="/public/images/Button-icon/back.png" alt="back"/>
+            </button>
             <h2>Create Recipe</h2>
         </div>
         <div class="main-body">
@@ -220,6 +223,16 @@
     import { ref, computed } from "vue";
     import axios from "axios";
 
+
+    const emit = defineEmits(['navigate']);
+
+    const props = defineProps({
+        active: {
+            type: String,
+            required: true
+        }
+    })
+
     // Form data
     const recipeName = ref('');
     const typeOfCuisine = ref('');
@@ -278,7 +291,6 @@
         }
     };
 
-    // Other UI state
     const activeComponent = ref('descriptionCon');
     const setActiveComponent = (componentName) => {
         activeComponent.value = componentName;
@@ -365,6 +377,8 @@
         }
     };
 
+
+
 </script>
 
 <style scoped>
@@ -379,7 +393,24 @@
         width: 100%;
         height: 10%;
         display: flex;
+        flex-direction: row;
         align-items: center;
+        gap: 5px;
+    }
+    .top-container button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 50%;
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        margin-left: 20px;
+    }
+    .top-container button img {
+        width: 100%;
+        height: auto;
     }
     .top-container h2 {
         font-size: 2em;
@@ -387,7 +418,6 @@
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
         font-style: italic;
-        margin-left: 2%;
     }
     .main-body {
         width: 100%;

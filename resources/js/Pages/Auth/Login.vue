@@ -191,6 +191,7 @@ const handleLogin = async () => {
         justify-content: center;
         gap: 8px;
         transition: background-color 0.3s ease, opacity 0.3s ease;
+        cursor: pointer;
     }
 
     .submit-button:disabled {

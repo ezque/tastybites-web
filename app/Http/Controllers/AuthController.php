@@ -32,8 +32,10 @@ class AuthController extends Controller
             'userName' => 'required|string|max:255|unique:user_info,userName',
             'role' => 'required|in:user,chef',
             'experience' => 'required_if:role,chef|string|nullable',
-            'credentials' => 'required_if:role,chef|string|nullable',
+            'credentials' => 'required_if:role,chef|file|nullable',
         ]);
+
+
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);

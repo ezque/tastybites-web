@@ -22,7 +22,12 @@
                 Add Recipe
                 <img src="/public/images/Button-icon/add.png"/>
             </button>
-            <RecipeCard v-for="n in 30" :key="n" :index="n" />
+            <RecipeCard
+                v-for="(recipe, index) in recipes"
+                :key="recipe.id"
+                :recipe="recipe"
+                :index="index"
+            />
 
 
         </div>
@@ -37,6 +42,10 @@
     import {computed} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     const emit = defineEmits(['navigate'])
+
+    const props = defineProps({
+        recipes: Array
+    })
 
 </script>
 
@@ -72,18 +81,19 @@
         flex-wrap: wrap;
         flex-direction: row;
         display: flex;
-        padding-left: 5%;
+        padding-left: 3%;
         padding-right: 5%;
-        gap: 5%;
+        gap: 70px;
         align-items: flex-start;
         padding-top: 10px;
         padding-bottom: 10px;
         max-height: 73%;
         overflow: auto;
+
     }
     .add-button {
-        width: 200px;
-        height: 250px;
+        width: 220px;
+        height: 270px;
         cursor: pointer;
         border-radius: 20px;
         display: flex;
@@ -99,6 +109,7 @@
         background-color: #E0E7FF;
         border: none;
         box-shadow: 3px 6px 6px #AFADAD;
+
     }
     .add-button img {
         width: 150px;

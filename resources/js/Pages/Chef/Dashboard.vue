@@ -5,8 +5,8 @@
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'ChefHome'" />
             <Income v-if="activeComponent === 'ChefIncome'"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" />
-            <AddRecipe v-if="activeComponent === 'AddRecipe'" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" />
+            <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
         </div>
     </div>
 </template>
@@ -24,7 +24,8 @@
     import {computed, ref} from "vue";
 
     const props = defineProps({
-        user: Object
+        user: Object,
+        recipes: Array
     })
 
     const isChef = computed(() => props.user.role === 'chef');
