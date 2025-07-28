@@ -89,7 +89,6 @@
         padding-bottom: 10px;
         max-height: 73%;
         overflow: auto;
-
     }
     .add-button {
         width: 220px;

@@ -1,8 +1,10 @@
 <template>
     <div class="card">
         <div class="image-container">
-            <img src="/public/images/tastybites_plate.png" alt="example"/>
+            <img :src="`/storage/${recipe.image_path}`" alt="example"/>
+
         </div>
+        <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipe.is_free === 'premium'"/>
         <div class="text-container">
             <h2>{{recipe.recipeName}}</h2>
             <h3>{{recipe.cuisineType}}</h3>
@@ -37,6 +39,7 @@
         border-radius: 20px;
         background-color: #E0E7FF;
         box-shadow: 5px 4px 2px #AFADAD;
+        position: relative;
     }
     .image-container {
         width: 96%;
@@ -48,7 +51,8 @@
     }
     .image-container img {
         width: 60%;
-        height: auto;
+        height: 90%;
+        border-radius: 50%;
     }
     .text-container {
         width: 100%;
@@ -123,6 +127,13 @@
     }
     .like-bttn span, .dislike-bttn span{
         font-size: 1.7em;
+    }
+    .premium-icon {
+        position: absolute;
+        width: 35px;
+        height: auto;
+        top: 10px;
+        left: 10px;
     }
 
 </style>

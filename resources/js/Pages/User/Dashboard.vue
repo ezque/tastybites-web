@@ -3,7 +3,7 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <h1>User Dashboard</h1>
+            <Home v-if="activeComponent === 'Home'" :recipes="recipes" />
         </div>
 
     </div>
@@ -14,15 +14,17 @@
     import  { Inertia} from "@inertiajs/inertia";
     import Header from '../../Component/Header.vue';
     import Sidebar from '../../Component/Sidebar.vue';
+    import Home from "@/Component/Home.vue";
     import {computed, ref} from "vue";
 
     const props = defineProps({
-        user: Object
+        user: Object,
+        recipes: Array
     })
 
     const isUser = computed(() => props.user.role === 'user');
 
-    const activeComponent = ref(isUser.value ? 'UserHome' : null);
+    const activeComponent = ref(isUser.value ? 'Home' : null);
 
 
     const setActiveComponent = (componentName) => {

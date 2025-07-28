@@ -10,14 +10,14 @@
             </button>
             <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
-
+                    <img :src="profile" alt="profile" />
                 </div>
                 <h1>{{ capitalizedfullName }}</h1>
             </button>
         </div>
         <div class="menu-container" v-if="isMenuVisible">
             <div class="menu-profile-container">
-
+                <img :src="profile" alt="profile" />
             </div>
             <div class="menu-user-info">
                 <h1>{{ capitalizedfullName }}</h1>
@@ -75,6 +75,17 @@
             return null;
         }
     });
+
+    const profile = computed(() =>{
+        if (props.user?.user_info?.gender === 'male') {
+            return '/images/male.png';
+        } else if (props.user?.user_info?.gender === 'female') {
+            return '/images/female.png';
+        } else {
+            return null;
+        }
+
+    });
     const handleLogout = () => {
         if (confirm('Are you sure you want to logout?')) {
             Inertia.post('/logout', {}, {
@@ -123,6 +134,10 @@
         border-radius: 50%;
         background-color: #BB98B8;
     }
+    .profile-container img {
+        width: 100%;
+        height: 100%;
+    }
     .menu-button h1{
         font-size: 1em;
     }
@@ -152,6 +167,7 @@
         background-color: #435F77;
         border-radius: 20px 0 20px 20px;
         min-width: 200px;
+        z-index: 999;
     }
     .menu-profile-container {
         width: 100px;
@@ -159,6 +175,10 @@
         border-radius: 50%;
         background-color: #BB98B8;
         margin: 0;
+    }
+    .menu-profile-container img {
+        width: 100%;
+        height: 100%;
     }
     .menu-user-info {
         display: flex;

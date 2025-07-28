@@ -11,6 +11,7 @@
             <button
                 :class="{ active: active === incomeKey }"
                 @click="goIncome"
+                v-if="!isUser"
             >
                 <img src="/public/images/Button-icon/income.png"/>
                 <h1>Income</h1>
@@ -65,6 +66,7 @@
 
     const isAdmin = computed(() => props.user.role === 'admin');
     const isChef = computed(() => props.user.role === 'chef');
+    const isUser = computed(() => props.user.role === 'user');
 
     const props = defineProps({
         user: {
@@ -78,7 +80,7 @@
     })
 
 
-    const homeKey   = computed(() => isAdmin.value ? 'AdminHome' : isChef.value ? 'ChefHome' : 'UserHome')
+    const homeKey   = computed(() => isAdmin.value ? 'AdminHome' : isChef.value ? 'Home' : 'Home')
     const incomeKey = computed(() => isAdmin.value ? 'AdminIncome' : isChef.value ? 'ChefIncome' : null)
 
     function goHome() {
