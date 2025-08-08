@@ -57,7 +57,7 @@ function togglePassword() {
 
 const form = reactive({
     email: '',
-    password: '',
+    password: '123456',
     remember: false
 })
 

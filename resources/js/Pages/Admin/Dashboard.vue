@@ -5,7 +5,7 @@
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'AdminHome'" />
             <Income v-if="activeComponent === 'AdminIncome'" />
-            <Chefs v-if="activeComponent === 'AdminChefs'" />
+            <Chefs v-if="activeComponent === 'AdminChefs'" :chefs="chefs"/>
             <Users v-if="activeComponent === 'AdminUsers'" />
         </div>
     </div>
@@ -19,10 +19,11 @@ import {computed, ref} from 'vue';
     import Home from "@/Component/Admin/Home.vue";
     import Income from "@/Component/Admin/Income.vue";
     import Chefs from "@/Component/Admin/Chefs.vue";
-    import Users from "@/Component/Admin/Users.vue"
+    import Users from "@/Component/Admin/Users.vue";
 
     const props = defineProps({
-        user: Object
+        user: Object,
+        chefs: Array
     })
 
     const isAdmin = computed(() => props.user.role === 'admin');

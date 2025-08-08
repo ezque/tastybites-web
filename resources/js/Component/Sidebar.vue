@@ -18,8 +18,8 @@
             </button>
             <button
                 v-if="isAdmin"
-                :class="{ active: active === 'Chefs' }"
-                @click="emit('navigate','Chefs')"
+                :class="{ active: active === 'AdminChefs' }"
+                @click="emit('navigate','AdminChefs')"
             >
                 <img src="/public/images/Button-icon/chef.png"/>
                 <h1>Chefs</h1>

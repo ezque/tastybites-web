@@ -82,7 +82,7 @@
         } else if (props.user?.user_info?.gender === 'female') {
             return '/images/female.png';
         } else {
-            return null;
+            return '/images/male.png';
         }
 
     });
