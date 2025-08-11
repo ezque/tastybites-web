@@ -83,10 +83,16 @@
                             </a>
                         </div>
                         <div class="rowFiveB">
-                            <button>
+                            <button
+                                class="accept-bttn"
+                                @click="acceptChef(chef.id)"
+                            >
                                 Accept
                             </button>
-                            <button>
+                            <button
+                                class="delete-bttn"
+                                @click="rejectChef(chef.id)"
+                            >
                                 Delete
                             </button>
                         </div>
@@ -100,6 +106,7 @@
 
 <script setup>
     import { ref, computed } from "vue";
+    import axios from "axios";
 
     const props = defineProps({
         chefs: Array
@@ -138,6 +145,41 @@
 
 
     const activeTab = ref("register");
+
+    async function acceptChef(userId) {
+        try {
+            const response = await axios.post('/accept-chef', {
+                user_id: userId
+            });
+
+            console.log(response.data.message);
+
+            // Remove accepted chef from pending list without page reload
+            const index = props.chefs.findIndex(chef => chef.id === userId);
+            if (index !== -1) {
+                props.chefs[index].status = 'active';
+            }
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+        }
+    }
+
+    async function rejectChef(userId) {
+        try {
+            const response = await  axios.post('/decline-chef', {
+                user_id: userId
+            });
+            console.log(response.data.message);
+
+            const index = props.chefs.findIndex(chef => chef.id === userId);
+            if (index !== -1) {
+                props.chefs[index].status = 'inactive';
+            }
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+        }
+    }
+
 </script>
 
 <style scoped>
@@ -269,7 +311,6 @@
         flex-direction: column;
     }
     .table {
-        border: 1px solid black;
         width: 90%;
         height: 100%;
         display: flex;
@@ -325,13 +366,42 @@
         align-items: center;
         justify-content: center;
     }
+    .rowTwoB, .rowThreeB, .rowFourB {
+        display: flex;
+        align-items: center;
+    }
+    .rowTwoB p, .rowThreeB p{
+        margin-left: 5px;
+    }
     .rowFourB a {
         display: inline-block;
-        max-width: 80%;
+        max-width: 95%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         vertical-align: middle;
+        margin-left: 5px;
+        text-decoration: none;
+    }
+    .rowFiveB {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .rowFiveB button{
+        width: 40%;
+        height: 60%;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+    }
+    .accept-bttn {
+        background-color: #28A745;
+    }
+    .delete-bttn {
+        background-color: #DC3545;
     }
 
 

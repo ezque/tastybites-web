@@ -49,6 +49,13 @@ class AuthController extends Controller
             'role' => $request->role,
         ]);
 
+        if ($request->hasFile('credentials')) {
+            $credentialsPath = $request->file('credentials')->store('credentials', 'public');
+        } else {
+            $credentialsPath = null;
+        }
+
+
         UserInfo::create([
             'userID' => $user->id,
             'fullName' => $request->fullName,
@@ -57,7 +64,7 @@ class AuthController extends Controller
             'profilePath' => null,
             'coverPath' => null,
             'experience' => $request->role === 'chef' ? $request->experience : null,
-            'credentials' => $request->role === 'chef' ? $request->credentials : null,
+            'credentials' => $request->role === 'chef' ? $credentialsPath : null,
         ]);
 
         return response()->json([

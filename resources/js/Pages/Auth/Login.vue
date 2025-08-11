@@ -44,47 +44,47 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import axios from 'axios'
+    import { reactive, ref } from 'vue'
+    import axios from 'axios'
 
-const loading = ref(false)
-const showPassword = ref(false)
-const errors = reactive({})
+    const loading = ref(false)
+    const showPassword = ref(false)
+    const errors = reactive({})
 
-function togglePassword() {
-    showPassword.value = !showPassword.value
-}
-
-const form = reactive({
-    email: '',
-    password: '123456',
-    remember: false
-})
-
-const handleLogin = async () => {
-    loading.value = true
-    Object.keys(errors).forEach((key) => delete errors[key])
-
-    try {
-        const response = await axios.post('/login-post', form, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            }
-        })
-
-        if (response.data.redirect) {
-            window.location.href = response.data.redirect
-        }
-    } catch (error) {
-        if (error.response?.status === 422) {
-            Object.assign(errors, error.response.data.errors)
-        } else {
-            console.error('Unexpected login error:', error)
-        }
-    } finally {
-        loading.value = false
+    function togglePassword() {
+        showPassword.value = !showPassword.value
     }
-}
+
+    const form = reactive({
+        email: '',
+        password: '123456',
+        remember: false
+    })
+
+    const handleLogin = async () => {
+        loading.value = true
+        Object.keys(errors).forEach((key) => delete errors[key])
+
+        try {
+            const response = await axios.post('/login-post', form, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                }
+            })
+
+            if (response.data.redirect) {
+                window.location.href = response.data.redirect
+            }
+        } catch (error) {
+            if (error.response?.status === 422) {
+                Object.assign(errors, error.response.data.errors)
+            } else {
+                console.error('Unexpected login error:', error)
+            }
+        } finally {
+            loading.value = false
+        }
+    }
 </script>
 
 

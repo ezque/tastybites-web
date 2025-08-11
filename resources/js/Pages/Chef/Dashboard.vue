@@ -5,7 +5,7 @@
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'Home'" :recipes="recipes" />
             <Income v-if="activeComponent === 'ChefIncome'"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" :user="user" />
             <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
         </div>
     </div>

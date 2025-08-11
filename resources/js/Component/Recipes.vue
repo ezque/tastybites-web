@@ -18,6 +18,7 @@
             <button
                 class="add-button"
                 @click="emit('navigate', 'AddRecipe')"
+                v-if="props.user.role === 'chef' && props.user.status === 'active'"
             >
                 Add Recipe
                 <img src="/public/images/Button-icon/add.png"/>
@@ -44,6 +45,7 @@
     const emit = defineEmits(['navigate'])
 
     const props = defineProps({
+        user: Object,
         recipes: Array
     })
 

@@ -20,6 +20,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'dashboard']);
     Route::get('/chef-dashboard', [ChefController::class, 'dashboard']);
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
+    Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
+    Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
 
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
 });
