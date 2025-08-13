@@ -7,18 +7,24 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Services\UserService;
 use App\Models\User;
+use App\Services\RecipeService;
 
 class AdminController extends Controller
 {
-    public function dashboard(UserService $userService): \Inertia\Response
+    public function dashboard(UserService $userService, RecipeService $recipeService): \Inertia\Response
     {
         $user = Auth::user()->load('userInfo');
         $chefs = $userService->getChefInfo();
+        $usersInfo = $userService->getUserInfo();
+
+        $recipes = $recipeService->getRecipeCardDetails();
 
         return Inertia::render('Admin/Dashboard',
             [
                 'user' => $user,
-                'chefs' => $chefs
+                'recipes' => $recipes,
+                'chefs' => $chefs,
+                'usersInfo' => $usersInfo
             ]
         );
     }
@@ -52,4 +58,31 @@ class AdminController extends Controller
         ]);
 
     }
+    public function blockUser(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+
+        if (strtolower($user->status) !== 'blocked') {
+            // Block the user
+            $user->update(['status' => 'blocked']);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User blocked successfully.'
+            ]);
+        } else {
+            // Unblock the user
+            $user->update(['status' => 'Active']);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User unblocked successfully.'
+            ]);
+        }
+    }
+
 }

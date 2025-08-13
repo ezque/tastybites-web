@@ -13,4 +13,10 @@ class UserService
             ->where('role', 'chef')
             ->get();
     }
+    public function getUserInfo()
+    {
+        return User::with('userInfo')
+            ->where('role', 'user')
+            ->get();
+    }
 }

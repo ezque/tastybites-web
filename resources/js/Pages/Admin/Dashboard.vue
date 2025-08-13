@@ -6,7 +6,8 @@
             <Home v-if="activeComponent === 'AdminHome'" />
             <Income v-if="activeComponent === 'AdminIncome'" />
             <Chefs v-if="activeComponent === 'AdminChefs'" :chefs="chefs"/>
-            <Users v-if="activeComponent === 'AdminUsers'" />
+            <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" :user="user" />
         </div>
     </div>
 
@@ -20,10 +21,13 @@ import {computed, ref} from 'vue';
     import Income from "@/Component/Admin/Income.vue";
     import Chefs from "@/Component/Admin/Chefs.vue";
     import Users from "@/Component/Admin/Users.vue";
+    import Recipes from "@/Component/Recipes.vue";
 
     const props = defineProps({
         user: Object,
-        chefs: Array
+        chefs: Array,
+        recipes: Array,
+        usersInfo: Array
     })
 
     const isAdmin = computed(() => props.user.role === 'admin');
