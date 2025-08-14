@@ -309,99 +309,130 @@
         display: flex;
         align-items: center;
         flex-direction: column;
+        background-color: #f8fafc;
+        padding: 20px 0;
     }
+
+    /* Table wrapper */
     .table {
         width: 90%;
-        height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        background-color: white;
         display: flex;
         flex-direction: column;
     }
+
+    /* Table header */
     .table-head {
-        width: 100%;
-        height: 60px;
         display: flex;
-        flex-direction: row;
-        background-color: #7592AB;
+        background-color: #435F77;
+        color: white;
+        font-weight: 600;
+        height: 55px;
     }
-    .rowOneH,.rowTwoH,.rowThreeH,.rowFourH,.rowFiveH {
-        height: 100%;
+
+    .table-head > div {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .rowOneB,.rowTwoB,.rowThreeB,.rowFourB,.rowFiveB {
-        border: 1px solid black;
-    }
-    .rowOneH,.rowOneB {
-        width: 10%;
-    }
-    .rowTwoH,.rowTwoB {
-        width: 25%;
-    }
-    .rowThreeH,.rowThreeB {
-        width: 20%;
-    }
-    .rowFourH,.rowFourB {
-        width: 25%;
-    }
-    .rowFiveH,.rowFiveB {
-        width: 20%;
-    }
-    .table-body{
-        width: 100%;
-        height: 100%;
+
+    /* Column widths */
+    .rowOneH, .rowOneB { width: 10%; }
+    .rowTwoH, .rowTwoB { width: 25%; }
+    .rowThreeH, .rowThreeB { width: 20%; }
+    .rowFourH, .rowFourB { width: 25%; }
+    .rowFiveH, .rowFiveB { width: 20%; }
+
+    /* Table body */
+    .table-body {
         display: flex;
         flex-direction: column;
-        overflow: auto;
-    }
-    .body-item {
         width: 100%;
-        height: 50px;
-        display: flex;
-        flex-direction: row;
-        flex-shrink: 0;
     }
-    .rowOneB {
+
+    /* Table rows */
+    .body-item {
+        display: flex;
+        height: 50px;
+        align-items: center;
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .body-item:nth-child(even) {
+        background-color: #f9fafb;
+    }
+
+    .body-item:hover {
+        background-color: #eef3f8;
+    }
+
+    /* Row cells */
+    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0 10px;
+        font-size: 14px;
+        color: #333;
     }
-    .rowTwoB, .rowThreeB, .rowFourB {
-        display: flex;
-        align-items: center;
+
+    .rowTwoB, .rowThreeB {
+        justify-content: flex-start;
     }
-    .rowTwoB p, .rowThreeB p{
-        margin-left: 5px;
-    }
+
+    /* Certificate link */
     .rowFourB a {
-        display: inline-block;
+        color: #3498db;
+        text-decoration: none;
         max-width: 95%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        vertical-align: middle;
-        margin-left: 5px;
-        text-decoration: none;
     }
+
+    .rowFourB a:hover {
+        text-decoration: underline;
+    }
+
+    /* Action buttons */
     .rowFiveB {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        gap: 8px;
         justify-content: center;
-        gap: 10px;
     }
-    .rowFiveB button{
-        width: 40%;
-        height: 60%;
-        border-radius: 20px;
+
+    .rowFiveB button {
+        padding: 6px 12px;
+        border-radius: 6px;
         border: none;
         cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background-color 0.2s ease, transform 0.1s ease;
     }
+
+    /* Accept button */
     .accept-bttn {
-        background-color: #28A745;
+        background-color: #28a745;
+        color: white;
     }
+    .accept-bttn:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    /* Delete button */
     .delete-bttn {
-        background-color: #DC3545;
+        background-color: #dc3545;
+        color: white;
+    }
+    .delete-bttn:hover {
+        background-color: #b02a37;
+        transform: scale(1.05);
     }
 
 

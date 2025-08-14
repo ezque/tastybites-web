@@ -3,7 +3,13 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'Home'" :recipes="recipes" />
+            <Home v-if="activeComponent === 'Home'" @navigate="handleNavigation" :recipes="recipes" />
+            <RecipeDetails
+                v-if="activeComponent === 'RecipeDetails'"
+                @navigate="setActiveComponent"
+                :recipe="selectedRecipe"
+            />
+
         </div>
 
     </div>
@@ -15,6 +21,8 @@
     import Header from '../../Component/Header.vue';
     import Sidebar from '../../Component/Sidebar.vue';
     import Home from "@/Component/Home.vue";
+    import RecipeDetails from "@/Component/RecipeDetails.vue";
+
     import {computed, ref} from "vue";
 
     const props = defineProps({
@@ -23,11 +31,15 @@
     })
 
     const isUser = computed(() => props.user.role === 'user');
-
     const activeComponent = ref(isUser.value ? 'Home' : null);
+    const selectedRecipe = ref(null);
 
 
     const setActiveComponent = (componentName) => {
+        activeComponent.value = componentName;
+    }
+    const handleNavigation = (componentName, recipeData) => {
+        selectedRecipe.value = recipeData;
         activeComponent.value = componentName;
     }
 

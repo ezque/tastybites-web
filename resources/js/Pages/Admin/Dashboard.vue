@@ -7,14 +7,19 @@
             <Income v-if="activeComponent === 'AdminIncome'" />
             <Chefs v-if="activeComponent === 'AdminChefs'" :chefs="chefs"/>
             <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" :user="user" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipes="recipes" :user="user" />
+            <RecipeDetails
+                v-if="activeComponent === 'RecipeDetails'"
+                @navigate="setActiveComponent"
+                :recipe="selectedRecipe"
+            />
         </div>
     </div>
 
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
+    import {computed, ref} from 'vue';
     import Header from '../../Component/Header.vue';
     import Sidebar from "@/Component/Sidebar.vue";
     import Home from "@/Component/Admin/Home.vue";
@@ -22,6 +27,7 @@ import {computed, ref} from 'vue';
     import Chefs from "@/Component/Admin/Chefs.vue";
     import Users from "@/Component/Admin/Users.vue";
     import Recipes from "@/Component/Recipes.vue";
+    import RecipeDetails from "@/Component/RecipeDetails.vue";
 
     const props = defineProps({
         user: Object,
@@ -33,7 +39,12 @@ import {computed, ref} from 'vue';
     const isAdmin = computed(() => props.user.role === 'admin');
 
     const activeComponent = ref(isAdmin.value ? 'AdminHome' : 'AdminIncome');
+    const selectedRecipe = ref(null);
     const setActiveComponent = (componentName) => {
+        activeComponent.value = componentName;
+    }
+    const handleNavigation = (componentName, recipeData) => {
+        selectedRecipe.value = recipeData;
         activeComponent.value = componentName;
     }
 

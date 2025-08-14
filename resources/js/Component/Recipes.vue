@@ -28,6 +28,7 @@
                 :key="recipe.id"
                 :recipe="recipe"
                 :index="index"
+                @navigate="(component, data) => emit('navigate', component, data)"
             />
 
 

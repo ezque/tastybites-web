@@ -3,10 +3,15 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'Home'" :recipes="recipes" />
+            <Home v-if="activeComponent === 'Home'" :recipes="recipes"  @navigate="handleNavigation"/>
             <Income v-if="activeComponent === 'ChefIncome'"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="setActiveComponent" :recipes="recipes" :user="user" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipes="recipes" :user="user"/>
             <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
+            <RecipeDetails
+                v-if="activeComponent === 'RecipeDetails'"
+                @navigate="setActiveComponent"
+                :recipe="selectedRecipe"
+            />
         </div>
     </div>
 </template>
@@ -20,6 +25,7 @@
     import Income from "@/Component/Chef/Income.vue";
     import Recipes from "@/Component/Recipes.vue";
     import AddRecipe from "@/Component/Chef/AddRecipe.vue";
+    import RecipeDetails from "@/Component/RecipeDetails.vue";
 
     import {computed, ref} from "vue";
 
@@ -32,8 +38,13 @@
 
     const activeComponent = ref(isChef.value ? 'Home' : 'ChefIncome');
 
+    const selectedRecipe = ref(null);
 
     const setActiveComponent = (componentName) => {
+        activeComponent.value = componentName;
+    }
+    const handleNavigation = (componentName, recipeData) => {
+        selectedRecipe.value = recipeData;
         activeComponent.value = componentName;
     }
 

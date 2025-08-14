@@ -13,6 +13,7 @@
                     :key="recipe.id"
                     :recipe="recipe"
                     :index="index"
+                    @navigate="(component, data) => emit('navigate', component, data)"
                 />
             </div>
         <div class="footer">
@@ -24,6 +25,7 @@
 <script setup>
     import {computed} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
+
     const emit = defineEmits(['navigate'])
 
     const props = defineProps({

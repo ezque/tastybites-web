@@ -11,7 +11,12 @@
             <h5>chef: @{{ recipe.user.user_info.userName }}</h5>
         </div>
         <div class="button-container">
-            <button class="view-bttn">View Recipe</button>
+            <button
+                class="view-bttn"
+                @click="emit('navigate', 'RecipeDetails', recipe)"
+            >
+                View Recipe
+            </button>
             <div class="like-container">
                 <button class="like-bttn">
                     <span class="material-icons">favorite_border</span>
@@ -27,11 +32,14 @@
         </div>
     </div>
 </template>
+
 <script setup>
     const props = defineProps({
         recipe: Object,
     })
+    const emit = defineEmits(['navigate'])
 </script>
+
 <style scoped>
     .card {
         width: 220px;
