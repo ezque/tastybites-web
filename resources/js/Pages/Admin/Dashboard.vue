@@ -7,7 +7,7 @@
             <Income v-if="activeComponent === 'AdminIncome'" />
             <Chefs v-if="activeComponent === 'AdminChefs'" :chefs="chefs"/>
             <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipes="recipes" :user="user" />
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" :user="user" />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -32,7 +32,7 @@
     const props = defineProps({
         user: Object,
         chefs: Array,
-        recipes: Array,
+        recipeCardDetails: Array,
         usersInfo: Array
     })
 

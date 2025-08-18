@@ -1,19 +1,19 @@
 <template>
     <div class="card">
         <div class="image-container">
-            <img :src="`/storage/${recipe.image_path}`" alt="example"/>
+            <img :src="`/storage/${recipeCardDetail.image_path}`" alt="example"/>
 
         </div>
-        <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipe.is_free === 'premium'"/>
+        <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipeCardDetail.is_free === 'premium'"/>
         <div class="text-container">
-            <h2>{{recipe.recipeName}}</h2>
-            <h3>{{recipe.cuisineType}}</h3>
-            <h5>chef: @{{ recipe.user.user_info.userName }}</h5>
+            <h2>{{recipeCardDetail.recipeName}}</h2>
+            <h3>{{recipeCardDetail.cuisineType}}</h3>
+            <h5>chef: @{{ recipeCardDetail.user.user_info.userName }}</h5>
         </div>
         <div class="button-container">
             <button
                 class="view-bttn"
-                @click="emit('navigate', 'RecipeDetails', recipe)"
+                @click="emit('navigate', 'RecipeDetails', recipeCardDetail)"
             >
                 View Recipe
             </button>
@@ -35,7 +35,7 @@
 
 <script setup>
     const props = defineProps({
-        recipe: Object,
+        recipeCardDetail: Object,
     })
     const emit = defineEmits(['navigate'])
 </script>

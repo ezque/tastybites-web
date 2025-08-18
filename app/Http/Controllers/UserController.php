@@ -14,12 +14,14 @@ class UserController extends Controller
     {
         $user = Auth::user()->load('userInfo');
 
-        $recipes = $recipeService->getRecipeCardDetails();
+        $recipeCardDetails = $recipeService->getRecipeCardDetails();
+        $recipeAllDetails = $recipeService->getAllRecipeDetails();
 
         return Inertia::render('User/Dashboard',
             [
                 'user' => $user,
-                'recipes' => $recipes
+                'recipeCardDetails' => $recipeCardDetails,
+                'recipeAllDetails' => $recipeAllDetails
             ]
         );
     }

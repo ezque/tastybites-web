@@ -32,4 +32,9 @@ class Recipe extends Model
     {
         return $this->hasMany(Procedure::class, 'recipeID');
     }
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class, 'recipeID')->where('userID', auth()->id());
+    }
+
 }

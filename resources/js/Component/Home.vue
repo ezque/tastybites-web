@@ -9,9 +9,9 @@
             </div>
             <div class="home-body">
                 <RecipeCard
-                    v-for="(recipe, index) in recipes"
-                    :key="recipe.id"
-                    :recipe="recipe"
+                    v-for="(recipeCardDetail, index) in recipeCardDetails"
+                    :key="recipeCardDetail.id"
+                    :recipeCardDetail="recipeCardDetail"
                     :index="index"
                     @navigate="(component, data) => emit('navigate', component, data)"
                 />
@@ -29,7 +29,7 @@
     const emit = defineEmits(['navigate'])
 
     const props = defineProps({
-        recipes: Array
+        recipeCardDetails: Array
     })
 
 </script>

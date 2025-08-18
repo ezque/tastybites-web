@@ -25,5 +25,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/block-user', [AdminController::class, 'blockUser']);
 
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
+
 });
 

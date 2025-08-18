@@ -24,9 +24,9 @@
                 <img src="/public/images/Button-icon/add.png"/>
             </button>
             <RecipeCard
-                v-for="(recipe, index) in recipes"
-                :key="recipe.id"
-                :recipe="recipe"
+                v-for="(recipeCardDetail, index) in recipeCardDetails"
+                :key="recipeCardDetail.id"
+                :recipeCardDetail="recipeCardDetail"
                 :index="index"
                 @navigate="(component, data) => emit('navigate', component, data)"
             />
@@ -47,7 +47,7 @@
 
     const props = defineProps({
         user: Object,
-        recipes: Array
+        recipeCardDetails: Array
     })
 
 </script>

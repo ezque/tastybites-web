@@ -3,9 +3,9 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'Home'" :recipes="recipes"  @navigate="handleNavigation"/>
+            <Home v-if="activeComponent === 'Home'" :recipeCardDetails="recipeCardDetails"  @navigate="handleNavigation"/>
             <Income v-if="activeComponent === 'ChefIncome'"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipes="recipes" :user="user"/>
+            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" :user="user"/>
             <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
@@ -31,7 +31,7 @@
 
     const props = defineProps({
         user: Object,
-        recipes: Array
+        recipeCardDetails: Array
     })
 
     const isChef = computed(() => props.user.role === 'chef');

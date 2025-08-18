@@ -9,6 +9,7 @@ class Purchase extends Model
     protected $fillable = [
         'userID',
         'recipeID',
+        'status',
         'purchase_at'
     ];
 

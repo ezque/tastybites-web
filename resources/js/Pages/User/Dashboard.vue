@@ -3,7 +3,7 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'Home'" @navigate="handleNavigation" :recipes="recipes" />
+            <Home v-if="activeComponent === 'Home'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -27,7 +27,8 @@
 
     const props = defineProps({
         user: Object,
-        recipes: Array
+        recipeCardDetails: Array,
+        recipeAllDetails: Object
     })
 
     const isUser = computed(() => props.user.role === 'user');
@@ -39,11 +40,14 @@
         activeComponent.value = componentName;
     }
     const handleNavigation = (componentName, recipeData) => {
-        selectedRecipe.value = recipeData;
+        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        selectedRecipe.value = fullDetails;
         activeComponent.value = componentName;
-    }
+    };
+
 
 </script>
+
 <style scoped>
     .main-body {
         width: 100%;

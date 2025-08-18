@@ -17,12 +17,12 @@ class AdminController extends Controller
         $chefs = $userService->getChefInfo();
         $usersInfo = $userService->getUserInfo();
 
-        $recipes = $recipeService->getRecipeCardDetails();
+        $recipeCardDetails = $recipeService->getRecipeCardDetails();
 
         return Inertia::render('Admin/Dashboard',
             [
                 'user' => $user,
-                'recipes' => $recipes,
+                'recipeCardDetails' => $recipeCardDetails,
                 'chefs' => $chefs,
                 'usersInfo' => $usersInfo
             ]
