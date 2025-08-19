@@ -7,6 +7,7 @@
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
+                @back="back"
                 :user="user"
                 :recipe="selectedRecipe"
             />
@@ -36,18 +37,34 @@
     const activeComponent = ref(isUser.value ? 'Home' : null);
     const selectedRecipe = ref(null);
 
+    // this is your navigation stack (history)
+    const historyStack = ref([]);
 
     const setActiveComponent = (componentName) => {
+        if (activeComponent.value) {
+            historyStack.value.push(activeComponent.value);
+        }
         activeComponent.value = componentName;
     }
+
+    const back = () => {
+        if (historyStack.value.length > 0) {
+            activeComponent.value = historyStack.value.pop();
+        } else {
+            activeComponent.value = isUser.value ? 'Home' : null;
+        }
+    };
+
     const handleNavigation = (componentName, recipeData) => {
+        if (activeComponent.value) {
+            historyStack.value.push(activeComponent.value);
+        }
         const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
         selectedRecipe.value = fullDetails;
         activeComponent.value = componentName;
     };
-
-
 </script>
+
 
 <style scoped>
     .main-body {
