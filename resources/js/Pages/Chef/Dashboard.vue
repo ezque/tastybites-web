@@ -11,6 +11,7 @@
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
                 :recipe="selectedRecipe"
+                :user="user"
             />
         </div>
     </div>
@@ -31,7 +32,8 @@
 
     const props = defineProps({
         user: Object,
-        recipeCardDetails: Array
+        recipeCardDetails: Array,
+        recipeAllDetails: Object
     })
 
     const isChef = computed(() => props.user.role === 'chef');
@@ -44,9 +46,10 @@
         activeComponent.value = componentName;
     }
     const handleNavigation = (componentName, recipeData) => {
-        selectedRecipe.value = recipeData;
+        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        selectedRecipe.value = fullDetails;
         activeComponent.value = componentName;
-    }
+    };
 
 </script>
 <style scoped>

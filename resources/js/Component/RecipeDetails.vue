@@ -1,7 +1,7 @@
 <template>
     <div class="recipe-details-main-container">
         <!-- Free or owned recipe -->
-        <div class="details" v-if="recipeIsFree || ownedRecipe">
+        <div class="details" v-if="canViewDetails">
             <h3>ID: {{ recipe.id }}</h3>
             <h2>{{ recipe.recipeName }}</h2>
             <p>Cuisine: {{ recipe.cuisineType }}</p>
@@ -45,18 +45,29 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+    import { computed } from "vue";
 
-const props = defineProps({
-    recipe: Object,
-});
+    const props = defineProps({
+        recipe: Object,
+        user: Object,
+    });
 
-const recipeIsFree = computed(() => props.recipe.is_free === "free");
-const ownedRecipe = computed(() => {
-    return props.recipe.purchase?.status === "confirmed";
-});
+    const recipeIsFree = computed(() => props.recipe.is_free === "free");
 
-const emit = defineEmits(["navigate"]);
+    const ownedRecipe = computed(() => {
+        return props.recipe.purchase?.status === "confirmed";
+    });
+
+    const isAuthor = computed(() => {
+        return props.recipe.userID === props.user.id;
+    });
+
+    const canViewDetails = computed(() => {
+        return recipeIsFree.value || ownedRecipe.value || isAuthor.value;
+    });
+
+    const emit = defineEmits(["navigate"]);
+
 </script>
 
 <style scoped>

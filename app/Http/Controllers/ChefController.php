@@ -14,10 +14,12 @@ class ChefController extends Controller
         $user = Auth::user()->load('userInfo');
 
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
+        $recipeAllDetails = $recipeService->getAllRecipeDetails();
 
         return Inertia::render('Chef/Dashboard', [
             'user' => $user,
             'recipeCardDetails' => $recipeCardDetails,
+            'recipeAllDetails' => $recipeAllDetails
         ]);
     }
 }

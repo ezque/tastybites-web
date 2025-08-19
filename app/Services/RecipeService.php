@@ -32,15 +32,16 @@ class RecipeService
             ])
             ->get();
 
-        // Now attach ingredients + procedures conditionally
+        // Attach ingredients + procedures conditionally
         foreach ($recipes as $recipe) {
-            if ($recipe->is_free || $recipe->purchase) {
+            if ($recipe->is_free || $recipe->purchase || $recipe->userID == $userId) {
                 $recipe->load(['ingredient', 'procedure']);
             }
         }
 
         return $recipes;
     }
+
 
 
 
