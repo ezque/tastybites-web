@@ -27,20 +27,20 @@
                 </ol>
             </div>
         </div>
+        <!-- Pending purchase -->
+        <div
+            class="pending-container"
+            v-else-if="pendingRecipe"
+        >
+            <p>Your purchase is pending confirmation...</p>
+        </div>
 
-        <!-- Premium but not owned -->
         <div class="not-buy-container" v-else>
             <h2>Premium Recipe</h2>
             <p>Please purchase to unlock the full details.</p>
         </div>
 
-        <!-- Pending purchase -->
-        <div
-            class="pending-container"
-            v-if="recipe.purchase && recipe.purchase.status === 'pending'"
-        >
-            <p>Your purchase is pending confirmation...</p>
-        </div>
+
     </div>
 </template>
 
@@ -61,6 +61,11 @@
     const isAuthor = computed(() => {
         return props.recipe.userID === props.user.id;
     });
+
+    const pendingRecipe = computed(() => {
+        return props.recipe.purchase?.status === "pending";
+    });
+
 
     const canViewDetails = computed(() => {
         return recipeIsFree.value || ownedRecipe.value || isAuthor.value;

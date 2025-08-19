@@ -24,23 +24,23 @@ class RecipeService
 
         $recipes = Recipe::with(['user.userInfo'])
             ->with([
-                // Always eager load purchase for current user
+                // Eager load *any* purchase for the logged in user
                 'purchase' => function ($query) use ($userId) {
-                    $query->where('userID', $userId)
-                        ->where('status', 'confirmed');
+                    $query->where('userID', $userId);
                 }
             ])
             ->get();
 
         // Attach ingredients + procedures conditionally
         foreach ($recipes as $recipe) {
-            if ($recipe->is_free || $recipe->purchase || $recipe->userID == $userId) {
+            if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
                 $recipe->load(['ingredient', 'procedure']);
             }
         }
 
         return $recipes;
     }
+
 
 
 

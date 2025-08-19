@@ -7,6 +7,7 @@
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
+                :user="user"
                 :recipe="selectedRecipe"
             />
 
