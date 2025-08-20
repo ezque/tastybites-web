@@ -87,8 +87,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
         <!-- Pending purchase -->
         <div
@@ -99,8 +97,104 @@
         </div>
 
         <div class="not-buy-container" v-else>
-            <h2>Premium Recipe</h2>
-            <p>Please purchase to unlock the full details.</p>
+            <div class="back-button-container">
+                <button @click="$emit('back')">
+                    <img src="/public/images/Button-icon/back.png" alt="back">
+                </button>
+            </div>
+            <div class="details-main-container">
+                <div class="left-side-details-container">
+                    <div class="recipe-img-container">
+                        <img :src="`/storage/${recipe.image_path}`" alt="recipe image"/>
+                    </div>
+                    <div class="recipe-name-container">
+                        <h1>{{ recipe.recipeName}}</h1>
+                        <h2>{{ recipe.cuisineType }}</h2>
+                        <h3>Chef: @{{ recipe.user.user_info.userName }}</h3>
+                    </div>
+                    <div class="recipe-react-container">
+                        <button>
+                            <img src="/public/images/Button-icon/filled_heart.png" alt="heart" />
+                        </button>
+                        <p>500</p>
+                        <button>
+                            <img src="/public/images/Button-icon/dislike.png" alt="heart" />
+                        </button>
+                        <p>500</p>
+                    </div>
+                </div>
+                <div class="right-side-details-container">
+                    <div class="nb-form-container">
+                        <div class="nb-form">
+                            <div class="nb-form-left">
+                                <label>Payment</label>
+                                <div class="qr-code-container">
+                                    <img alt="qrcode" :src="`/storage/${recipe.gCash_path}`"/>
+                                </div>
+                                <div class="gcash-number-container">
+                                    <label>Gcash Number:</label>
+                                    <p>{{ recipe.gcash_number }}</p>
+                                </div>
+                                <p>Please send your payment to the QR code or the number provided above and upload a screenshot as proof of payment. Purchased recipe will be available after verification.</p>
+                                <div class="proof-payment-container">
+                                    <button
+
+                                    >
+                                        Upload
+                                    </button>
+                                    <p>Proof of Payment</p>
+                                </div>
+                            </div>
+                            <div class="nb-form-right">
+                                <label>Order Form</label>
+                                <p>In order to access this premium recipe, a one-time recipe fee is required. Once purchased, the recipe will be permanently accessible in your account.</p>
+                                <div class="form-container">
+                                    <div class="form-input">
+                                        <div class="form-label-container">
+                                            <label>Email:</label>
+                                        </div>
+
+                                        <p>{{ user.email }}</p>
+                                    </div>
+                                    <div class="form-input">
+                                        <div class="form-label-container">
+                                            <label>Full Name:</label>
+                                        </div>
+                                        <p>{{ user.user_info.fullName}}</p>
+                                    </div>
+                                    <div class="form-input">
+                                        <div class="form-label-container">
+                                            <label>Phone Number:</label>
+                                        </div>
+                                        <input
+                                            placeholder="Phone Number"
+                                        />
+                                    </div>
+                                    <div class="form-input">
+                                        <div class="form-label-container">
+                                            <label>Amount:</label>
+                                        </div>
+                                        <input
+                                            placeholder="Amount"
+                                        />
+                                    </div>
+                                    <div class="form-input">
+                                        <div class="form-label-container">
+                                            <label>Reference #:</label>
+                                        </div>
+                                        <input
+                                            placeholder="Reference"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="nb-submit-container">
+                                    <button>Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -384,6 +478,195 @@
         width: 100%;
         height: 100%;
         border-radius: 20px;
+    }
+    .nb-form-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nb-form {
+        width: 70%;
+        height: 70%;
+        padding: 30px;
+        background-color: #F5F5F5;
+        border-radius: 20px;
+        box-shadow: 4px 4px 2px #AFADAD;
+        display: flex;
+        flex-direction: row;
+    }
+    .nb-form-left {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-right: 2px solid white;
+        padding-right: 20px;
+    }
+    .nb-form-left label {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        color: #768082;
+        font-size: 1.8em;
+        align-self: flex-start;
+    }
+    .qr-code-container {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .qr-code-container img {
+        width: auto;
+        height: 90%;
+    }
+    .gcash-number-container {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .gcash-number-container label {
+        color: white;
+        padding: 5px 10px 5px 10px;
+        background-color: #435F77;
+        border-radius: 30px;
+        font-size: 1em;
+        align-self: center;
+    }
+    .gcash-number-container p {
+        padding: 10px 10px 10px 10px;
+        background-color: #B5BFDE;
+        border-radius: 10px;
+        color: #768082;
+    }
+    .nb-form-left p {
+        text-align: justify;
+        color: #768082;
+        font-style: italic;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.7em;
+    }
+    .proof-payment-container {
+        width: 100%;
+        height: 45px;
+        border-radius: 30px;
+        background-color: #B5BFDE;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .proof-payment-container button {
+        width: 20%;
+        height: 65%;
+        border-radius: 20px;
+        border: none;
+        background-color: #435F77;
+        color: white;
+        margin-left: 20px;
+        cursor: pointer;
+    }
+    .proof-payment-container p {
+        color: #768082;
+        margin-left: 15px;
+    }
+
+    .nb-form-right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-left: 2px solid white;
+        padding-left: 20px;
+    }
+    .nb-form-right label {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        color: #768082;
+        font-size: 1.8em;
+        align-self: flex-start;
+    }
+    .nb-form-right p {
+        text-align: justify;
+        color: #768082;
+        font-style: italic;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.7em;
+        margin-left: 20px;
+    }
+    .form-container {
+        width: 100%;
+        height: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .form-input {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .form-label-container {
+        width: 35%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .form-label-container label{
+        color: black;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: .7em;
+        margin-right: 10px;
+        padding: 0;
+        align-self: center;
+    }
+    .form-input p {
+        margin: 0;
+        padding: 0;
+        color: #31485B;
+        font-family: 'Poppins', sans-serif;
+        font-size: .8em;
+    }
+    .form-input input {
+        width: 60%;
+        height: 70%;
+        border-radius: 20px;
+        padding-left: 10px;
+        border: none;
+        background-color: #B5BFDE;
+    }
+    .nb-submit-container {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nb-submit-container button {
+        background-color: #B5BFDE;
+        width: 100%;
+        height: 60%;
+        border: none;
+        cursor: pointer;
+        border-radius: 25px;
+        color: black;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
     }
 
 </style>
