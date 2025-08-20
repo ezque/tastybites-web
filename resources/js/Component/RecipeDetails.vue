@@ -160,7 +160,7 @@
                                         <div class="form-label-container">
                                             <label>Full Name:</label>
                                         </div>
-                                        <p>{{ user.user_info.fullName}}</p>
+                                        <p class="fullName">{{ user.user_info.fullName}}</p>
                                     </div>
                                     <div class="form-input">
                                         <div class="form-label-container">
@@ -667,6 +667,9 @@
         color: black;
         font-family: 'Poppins', sans-serif;
         font-weight: bold;
+    }
+    .fullName {
+        text-transform: capitalize;
     }
 
 </style>

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\Procedure;
+use App\Models\User;
+use App\Models\Purchase;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -108,6 +110,39 @@ class RecipeController extends Controller
             ], 500);
         }
     }
+
+    public function buyRecipe(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            // Validate request
+            $request->validate([
+                'recipeID' => 'required|exists:recipes,id', // make sure recipe exists
+            ]);
+
+            // Create purchase
+            $purchase = Purchase::create([
+                'userID'      => auth()->id(),
+                'recipeID'    => $request->recipeID,
+                'status'      => 'Pending',
+                'purchase_at' => now(),
+            ]);
+
+            return response()->json([
+                'status'   => 'success',
+                'message'  => 'Recipe purchased successfully.',
+                'purchase' => $purchase
+            ], 201);
+
+        } catch (\Throwable $e) {
+            \Log::error('Buy Recipe Error: ' . $e->getMessage(), ['exception' => $e]);
+
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Internal server error.',
+            ], 500);
+        }
+    }
+
 
 
 }

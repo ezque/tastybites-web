@@ -37,8 +37,7 @@
     const activeComponent = ref(isUser.value ? 'Home' : null);
     const selectedRecipe = ref(null);
 
-    // this is your navigation stack (history)
-    const historyStack = ref([]);
+
 
     const setActiveComponent = (componentName) => {
         if (activeComponent.value) {
@@ -46,6 +45,8 @@
         }
         activeComponent.value = componentName;
     }
+    // this is your navigation stack (history)
+    const historyStack = ref([]);
 
     const back = () => {
         if (historyStack.value.length > 0) {

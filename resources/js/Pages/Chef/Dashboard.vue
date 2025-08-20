@@ -12,6 +12,7 @@
                 @navigate="setActiveComponent"
                 :recipe="selectedRecipe"
                 :user="user"
+                @back="back"
             />
         </div>
     </div>
@@ -49,6 +50,18 @@
         const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
         selectedRecipe.value = fullDetails;
         activeComponent.value = componentName;
+    };
+
+    // this is your navigation stack (history)
+    const historyStack = ref([]);
+    const isUser = computed(() => props.user.role === 'chef');
+
+    const back = () => {
+        if (historyStack.value.length > 0) {
+            activeComponent.value = historyStack.value.pop();
+        } else {
+            activeComponent.value = isUser.value ? 'Home' : null;
+        }
     };
 
 </script>
