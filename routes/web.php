@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
     Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
     Route::post('/block-user', [AdminController::class, 'blockUser']);
+    Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
 
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
 

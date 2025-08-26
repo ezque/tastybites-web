@@ -138,10 +138,16 @@
                                 <p>Please send your payment to the QR code or the number provided above and upload a screenshot as proof of payment. Purchased recipe will be available after verification.</p>
                                 <div class="proof-payment-container">
                                     <button
-
+                                        @click="triggerFileInput"
                                     >
                                         Upload
                                     </button>
+                                    <input
+                                        type="file"
+                                        ref="fileInput"
+                                        @change="handleFileUpload"
+                                        hidden
+                                    />
                                     <p>Proof of Payment</p>
                                 </div>
                             </div>
@@ -168,6 +174,8 @@
                                         </div>
                                         <input
                                             placeholder="Phone Number"
+                                            v-model="form.phone_number"
+                                            required
                                         />
                                     </div>
                                     <div class="form-input">
@@ -176,6 +184,8 @@
                                         </div>
                                         <input
                                             placeholder="Amount"
+                                            v-model="form.amount"
+                                            required
                                         />
                                     </div>
                                     <div class="form-input">
@@ -184,11 +194,15 @@
                                         </div>
                                         <input
                                             placeholder="Reference"
+                                            v-model="form.reference"
+                                            required
                                         />
                                     </div>
                                 </div>
                                 <div class="nb-submit-container">
-                                    <button>Submit</button>
+                                    <button
+                                        @click="buyRecipe"
+                                    >Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +216,8 @@
 </template>
 
 <script setup>
-    import { computed } from "vue";
+    import { computed, reactive, ref  } from "vue";
+    import axios from "axios";
 
     const props = defineProps({
         recipe: Object,
@@ -247,6 +262,60 @@
 
         return null;
     });
+
+    const form = reactive({
+        phone_number: "",
+        amount: "",
+        reference: "",
+        proof: null, // this will hold the file object
+    });
+    const fileInput = ref(null);
+
+    const triggerFileInput = () => {
+        fileInput.value.click(); // open file dialog
+    };
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            form.proof = file; // store the actual file
+        }
+    };
+
+
+    const buyRecipe = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("recipeID", props.recipe.id);
+            formData.append("phone_number", form.phone_number);
+            formData.append("amount", form.amount);
+            formData.append("reference", form.reference);
+            if (form.proof) {
+                formData.append("proof", form.proof);
+            }
+
+            const response = await axios.post("/buy-recipe", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            if (response.data.status === "success") {
+                alert("Recipe purchase submitted. Pending verification.");
+
+                form.phone_number = "";
+                form.amount = "";
+                form.reference = "";
+                form.proof = null;
+                if (fileInput.value) fileInput.value.value = "";
+
+                props.recipe.purchase = { status: "pending" };
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to purchase recipe.");
+        }
+    };
 
     const emit = defineEmits(["back"]);
 

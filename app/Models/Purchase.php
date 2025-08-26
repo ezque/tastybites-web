@@ -10,8 +10,13 @@ class Purchase extends Model
         'userID',
         'recipeID',
         'status',
-        'purchase_at'
+        'purchase_at',
+        'phone_number',
+        'amount',
+        'reference',
+        'proof_path'
     ];
+
 
     public function user()
     {

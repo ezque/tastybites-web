@@ -114,22 +114,33 @@ class RecipeController extends Controller
     public function buyRecipe(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            // Validate request
             $request->validate([
-                'recipeID' => 'required|exists:recipes,id', // make sure recipe exists
+                'recipeID'     => 'required|exists:recipes,id',
+                'phone_number' => 'required|string',
+                'amount'       => 'required|numeric',
+                'reference'    => 'required|string',
+                'proof'        => 'nullable|image|max:10048',
             ]);
 
-            // Create purchase
+            $proofPath = null;
+            if ($request->hasFile('proof')) {
+                $proofPath = $request->file('proof')->store('proofs', 'public');
+            }
+
             $purchase = Purchase::create([
-                'userID'      => auth()->id(),
-                'recipeID'    => $request->recipeID,
-                'status'      => 'Pending',
-                'purchase_at' => now(),
+                'userID'       => auth()->id(),
+                'recipeID'     => $request->recipeID,
+                'status'       => 'Pending',
+                'purchase_at'  => now(),
+                'phone_number' => $request->phone_number,
+                'amount'       => $request->amount,
+                'reference'    => $request->reference,
+                'proof_path'   => $proofPath,
             ]);
 
             return response()->json([
                 'status'   => 'success',
-                'message'  => 'Recipe purchased successfully.',
+                'message'  => 'Recipe purchased successfully. Pending verification.',
                 'purchase' => $purchase
             ], 201);
 
@@ -142,6 +153,7 @@ class RecipeController extends Controller
             ], 500);
         }
     }
+
 
 
 
