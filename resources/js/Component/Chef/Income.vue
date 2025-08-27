@@ -24,21 +24,23 @@
                         </div>
                     </div>
                     <div class="table-body">
-                        <div class="body-row" v-for="i in 15" :key="i">
+                        <div class="body-row" v-for="(purchase, index) in purchases" :key="purchase.id">
                             <div class="row-1">
-
+                                <p>{{ purchase.id }}</p>
                             </div>
                             <div class="row-2">
-
+                                <p>{{ new Date(purchase.created_at).toLocaleDateString() }}</p>
                             </div>
                             <div class="row-3">
-
+                                <p>{{purchase.recipe.recipeName}}</p>
                             </div>
                             <div class="row-4">
-
+                                <p>{{ purchase.user.email }}</p>
                             </div>
                             <div class="row-5">
-
+                                <button>
+                                    View
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -48,7 +50,11 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+
+    const props = defineProps({
+        purchases: Array
+    });
 
 </script>
 
@@ -123,19 +129,19 @@
         font-family: 'Poppins', sans-serif;
         margin-top: 20px;
     }
-    .head-row-1{
+    .head-row-1, .row-1{
         width: 10%;
     }
-    .head-row-2{
+    .head-row-2, .row-2{
         width: 25%;
     }
-    .head-row-3{
+    .head-row-3, .row-3{
         width: 25%;
     }
-    .head-row-4{
+    .head-row-4, .row-4{
         width: 25%;
     }
-    .head-row-5 {
+    .head-row-5, .row-5 {
         width: 15%;
     }
     .table-body {
@@ -147,8 +153,28 @@
     .body-row {
         width: 100%;
         height: 50px;
-        border: 1px solid black;
+        display: flex;
+        flex-direction: row;
     }
+    .row-1,.row-2,.row-3,.row-4,.row-5 {
+        border-bottom: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .row-5 button{
+        width: 50%;
+        height: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        border: none;
+        background-color: #435F77;
+        color: white;
+        font-family: 'Poppins', sans-serif;
+    }
+
 
 
 

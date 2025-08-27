@@ -70,7 +70,12 @@
         align-items: center;
     }
     .text-container h2 {
-        font-size: 1.6em;
+        font-size: 1.3em;
+        text-align: center;
+        white-space: nowrap;      /* Prevents text from wrapping */
+        overflow: hidden;         /* Hides overflowed text */
+        text-overflow: ellipsis;  /* Adds the ... */
+        max-width: 200px;
     }
     .text-container h3 {
         font-size: 1em;

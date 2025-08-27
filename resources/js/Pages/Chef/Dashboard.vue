@@ -4,7 +4,7 @@
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'Home'" :recipeCardDetails="recipeCardDetails"  @navigate="handleNavigation"/>
-            <Income v-if="activeComponent === 'ChefIncome'"/>
+            <Income v-if="activeComponent === 'ChefIncome'" :purchases="purchases"/>
             <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" :user="user"/>
             <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
             <RecipeDetails
@@ -34,7 +34,8 @@
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array,
-        recipeAllDetails: Object
+        recipeAllDetails: Object,
+        purchases: Array,
     })
 
     const isChef = computed(() => props.user.role === 'chef');
@@ -46,11 +47,21 @@
     const setActiveComponent = (componentName) => {
         activeComponent.value = componentName;
     }
-    const handleNavigation = (componentName, recipeData) => {
-        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
-        selectedRecipe.value = fullDetails;
+    const handleNavigation = (componentName, recipeData = null) => {
+        if (componentName === 'AddRecipe') {
+            selectedRecipe.value = null; // nothing to load
+            activeComponent.value = 'AddRecipe';
+            return;
+        }
+
+        if (componentName === 'RecipeDetails' && recipeData) {
+            const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+            selectedRecipe.value = fullDetails;
+        }
+
         activeComponent.value = componentName;
     };
+
 
     // this is your navigation stack (history)
     const historyStack = ref([]);

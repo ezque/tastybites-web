@@ -10,7 +10,7 @@ class ChefService
 
         $purchases = Purchase::with(['user', 'recipe'])
             ->whereHas('recipe', function ($query) use ($chefId) {
-                $query->where('userID', $chefId); // recipe created by this chef
+                $query->where('userID', $chefId);
             })
             ->get();
 
