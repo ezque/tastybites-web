@@ -25,6 +25,7 @@
                 <h1>Chefs</h1>
             </button>
             <button
+                v-if="isAdmin || isChef"
                 :class="{ active: active === 'Recipes' }"
                 @click="emit('navigate', 'Recipes')"
             >
