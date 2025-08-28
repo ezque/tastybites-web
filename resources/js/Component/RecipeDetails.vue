@@ -18,14 +18,18 @@
                         <h3>Chef: @{{ recipe.user.user_info.userName }}</h3>
                     </div>
                     <div class="recipe-react-container">
-                        <button>
-                            <img src="/public/images/Button-icon/filled_heart.png" alt="heart" />
+                        <button class="like-bttn" @click="react(1)">
+                            <span class="material-icons" v-if="userReactedLike">favorite</span>
+                            <span class="material-icons" v-else>favorite_border</span>
                         </button>
-                        <p>500</p>
-                        <button>
-                            <img src="/public/images/Button-icon/dislike.png" alt="heart" />
+                        <p>{{ likeCount }}</p>
+
+                        <!-- DISLIKE -->
+                        <button class="dislike-bttn" @click="react(2)">
+                            <span class="material-icons" v-if="userReactedDislike">thumb_down</span>
+                            <span class="material-icons" v-else>thumb_down_off_alt</span>
                         </button>
-                        <p>500</p>
+                        <p>{{ dislikeCount }}</p>
                     </div>
                 </div>
                 <div class="right-side-details-container">
@@ -113,14 +117,18 @@
                         <h3>Chef: @{{ recipe.user.user_info.userName }}</h3>
                     </div>
                     <div class="recipe-react-container">
-                        <button>
-                            <img src="/public/images/Button-icon/filled_heart.png" alt="heart" />
+                        <button class="like-bttn" @click="react(1)">
+                            <span class="material-icons" v-if="userReactedLike">favorite</span>
+                            <span class="material-icons" v-else>favorite_border</span>
                         </button>
-                        <p>500</p>
-                        <button>
-                            <img src="/public/images/Button-icon/dislike.png" alt="heart" />
+                            <p>{{ likeCount }}</p>
+
+                        <!-- DISLIKE -->
+                        <button class="dislike-bttn" @click="react(2)">
+                            <span class="material-icons" v-if="userReactedDislike">thumb_down</span>
+                            <span class="material-icons" v-else>thumb_down_off_alt</span>
                         </button>
-                        <p>500</p>
+                        <p>{{ dislikeCount }}</p>
                     </div>
                 </div>
                 <div class="right-side-details-container">
@@ -216,7 +224,7 @@
 </template>
 
 <script setup>
-    import { computed, reactive, ref  } from "vue";
+    import { computed, reactive, ref, onMounted  } from "vue";
     import axios from "axios";
 
     const props = defineProps({
@@ -318,6 +326,51 @@
     };
 
     const emit = defineEmits(["back"]);
+
+    const likeCount = ref(0)
+    const dislikeCount = ref(0)
+
+    const fetchCounts = async () => {
+        try {
+            const { data } = await axios.get(`/recipes/${props.recipe.id}/counts`)
+            likeCount.value = data.likeCount
+            dislikeCount.value = data.dislikeCount
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const react = async (type) => {
+        let newType = type
+
+        if (props.recipe.reaction_type === type) {
+            newType = 3
+        }
+
+        try {
+            const res = await axios.post(`/react-recipe/${props.recipe.id}`, {
+                reaction_type: newType,
+            })
+
+            // update reaction_type from API response
+            props.recipe.reaction_type = res.data.reaction.reaction_type
+
+            // refresh counters
+            fetchCounts()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    onMounted(() => {
+        fetchCounts()
+    })
+
+    const userReactedLike = computed(() => Number(props.recipe?.reaction_type) === 1)
+    const userReactedDislike = computed(() => Number(props.recipe?.reaction_type) === 2)
+
+    console.log("userReactedLike:", userReactedLike.value)
+    console.log("userReactedDislike:", userReactedDislike.value)
+    console.log("reaction_type:", props.recipeCardDetail?.reaction_type, typeof props.recipeCardDetail?.reaction_type)
 
 </script>
 
@@ -743,6 +796,19 @@
     }
     .fullName {
         text-transform: capitalize;
+    }
+    .like-bttn, .dislike-bttn {
+        background-color: transparent;
+        padding: 1px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: none;
+        justify-content: center;
+    }
+    .like-bttn span, .dislike-bttn span{
+        font-size: 1.7em;
+        color: #E693AB;
     }
 
 </style>

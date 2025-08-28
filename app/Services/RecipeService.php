@@ -9,15 +9,24 @@ class RecipeService
 {
     public function getRecipeCardDetails()
     {
-        $recipe = Recipe::with([
+        $recipes = Recipe::with([
             'user.userInfo',
-            'purchase.user'
+            'purchase.user',
+            'userReaction'
         ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
-            ->get();
+            ->get()
+            ->map(function ($recipe) {
+                $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
+                $recipe->userReactedLike = $recipe->reaction_type === '1';
+                $recipe->userReactedDislike = $recipe->reaction_type === '2';
+                return $recipe;
+            });
 
-        return $recipe;
+        return $recipes;
     }
+
+
 
     public function getAllRecipeDetails()
     {
@@ -25,14 +34,22 @@ class RecipeService
 
         $recipes = Recipe::with(['user.userInfo'])
             ->with([
-                // Eager load *any* purchase for the logged in user
                 'purchase' => function ($query) use ($userId) {
                     $query->where('userID', $userId);
+                },
+                'userReaction' => function ($query) use ($userId) {
+                    $query->where('userID', $userId); // get only the logged-in user’s reaction
                 }
             ])
-            ->get();
+            ->get()
+            ->map(function ($recipe) {
+                // Add reaction type safely
+                $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
+                $recipe->userReactedLike = $recipe->reaction_type === '1';
+                $recipe->userReactedDislike = $recipe->reaction_type === '2';
+                return $recipe;
+            });
 
-        // Attach ingredients + procedures conditionally
         foreach ($recipes as $recipe) {
             if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
                 $recipe->load(['ingredient', 'procedure']);

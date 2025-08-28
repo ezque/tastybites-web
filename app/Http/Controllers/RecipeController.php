@@ -203,14 +203,20 @@ class RecipeController extends Controller
 
     public function counts($id)
     {
-        $likeCount = Reaction::where('recipeID', $id)->where('reaction_type', 1)->count();
-        $dislikeCount = Reaction::where('recipeID', $id)->where('reaction_type', 2)->count();
+        $recipe = Recipe::findOrFail($id);
+
+        $likeCount = $recipe->reactions()->where('reaction_type', 1)->count();
+        $dislikeCount = $recipe->reactions()->where('reaction_type', 2)->count();
+        $userReaction = $recipe->reactions()->where('userID', auth()->id())->first();
 
         return response()->json([
             'likeCount' => $likeCount,
             'dislikeCount' => $dislikeCount,
+            'reaction_type' => $userReaction ? $userReaction->reaction_type : null,
         ]);
     }
+
+
 
 
 

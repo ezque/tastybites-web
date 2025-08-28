@@ -19,17 +19,15 @@
             </button>
             <div class="like-container">
                 <button class="like-bttn" @click="react(1)">
-                    <span class="material-icons">
-                        {{ recipeCardDetail.reaction_type === 1 ? 'favorite' : 'favorite_border' }}
-                    </span>
+                    <span class="material-icons" v-if="userReactedLike">favorite</span>
+                    <span class="material-icons" v-else>favorite_border</span>
                 </button>
                 <p>{{ likeCount }}</p>
             </div>
             <div class="dislike-container">
                 <button class="dislike-bttn" @click="react(2)">
-                    <span class="material-icons">
-                        {{ props.recipeCardDetail.reaction_type === 2 ? 'thumb_down' : 'thumb_down_off_alt' }}
-                    </span>
+                    <span class="material-icons" v-if="userReactedDislike">thumb_down</span>
+                    <span class="material-icons" v-else>thumb_down_off_alt</span>
                 </button>
                 <p>{{ dislikeCount }}</p>
             </div>
@@ -38,7 +36,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted,computed } from 'vue'
     import axios from 'axios'
 
     const props = defineProps({
@@ -71,10 +69,11 @@
                 reaction_type: newType,
             })
 
+            // update reaction_type from API response
             props.recipeCardDetail.reaction_type = res.data.reaction.reaction_type
 
+            // refresh counters
             fetchCounts()
-
         } catch (error) {
             console.error(error)
         }
@@ -83,6 +82,16 @@
     onMounted(() => {
         fetchCounts()
     })
+
+    const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
+    const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
+
+
+    // Debug
+    console.log("userReactedLike:", userReactedLike.value)
+    console.log("userReactedDislike:", userReactedDislike.value)
+    console.log("reaction_type:", props.recipeCardDetail?.reaction_type, typeof props.recipeCardDetail?.reaction_type)
+
 </script>
 
 <style scoped>

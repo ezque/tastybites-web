@@ -40,5 +40,11 @@ class Recipe extends Model
     {
         return $this->hasMany(Reaction::class, 'recipeID');
     }
+    public function userReaction()
+    {
+        return $this->hasOne(Reaction::class, 'recipeID')
+            ->where('userID', auth()->id());
+    }
+
 
 }
