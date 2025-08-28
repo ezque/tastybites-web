@@ -72,9 +72,9 @@
     .text-container h2 {
         font-size: 1.3em;
         text-align: center;
-        white-space: nowrap;      /* Prevents text from wrapping */
-        overflow: hidden;         /* Hides overflowed text */
-        text-overflow: ellipsis;  /* Adds the ... */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         max-width: 200px;
     }
     .text-container h3 {

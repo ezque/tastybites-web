@@ -8,7 +8,7 @@ class ChefService
     {
         $chefId = auth()->id();
 
-        $purchases = Purchase::with(['user', 'recipe'])
+        $purchases = Purchase::with(['user.userInfo', 'recipe'])
             ->whereHas('recipe', function ($query) use ($chefId) {
                 $query->where('userID', $chefId);
             })

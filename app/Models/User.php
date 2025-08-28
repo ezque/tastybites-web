@@ -30,7 +30,7 @@ class User extends Authenticatable
     ];
 
 
-    public function userInfo(){
-        return $this->hasOne(UserInfo::class, 'userID');
+    public function userInfo() {
+        return $this->hasOne(UserInfo::class, 'userID', 'id');
     }
 }
