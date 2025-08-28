@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="table-body">
-                        <div class="body-row" v-for="(purchase, index) in purchases" :key="purchase.id">
+                        <div class="body-row" v-for="(purchase, index) in purchases.filter(p => p.status === 'Pending')"  :key="purchase.id">
                             <div class="row-1">
                                 <p>{{ purchase.id }}</p>
                             </div>
@@ -137,10 +137,10 @@
                             </div>
                         </div>
                         <div class="buttons-container">
-                            <button style="background-color: #B5BFDE">
+                            <button style="background-color: #B5BFDE" @click="acceptPurchase(selectedRecipe.id)">
                                 DECLINE
                             </button>
-                            <button style="background-color: #E0E7FF">
+                            <button style="background-color: #E0E7FF" @click="rejectPurchase(selectedRecipe.id)">
                                 ACCEPT
                             </button>
                         </div>
@@ -153,6 +153,7 @@
 
 <script setup>
     import { ref } from "vue";
+    import axios from "axios";
     const props = defineProps({
         purchases: Array
     });
@@ -166,6 +167,31 @@
     const closeDetails = () => {
         selectedRecipe.value = null;
     };
+
+    const acceptPurchase = async (id) => {
+        try {
+            const response = await axios.post(`/purchase-accept/${id}`);
+            selectedRecipe.value.status = 'confirmed';
+            alert(response.data.message);
+            selectedRecipe.value = null;
+        } catch (error) {
+            console.error(error);
+            alert("Failed to accept purchase.");
+        }
+    };
+    const rejectPurchase = async (id) => {
+        try {
+            const response = await axios.post(`/purchase-reject/${id}`);
+            selectedRecipe.value.status = 'confirmed';
+            alert(response.data.message);
+            selectedRecipe.value = null;
+        } catch (error) {
+            console.error(error);
+            alert("Failed to reject purchase.");
+        }
+    };
+
+
 
 </script>
 
@@ -472,6 +498,7 @@
         color: #435F77;
         font-weight: bold;
         font-family: 'Poppins', sans-serif;
+        cursor: pointer;
     }
 
 
