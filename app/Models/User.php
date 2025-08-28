@@ -33,4 +33,8 @@ class User extends Authenticatable
     public function userInfo() {
         return $this->hasOne(UserInfo::class, 'userID', 'id');
     }
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class, 'userID');
+    }
 }

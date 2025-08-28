@@ -28,6 +28,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/purchase-accept/{id}', [ChefController::class, 'acceptPurchase']);
     Route::post('/purchase-reject/{id}', [ChefController::class, 'deniedPurchae']);
 
+    Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
+    Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
+
+
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
 
 });

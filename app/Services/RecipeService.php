@@ -4,6 +4,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Purchase;
+use App\Models\Reaction;
 class RecipeService
 {
     public function getRecipeCardDetails()
@@ -40,6 +41,9 @@ class RecipeService
 
         return $recipes;
     }
+
+
+
 
 
 

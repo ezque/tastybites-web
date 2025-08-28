@@ -10,6 +10,7 @@ use App\Models\Ingredient;
 use App\Models\Procedure;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Reaction;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -153,6 +154,69 @@ class RecipeController extends Controller
             ], 500);
         }
     }
+
+    public function reactRecipe(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'reaction_type' => 'required|in:1,2,3',
+            ]);
+
+            $userID = auth()->id();
+            $recipeID = $id;
+            $reactionType = $request->reaction_type;
+
+            // Check if a reaction already exists
+            $reaction = Reaction::where('userID', $userID)
+                ->where('recipeID', $recipeID)
+                ->first();
+
+            if ($reaction) {
+                // Update existing reaction
+                $reaction->update([
+                    'reaction_type' => $reactionType,
+                ]);
+            } else {
+                // Create new reaction
+                $reaction = Reaction::create([
+                    'userID' => $userID,
+                    'recipeID' => $recipeID,
+                    'reaction_type' => $reactionType,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Reaction saved successfully',
+                'reaction' => $reaction
+            ], 200);
+
+        } catch (\Throwable $e) {
+            \Log::error('React Recipe Error: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function counts($id)
+    {
+        $likeCount = Reaction::where('recipeID', $id)->where('reaction_type', 1)->count();
+        $dislikeCount = Reaction::where('recipeID', $id)->where('reaction_type', 2)->count();
+
+        return response()->json([
+            'likeCount' => $likeCount,
+            'dislikeCount' => $dislikeCount,
+        ]);
+    }
+
+
+
+
+
+
 
 
 

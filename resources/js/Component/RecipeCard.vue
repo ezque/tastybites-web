@@ -18,26 +18,71 @@
                 View Recipe
             </button>
             <div class="like-container">
-                <button class="like-bttn">
-                    <span class="material-icons">favorite_border</span>
+                <button class="like-bttn" @click="react(1)">
+                    <span class="material-icons">
+                        {{ recipeCardDetail.reaction_type === 1 ? 'favorite' : 'favorite_border' }}
+                    </span>
                 </button>
-                <p>500</p>
+                <p>{{ likeCount }}</p>
             </div>
             <div class="dislike-container">
-                <button class="dislike-bttn">
-                    <span class="material-icons-outlined">thumb_down</span>
+                <button class="dislike-bttn" @click="react(2)">
+                    <span class="material-icons">
+                        {{ props.recipeCardDetail.reaction_type === 2 ? 'thumb_down' : 'thumb_down_off_alt' }}
+                    </span>
                 </button>
-                <p>500</p>
+                <p>{{ dislikeCount }}</p>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+    import { ref, onMounted } from 'vue'
+    import axios from 'axios'
+
     const props = defineProps({
         recipeCardDetail: Object,
     })
     const emit = defineEmits(['navigate'])
+
+    const likeCount = ref(0)
+    const dislikeCount = ref(0)
+
+    const fetchCounts = async () => {
+        try {
+            const { data } = await axios.get(`/recipes/${props.recipeCardDetail.id}/counts`)
+            likeCount.value = data.likeCount
+            dislikeCount.value = data.dislikeCount
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const react = async (type) => {
+        let newType = type
+
+        if (props.recipeCardDetail.reaction_type === type) {
+            newType = 3
+        }
+
+        try {
+            const res = await axios.post(`/react-recipe/${props.recipeCardDetail.id}`, {
+                reaction_type: newType,
+            })
+
+            props.recipeCardDetail.reaction_type = res.data.reaction.reaction_type
+
+            fetchCounts()
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    onMounted(() => {
+        fetchCounts()
+    })
 </script>
 
 <style scoped>
@@ -140,6 +185,7 @@
     }
     .like-bttn span, .dislike-bttn span{
         font-size: 1.7em;
+        color: #E693AB;
     }
     .premium-icon {
         position: absolute;
