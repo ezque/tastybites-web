@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="table-body">
-                        <div class="body-row" v-for="(purchase, index) in purchases.filter(p => p.status === 'Pending')"  :key="purchase.id">
+                        <div class="body-row" v-for="(purchase, index) in purchases.filter(p => p.status === 'pending')"  :key="purchase.id">
                             <div class="row-1">
                                 <p>{{ purchase.id }}</p>
                             </div>
@@ -322,12 +322,16 @@
         border-radius: 20px;
         display: flex;
         flex-direction: column;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .close-container {
-        width: 98%;
+        width: 100%;
+        height: 100px;
         padding: 10px;
         display: flex;
         justify-content: end;
+        position: relative;
     }
     .close-container button {
         height: 35px;
@@ -339,13 +343,15 @@
         border: none;
         padding: 10px;
         cursor: pointer;
+        position: absolute;
+        margin-right: 10px;
     }
     .close-container button img {
         width: 100%;
         height: auto;
     }
     .purchase-details-body {
-        height: 100%;
+        height: 90%;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -359,16 +365,15 @@
     }
     .receipt-container {
         width: 100%;
-        height: 100%;
+        height: 90%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         flex-direction: column;
     }
     .receipt-container img {
         width: 70%;
-        height: auto;
-        margin-top: 10px;
+        height: 90%;
     }
     .receipt-container p {
         margin: 5px 40px 0 0;
@@ -380,7 +385,7 @@
         height: 75%;
         background-color: #A2B0BC;
         border-radius: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 90px;
     }
     .right-purchase {
         width: 60%;
@@ -428,6 +433,7 @@
         font-weight: bold;
         margin: 2px;
         font-size: 2.1em;
+        text-align: center;
     }
     .recipe-information h4 {
         margin: 0;
@@ -486,7 +492,7 @@
         width: 100%;
         height: 10%;
         display: flex;
-        align-items: center;
+        align-items: start;
         justify-content: center;
         gap: 20px;
     }

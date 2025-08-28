@@ -148,7 +148,7 @@
                                         @change="handleFileUpload"
                                         hidden
                                     />
-                                    <p>Proof of Payment</p>
+                                    <p>{{ form.proof ? form.proof.name : "Proof of Payment" }}</p>
                                 </div>
                             </div>
                             <div class="nb-form-right">
@@ -646,6 +646,10 @@
     .proof-payment-container p {
         color: #768082;
         margin-left: 15px;
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .nb-form-right {
