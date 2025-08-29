@@ -1,30 +1,21 @@
 <template>
     <div class="main-container-recipe">
         <div class="top-button-container">
-            <button>
-                All Recipe
-            </button>
-            <button>
-                Premium
-            </button>
-            <button>
-                Free
-            </button>
-            <button>
-                Most Liked
-            </button>
+            <button @click="activeFilter = 'all'">All Recipe</button>
+            <button @click="activeFilter = 'premium'">Premium</button>
+            <button @click="activeFilter = 'free'">Free</button>
         </div>
         <div class="main-body">
             <button
                 class="add-button"
                 @click="emit('navigate', 'AddRecipe')"
-                v-if="props.user.role === 'chef' && props.user.status === 'active'"
+                v-if="props.user.role === 'chef' && props.user.status === 'active' && activeFilter  === 'all'"
             >
                 Add Recipe
                 <img src="/public/images/Button-icon/add.png"/>
             </button>
             <RecipeCard
-                v-for="(recipeCardDetail, index) in recipeCardDetails"
+                v-for="(recipeCardDetail, index) in filteredRecipes"
                 :key="recipeCardDetail.id"
                 :recipeCardDetail="recipeCardDetail"
                 :index="index"
@@ -41,14 +32,39 @@
 </template>
 
 <script setup>
-    import {computed} from "vue";
+    import {computed, ref} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     const emit = defineEmits(['navigate'])
+
+    const activeFilter = ref("all")
 
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array
     })
+    const userRecipes = computed(() => {
+        return props.recipeCardDetails.filter(
+            recipe => recipe.userID === props.user.id
+        )
+    })
+    const baseRecipes = computed(() => {
+        if (props.user.role === "admin") {
+            return props.recipeCardDetails
+        }
+        return userRecipes.value
+    })
+
+    const filteredRecipes = computed(() => {
+        switch (activeFilter.value) {
+            case "premium":
+                return baseRecipes.value.filter(recipe => recipe.is_free === "premium")
+            case "free":
+                return baseRecipes.value.filter(recipe => recipe.is_free === "free")
+            default:
+                return baseRecipes.value
+        }
+    })
+
 
 </script>
 
