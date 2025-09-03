@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\Purchase;
+use App\Models\Certificate;
 class ChefService
 {
     public function getPurchase()

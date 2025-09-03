@@ -1,12 +1,13 @@
 <template>
     <div class="main-body">
-        <Header :user="user"/>
+        <Header :user="user" @navigate="setActiveComponent"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'Home'" :recipeCardDetails="recipeCardDetails"  @navigate="handleNavigation"/>
             <Income v-if="activeComponent === 'ChefIncome'" :purchases="purchases"/>
             <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" :user="user"/>
             <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
+            <Profile v-if="activeComponent === 'Profile'"/>
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -28,6 +29,7 @@
     import Recipes from "@/Component/Recipes.vue";
     import AddRecipe from "@/Component/Chef/AddRecipe.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
+    import Profile from "@/Component/Profile.vue";
 
     import {computed, ref} from "vue";
 

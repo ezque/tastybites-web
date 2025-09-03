@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Services\UserService;
 use App\Models\User;
 use App\Services\RecipeService;
+use App\Services\ChefService;
 
 class AdminController extends Controller
 {
@@ -24,7 +25,7 @@ class AdminController extends Controller
                 'user' => $user,
                 'recipeCardDetails' => $recipeCardDetails,
                 'chefs' => $chefs,
-                'usersInfo' => $usersInfo
+                'usersInfo' => $usersInfo,
             ]
         );
     }

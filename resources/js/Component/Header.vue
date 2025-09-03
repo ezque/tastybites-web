@@ -24,7 +24,7 @@
                 <h6>{{ user?.role }}</h6>
             </div>
             <div class="menu-buttons-container">
-                <button v-if="profileIcon">
+                <button v-if="profileIcon" @click="emit('navigate','Profile')">
                     <img :src="profileIcon" alt="Profile Icon" />
                     <h1>Profile</h1>
                 </button>
@@ -95,6 +95,7 @@
             });
         }
     };
+    const emit = defineEmits(['navigate'])
 </script>
 
 <style scoped>

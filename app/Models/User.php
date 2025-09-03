@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reaction::class, 'userID');
     }
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class, 'userID', 'id');
+    }
+
 }

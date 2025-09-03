@@ -5,9 +5,24 @@
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'AdminHome'" />
             <Income v-if="activeComponent === 'AdminIncome'" />
-            <Chefs v-if="activeComponent === 'AdminChefs'" :chefs="chefs"/>
+            <Chefs
+                v-if="activeComponent === 'AdminChefs'"
+                :chefs="chefs"
+                @navigate="handleNavigation"
+            />
+            <ChefInfo
+                v-if="activeComponent === 'ChefInfo'"
+                :chef="selectedChef"
+                :recipeCardDetails="recipeCardDetails"
+                @navigate="setActiveComponent"
+            />
             <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
-            <Recipes v-if="activeComponent === 'Recipes'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" :user="user" />
+            <Recipes
+                v-if="activeComponent === 'Recipes'"
+                @navigate="handleNavigation"
+                :recipeCardDetails="recipeCardDetails"
+                :user="user"
+            />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -28,6 +43,7 @@
     import Users from "@/Component/Admin/Users.vue";
     import Recipes from "@/Component/Recipes.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
+    import ChefInfo from "@/Component/Admin/ChefInfo.vue";
 
     const props = defineProps({
         user: Object,
@@ -40,20 +56,29 @@
 
     const activeComponent = ref(isAdmin.value ? 'AdminHome' : 'AdminIncome');
     const selectedRecipe = ref(null);
+    const selectedChef = ref(null)
     const setActiveComponent = (componentName) => {
         activeComponent.value = componentName;
     }
-    const handleNavigation = (componentName, recipeData) => {
+    const handleNavigation = (componentName, data) => {
         if (activeComponent.value) {
-            historyStack.value.push(activeComponent.value);
+            // optional: implement historyStack only if you declared it
+            // historyStack.value.push(activeComponent.value);
         }
 
-        // full details already contain reaction_type
-        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        if (componentName === "ChefInfo") {
+            selectedChef.value = data;
+            console.log(data);
+        }
 
-        selectedRecipe.value = fullDetails;
+        if (componentName === "RecipeDetails") {
+            const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
+            selectedRecipe.value = fullDetails;
+        }
+
         activeComponent.value = componentName;
     };
+
 
 
 </script>

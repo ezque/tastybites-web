@@ -61,7 +61,6 @@
             historyStack.value.push(activeComponent.value);
         }
 
-        // full details already contain reaction_type
         const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
 
         selectedRecipe.value = fullDetails;

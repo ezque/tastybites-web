@@ -33,6 +33,7 @@
             <button
                 v-for="(chef, index) in activeChefs"
                 :key="chef.id"
+                @click="viewChefInfo(chef)"
             >
                 <img :src="getProfilePic(chef)" alt="img"/>
                 <h2>{{ capitalizeFullName(chef.user_info?.fullName) }}</h2>
@@ -179,7 +180,10 @@
             console.error(error.response?.data || error.message);
         }
     }
-
+    const emit =defineEmits(["navigate"]);
+    function viewChefInfo(chef) {
+        emit("navigate", "ChefInfo", chef);
+    }
 </script>
 
 <style scoped>

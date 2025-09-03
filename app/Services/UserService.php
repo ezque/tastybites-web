@@ -9,7 +9,7 @@ class UserService
 
     public function getChefInfo()
     {
-        return User::with('userInfo')
+        return User::with(['userInfo', 'certificates'])
             ->where('role', 'chef')
             ->get();
     }

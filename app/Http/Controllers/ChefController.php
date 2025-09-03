@@ -8,6 +8,7 @@ use App\Services\RecipeService;
 use App\Services\ChefService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\Certificate;
 
 class ChefController extends Controller
 {
@@ -46,6 +47,26 @@ class ChefController extends Controller
         return response()->json([
             'message' => 'Purchase rejected successfully!',
             'purchase' => $purchase
+        ]);
+    }
+
+    public function addCertificate(Request $request)
+    {
+        $request->validate([
+            'userID' => 'required|exists:users,id',
+            'certificate' => 'required|image|max:20000',
+        ]);
+
+        $path = $request->file('certificate')->store('certificates', 'public');
+
+        $certificate = Certificate::create([
+            'userID' => $request->userID,
+            'certificate_path' => $path,
+        ]);
+
+        return response()->json([
+            'message' => 'Certificate uploaded successfully',
+            'certificate' => $certificate
         ]);
     }
 }
