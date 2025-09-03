@@ -232,6 +232,8 @@
         user: Object,
     });
 
+    // console.log(props.recipe.is_free)
+
     const recipeIsFree = computed(() => props.recipe.is_free === "free");
 
     const ownedRecipe = computed(() => {
@@ -242,13 +244,17 @@
         return props.recipe.userID === props.user.id;
     });
 
+    const isAdmin = computed(() => {
+        return props.user.role === "admin";
+    })
+
     const pendingRecipe = computed(() => {
         return props.recipe.purchase?.status === "pending";
     });
 
 
     const canViewDetails = computed(() => {
-        return recipeIsFree.value || ownedRecipe.value || isAuthor.value;
+        return recipeIsFree.value || ownedRecipe.value || isAuthor.value || isAdmin.value;
     });
 
     const embedUrl = computed(() => {
@@ -368,9 +374,6 @@
     const userReactedLike = computed(() => Number(props.recipe?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipe?.reaction_type) === 2)
 
-    console.log("userReactedLike:", userReactedLike.value)
-    console.log("userReactedDislike:", userReactedDislike.value)
-    console.log("reaction_type:", props.recipeCardDetail?.reaction_type, typeof props.recipeCardDetail?.reaction_type)
 
 </script>
 

@@ -17,6 +17,7 @@ class AdminController extends Controller
         $user = Auth::user()->load('userInfo');
         $chefs = $userService->getChefInfo();
         $usersInfo = $userService->getUserInfo();
+        $recipeAllDetails = $recipeService->getAllRecipeDetails();
 
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
 
@@ -26,6 +27,7 @@ class AdminController extends Controller
                 'recipeCardDetails' => $recipeCardDetails,
                 'chefs' => $chefs,
                 'usersInfo' => $usersInfo,
+                'recipeAllDetails' => $recipeAllDetails,
             ]
         );
     }

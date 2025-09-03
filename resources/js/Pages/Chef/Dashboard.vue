@@ -21,6 +21,7 @@
 
 <script setup>
     import  { Inertia} from "@inertiajs/inertia";
+    import {computed, ref} from "vue";
     import Header from '../../Component/Header.vue';
     import Sidebar from "@/Component/Sidebar.vue";
 
@@ -31,7 +32,7 @@
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import Profile from "@/Component/Profile.vue";
 
-    import {computed, ref} from "vue";
+
 
     const props = defineProps({
         user: Object,
@@ -51,7 +52,7 @@
     }
     const handleNavigation = (componentName, recipeData = null) => {
         if (componentName === 'AddRecipe') {
-            selectedRecipe.value = null; // nothing to load
+            selectedRecipe.value = null;
             activeComponent.value = 'AddRecipe';
             return;
         }

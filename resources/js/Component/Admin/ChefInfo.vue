@@ -49,8 +49,15 @@
                             :key="recipeCardDetail.id"
                             :recipeCardDetail="recipeCardDetail"
                             :index="index"
-                            @navigate="(component, data) => emit('navigate', component, data)"
-                        />
+                            @navigate="(component, recipeData) => {
+                                      if (component === 'RecipeDetails') {
+                                          emit('recipeNavigate', recipeData)  // emit a special event
+                                      } else {
+                                          emit('navigate', component, recipeData)
+                                      }
+                                  }"
+                            />
+
                     </div>
                 </div>
             </div>
@@ -65,14 +72,21 @@
 
     const props = defineProps({
         chef: Object,
+        user: Object,
         recipeCardDetails: Array,
     });
+
+
+
 
     const chefRecipe = computed(() => {
         return props.recipeCardDetails.filter(
             recipe => recipe.userID === props.chef.id
         )
     })
+    console.log(chefRecipe.value[0]?.is_free)
+
+
 
     const fileInput = ref(null);
 

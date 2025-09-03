@@ -68,11 +68,7 @@
             const res = await axios.post(`/react-recipe/${props.recipeCardDetail.id}`, {
                 reaction_type: newType,
             })
-
-            // update reaction_type from API response
             props.recipeCardDetail.reaction_type = res.data.reaction.reaction_type
-
-            // refresh counters
             fetchCounts()
         } catch (error) {
             console.error(error)
@@ -85,12 +81,6 @@
 
     const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
-
-
-    // Debug
-    console.log("userReactedLike:", userReactedLike.value)
-    console.log("userReactedDislike:", userReactedDislike.value)
-    console.log("reaction_type:", props.recipeCardDetail?.reaction_type, typeof props.recipeCardDetail?.reaction_type)
 
 </script>
 

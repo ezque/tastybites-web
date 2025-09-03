@@ -8,14 +8,18 @@
             <Chefs
                 v-if="activeComponent === 'AdminChefs'"
                 :chefs="chefs"
+                :user="user"
                 @navigate="handleNavigation"
             />
             <ChefInfo
                 v-if="activeComponent === 'ChefInfo'"
                 :chef="selectedChef"
                 :recipeCardDetails="recipeCardDetails"
-                @navigate="setActiveComponent"
+                @navigate="handleNavigation"
+                @recipeNavigate="goToRecipeDetails"
+                :user="user"
             />
+
             <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
             <Recipes
                 v-if="activeComponent === 'Recipes'"
@@ -25,9 +29,11 @@
             />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
-                @navigate="setActiveComponent"
                 :recipe="selectedRecipe"
+                :user="user"
+                @back="back"
             />
+
         </div>
     </div>
 
@@ -49,10 +55,13 @@
         user: Object,
         chefs: Array,
         recipeCardDetails: Array,
+        recipeAllDetails: Object,
         usersInfo: Array
     })
 
     const isAdmin = computed(() => props.user.role === 'admin');
+
+
 
     const activeComponent = ref(isAdmin.value ? 'AdminHome' : 'AdminIncome');
     const selectedRecipe = ref(null);
@@ -60,25 +69,38 @@
     const setActiveComponent = (componentName) => {
         activeComponent.value = componentName;
     }
-    const handleNavigation = (componentName, data) => {
-        if (activeComponent.value) {
-            // optional: implement historyStack only if you declared it
-            // historyStack.value.push(activeComponent.value);
-        }
-
+    const handleNavigation = (componentName, data = null) => {
         if (componentName === "ChefInfo") {
             selectedChef.value = data;
-            console.log(data);
+            activeComponent.value = "ChefInfo";
+        } else {
+            activeComponent.value = componentName;
+        }
+    };
+    const goToRecipeDetails = (recipeData) => {
+        if (!recipeData) {
+            console.warn("No recipe passed");
+            return;
         }
 
-        if (componentName === "RecipeDetails") {
-            const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
-            selectedRecipe.value = fullDetails;
-        }
+        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        selectedRecipe.value = fullDetails ?? recipeData;
 
-        activeComponent.value = componentName;
+        activeComponent.value = "RecipeDetails";
     };
 
+
+
+
+
+    // const viewChefOwnedRecipe
+    const back = () => {
+        if (historyStack.value.length > 0) {
+            activeComponent.value = historyStack.value.pop();
+        } else {
+            activeComponent.value = isUser.value ? 'Home' : null;
+        }
+    };
 
 
 </script>

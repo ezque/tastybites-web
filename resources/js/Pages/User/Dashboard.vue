@@ -3,7 +3,11 @@
         <Header :user="user"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'Home'" @navigate="handleNavigation" :recipeCardDetails="recipeCardDetails" />
+            <Home
+                v-if="activeComponent === 'Home'"
+                @navigate="handleNavigation"
+                :recipeCardDetails="recipeCardDetails"
+            />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -45,7 +49,6 @@
         }
         activeComponent.value = componentName;
     }
-    // this is your navigation stack (history)
     const historyStack = ref([]);
 
     const back = () => {
