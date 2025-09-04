@@ -9,7 +9,7 @@
             </div>
             <div class="home-body">
                 <RecipeCard
-                    v-for="(recipeCardDetail, index) in recipeCardDetails"
+                    v-for="(recipeCardDetail, index) in recipeCardDetails.filter(r => r.status !== 'pending')"
                     :key="recipeCardDetail.id"
                     :recipeCardDetail="recipeCardDetail"
                     :index="index"

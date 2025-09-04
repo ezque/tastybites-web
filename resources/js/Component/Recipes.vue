@@ -55,15 +55,22 @@
     })
 
     const filteredRecipes = computed(() => {
-        switch (activeFilter.value) {
-            case "premium":
-                return baseRecipes.value.filter(recipe => recipe.is_free === "premium")
-            case "free":
-                return baseRecipes.value.filter(recipe => recipe.is_free === "free")
-            default:
-                return baseRecipes.value
-        }
-    })
+        return baseRecipes.value.filter((recipe) => {
+            // always exclude pending recipes first
+            if (recipe.status === "pending") return false;
+
+            // then apply activeFilter logic
+            switch (activeFilter.value) {
+                case "premium":
+                    return recipe.is_free === "premium";
+                case "free":
+                    return recipe.is_free === "free";
+                default:
+                    return true;
+            }
+        });
+    });
+
 
 
 </script>
