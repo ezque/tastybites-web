@@ -18,8 +18,8 @@ class AdminController extends Controller
         $chefs = $userService->getChefInfo();
         $usersInfo = $userService->getUserInfo();
         $recipeAllDetails = $recipeService->getAllRecipeDetails();
-
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
+        $getRecipeDetailsAdmin = $recipeService->getRecipeDetailsAdmin();
 
         return Inertia::render('Admin/Dashboard',
             [
@@ -28,6 +28,7 @@ class AdminController extends Controller
                 'chefs' => $chefs,
                 'usersInfo' => $usersInfo,
                 'recipeAllDetails' => $recipeAllDetails,
+                'getRecipeDetailsAdmin' => $getRecipeDetailsAdmin,
             ]
         );
     }

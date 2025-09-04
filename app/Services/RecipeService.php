@@ -26,8 +26,6 @@ class RecipeService
         return $recipes;
     }
 
-
-
     public function getAllRecipeDetails()
     {
         $userId = auth()->id();
@@ -38,12 +36,11 @@ class RecipeService
                     $query->where('userID', $userId);
                 },
                 'userReaction' => function ($query) use ($userId) {
-                    $query->where('userID', $userId); // get only the logged-in user’s reaction
+                    $query->where('userID', $userId);
                 }
             ])
             ->get()
             ->map(function ($recipe) {
-                // Add reaction type safely
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
@@ -58,6 +55,16 @@ class RecipeService
 
         return $recipes;
     }
+
+    public function getRecipeDetailsAdmin()
+    {
+        return Recipe::with(['ingredient', 'procedure', 'user.userInfo'])
+            ->where('is_free', 'premium')
+            ->where('status', 'pending')
+            ->get();
+    }
+
+
 
 
 

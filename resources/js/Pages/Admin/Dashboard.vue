@@ -4,7 +4,10 @@
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'AdminHome'" />
-            <Income v-if="activeComponent === 'AdminIncome'" />
+            <Income
+                v-if="activeComponent === 'AdminIncome'"
+                :getRecipeDetailsAdmin="getRecipeDetailsAdmin"
+            />
             <Chefs
                 v-if="activeComponent === 'AdminChefs'"
                 :chefs="chefs"
@@ -56,8 +59,16 @@
         chefs: Array,
         recipeCardDetails: Array,
         recipeAllDetails: Object,
-        usersInfo: Array
+        usersInfo: Array,
+        getRecipeDetailsAdmin: Array,
     })
+
+    if (props.getRecipeDetailsAdmin.length > 0) {
+        console.log(props.getRecipeDetailsAdmin[0].id)
+    } else {
+        console.log('No pending premium recipes found')
+    }
+
 
     const isAdmin = computed(() => props.user.role === 'admin');
 
