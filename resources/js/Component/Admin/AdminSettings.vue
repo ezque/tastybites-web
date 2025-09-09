@@ -33,13 +33,25 @@
                     <div class="card-body-personal">
                         <div class="profile-picture-container">
                             <input type="file" id="profileInput" @change="uploadProfile" hidden />
-                            <button @click="triggerFileInput">
+                            <button type="button" @click="triggerFileInput">
                                 <img
-                                    :src="user.user_info.profilePath ? `/storage/${user.user_info.profilePath}` : '/public/images/male.png'"
+                                    v-if="user.user_info.profilePath"
+                                    :src="`/storage/${user.user_info.profilePath}`"
                                     alt="Profile"
+                                />
+                                <img
+                                    v-else-if="user.user_info.gender === 'male'"
+                                    src="/public/images/male.png"
+                                    alt="Male Default"
+                                />
+                                <img
+                                    v-else
+                                    src="/public/images/female.png"
+                                    alt="Female Default"
                                 />
                             </button>
                         </div>
+
 
                         <div class="personal-information-container">
                             <div class="info-container">
