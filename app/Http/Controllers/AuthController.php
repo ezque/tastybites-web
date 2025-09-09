@@ -185,6 +185,40 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateProfilePicture(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $userInfo = $user->userInfo;
+
+        if ($userInfo->profilePath && Storage::disk('public')->exists($userInfo->profilePath)) {
+            Storage::disk('public')->delete($userInfo->profilePath);
+        }
+
+        $path = $request->file('profile')->store('profiles', 'public');
+
+        $userInfo->profilePath = $path;
+        $userInfo->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile picture updated successfully.',
+            'profilePath' => $path,
+        ]);
+    }
+
+
 
 
 }

@@ -32,10 +32,15 @@
                     </div>
                     <div class="card-body-personal">
                         <div class="profile-picture-container">
-                            <button>
-
+                            <input type="file" id="profileInput" @change="uploadProfile" hidden />
+                            <button @click="triggerFileInput">
+                                <img
+                                    :src="user.user_info.profilePath ? `/storage/${user.user_info.profilePath}` : '/public/images/male.png'"
+                                    alt="Profile"
+                                />
                             </button>
                         </div>
+
                         <div class="personal-information-container">
                             <div class="info-container">
                                 <template v-if="editMode === 'fullName'">
@@ -168,6 +173,30 @@
             passwordMessage.value = error.response?.data?.message || "Error changing password.";
         }
     }
+    async function uploadProfile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profile", file);
+
+        try {
+            const response = await axios.post("/update-profile-picture", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            if (response.data.success) {
+                props.user.user_info.profilePath = response.data.profilePath; // update UI
+            }
+        } catch (error) {
+            console.error("Error uploading profile picture:", error.response?.data || error);
+        }
+    }
+
+    function triggerFileInput() {
+        document.getElementById("profileInput").click();
+    }
+
 </script>
 
 
@@ -294,6 +323,11 @@
         background: #E0E7FF;
         cursor: pointer;
         transition: 0.2s;
+    }
+    .profile-picture-container button img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
     }
     .profile-picture-container button:hover {
         transform: scale(1.05);
