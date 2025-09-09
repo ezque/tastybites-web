@@ -15,6 +15,7 @@
                 :user="user"
                 @back="back"
             />
+            <Report v-if="activeComponent === 'Report'"/>
         </div>
     </div>
 </template>
@@ -31,6 +32,7 @@
     import AddRecipe from "@/Component/Chef/AddRecipe.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import Profile from "@/Component/Profile.vue";
+    import Report from "@/Component/Chef/Report.vue";
 
 
 

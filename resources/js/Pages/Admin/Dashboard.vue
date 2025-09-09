@@ -1,6 +1,6 @@
 <template>
     <div class="main-body">
-        <Header :user="user"/>
+        <Header :user="user" @navigate="setActiveComponent"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'AdminHome'" />
@@ -36,6 +36,9 @@
                 :user="user"
                 @back="back"
             />
+            <AdminSettings
+                v-if="activeComponent === 'adminSettings'"
+            />
 
         </div>
     </div>
@@ -53,6 +56,7 @@
     import Recipes from "@/Component/Recipes.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import ChefInfo from "@/Component/Admin/ChefInfo.vue";
+    import AdminSettings from "@/Component/Admin/AdminSettings.vue";
 
     const props = defineProps({
         user: Object,

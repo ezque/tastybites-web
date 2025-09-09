@@ -42,8 +42,8 @@
             </button>
             <button
                 v-if="isChef"
-                :class="{ active: active === 'Reports' }"
-                @click="emit('navigate','Reports')"
+                :class="{ active: active === 'Report' }"
+                @click="emit('navigate','Report')"
             >
                 <img src="/public/images/Button-icon/chef_reports.png" alt="img"/>
                 <h1>Reports</h1>

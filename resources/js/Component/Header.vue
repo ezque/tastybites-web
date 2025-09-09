@@ -29,7 +29,7 @@
                     <h1>Profile</h1>
                 </button>
                 <span class="white-line" v-if="profileIcon"></span>
-                <button>
+                <button @click="emit('navigate', 'adminSettings')">
                     <img src="/public/images/Button-icon/settings.png" alt="img" />
                     <h1>Settings</h1>
                 </button>

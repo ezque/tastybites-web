@@ -336,7 +336,7 @@
             formData.append('price', price.value);
             formData.append('gcash_number', gcash_number.value);
             formData.append('is_free', price.value === '' || price.value === '0' ? 1 : 0);
-            formData.append('status', 1); // assuming status 1 = active
+            formData.append('status', 1);
 
             if (recipeImage.value) {
                 formData.append('image_path', recipeImage.value);
