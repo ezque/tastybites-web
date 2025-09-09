@@ -116,4 +116,75 @@ class AuthController extends Controller
         return redirect('/'); // Redirect to home or login page
     }
 
+    public function editPersonalInformation(Request $request): \Illuminate\Http\JsonResponse
+    {
+        \Log::info('Updating Personal Information.');
+
+        $validated = $request->validate([
+            'fullName' => 'nullable|string|max:255',
+            'userName' => 'nullable|string|max:255|unique:user_info,userName,' . Auth::id() . ',userID',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $userInfo = $user->userInfo;
+
+
+        if (isset($validated['fullName'])) {
+            $userInfo->fullName = $validated['fullName'];
+        }
+        if (isset($validated['userName'])) {
+            $userInfo->userName = $validated['userName'];
+        }
+
+        $userInfo->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Personal information updated successfully.',
+            'user' => $user->load('userInfo'),
+        ]);
+
+    }
+    public function changePassword(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect.'
+            ], 422);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password updated successfully.',
+        ]);
+    }
+
+
+
 }

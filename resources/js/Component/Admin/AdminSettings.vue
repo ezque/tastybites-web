@@ -30,8 +30,54 @@
                     <div class="card-label">
                         <h2>Personal Details</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body-personal">
+                        <div class="profile-picture-container">
+                            <button>
 
+                            </button>
+                        </div>
+                        <div class="personal-information-container">
+                            <div class="info-container">
+                                <template v-if="editMode === 'fullName'">
+                                    <input v-model="editableFullName" placeholder="Full Name" />
+                                    <div class="personal-buttons">
+                                        <button @click="cancelEdit">
+                                            <img alt="icon" src="/public/images/Button-icon/x-white-icon.png">
+                                        </button>
+                                        <button @click="saveEdit('fullName')">
+                                            <img alt="icon" src="/public/images/Button-icon/save-white-button.png">
+                                        </button>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <h2>{{ user.user_info.fullName }}</h2>
+                                    <button @click="editMode = 'fullName'">
+                                        <img alt="icon" src="/public/images/Button-icon/edit%20icon.png" />
+                                    </button>
+                                </template>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="info-container">
+                                <template v-if="editMode === 'userName'">
+                                    <input v-model="editableUserName" placeholder="Username" />
+                                    <div class="personal-buttons">
+                                        <button @click="cancelEdit">
+                                            <img alt="icon" src="/public/images/Button-icon/x-white-icon.png">
+                                        </button>
+                                        <button @click="saveEdit('userName')">
+                                            <img alt="icon" src="/public/images/Button-icon/save-white-button.png">
+                                        </button>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <h2>{{ user.user_info.userName }}</h2>
+                                    <button @click="editMode = 'userName'">
+                                        <img alt="icon" src="/public/images/Button-icon/edit%20icon.png" />
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div v-if="activeButton === 'password'" class="card-2">
@@ -40,12 +86,11 @@
                     </div>
                     <div class="card-body-security">
                         <p>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters (!@$%).</p>
-                        <input placeholder="Current Password:" class="current-password" required/>
-                        <input placeholder="New Password:" class="new-password" required/>
-                        <input placeholder="Re-type new password:" class="re-type-password" required/>
-                        <button>
-                            Change password
-                        </button>
+                        <input type="password" v-model="currentPassword" placeholder="Current Password:" required />
+                        <input type="password" v-model="newPassword" placeholder="New Password:" required />
+                        <input type="password" v-model="confirmPassword" placeholder="Re-type new password:" required />
+                        <button @click="changePassword">Change password</button>
+                        <p>{{ passwordMessage }}</p>
                     </div>
                 </div>
             </div>
@@ -55,8 +100,74 @@
 
 <script setup>
     import { ref } from "vue";
+    import axios from "axios";
+
+    const props = defineProps({
+        user: Object,
+    });
 
     const activeButton = ref("personal");
+    const editMode = ref("");
+
+    // Editable fields
+    const editableFullName = ref(props.user.user_info.fullName);
+    const editableUserName = ref(props.user.user_info.userName);
+
+    // Password fields
+    const currentPassword = ref("");
+    const newPassword = ref("");
+    const confirmPassword = ref("");
+    const passwordMessage = ref(""); // success/error message
+
+    // Save edits for personal info
+    async function saveEdit(field) {
+        try {
+            const payload = {};
+            if (field === "fullName") payload.fullName = editableFullName.value;
+            if (field === "userName") payload.userName = editableUserName.value;
+
+            const response = await axios.post("/edit-personal-information", payload);
+
+            if (response.data.success) {
+                props.user.user_info.fullName = response.data.user.user_info.fullName;
+                props.user.user_info.userName = response.data.user.user_info.userName;
+                editMode.value = "";
+            }
+        } catch (error) {
+            console.error("Error updating info:", error.response?.data || error);
+        }
+    }
+
+    function cancelEdit() {
+        editableFullName.value = props.user.user_info.fullName;
+        editableUserName.value = props.user.user_info.userName;
+        editMode.value = "";
+    }
+
+    // Change Password
+    async function changePassword() {
+        if (newPassword.value !== confirmPassword.value) {
+            passwordMessage.value = "Passwords do not match!";
+            return;
+        }
+
+        try {
+            const response = await axios.post("/change-password", {
+                current_password: currentPassword.value,
+                new_password: newPassword.value,
+                new_password_confirmation: confirmPassword.value,
+            });
+
+            passwordMessage.value = response.data.message;
+
+            // Reset inputs
+            currentPassword.value = "";
+            newPassword.value = "";
+            confirmPassword.value = "";
+        } catch (error) {
+            passwordMessage.value = error.response?.data?.message || "Error changing password.";
+        }
+    }
 </script>
 
 
@@ -66,54 +177,69 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fc;
     }
+
     .page-label {
         width: 100%;
         display: flex;
         align-items: center;
+        padding: 15px 20px;
     }
     .page-label h2 {
-        margin: 10px 0 10px 10px;
-        font-weight: 900;
-        font-size: 1.9em;
-        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.8em;
+        color: #31485B;
     }
+
     .admin-body {
         width: 100%;
         height: 100%;
         display: flex;
         flex-direction: row;
+        gap: 20px;
     }
+
     .settings-button-container {
-        height: 100%;
-        width: 15%;
+        width: 18%;
         display: flex;
-        align-items: end;
-        gap: 10px;
         flex-direction: column;
+        gap: 15px;
+        padding: 20px 10px;
+        align-items: flex-end;
     }
     .settings-button-container button {
-        width: 70%;
-        height: 100px;
-        background-color: #B5BFDE;
+        width: 90%;
+        height: 90px;
+        background-color: #E0E7FF;
         border: none;
-        border-radius: 20px;
+        border-radius: 18px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-        margin-top: 10px;
-        padding: 0 15px;
+        gap: 12px;
+        padding: 0 18px;
         color: #435F77;
-        font-size: 1.1em;
+        font-size: 1.05em;
+        font-weight: 500;
+        transition: all 0.25s ease;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
+    .settings-button-container button:hover {
+        background-color: #d0d8f7;
+        transform: translateY(-2px);
+    }
+    .settings-button-container button.active {
+        background-color: #435F77;
+        color: white;
+        font-weight: 600;
+        transform: scale(1.05);
+    }
     .settings-button-container button img {
-        width: 60px;
+        width: 55px;
         height: auto;
-        flex-shrink: 0;
     }
-
     .settings-button-container .button-text {
         flex: 1;
         white-space: normal;
@@ -121,88 +247,166 @@
         word-break: break-word;
     }
 
-    .settings-button-container button.active {
-        background-color: #435F77;
-        color: white;
-        font-weight: bold;
-        transform: scale(1.05);
-    }
     .settings-card-container {
-        height: 100%;
-        width: 85%;
+        flex: 1;
         display: flex;
         align-items: start;
-        justify-content: start;
+        justify-content: flex-start;
     }
-    .card-1,.card-2 {
-        width: 80%;
-        height: 90%;
-        margin: 10px 0 0 50px;
+
+    .card-1,
+    .card-2 {
+        width: 85%;
+        min-height: 85%;
+        margin: 20px 0 0 20px;
         background-color: #E0E7FF;
         border-radius: 20px;
+        padding: 25px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-    .card-label {
-        width: 100%;
-    }
+
     .card-label h2 {
-        margin-left: 30px;
-        font-weight: bold;
-        font-size: 1.7em;
+        font-weight: 600;
+        font-size: 1.5em;
         color: #31485B;
-        text-transform: capitalize;
-        font-family: 'Poppins', sans-serif;
     }
-    .card-body {
-        width: 100%;
-        height: 100%;
-        border: 1px solid black;
+
+    .card-body-personal {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        align-items: flex-start;
     }
-    .card-body-security {
+    .profile-picture-container {
+        flex: 0 0 35%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-picture-container button {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        border: 4px solid #435F77;
+        background: #E0E7FF;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .profile-picture-container button:hover {
+        transform: scale(1.05);
+    }
+
+    .personal-information-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .info-container {
+        width: 95%;
+        min-height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #B5BFDE;
+        padding: 0 12px;
+        border-radius: 12px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .info-container input {
         width: 70%;
         height: 100%;
+        background-color: #B5BFDE;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        color: #31485B;
+    }
+    .info-container h2 {
+        font-size: 1.1em;
+        color: #31485B;
+        font-weight: 500;
+        margin: 0;
+    }
+    .info-container button {
+        width: 42px;
+        height: 42px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+    .info-container img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .personal-buttons {
+        display: flex;
+        gap: 8px;
+    }
+    .personal-buttons button {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
         display: flex;
         align-items: center;
+        justify-content: center;
+    }
+    .personal-buttons button img {
+        width: 70%;
+        height: 70%;
+    }
+
+    .card-body-security {
+        width: 80%;
+        display: flex;
         flex-direction: column;
-        padding-left: 50px;
-        padding-right: 50px;
+        gap: 15px;
     }
     .card-body-security p {
-        text-align: left;
-        align-self: start;
+        font-size: 0.95em;
+        color: #435F77;
+        line-height: 1.5;
     }
     .card-body-security input {
-        width: 95%;
+        width: 100%;
         height: 50px;
-        padding-left: 20px;
-        padding-right: 20px;
-        background-color: #B5BFDE;
-        margin-top: 3px;
-        border: none;
+        padding: 0 15px;
+        background-color: #F1F4FF;
+        border: 1px solid #d0d8f7;
+        border-radius: 12px;
+        font-size: 0.95em;
+        color: #31485B;
+        transition: border 0.2s, box-shadow 0.2s;
     }
-    .card-body-security input::placeholder {
-        color: white;
-        margin-left: 10px;
-    }
-    .current-password {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-    .re-type-password {
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
+    .card-body-security input:focus {
+        border-color: #435F77;
+        box-shadow: 0 0 0 3px rgba(67,95,119,0.2);
+        outline: none;
     }
     .card-body-security button {
-        align-self: end;
-        width: 200px;
-        height: 40px;
+        align-self: flex-end;
+        padding: 10px 25px;
         border-radius: 20px;
-        margin-top: 20px;
         background-color: #435F77;
         color: white;
         border: none;
+        font-size: 0.95em;
+        font-weight: 500;
         cursor: pointer;
+        transition: all 0.25s;
     }
+    .card-body-security button:hover {
+        background-color: #31485B;
+        transform: translateY(-2px);
+    }
+
 </style>

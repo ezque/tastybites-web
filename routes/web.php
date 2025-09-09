@@ -35,5 +35,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
     Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
 
+    Route::post('/edit-personal-information', [AuthController::class, 'editPersonalInformation']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+
 });
 

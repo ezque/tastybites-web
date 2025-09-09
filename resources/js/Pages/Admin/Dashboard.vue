@@ -23,7 +23,10 @@
                 :user="user"
             />
 
-            <Users v-if="activeComponent === 'Users'" :usersInfo="usersInfo"/>
+            <Users
+                v-if="activeComponent === 'Users'"
+                :usersInfo="usersInfo"
+            />
             <Recipes
                 v-if="activeComponent === 'Recipes'"
                 @navigate="handleNavigation"
@@ -38,6 +41,7 @@
             />
             <AdminSettings
                 v-if="activeComponent === 'adminSettings'"
+                :user="user"
             />
 
         </div>
