@@ -1,6 +1,6 @@
 <template>
     <div class="main-body">
-        <Header :user="user"/>
+        <Header :user="user"  @navigate="setActiveComponent"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home
@@ -15,6 +15,10 @@
                 :user="user"
                 :recipe="selectedRecipe"
             />
+            <UserSettings
+                v-if="activeComponent === 'Settings'"
+                :user="user"
+            />
 
         </div>
 
@@ -28,6 +32,7 @@
     import Sidebar from '../../Component/Sidebar.vue';
     import Home from "@/Component/Home.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
+    import UserSettings from "@/Component/UserSettings.vue";
 
     import {computed, ref} from "vue";
 

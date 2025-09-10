@@ -40,7 +40,7 @@
                 @back="back"
             />
             <AdminSettings
-                v-if="activeComponent === 'adminSettings'"
+                v-if="activeComponent === 'Settings'"
                 :user="user"
             />
 

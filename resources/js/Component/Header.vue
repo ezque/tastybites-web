@@ -10,14 +10,42 @@
             </button>
             <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
-                    <img :src="profile" alt="profile" />
+                    <img
+                        v-if="user.user_info.profilePath"
+                        :src="`/storage/${user.user_info.profilePath}`"
+                        alt="Profile"
+                    />
+                    <img
+                        v-else-if="user.user_info.gender === 'male'"
+                        src="/public/images/male.png"
+                        alt="Male Default"
+                    />
+                    <img
+                        v-else
+                        src="/public/images/female.png"
+                        alt="Female Default"
+                    />
                 </div>
                 <h1>{{ capitalizedfullName }}</h1>
             </button>
         </div>
         <div class="menu-container" v-if="isMenuVisible">
             <div class="menu-profile-container">
-                <img :src="profile" alt="profile" />
+                <img
+                    v-if="user.user_info.profilePath"
+                    :src="`/storage/${user.user_info.profilePath}`"
+                    alt="Profile"
+                />
+                <img
+                    v-else-if="user.user_info.gender === 'male'"
+                    src="/public/images/male.png"
+                    alt="Male Default"
+                />
+                <img
+                    v-else
+                    src="/public/images/female.png"
+                    alt="Female Default"
+                />
             </div>
             <div class="menu-user-info">
                 <h1>{{ capitalizedfullName }}</h1>
@@ -29,7 +57,7 @@
                     <h1>Profile</h1>
                 </button>
                 <span class="white-line" v-if="profileIcon"></span>
-                <button @click="emit('navigate', 'adminSettings')">
+                <button @click="emit('navigate', 'Settings')">
                     <img src="/public/images/Button-icon/settings.png" alt="img" />
                     <h1>Settings</h1>
                 </button>
@@ -138,6 +166,7 @@
     .profile-container img {
         width: 100%;
         height: 100%;
+        border-radius: 50%;
     }
     .menu-button h1{
         font-size: 1em;
@@ -180,6 +209,7 @@
     .menu-profile-container img {
         width: 100%;
         height: 100%;
+        border-radius: 50%;
     }
     .menu-user-info {
         display: flex;
