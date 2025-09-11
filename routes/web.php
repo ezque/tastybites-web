@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/update-profile-picture', [AuthController::class, 'updateProfilePicture']);
     Route::post('/hide-recipe/{id}', [RecipeController::class, 'hideUnhideRecipe']);
-
+    Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsiveRecipe']);
 
 
 });

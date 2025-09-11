@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Reaction;
 use App\Models\HideRecipe;
+use App\Models\SaveRecipe;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -241,6 +242,26 @@ class RecipeController extends Controller
             'success' => true,
             'hide'    => $hideRecord
         ]);
+    }
+
+    public function saveUnsiveRecipe(Request $request, $id)
+    {
+        $userId = Auth::id();
+
+        $saveRecord = SaveRecipe::where('userID', $userId)
+            ->where('recipeID', $id)
+            ->first();
+
+        if ($saveRecord) {
+            $saveRecord->save_status = $saveRecord->save_status == '1' ? '0' : '1';
+            $saveRecord->save();
+        } else {
+            $saveRecord = SaveRecipe::create([
+                'userID'   => $userId,
+                'recipeID' => $id,
+                'save_status'=> '1',
+            ]);
+        }
     }
 
 

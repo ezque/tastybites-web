@@ -15,7 +15,9 @@
                 <img alt="icon" src="/public/images/Button-icon/hide.png"/>
                 Hide
             </button>
-            <button>
+            <button
+                @click="saveRecipe"
+            >
                 <img alt="icon" src="/public/images/Button-icon/save.png"/>
                 Save
             </button>
@@ -101,6 +103,14 @@
         try {
             const { data } = await axios.post(`/hide-recipe/${props.recipeCardDetail.id}`)
             props.recipeCardDetail.is_hidden = data.hide.is_hidden
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const saveRecipe = async () => {
+        try {
+            const { data } = await axios.post(`/save-recipe/${props.recipeCardDetail.id}`)
         } catch (error) {
             console.error(error)
         }
