@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\Procedure;
 use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Reaction;
+use App\Models\HideRecipe;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -217,7 +218,30 @@ class RecipeController extends Controller
     }
 
 
+    public function hideUnhideRecipe(Request $request, $id)
+    {
+        $userId = Auth::id();
 
+        $hideRecord = HideRecipe::where('userID', $userId)
+            ->where('recipeID', $id)
+            ->first();
+
+        if ($hideRecord) {
+            $hideRecord->is_hidden = $hideRecord->is_hidden == '1' ? '0' : '1';
+            $hideRecord->save();
+        } else {
+            $hideRecord = HideRecipe::create([
+                'userID'   => $userId,
+                'recipeID' => $id,
+                'is_hidden'=> '1',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'hide'    => $hideRecord
+        ]);
+    }
 
 
 

@@ -5,6 +5,21 @@
 
         </div>
         <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipeCardDetail.is_free === 'premium'"/>
+        <button class="dot-menu">
+            <span class="material-icons">more_vert</span>
+        </button>
+        <div class="menu-container">
+            <button
+                @click="toggleHide"
+            >
+                <img alt="icon" src="/public/images/Button-icon/hide.png"/>
+                Hide
+            </button>
+            <button>
+                <img alt="icon" src="/public/images/Button-icon/save.png"/>
+                Save
+            </button>
+        </div>
         <div class="text-container">
             <h2>{{recipeCardDetail.recipeName}}</h2>
             <h3>{{recipeCardDetail.cuisineType}}</h3>
@@ -81,6 +96,15 @@
 
     const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
+
+    const toggleHide = async () => {
+        try {
+            const { data } = await axios.post(`/hide-recipe/${props.recipeCardDetail.id}`)
+            props.recipeCardDetail.is_hidden = data.hide.is_hidden
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
 </script>
 
@@ -193,5 +217,53 @@
         top: 10px;
         left: 10px;
     }
+    .dot-menu {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 3px;
+        background-color: transparent;
+        border: none;
+        margin-top: 10px;
+        width: 20px;
+    }
+    .dot-menu span{
+        font-size: 28px;
+        color: #333;
+    }
+    .menu-container {
+        border: none;
+        position: absolute;
+        left: 88%;
+        top: 40px;
+        margin-left: 10px;
+        background-color: #435F77;
+        border-radius: 0 10px 10px 10px;
+        z-index: 9;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .menu-container button {
+        width: 70px;
+        height: 25px;
+        background-color: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        gap: 10px;
+        cursor: pointer;
+    }
+    .menu-container button img {
+        height: 100%;
+        width: 20px;
+    }
+
 
 </style>

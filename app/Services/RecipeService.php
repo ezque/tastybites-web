@@ -12,7 +12,8 @@ class RecipeService
         $recipes = Recipe::with([
             'user.userInfo',
             'purchase.user',
-            'userReaction'
+            'userReaction',
+            'hidden'
         ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->get()
@@ -20,6 +21,7 @@ class RecipeService
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
+                $recipe->is_hidden = $recipe->hidden?->is_hidden ?? '0';
                 return $recipe;
             });
 

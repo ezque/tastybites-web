@@ -45,6 +45,10 @@ class Recipe extends Model
         return $this->hasOne(Reaction::class, 'recipeID')
             ->where('userID', auth()->id());
     }
-
+    public function hidden()
+    {
+        return $this->hasOne(HideRecipe::class, 'recipeID')
+            ->where('userID', auth()->id());
+    }
 
 }

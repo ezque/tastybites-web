@@ -38,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/edit-personal-information', [AuthController::class, 'editPersonalInformation']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/update-profile-picture', [AuthController::class, 'updateProfilePicture']);
+    Route::post('/hide-recipe/{id}', [RecipeController::class, 'hideUnhideRecipe']);
+
 
 
 });

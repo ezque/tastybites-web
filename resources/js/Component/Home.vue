@@ -9,7 +9,7 @@
             </div>
             <div class="home-body">
                 <RecipeCard
-                    v-for="(recipeCardDetail, index) in recipeCardDetails.filter(r => r.status !== 'pending')"
+                    v-for="(recipeCardDetail, index) in visibleRecipes"
                     :key="recipeCardDetail.id"
                     :recipeCardDetail="recipeCardDetail"
                     :index="index"
@@ -30,6 +30,12 @@
 
     const props = defineProps({
         recipeCardDetails: Array
+    })
+
+    const visibleRecipes = computed(() => {
+        return props.recipeCardDetails.filter(r => {
+            return r.status !== 'pending' && r.is_hidden !== '1'
+        })
     })
 
 </script>
