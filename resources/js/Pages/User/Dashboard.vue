@@ -17,7 +17,9 @@
             />
             <UserSettings
                 v-if="activeComponent === 'Settings'"
+                @navigate="handleNavigation"
                 :user="user"
+                :recipeCardDetails="recipeCardDetails"
             />
 
         </div>

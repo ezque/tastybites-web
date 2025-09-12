@@ -13,7 +13,8 @@ class RecipeService
             'user.userInfo',
             'purchase.user',
             'userReaction',
-            'hidden'
+            'hidden',
+            'savedBy',
         ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->get()

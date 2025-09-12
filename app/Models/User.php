@@ -45,6 +45,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(HideRecipe::class, 'userID');
     }
+    public function savedRecipes()
+    {
+        return $this->hasMany(SaveRecipe::class, 'userID', 'id');
+    }
+
 
 
 }

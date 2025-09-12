@@ -6,10 +6,9 @@ import 'material-icons/iconfont/material-icons.css';
 import '../css/app.css';
 import axios from 'axios';
 
-// ✅ Automatically add CSRF token to every Axios request
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-const token = document.head.querySelector('meta[name="csrf-token"]');
+    const token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {

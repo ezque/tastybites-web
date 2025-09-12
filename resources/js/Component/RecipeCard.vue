@@ -2,23 +2,18 @@
     <div class="card">
         <div class="image-container">
             <img :src="`/storage/${recipeCardDetail.image_path}`" alt="example"/>
-
         </div>
         <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipeCardDetail.is_free === 'premium'"/>
-        <button class="dot-menu">
+        <button class="dot-menu" @click="toggleMenu">
             <span class="material-icons">more_vert</span>
         </button>
-        <div class="menu-container">
-            <button
-                @click="toggleHide"
-            >
-                <img alt="icon" src="/public/images/Button-icon/hide.png"/>
+        <div v-if="menuOpen" class="menu-container">
+            <button @click="toggleHide">
+                <img alt="icon" src="/public/images/Button-icon/hide.png" />
                 Hide
             </button>
-            <button
-                @click="saveRecipe"
-            >
-                <img alt="icon" src="/public/images/Button-icon/save.png"/>
+            <button @click="saveRecipe">
+                <img alt="icon" src="/public/images/Button-icon/save.png" />
                 Save
             </button>
         </div>
@@ -63,6 +58,7 @@
 
     const likeCount = ref(0)
     const dislikeCount = ref(0)
+    const menuOpen = ref(false);
 
     const fetchCounts = async () => {
         try {
@@ -73,6 +69,10 @@
             console.error(error)
         }
     }
+
+    const toggleMenu = () => {
+        menuOpen.value = !menuOpen.value;
+    };
 
     const react = async (type) => {
         let newType = type

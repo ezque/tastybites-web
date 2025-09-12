@@ -12,4 +12,14 @@ class SaveRecipe extends Model
         'recipeID',
         'save_status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID', 'id');
+    }
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class, 'recipeID', 'id');
+    }
 }
