@@ -52,7 +52,8 @@ class Recipe extends Model
     }
     public function savedBy()
     {
-        return $this->hasMany(SaveRecipe::class, 'recipeID', 'id');
+        return $this->hasOne(SaveRecipe::class, 'recipeID')
+            ->where('userID', auth()->id());
     }
 
 

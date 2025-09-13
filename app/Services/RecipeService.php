@@ -9,12 +9,18 @@ class RecipeService
 {
     public function getRecipeCardDetails()
     {
+        $userId = auth()->id();
+
         $recipes = Recipe::with([
             'user.userInfo',
             'purchase.user',
             'userReaction',
-            'hidden',
-            'savedBy',
+            'hidden' => function ($q) use ($userId) {
+                $q->where('userID', $userId);
+            },
+            'savedBy' => function ($q) use ($userId) {
+                $q->where('userID', $userId);
+            },
         ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->get()
@@ -22,12 +28,16 @@ class RecipeService
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
+
                 $recipe->is_hidden = $recipe->hidden?->is_hidden ?? '0';
+                $recipe->is_saved = $recipe->savedBy?->save_status ?? '0';
+
                 return $recipe;
             });
 
         return $recipes;
     }
+
 
     public function getAllRecipeDetails()
     {

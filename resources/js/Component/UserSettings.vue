@@ -127,11 +127,21 @@
                     </div>
                 </div>
                 <div class="card-3" v-if="activeButton === 'hiddenRecipe'">
-
+                    <RecipeCard
+                        v-for="recipe in recipeCardDetails.filter(r => r.is_hidden === '1')"
+                        :key="recipe.id"
+                        :recipeCardDetail="recipe"
+                    />
                 </div>
+
                 <div class="card-4" v-if="activeButton === 'savedRecipe'">
-
+                    <RecipeCard
+                        v-for="recipe in recipeCardDetails.filter(r => r.is_saved === '1')"
+                        :key="recipe.id"
+                        :recipeCardDetail="recipe"
+                    />
                 </div>
+
             </div>
         </div>
     </div>
@@ -149,17 +159,14 @@
     const activeButton = ref("personal");
     const editMode = ref("");
 
-    // Editable fields
     const editableFullName = ref(props.user.user_info.fullName);
     const editableUserName = ref(props.user.user_info.userName);
 
-    // Password fields
     const currentPassword = ref("");
     const newPassword = ref("");
     const confirmPassword = ref("");
     const passwordMessage = ref("");
 
-    // Save edits for personal info
     async function saveEdit(field) {
         try {
             const payload = {};
@@ -177,30 +184,25 @@
             console.error("Error updating info:", error.response?.data || error);
         }
     }
-
     function cancelEdit() {
         editableFullName.value = props.user.user_info.fullName;
         editableUserName.value = props.user.user_info.userName;
         editMode.value = "";
     }
 
-    // Change Password
     async function changePassword() {
         if (newPassword.value !== confirmPassword.value) {
             passwordMessage.value = "Passwords do not match!";
             return;
         }
-
         try {
             const response = await axios.post("/change-password", {
                 current_password: currentPassword.value,
                 new_password: newPassword.value,
                 new_password_confirmation: confirmPassword.value,
             });
-
             passwordMessage.value = response.data.message;
 
-            // Reset inputs
             currentPassword.value = "";
             newPassword.value = "";
             confirmPassword.value = "";
@@ -242,7 +244,7 @@
         display: flex;
         flex-direction: column;
         font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fc;
+        background-color: #FFE797;
     }
 
     .page-label {
@@ -327,11 +329,21 @@
         margin: 20px 0 0 20px;
         background-color: #E0E7FF;
         border-radius: 20px;
-        padding: 25px;
         display: flex;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        padding: 25px;
+    }
+    .card-1,
+    .card-2 {
         flex-direction: column;
         gap: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .card-3,
+    .card-4{
+        flex-wrap: wrap;
+        flex-direction: row;
+        overflow: auto;
+        gap: 20px;
     }
 
     .card-label h2 {
