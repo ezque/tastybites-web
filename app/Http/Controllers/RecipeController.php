@@ -253,16 +253,26 @@ class RecipeController extends Controller
             ->first();
 
         if ($saveRecord) {
+            // Toggle
             $saveRecord->save_status = $saveRecord->save_status == '1' ? '0' : '1';
             $saveRecord->save();
         } else {
+            // Create new saved record
             $saveRecord = SaveRecipe::create([
-                'userID'   => $userId,
+                'userID' => $userId,
                 'recipeID' => $id,
-                'save_status'=> '1',
+                'save_status' => '1',
             ]);
         }
+
+        return response()->json([
+            'success'     => true,
+            'save_status' => (int) $saveRecord->save_status,
+            'recipeID'    => $id,
+        ]);
     }
+
+
 
 
 

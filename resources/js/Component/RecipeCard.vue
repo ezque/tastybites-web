@@ -10,11 +10,11 @@
         <div v-if="menuOpen" class="menu-container">
             <button @click="toggleHide">
                 <img alt="icon" src="/public/images/Button-icon/hide.png" />
-                Hide
+                <span>{{ recipeIsHidden ? 'Unhide' : 'Hide' }}</span>
             </button>
             <button @click="saveRecipe">
                 <img alt="icon" src="/public/images/Button-icon/save.png" />
-                Save
+                <span>{{ recipeIsSave ? 'Unsave' : 'Save' }}</span>
             </button>
         </div>
         <div class="text-container">
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted,computed } from 'vue'
+import {ref, onMounted, computed, watch} from 'vue'
     import axios from 'axios'
 
     const props = defineProps({
@@ -95,9 +95,11 @@
     onMounted(() => {
         fetchCounts()
     })
+    const recipeIsHidden = computed(() => Number(props.recipeCardDetail?.is_hidden) === 1)
 
     const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
+
 
     const toggleHide = async () => {
         try {
@@ -111,10 +113,24 @@
     const saveRecipe = async () => {
         try {
             const { data } = await axios.post(`/save-recipe/${props.recipeCardDetail.id}`)
+            if (data?.save_status !== undefined) {
+                props.recipeCardDetail.save_status = Number(data.save_status)
+            }
         } catch (error) {
             console.error(error)
         }
     }
+
+const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
+
+
+watch(recipeIsSave, (newVal) => {
+        console.log("recipeIsSave changed:", newVal)
+    })
+
+
+    console.log(recipeIsSave.value)
+    console.log("recipeIsSave:", recipeIsSave.value)
 
 </script>
 
