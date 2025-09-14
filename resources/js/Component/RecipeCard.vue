@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted, computed, watch} from 'vue'
+    import {ref, onMounted, computed, watch} from 'vue'
     import axios from 'axios'
 
     const props = defineProps({
@@ -121,16 +121,14 @@ import {ref, onMounted, computed, watch} from 'vue'
         }
     }
 
-const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
+    const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
 
 
-watch(recipeIsSave, (newVal) => {
+    watch(recipeIsSave, (newVal) => {
         console.log("recipeIsSave changed:", newVal)
     })
 
 
-    console.log(recipeIsSave.value)
-    console.log("recipeIsSave:", recipeIsSave.value)
 
 </script>
 
