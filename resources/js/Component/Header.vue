@@ -5,9 +5,22 @@
             <button class="rs-button">
                 <img src="/public/images/Button-icon/search.png"/>
             </button>
-            <button class="rs-button">
-                <img src="/public/images/Button-icon/notifications.png"/>
-            </button>
+            <div class="notification-box">
+                <button class="rs-button">
+                    <img src="/public/images/Button-icon/notifications.png"/>
+                </button>
+                <div class="notification-container">
+                    <div class="notification-label-container">
+                        <h2>Notifications</h2>
+                    </div>
+                    <div class="all-notifications-box">
+                        <div class="notifications-card" v-for="i in 5" :key="i">
+                            <h2>Notification</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
                     <img
@@ -67,7 +80,6 @@
                     <h1>Logout</h1>
                 </button>
             </div>
-
         </div>
     </div>
 </template>
@@ -262,5 +274,60 @@
     .white-line {
         width: 60%;
         border: 1px solid white;
+    }
+    .notification-box {
+        position: relative;
+    }
+    .notification-container {
+        position: absolute;
+        border: 1px solid black;
+        right: 0;
+        top: 40px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        background-color: #435F77;
+        border-radius: 20px 0 20px 20px;
+        z-index: 199;
+    }
+    .notification-label-container {
+        width: 250px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+    .notification-label-container h2 {
+        color: white;
+    }
+    .all-notifications-box {
+        max-height: 300px;
+        height: 500px;
+        width: 100%;
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    .all-notifications-box::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .notifications-card {
+        border: 1px solid black;
+        display: flex;
+        flex-direction: row;
     }
 </style>

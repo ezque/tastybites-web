@@ -111,6 +111,7 @@
     }
 
     const saveRecipe = async () => {
+        console.log('click');
         try {
             const { data } = await axios.post(`/save-recipe/${props.recipeCardDetail.id}`)
             if (data?.save_status !== undefined) {
