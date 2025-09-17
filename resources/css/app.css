@@ -19,6 +19,16 @@
 }
 
 @font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('/public/fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBoldItalic';
+    src: url('/public/fonts/Poppins-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'Racing Sans One';
     src: url('/public/fonts/RacingSansOne-Regular.ttf') format('truetype');
 }
