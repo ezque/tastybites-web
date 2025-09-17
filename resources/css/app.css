@@ -1,3 +1,49 @@
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('/public/fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-BoldItalic';
+    src: url('/public/fonts/Poppins-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Italic';
+    src: url('/public/fonts/Poppins-Italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('/public/fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('/public/fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBoldItalic';
+    src: url('/public/fonts/Poppins-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Racing Sans One';
+    src: url('/public/fonts/RacingSansOne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Rouge Script';
+    src: url('/public/fonts/RougeScript-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Space Mono';
+    src: url('/public/fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+
+
 body{
     margin: 0;
     padding: 0;

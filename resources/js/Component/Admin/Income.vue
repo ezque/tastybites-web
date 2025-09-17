@@ -1,12 +1,12 @@
 <template>
     <div class="income-container">
         <div class="container-label">
-            <h2>queue</h2>
+            <h2>Queue</h2>
         </div>
         <div class="income-body">
             <div class="income-card">
                 <div class="card-label">
-                    <h2>Recent Transactions</h2>
+                    <h2>Pending Recipe</h2>
                 </div>
                 <div class="card-body">
                     <div class="table">
@@ -23,8 +23,11 @@
                             <div class="head-row-4">
                                 <h1>Email</h1>
                             </div>
+                            <div class="head-row-6">
+                                <h1>Reference Number</h1>
+                            </div>
                             <div class="head-row-5">
-                                <h1>Action</h1>
+                                <h1></h1>
                             </div>
                         </div>
                         <div class="table-body">
@@ -33,13 +36,16 @@
                                     <p>{{ purchase.id }}</p>
                                 </div>
                                 <div class="row-2">
-                                    <p>{{ new Date(purchase.created_at).toLocaleDateString() }}</p>
+                                    <p>{{ new Date(purchase.created_at).toISOString().split('T')[0] }}</p>
                                 </div>
                                 <div class="row-3">
                                     <p>{{purchase.recipeName}}</p>
                                 </div>
                                 <div class="row-4">
-                                    <p>{{ purchase.user.email }}</p>
+                                    <u>{{ purchase.user.email }}</u>
+                                </div>
+                                <div class="row-6">
+                                    <u>{{ purchase.reference }}</u>
                                 </div>
                                 <div class="row-5">
                                     <button
@@ -184,10 +190,9 @@
         align-items: center;
     }
     .container-label h2 {
-        text-transform: uppercase;
-        font-size: 1.7em;
+        font-size: 35px;
         margin-left: 20px;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
     }
     .income-body {
         width: 100%;
@@ -204,7 +209,7 @@
         margin-bottom: 6%;
         background-color: #B5BFDE;
         border-radius: 20px;
-        padding: 20px;
+        padding: 10px;
     }
     .card-label {
         width: 100%;
@@ -212,15 +217,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        margin-top: 15px;
+        margin-bottom: -10px;
     }
     .card-label h2 {
-        font-weight: bold;
         margin: 0;
         padding: 0;
         color: #31485B;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-size: 25px;
     }
     .card-body {
         height: 100%;
@@ -239,39 +244,42 @@
     }
     .table-head {
         width: 100%;
-        height: 10%;
+        height: 9%;
         background-color: #7592AB;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         display: flex;
         flex-direction: row;
+        border: 1px solid #B5BFDE;
     }
-    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5 {
+    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5,.head-row-6 {
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5 h1{
+    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5,.head-row-6 h1{
         color: black;
-        font-size: 1em;
-        font-family: 'Poppins', sans-serif;
-        margin-top: 20px;
+        font-size: 14px;
+        font-family: 'Poppins-Bold';
     }
     .head-row-1, .row-1{
-        width: 10%;
+        width: 5%;
     }
     .head-row-2, .row-2{
-        width: 25%;
+        width: 15%;
     }
     .head-row-3, .row-3{
-        width: 25%;
+        width: 30%;
     }
     .head-row-4, .row-4{
         width: 25%;
     }
     .head-row-5, .row-5 {
         width: 15%;
+    }
+    .head-row-6, .row-6{
+        width: 25%;
     }
     .table-body {
         overflow-y: auto;
@@ -285,23 +293,29 @@
         display: flex;
         flex-direction: row;
     }
-    .row-1,.row-2,.row-3,.row-4,.row-5 {
-        border-bottom: 1px solid black;
+    .row-1,.row-2,.row-3,.row-4,.row-5,.row-6 {
         display: flex;
         align-items: center;
         justify-content: center;
+        border: .1em solid #B5BFDE;
+        font-family: 'Poppins-Regular';
+        font-size: 13px;
     }
     .row-5 button{
-        width: 50%;
+        width: 60%;
         height: 60%;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 20px;
-        border: none;
+        border-right: 2px solid #31485B;
+        border-bottom: 2px solid #31485B;
+        border-top: none;
+        border-left: none;
         background-color: #435F77;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-size: 11px;
         cursor: pointer;
     }
     .purchase-details-container {

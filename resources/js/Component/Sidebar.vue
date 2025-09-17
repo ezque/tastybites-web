@@ -13,8 +13,8 @@
                 @click="goIncome"
                 v-if="!isUser"
             >
-                <img src="/public/images/Button-icon/income.png"/>
-                <h1>Income</h1>
+                <img src="/public/images/Button-icon/queue.png"/>
+                <h1>Queue</h1>
             </button>
             <button
                 v-if="isAdmin"
@@ -108,7 +108,7 @@
 
 <style scoped>
     .sidebar-container {
-        width: 7%;
+        width: 8%;
         height: 100%;
         background-color: #B5BFDE;
         display: flex;
@@ -130,22 +130,25 @@
         justify-content: center;
         padding-top: 10px;
         padding-bottom: 10px;
-        border-radius: 30px 0 0 30px;
+        border-radius: 50px 0 0 50px;
         border: none;
         background-color: transparent;
         cursor: pointer;
         gap: 5px;
+        transition: all 0.5s ease-in-out;
     }
     .button-container button.active {
         background-color: #E0E7FF;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     }
     .button-container button img {
-        width: 40px;
+        width: 50px;
         height: auto;
     }
     .button-container button h1 {
-        font-size: 1em;
+        font-size: 12px;
         margin: 0;
+        font-family: 'Poppins-Bold';
     }
     .logout-container {
         width: 100px;
@@ -155,7 +158,7 @@
         margin-bottom: 30px;
         position: fixed;
         bottom: -30px;
-        left: 10px;
+        left: 23px;
     }
     .logout-bttn {
         padding: 10px;
