@@ -71,7 +71,7 @@ class RecipeService
 
     public function getRecipeDetailsAdmin()
     {
-        return Recipe::with(['ingredient', 'procedure', 'user.userInfo'])
+        return Recipe::with(['ingredient', 'procedure', 'user.userInfo', 'purchase'])
             ->where('is_free', 'premium')
             ->where('status', 'pending')
             ->get();
