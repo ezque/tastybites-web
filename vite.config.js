@@ -24,5 +24,9 @@ export default defineConfig(({ mode }) => {
                 credentials: true
             }
         },
+        optimizeDeps: {
+            force: true
+        }
+
     };
 });
