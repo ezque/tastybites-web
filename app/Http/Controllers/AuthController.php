@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Notification;
 
 class AuthController extends Controller
 {
@@ -66,6 +67,15 @@ class AuthController extends Controller
             'experience' => $request->role === 'chef' ? $request->experience : null,
             'credentials' => $request->role === 'chef' ? $credentialsPath : null,
         ]);
+        // ✅ Create a notification if user is a chef
+        if ($request->role === 'chef') {
+            Notification::create([
+                'userID' => $user->id, // who triggered the notification
+                'type'   => 2,         // your rule: 2 = chef registration
+                'message'=> "{$request->fullName} registered as a Chef and is pending approval.",
+            ]);
+        }
+
 
         return response()->json([
             'status' => 'success',
