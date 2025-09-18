@@ -49,6 +49,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(SaveRecipe::class, 'userID', 'id');
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'userID', 'id');
+    }
+
 
 
 

@@ -115,7 +115,7 @@
         try {
             const { data } = await axios.post(`/save-recipe/${props.recipeCardDetail.id}`)
             if (data?.save_status !== undefined) {
-                props.recipeCardDetail.save_status = Number(data.save_status)
+                props.recipeCardDetail.is_saved = Number(data.save_status)
             }
         } catch (error) {
             console.error(error)

@@ -9,6 +9,7 @@ use App\Services\UserService;
 use App\Models\User;
 use App\Services\RecipeService;
 use App\Services\ChefService;
+use App\Models\Recipe;
 
 class AdminController extends Controller
 {
@@ -88,5 +89,23 @@ class AdminController extends Controller
             ]);
         }
     }
+    public function updateChefRecipeStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:active,declined',
+        ]);
+
+        $recipe = Recipe::findOrFail($id);
+        $recipe->update([
+            'status' => $request->status,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Recipe status updated to {$request->status}.",
+            'recipe' => $recipe,
+        ]);
+    }
+
 
 }

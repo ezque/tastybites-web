@@ -277,6 +277,7 @@
     }
     .notification-box {
         position: relative;
+        display: none;
     }
     .notification-container {
         position: absolute;
