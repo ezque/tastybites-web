@@ -13,6 +13,7 @@ use App\Models\Purchase;
 use App\Models\Reaction;
 use App\Models\HideRecipe;
 use App\Models\SaveRecipe;
+use App\Models\Notification;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -100,6 +101,18 @@ class RecipeController extends Controller
                     'instruction' => $procedure['instruction'],
                 ]);
             }
+            if ($isFree === 'premium') {
+                $admins = User::where('role', 'admin')->get();
+
+                foreach ($admins as $admin) {
+                    Notification::create([
+                        'userID' => $admin->id,
+                        'message' => 'A new premium recipe "'.$recipe->recipeName.'" was submitted by '.auth()->user()->email,
+                        'status' => 'unread',
+                        'type' => 1,
+                    ]);
+                }
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -139,6 +152,14 @@ class RecipeController extends Controller
                 'amount'       => $request->amount,
                 'reference'    => $request->reference,
                 'proof_path'   => $proofPath,
+            ]);
+            $recipe = Recipe::findOrFail($request->recipeID);
+
+            Notification::create([
+                'userID' => $recipe->userID,
+                'message' => 'Your recipe "' . $recipe->recipeName . '" has been purchased by ' . auth()->user()->email,
+                'status'  => 'unread',
+                'type'    => 2,
             ]);
 
             return response()->json([
