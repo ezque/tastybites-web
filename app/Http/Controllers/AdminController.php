@@ -9,11 +9,12 @@ use App\Services\UserService;
 use App\Models\User;
 use App\Services\RecipeService;
 use App\Services\ChefService;
+use App\Services\NotificationServices;
 use App\Models\Recipe;
 
 class AdminController extends Controller
 {
-    public function dashboard(UserService $userService, RecipeService $recipeService): \Inertia\Response
+    public function dashboard(UserService $userService, RecipeService $recipeService, NotificationServices $notificationServices): \Inertia\Response
     {
         $user = Auth::user()->load('userInfo');
         $chefs = $userService->getChefInfo();
@@ -21,6 +22,7 @@ class AdminController extends Controller
         $recipeAllDetails = $recipeService->getAllRecipeDetails();
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
         $getRecipeDetailsAdmin = $recipeService->getRecipeDetailsAdmin();
+        $getNotification = $notificationServices->getNotification();
 
         return Inertia::render('Admin/Dashboard',
             [
@@ -30,6 +32,7 @@ class AdminController extends Controller
                 'usersInfo' => $usersInfo,
                 'recipeAllDetails' => $recipeAllDetails,
                 'getRecipeDetailsAdmin' => $getRecipeDetailsAdmin,
+                'getNotification' => $getNotification
             ]
         );
     }

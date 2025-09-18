@@ -14,8 +14,28 @@
                         <h2>Notifications</h2>
                     </div>
                     <div class="all-notifications-box">
-                        <div class="notifications-card" v-for="i in 5" :key="i">
-                            <h2>Notification</h2>
+                        <div
+                            class="notifications-card"
+                            v-for="notif in props.getNotification"
+                            :key="notif.id"
+                        >
+                            <div class="main-notification">
+                                <button v-if="notif.type === '1'">
+                                    <h2>📌 Recipe Submitted: {{ notif.message }}</h2>
+                                </button>
+
+                                <button v-else-if="notif.type === '2'">
+                                    <h2>💰 Purchase: {{ notif.message }}</h2>
+                                </button>
+
+                                <button v-else-if="notif.type === '3'">
+                                    <h2>⚡ Other: {{ notif.message }}</h2>
+                                </button>
+
+                                <button v-else>
+                                    <h2>🔔 {{ notif.message }}</h2>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,8 +109,11 @@
     import {Inertia} from "@inertiajs/inertia";
 
     const props = defineProps({
-        user: Object
+        user: Object,
+        getNotification: Array,
     })
+
+    console.log(props.getNotification?.[0]);
 
     const isMenuVisible = ref(false);
 
@@ -277,7 +300,7 @@
     }
     .notification-box {
         position: relative;
-        display: none;
+        display: flex;
     }
     .notification-container {
         position: absolute;
@@ -328,6 +351,10 @@
 
     .notifications-card {
         border: 1px solid black;
+        display: flex;
+        flex-direction: row;
+    }
+    .main-notification {
         display: flex;
         flex-direction: row;
     }
