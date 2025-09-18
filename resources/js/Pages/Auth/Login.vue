@@ -9,21 +9,24 @@
             <div class="inputs">
                 <p v-if="errors.email" class="error-message">{{ errors.email[0] }}</p>
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">email</span>
+                    <img src="/public/images/Button-icon/email.png" class="email-icon" />
                     <input placeholder="Email" v-model="form.email" id="email" />
                 </div>
 
                 <p v-if="errors.password" class="error-message">{{ errors.password[0] }}</p>
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">lock</span>
+                    <img src="/public/images/Button-icon/password.png" class="password-icon" />
                     <input
                         :type="showPassword ? 'text' : 'password'"
                         placeholder="Password"
                         v-model="form.password"
                     />
-                    <span class="material-icons-outlined visibility-icon" @click="togglePassword">
-            {{ showPassword ? 'visibility_off' : 'visibility' }}
-          </span>
+                    <img 
+                        :src="showPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'" 
+                        class="visibility-icon"
+                        @click="togglePassword"
+                        alt="Toggle Password"
+                    />
                 </div>
             </div>
 
@@ -37,7 +40,7 @@
                 <span v-else>LOGIN</span>
             </button>
 
-            <p class="below-button-text">Don't have an account? <a href="/register">Register</a></p>
+            <p class="below-button-text">Don't have an account? <a href="/register" class="register-link">Register</a></p>
             <img src="/public/images/tastybites_logo.png" class="form-footer-logo" />
         </div>
     </div>
@@ -115,7 +118,7 @@
     }
     .page-label {
         font-size: 4.5em;
-        font-family: 'Rouge Script', cursive;
+        font-family: 'Rouge Script';
         font-weight: 100;
         text-align: center;
         position: relative;
@@ -123,7 +126,7 @@
         margin: 0;
     }
     .rightside-container {
-        padding: 30px 30px 10px 30px;
+        padding: 50px 30px 30px 30px;
         border: 1px solid #D9D9D9;
         background-color: #CFDAFF;
         border-radius: 25px;
@@ -153,15 +156,31 @@
         border: none;
         outline: none;
         margin-left: 10px;
-        color: #AFADAD;
+        color: #768082;
         font-family: 'Poppins', sans-serif;
     }
-    .text-input-group span {
-        color: #AFADAD;
+    .email-icon {
+        width: 24px;
+        height: 18px;
+    }
+    .password-icon {
+        width: 24px;
+        height: 22px;
+        margin-left: 2px;
+        cursor: pointer;
+    }
+    .visibility-icon {
+        width: 24px;
+        height: 16px;
+        margin-left: 10px;
     }
     .remember-me-group {
         width: 100%;
         align-items: center;
+        margin-left: 50px;
+        font-family: 'Poppins-SemiBold';
+        font-size: 13px;
+        margin-top: 5px;
     }
     .remember-me-group input {
         transform: scale(1.4);
@@ -183,7 +202,7 @@
         padding: 10px;
         margin-top: 15px;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-weight: bold;
         font-size: 16px;
         display: flex;
@@ -216,7 +235,14 @@
 
     .below-button-text {
         margin-top: 10px;
-        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-family: 'Poppins-Regular';
+    }
+    .register-link {
+        color: #435F77;
+        font-family: 'Poppins-SemiBold';
+        font-style: italic;
+        text-decoration: none;
     }
     .form-footer-logo {
         width: 150px;

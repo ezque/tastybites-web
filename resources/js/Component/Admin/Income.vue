@@ -23,9 +23,6 @@
                             <div class="head-row-4">
                                 <h1>Email</h1>
                             </div>
-                            <div class="head-row-6">
-                                <h1>Reference Number</h1>
-                            </div>
                             <div class="head-row-5">
                                 <h1></h1>
                             </div>
@@ -43,9 +40,6 @@
                                 </div>
                                 <div class="row-4">
                                     <u>{{ purchase.user.email }}</u>
-                                </div>
-                                <div class="row-6">
-                                    <u>{{ purchase.reference }}</u>
                                 </div>
                                 <div class="row-5">
                                     <button
@@ -70,22 +64,25 @@
                         <div class="left-purchase">
                             <div class="receipt-container">
                                 <img alt="receipt" :src="`/storage/${selectedRecipe.receipt_path}`"/>
-                                <p>Date Paid:
+                                <p>
+                                Date Paid:
+                                <span class="date-paid">
                                     {{
-                                        new Date(selectedRecipe.created_at).toLocaleDateString("en-US", {
-                                            day: "2-digit",
-                                            month: "long",
-                                            year: "numeric"
-                                        })
+                                    new Date(selectedRecipe.created_at).toLocaleDateString("en-GB", {
+                                        day: "2-digit",
+                                        month: "long",
+                                        year: "numeric"
+                                    })
                                     }}
                                     |
                                     {{
-                                        new Date(selectedRecipe.created_at).toLocaleTimeString("en-US", {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                            hour12: true
-                                        })
+                                    new Date(selectedRecipe.created_at).toLocaleTimeString("en-US", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true
+                                    }).toLowerCase()
                                     }}
+                                </span>
                                 </p>
                             </div>
                         </div>
@@ -264,7 +261,7 @@
         font-family: 'Poppins-Bold';
     }
     .head-row-1, .row-1{
-        width: 5%;
+        width: 8%;
     }
     .head-row-2, .row-2{
         width: 15%;
@@ -273,13 +270,10 @@
         width: 30%;
     }
     .head-row-4, .row-4{
-        width: 25%;
+        width: 30%;
     }
     .head-row-5, .row-5 {
-        width: 15%;
-    }
-    .head-row-6, .row-6{
-        width: 25%;
+        width: 18%;
     }
     .table-body {
         overflow-y: auto;
@@ -337,7 +331,7 @@
         padding: 10px;
         display: flex;
         justify-content: end;
-        position: relative;
+        position: absolute;
     }
     .close-container button {
         height: 35px;
@@ -351,12 +345,14 @@
         cursor: pointer;
         position: absolute;
         margin-right: 10px;
+        border: 1px solid black;
     }
     .close-container button img {
         width: 100%;
         height: auto;
     }
     .purchase-details-body {
+        margin-top: 30px;
         height: 90%;
         width: 100%;
         display: flex;
@@ -371,7 +367,7 @@
     }
     .receipt-container {
         width: 100%;
-        height: 90%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: start;
@@ -379,19 +375,25 @@
     }
     .receipt-container img {
         width: 70%;
-        height: 90%;
+        height: 100%;
     }
     .receipt-container p {
-        margin: 5px 40px 0 0;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Regular';
+        font-size: 11px;
+        text-align: start;
+        width: 70%;
+    }
+    .date-paid {
+        font-family: 'Poppins-BoldItalic';
+        font-size: 13px;
     }
     .purchase-body-line {
         width: 4px;
-        height: 75%;
+        height: 90%;
         background-color: #A2B0BC;
         border-radius: 20px;
-        margin-bottom: 90px;
+        border: 1px solid black;
     }
     .right-purchase {
         width: 60%;
