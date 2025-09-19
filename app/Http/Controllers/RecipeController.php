@@ -107,11 +107,12 @@ class RecipeController extends Controller
                 foreach ($admins as $admin) {
                     Notification::create([
                         'userID' => $admin->id,
-                        'message' => 'A new premium recipe "'.$recipe->recipeName.'" was submitted by '.auth()->user()->email,
+                        'message' => 'A new premium recipe "' . $recipe->recipeName . '" was submitted by ' . auth()->user()->userInfo->fullName,
                         'status' => 'unread',
                         'type' => 1,
                     ]);
                 }
+
             }
 
             return response()->json([
@@ -189,7 +190,6 @@ class RecipeController extends Controller
             $recipeID = $id;
             $reactionType = $request->reaction_type;
 
-            // Check if a reaction already exists
             $reaction = Reaction::where('userID', $userID)
                 ->where('recipeID', $recipeID)
                 ->first();
@@ -208,6 +208,21 @@ class RecipeController extends Controller
                 ]);
             }
 
+            // ✅ Create a notification for recipe owner
+            $recipe = Recipe::with('user.userInfo')->findOrFail($recipeID);
+
+            // skip notifying yourself
+            if ($recipe->userID !== $userID) {
+                $reactorName = auth()->user()->userInfo->fullName ?? 'Someone';
+
+                Notification::create([
+                    'userID' => $recipe->userID, // notify the recipe owner
+                    'message' => $reactorName . ' reacted to your recipe "' . $recipe->recipeName . '"',
+                    'status' => 'unread',
+                    'type' => 3, // reaction type notification
+                ]);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Reaction saved successfully',
@@ -215,7 +230,7 @@ class RecipeController extends Controller
             ], 200);
 
         } catch (\Throwable $e) {
-            \Log::error('React Recipe Error: '.$e->getMessage());
+            \Log::error('React Recipe Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Something went wrong',
@@ -223,6 +238,7 @@ class RecipeController extends Controller
             ], 500);
         }
     }
+
 
     public function counts($id)
     {
