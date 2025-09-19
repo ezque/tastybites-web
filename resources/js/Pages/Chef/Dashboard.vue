@@ -1,8 +1,8 @@
 <template>
     <div class="main-body">
-        <Header :user="user" @navigate="setActiveComponent"/>
+        <Header :user="user" @navigate="setActiveComponent" :getNotification="getNotification"/>
         <div class="main-container">
-            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
+            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent" />
             <Home
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails"
@@ -62,6 +62,7 @@
         recipeCardDetails: Array,
         recipeAllDetails: Object,
         purchases: Array,
+        getNotification: Array,
     })
 
     const isChef = computed(() => props.user.role === 'chef');

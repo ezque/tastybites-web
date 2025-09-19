@@ -209,18 +209,24 @@ class RecipeController extends Controller
                 ]);
             }
 
-            // ✅ Create a notification for recipe owner
+            // Create a notification for recipe owner
             $recipe = Recipe::with('user.userInfo')->findOrFail($recipeID);
 
-            // skip notifying yourself
             if ($recipe->userID !== $userID) {
                 $reactorName = auth()->user()->userInfo->fullName ?? 'Someone';
 
+                // Map reaction_type to notification type
+                $notificationType = null;
+                if ($reactionType == 1) $notificationType = 5;
+                elseif ($reactionType == 2) $notificationType = 6;
+                else $notificationType = 7; // optional for reaction_type 3
+
                 Notification::create([
-                    'userID' => $recipe->userID, // notify the recipe owner
+                    'userID' => $recipe->userID, // notify recipe owner
+                    'senderID' => $userID,
                     'message' => $reactorName . ' reacted to your recipe "' . $recipe->recipeName . '"',
                     'status' => 'unread',
-                    'type' => 3, // reaction type notification
+                    'type' => $notificationType,
                 ]);
             }
 

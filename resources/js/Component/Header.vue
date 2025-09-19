@@ -12,10 +12,20 @@
                 <div class="notification-container" v-if="isNotificationVisible">
                     <div class="notification-label-container">
                     <h2>Notifications</h2>
-                    <div class="notification-buttons">
-                        <button class="active">All</button>
-                        <button>Unread</button>
-                    </div>
+                        <div class="notification-buttons">
+                            <button
+                                :class="{ active: activeFilter === 'all' }"
+                                @click="activeFilter = 'all'"
+                            >
+                                All
+                            </button>
+                            <button
+                                :class="{ active: activeFilter === 'unread' }"
+                                @click="activeFilter = 'unread'"
+                            >
+                                Unread
+                            </button>
+                        </div>
                     </div>
                     <div class="notification-actions">
                         <img
@@ -39,7 +49,7 @@
                     <div class="all-notifications-box">
                         <div
                             class="notifications-card"
-                            v-for="notif in getNotification"
+                            v-for="notif in filteredNotifications"
                             :key="notif.id"
                         >
                             <div class="main-notification">
@@ -63,7 +73,7 @@
                                     </div>
                                 </button>
 
-                                <button v-if="notif.type === '3'" class="notification-item">
+                                <button v-if="notif.type === '3'" class="notification-item-active">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/new_user2.png" alt="user" />
                                     </div>
@@ -73,7 +83,7 @@
                                     </div>
                                 </button>
 
-<!--                                <button class="notification-item">-->
+<!--                                <button class="notification-item" v-if="notif.type === '4'">-->
 <!--                                    <div class="notif-icon">-->
 <!--                                        <img src="/public/images/Button-icon/report.png" alt="report" />-->
 <!--                                    </div>-->
@@ -84,19 +94,21 @@
 <!--                                </button>-->
 
                                 <!-- chef -->
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was disliked by <strong>@Zellyace</strong>.</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
+                                <button class="notification-item-active" v-if="notif.type === '5' || notif.type === '6'">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === '5'"/>
+                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === '6'"/>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p v-if="notif.type === '5'"> {{ notif.message }} </p>
+                                        <p v-if="notif.type === '6'"> {{ notif.message }} </p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
 
 <!--                                <button class="notification-item">-->
 <!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" />-->
+<!--
 <!--                                    </div>-->
 <!--                                    <div class="notif-content">-->
 <!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>-->
@@ -163,11 +175,6 @@
                 <h6>{{ user?.role }}</h6>
             </div>
             <div class="menu-buttons-container">
-                <button v-if="profileIcon" @click="emit('navigate','Profile')">
-                    <img :src="profileIcon" alt="Profile Icon" />
-                    <h1>Profile</h1>
-                </button>
-                <span class="white-line" v-if="profileIcon"></span>
                 <button @click="emit('navigate', 'Settings')">
                     <img src="/public/images/Button-icon/settings.png" alt="img" />
                     <h1>Settings</h1>
@@ -195,6 +202,15 @@
 
     const isMenuVisible = ref(false);
     const isNotificationVisible = ref(false);
+    const activeFilter = ref("all");
+    const menuOpen = ref(false);
+
+    const filteredNotifications = computed(() => {
+        if (activeFilter.value === "unread") {
+            return props.getNotification.filter(n => n.status === "unread");
+        }
+        return props.getNotification;
+    });
     const toggleNotification = () => {
         isNotificationVisible.value = !isNotificationVisible.value;
     };
@@ -203,7 +219,7 @@
         isMenuVisible.value = !isMenuVisible.value;
     }
 
-    const menuOpen = ref(false);
+
 
     const toggleMenuOpen = () => {
     menuOpen.value = !menuOpen.value;

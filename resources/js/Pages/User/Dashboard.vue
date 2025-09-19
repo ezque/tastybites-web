@@ -1,6 +1,6 @@
 <template>
     <div class="main-body">
-        <Header :user="user"  @navigate="setActiveComponent"/>
+        <Header :user="user"  @navigate="setActiveComponent" :getNotification="getNotification"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home
@@ -41,7 +41,8 @@
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array,
-        recipeAllDetails: Object
+        recipeAllDetails: Object,
+        getNotification: Array,
     })
 
     const isUser = computed(() => props.user.role === 'user');

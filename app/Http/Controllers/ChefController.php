@@ -9,22 +9,26 @@ use App\Services\ChefService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Certificate;
+use App\Services\NotificationServices;
+
 
 class ChefController extends Controller
 {
-    public function dashboard(Request $request, RecipeService $recipeService, ChefService $chefService): \Inertia\Response
+    public function dashboard(Request $request, RecipeService $recipeService, ChefService $chefService, NotificationServices $notificationServices): \Inertia\Response
     {
         $user = Auth::user()->load('userInfo');
 
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
         $recipeAllDetails = $recipeService->getAllRecipeDetails();
         $purchases = $chefService->getPurchase();
+        $getNotification = $notificationServices->getNotification();
 
         return Inertia::render('Chef/Dashboard', [
             'user' => $user,
             'recipeCardDetails' => $recipeCardDetails,
             'recipeAllDetails' => $recipeAllDetails,
-            'purchases' => $purchases
+            'purchases' => $purchases,
+            'getNotification' => $getNotification
         ]);
     }
     public function acceptPurchase($id)
