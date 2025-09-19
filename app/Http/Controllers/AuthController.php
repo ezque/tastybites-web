@@ -67,14 +67,32 @@ class AuthController extends Controller
             'experience' => $request->role === 'chef' ? $request->experience : null,
             'credentials' => $request->role === 'chef' ? $credentialsPath : null,
         ]);
-        // ✅ Create a notification if user is a chef
         if ($request->role === 'chef') {
-            Notification::create([
-                'userID' => $user->id, // who triggered the notification
-                'type'   => 2,         // your rule: 2 = chef registration
-                'message'=> "{$request->fullName} registered as a Chef and is pending approval.",
-            ]);
+            $admins = User::where('role', 'admin')->get();
+
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'userID'   => $admin->id,
+                    'senderID' => $user->id,
+                    'type'     => 2,
+                    'message'  =>  " has signed up as a new chef. Review their profile.",
+                ]);
+            }
         }
+        if ($request->role === 'user'){
+            $admins = User::where('role', 'admin')->get();
+
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'userID'   => $admin->id,
+                    'senderID' => $user->id,
+                    'type'     => 3,
+                    'message' => " has joined the community."
+
+                ]);
+            }
+        }
+
 
 
         return response()->json([

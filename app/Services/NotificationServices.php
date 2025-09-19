@@ -14,8 +14,10 @@ class NotificationServices
         }
 
         return $user->notifications()
+            ->with('sender.userInfo') // eager-load sender + their userInfo
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
 
 }

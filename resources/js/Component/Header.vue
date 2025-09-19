@@ -6,10 +6,10 @@
                 <img src="/public/images/Button-icon/search.png"/>
             </button>
             <div class="notification-box">
-                <button class="rs-button">
+                <button class="rs-button" @click="toggleNotification">
                     <img src="/public/images/Button-icon/notifications.png"/>
                 </button>
-                <div class="notification-container">
+                <div class="notification-container" v-if="isNotificationVisible">
                     <div class="notification-label-container">
                     <h2>Notifications</h2>
                     <div class="notification-buttons">
@@ -18,8 +18,8 @@
                     </div>
                     </div>
                     <div class="notification-actions">
-                        <img 
-                        src="/public/images/Button-icon/option.png" 
+                        <img
+                        src="/public/images/Button-icon/option.png"
                         alt="options"
                         @click="toggleMenuOpen"
                         />
@@ -39,7 +39,7 @@
                     <div class="all-notifications-box">
                         <div
                             class="notifications-card"
-                            v-for="notif in props.getNotification"
+                            v-for="notif in getNotification"
                             :key="notif.id"
                         >
                             <div class="main-notification">
@@ -49,85 +49,70 @@
                                         <img src="/public/images/premium-icon.png" alt="Premium recipe" />
                                     </div>
                                     <div class="notif-content">
-                                        <p><strong>@zellyace</strong> submitted a premium recipe. Review now.</p>
+                                        <p><strong>@{{ notif.sender.user_info.userName }} </strong> {{ notif.message }}</p>
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
-
-                                <button v-else>
-                                    <h2>🔔 {{ notif.message }}</h2>
-                                </button>
-                                
-                                <button class="notification-item">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/premium-icon.png" alt="premium" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p v-html="formatMessage(notif.message)"></p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <button class="notification-item">
+                                <button v-if="notif.type === '2'" class="notification-item-active">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="Chef" />
                                     </div>
                                     <div class="notif-content">
-                                        <p><strong>@chefMario</strong> has signed up as a new chef. Review their profile.</p>
+                                        <p><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</p>
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
 
-                                <button class="notification-item">
+                                <button v-if="notif.type === '3'" class="notification-item">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/new_user2.png" alt="user" />
                                     </div>
                                     <div class="notif-content">
-                                        <p>We have a new user! <strong>@Zellyace</strong> has joined the community.</p>
+                                        <p>We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</p>
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
 
-                                <button class="notification-item">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/report.png" alt="report" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> is reported by <strong>@Zellyace</strong>. Review report now!</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/report.png" alt="report" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> is reported by <strong>@Zellyace</strong>. Review report now!</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
 
                                 <!-- chef -->
-                                <button class="notification-item">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was disliked by <strong>@Zellyace</strong>.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was disliked by <strong>@Zellyace</strong>.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
 
-                                <button class="notification-item">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
 
-                                <button class="notification-item">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
                             </div>
                         </div>
                     </div>
@@ -209,6 +194,10 @@
     console.log(props.getNotification?.[0]);
 
     const isMenuVisible = ref(false);
+    const isNotificationVisible = ref(false);
+    const toggleNotification = () => {
+        isNotificationVisible.value = !isNotificationVisible.value;
+    };
 
     const toggleMenu = () => {
         isMenuVisible.value = !isMenuVisible.value;
@@ -445,7 +434,7 @@
     .notification-label-container {
         width: 250px;
         height: 50px;
-        flex-direction: column;     
+        flex-direction: column;
         margin-top: 10px;
     }
 
@@ -550,6 +539,7 @@
         background-color: #E0E7FF;
         border-right: #AFADAD solid 1px;
         box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
+        margin-top: 10px;
     }
     .notif-icon {
         width: 10%;

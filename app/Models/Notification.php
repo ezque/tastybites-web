@@ -10,6 +10,7 @@ class Notification extends Model
 
     protected $fillable = [
         'userID',
+        'senderID',
         'message',
         'status',
         'type',
@@ -18,4 +19,9 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class, 'userID', 'id');
     }
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'senderID', 'id');
+    }
+
 }

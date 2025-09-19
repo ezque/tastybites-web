@@ -106,14 +106,15 @@ class RecipeController extends Controller
 
                 foreach ($admins as $admin) {
                     Notification::create([
-                        'userID' => $admin->id,
-                        'message' => 'A new premium recipe "' . $recipe->recipeName . '" was submitted by ' . auth()->user()->userInfo->fullName,
-                        'status' => 'unread',
-                        'type' => 1,
+                        'userID'   => $admin->id,
+                        'senderID' => auth()->id(),
+                        'message'  => 'submitted a premium recipe. Review now.',
+                        'status'   => 'unread',
+                        'type'     => 1,
                     ]);
                 }
-
             }
+
 
             return response()->json([
                 'status' => 'success',
