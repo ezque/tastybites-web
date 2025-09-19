@@ -1,6 +1,6 @@
 <template>
     <div class="main-body">
-        <Header :user="user" @navigate="setActiveComponent"/>
+        <Header :user="user" @navigate="setActiveComponent" :getNotification="getNotification"/>
         <div class="main-container">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
             <Home v-if="activeComponent === 'AdminHome'" />
@@ -69,6 +69,7 @@
         recipeAllDetails: Object,
         usersInfo: Array,
         getRecipeDetailsAdmin: Array,
+        getNotification: Array,
     })
 
     if (props.getRecipeDetailsAdmin.length > 0) {

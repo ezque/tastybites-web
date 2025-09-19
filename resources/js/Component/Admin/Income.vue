@@ -128,10 +128,10 @@
                                 </div>
                             </div>
                             <div class="buttons-container">
-                                <button style="background-color: #B5BFDE">
+                                <button style="background-color: #B5BFDE" @click="updateRecipeStatus(selectedRecipe.id, 'declined')">
                                     DECLINE
                                 </button>
-                                <button style="background-color: #E0E7FF">
+                                <button style="background-color: #E0E7FF"  @click="updateRecipeStatus(selectedRecipe.id, 'active')">
                                     ACCEPT
                                 </button>
                             </div>
@@ -143,7 +143,7 @@
     </div>
 </template>
 <script setup>
-
+    import axios from "axios";
     import {ref} from "vue";
 
     const props = defineProps({
@@ -168,6 +168,21 @@
         if (!recipe) return 0;
         const price = toNumber(recipe.price);
         return (price * 0.02).toFixed(2);
+    };
+    const updateRecipeStatus = async (id, status) => {
+        try {
+            const res = await axios.post(`/recipes/${id}/status`, { status });
+            alert(res.data.message);
+
+            if (selectedRecipe.value) {
+                selectedRecipe.value.status = status;
+                selectedRecipe.value = null;
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to update recipe status.");
+        }
     };
 
 

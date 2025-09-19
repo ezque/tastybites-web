@@ -137,9 +137,13 @@
         gap: 5px;
         transition: all 0.5s ease-in-out;
     }
+    .button-container button:hover {
+        background-color: #E0E7FF;
+    }
     .button-container button.active {
         background-color: #E0E7FF;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        border-right: #AFADAD solid 1px;
+        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
     }
     .button-container button img {
         width: 50px;

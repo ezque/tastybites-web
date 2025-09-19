@@ -11,11 +11,124 @@
                 </button>
                 <div class="notification-container">
                     <div class="notification-label-container">
-                        <h2>Notifications</h2>
+                    <h2>Notifications</h2>
+                    <div class="notification-buttons">
+                        <button class="active">All</button>
+                        <button>Unread</button>
+                    </div>
+                    </div>
+                    <div class="notification-actions">
+                        <img 
+                        src="/public/images/Button-icon/option.png" 
+                        alt="options"
+                        @click="toggleMenuOpen"
+                        />
+
+                        <div v-if="menuOpen" class="dropdown-menu">
+                            <button @click="markAllRead" class="mark-all-read">
+                                <img src="/public/images/Button-icon/check.png" alt="mark all read"/>
+                                <p>Mark All Read</p>
+                            </button>
+                            <div class="white-line"></div>
+                            <button @click="openNotifications" class="open-notifications">
+                                <img src="/public/images/Button-icon/notifications.png" alt="mark all read"/>
+                                <p>Open Notifications</p>
+                            </button>
+                        </div>
                     </div>
                     <div class="all-notifications-box">
-                        <div class="notifications-card" v-for="i in 5" :key="i">
-                            <h2>Notification</h2>
+                        <div
+                            class="notifications-card"
+                            v-for="notif in props.getNotification"
+                            :key="notif.id"
+                        >
+                            <div class="main-notification">
+                                <!-- Admin -->
+                                <button v-if="notif.type === '1'" class="notification-item-active">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/premium-icon.png" alt="Premium recipe" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@zellyace</strong> submitted a premium recipe. Review now.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button v-else>
+                                    <h2>🔔 {{ notif.message }}</h2>
+                                </button>
+                                
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/premium-icon.png" alt="premium" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p v-html="formatMessage(notif.message)"></p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/chef.png" alt="Chef" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@chefMario</strong> has signed up as a new chef. Review their profile.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/new_user2.png" alt="user" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>We have a new user! <strong>@Zellyace</strong> has joined the community.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/report.png" alt="report" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> is reported by <strong>@Zellyace</strong>. Review report now!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <!-- chef -->
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was disliked by <strong>@Zellyace</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,14 +202,23 @@
     import {Inertia} from "@inertiajs/inertia";
 
     const props = defineProps({
-        user: Object
+        user: Object,
+        getNotification: Array,
     })
+
+    console.log(props.getNotification?.[0]);
 
     const isMenuVisible = ref(false);
 
     const toggleMenu = () => {
         isMenuVisible.value = !isMenuVisible.value;
     }
+
+    const menuOpen = ref(false);
+
+    const toggleMenuOpen = () => {
+    menuOpen.value = !menuOpen.value;
+    };
 
     const capitalizedfullName = computed(() => {
         const name = props.user?.user_info?.fullName ?? 'User'
@@ -135,7 +257,34 @@
             });
         }
     };
-    const emit = defineEmits(['navigate'])
+    const emit = defineEmits(['navigate']);
+
+    function formatMessage(message) {
+        return message.replace(/(@\w+)/, "<strong>$1</strong>");
+    }
+
+    function timeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (seconds < 60) return `${seconds}s ago`;
+        if (minutes < 60) return `${minutes}m ago`;
+        if (hours < 24) return `${hours}h ago`;
+        if (days < 7) return `${days}d ago`;
+
+        // Show formatted date after 7 days
+        return date.toLocaleDateString("en-US", {
+            month: "short", // e.g. "Sep"
+            day: "numeric", // e.g. "10"
+            year: "numeric" // e.g. "2025"
+        });
+    }
 </script>
 
 <style scoped>
@@ -277,36 +426,81 @@
     }
     .notification-box {
         position: relative;
+        display: flex;
     }
     .notification-container {
         position: absolute;
-        border: 1px solid black;
         right: 0;
-        top: 40px;
+        width: 320px;
+        top: 75px;
         padding: 10px;
         display: flex;
         flex-direction: column;
-        background-color: #435F77;
+        background-color: White;
         border-radius: 20px 0 20px 20px;
         z-index: 199;
+        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.4);
+        border-right: #AFADAD solid 1px;
     }
     .notification-label-container {
         width: 250px;
         height: 50px;
-        display: flex;
-        align-items: center;
+        flex-direction: column;     
+        margin-top: 10px;
     }
+
     .notification-label-container h2 {
-        color: white;
+        color: #435F77;
+        font-family: 'Poppins-Bold';
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .notification-buttons {
+        display: flex;
+        gap: 5px;
+    }
+
+    .notification-buttons button {
+        background-color: transparent;
+        border: none;
+        color: #435F77;
+        font-family: 'Poppins-Regular';
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .notification-buttons button.active {
+        color: #435F77;
+        background-color: #B5BFDE;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-family: 'Poppins-SemiBold';
+    }
+
+    .notification-buttons button:hover {
+        background-color: #E0E7FF;
+        color: #435F77;
+        border-radius: 6px;
+    }
+    .notification-actions {
+        display: flex;
+        top: 20px;
+        width: 10px;
+        height: 24px;
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
     }
     .all-notifications-box {
-        max-height: 300px;
+        max-height: 500px;
         height: 500px;
         width: 100%;
-        border: 1px solid black;
-        display: flex;
         flex-direction: column;
         overflow: auto;
+        margin-top: 30px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
     .all-notifications-box::-webkit-scrollbar {
         width: 2px;
@@ -326,8 +520,112 @@
     }
 
     .notifications-card {
-        border: 1px solid black;
         display: flex;
         flex-direction: row;
+    }
+    .main-notification {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .notification-item {
+        display: flex;
+        flex-direction: row;
+        border: none;
+        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
+        border-radius: 15px;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        border-right: #AFADAD solid 1px;
+    }
+    .notification-item-active {
+        display: flex;
+        flex-direction: row;
+        border: none;
+        border-radius: 15px;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        background-color: #E0E7FF;
+        border-right: #AFADAD solid 1px;
+        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
+    }
+    .notif-icon {
+        width: 10%;
+    }
+    .notif-icon img {
+        width: 100%;
+    }
+    .notif-content {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 90%;
+    }
+    .notif-content p {
+        margin: 0;
+        font-size: 12px;
+        color: black;
+        font-family: 'Poppins-Regular';
+        text-align: left;
+    }
+    .notif-content span {
+        font-size: 9px;
+        color: black;
+        font-family: 'Poppins-Regular';
+    }
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 30px;
+        background: #fff;
+        border-radius: 20px 0px 20px 20px;
+        box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+        width: 170px;
+    }
+
+    .mark-all-read, .open-notifications {
+        background: none;
+        border: none;
+        text-align: left;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 6px;
+        font-family: 'Poppins-Bold';
+        color: #435F77;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .dropdown-menu button:hover {
+        background: #f3f4f6;
+    }
+
+    .white-line {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid #435F77;
+    }
+
+    .mark-all-read img{
+        width: 25px;
+        height: 20px;
+    }
+
+    .open-notifications img{
+        width: 20px;
+        height: 20px;
+    }
+    .notification-buttons {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 </style>

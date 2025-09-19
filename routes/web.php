@@ -41,6 +41,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/hide-recipe/{id}', [RecipeController::class, 'hideUnhideRecipe']);
     Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsiveRecipe']);
 
-
+    Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
 });
 
