@@ -75,7 +75,7 @@
 
                                 <button v-if="notif.type === '3'" class="notification-item-active">
                                     <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/new_user2.png" alt="user" />
+                                        <img src="/public/images/Button-icon/new_user3.png" alt="user" />
                                     </div>
                                     <div class="notif-content">
                                         <p>We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</p>
@@ -122,6 +122,86 @@
 <!--                                    </div>-->
 <!--                                    <div class="notif-content">-->
 <!--                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/follow.png" alt="follow" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>@appletamesis</strong> is now following you!</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/block.png" alt="follow" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+<!--                                -->
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/chef.png" alt="as_chef" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p><strong>Chef status unlocked! ✨</strong> Share your first recipe now!</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/approved.png" alt="approved" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p>Your premium recipe, <strong>Adobo <i>(Filipino cuisine)</i></strong> was approved! Recipe is now available for purchase.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                &lt;!&ndash; user &ndash;&gt;-->
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p>Chef <strong>@bon</strong> added new recipe, check it now!</p>-->
+<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
+<!--                                    </div>-->
+<!--                                </button>-->
+
+<!--                                <button class="notification-item">-->
+<!--                                    <div class="notif-icon">-->
+<!--                                        <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />-->
+<!--                                    </div>-->
+<!--                                    <div class="notif-content">-->
+<!--                                        <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>-->
 <!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
 <!--                                    </div>-->
 <!--                                </button>-->
