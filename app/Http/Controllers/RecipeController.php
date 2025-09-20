@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\Procedure;
 use App\Models\User;
+use App\Models\UserInfo;
 use App\Models\Purchase;
 use App\Models\Reaction;
 use App\Models\HideRecipe;
@@ -159,9 +160,11 @@ class RecipeController extends Controller
 
             Notification::create([
                 'userID' => $recipe->userID,
-                'message' => 'Your recipe "' . $recipe->recipeName . '" has been purchased by ' . auth()->user()->email,
+                'senderID' => auth()->id(),
+                'message'  => 'Your recipe "' . $recipe->recipeName . '" has been purchased by '
+                    . auth()->user()->userInfo->userName,
                 'status'  => 'unread',
-                'type'    => 2,
+                'type'    => 7,
             ]);
 
             return response()->json([

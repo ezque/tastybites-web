@@ -106,34 +106,15 @@
                                     </div>
                                 </button>
 
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
-
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
+                                <button class="notification-item-active" v-if="notif.type === '7'">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
 
 <!--                                <button class="notification-item">-->
 <!--                                    <div class="notif-icon">-->
