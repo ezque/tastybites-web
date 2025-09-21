@@ -120,6 +120,14 @@
                                 </div>
                                 <div class="purchase-details-column">
                                     <div class="purchase-label-con">
+                                        <p>User Name:</p>
+                                    </div>
+                                    <div class="purchase-details" style="text-transform: capitalize">
+                                        <p>@{{selectedRecipe.user.user_info?.userName}}</p>
+                                    </div>
+                                </div>
+                                <div class="purchase-details-column">
+                                    <div class="purchase-label-con">
                                         <p>Amount Paid:</p>
                                     </div>
                                     <div class="purchase-details">
@@ -349,22 +357,22 @@
         position: absolute;
     }
     .close-container button {
-        height: 35px;
-        width: 35px;
+        height: 40px;
+        width: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
         border: none;
-        padding: 10px;
         cursor: pointer;
         position: absolute;
-        margin-right: 10px;
-        border: 1px solid black;
+        margin-right: 25px;
+        margin-top: -5px;
+        background-color: none;
     }
     .close-container button img {
-        width: 100%;
-        height: auto;
+        height: 40px;
+        width: 40px;
     }
     .purchase-details-body {
         margin-top: 30px;
@@ -408,7 +416,6 @@
         height: 90%;
         background-color: #A2B0BC;
         border-radius: 20px;
-        border: 1px solid black;
     }
     .right-purchase {
         width: 60%;
