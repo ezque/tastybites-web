@@ -53,6 +53,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'userID', 'id');
     }
+    public function reportsMade()
+    {
+        return $this->hasMany(Report::class, 'reporterID');
+    }
+
+    public function reportsReceived()
+    {
+        return $this->hasMany(Report::class, 'reportedUserID');
+    }
+    public function ownedRecipes()
+    {
+        return $this->hasMany(Recipe::class, 'userID');
+    }
 
 
 

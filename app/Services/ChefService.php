@@ -17,4 +17,8 @@ class ChefService
 
         return $purchases;
     }
+    public function getChefOwnedRecipe()
+    {
+
+    }
 }

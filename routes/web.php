@@ -42,5 +42,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsiveRecipe']);
 
     Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
+    Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
 });
 

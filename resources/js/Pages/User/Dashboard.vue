@@ -21,6 +21,9 @@
                 :user="user"
                 :recipeCardDetails="recipeCardDetails"
             />
+            <Notification
+                v-if="activeComponent === 'Notification'"
+            />
 
         </div>
 
@@ -35,6 +38,7 @@
     import Home from "@/Component/Home.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import UserSettings from "@/Component/UserSettings.vue";
+    import Notification from "@/Component/Notification.vue";
 
     import {computed, ref} from "vue";
 

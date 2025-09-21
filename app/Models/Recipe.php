@@ -55,6 +55,10 @@ class Recipe extends Model
         return $this->hasOne(SaveRecipe::class, 'recipeID')
             ->where('userID', auth()->id());
     }
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'reportedRecipeID');
+    }
 
 
 }
