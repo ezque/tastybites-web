@@ -341,11 +341,10 @@
         if (hours < 24) return `${hours}h ago`;
         if (days < 7) return `${days}d ago`;
 
-        // Show formatted date after 7 days
         return date.toLocaleDateString("en-US", {
-            month: "short", // e.g. "Sep"
-            day: "numeric", // e.g. "10"
-            year: "numeric" // e.g. "2025"
+            month: "short", 
+            day: "numeric", 
+            year: "numeric" 
         });  
     }
 
