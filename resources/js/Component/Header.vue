@@ -2,9 +2,6 @@
     <div class="container">
         <img src="/public/images/tastybites_logo.png" class="logo"/>
         <div class="right-side-container">
-            <button class="rs-button">
-                <img src="/public/images/Button-icon/search.png"/>
-            </button>
             <div class="notification-box">
                 <button class="rs-button" @click="toggleNotification">
                     <img src="/public/images/Button-icon/notifications.png"/>
@@ -349,7 +346,7 @@
             month: "short", // e.g. "Sep"
             day: "numeric", // e.g. "10"
             year: "numeric" // e.g. "2025"
-        });
+        });  
     }
 </script>
 
@@ -505,7 +502,7 @@
         background-color: White;
         border-radius: 20px 0 20px 20px;
         z-index: 199;
-        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 12px #AFADAD;
         border-right: #AFADAD solid 1px;
     }
     .notification-label-container {
@@ -598,7 +595,7 @@
         display: flex;
         flex-direction: row;
         border: none;
-        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
+        box-shadow: 0px 4px 1px #AFADAD;
         border-radius: 15px;
         padding: 10px;
         gap: 10px;
@@ -615,7 +612,7 @@
         align-items: center;
         background-color: #E0E7FF;
         border-right: #AFADAD solid 1px;
-        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
+        box-shadow: 0px 4px 1px #AFADAD;
         margin-top: 10px;
     }
     .notif-icon {
@@ -648,7 +645,7 @@
         top: 30px;
         background: #fff;
         border-radius: 20px 0px 20px 20px;
-        box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
+        box-shadow: 4px 6px 12px #AFADAD;
         padding: 5px 10px;
         display: flex;
         flex-direction: column;

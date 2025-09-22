@@ -13,8 +13,9 @@
                         <h2>{{ chef?.user_info?.fullName }}</h2>
                         <p>Since {{ new Date(chef.created_at).getFullYear() }}</p>
                     </div>
-
+                        <p class="cert-label">Certifications</p>
                     <div class="certificate-container">
+
                         <button @click="prevCertificate">&lt;</button>
 
                         <div class="certificates">
@@ -147,13 +148,16 @@
 
     .page-label {
         width: 100%;
-        padding: 20px;
+        height: 10%;
+        display: flex;
+        align-items: center;
     }
 
     .page-label h2 {
-        margin: 0 0 0 20px;
-        font-family: 'Poppins', sans-serif;
-        color: #333;
+        margin-top: 35px;
+        font-size: 35px;
+        margin-left: 20px;
+        font-family: 'Poppins-Bold';
     }
 
     .body-container {
@@ -198,8 +202,8 @@
     }
 
     .chef-image-container {
-        width: 120px;
-        height: 120px;
+        width: 180px;
+        height: 180px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -216,18 +220,25 @@
     }
 
     .information-container h2 {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         margin: 5px 0;
         font-size: 1.5em;
         color: #222;
     }
 
     .information-container p {
-        font-family: 'Poppins', sans-serif;
-        font-style: italic;
+        font-family: 'Poppins-Italic';
         margin: 0;
         font-size: 0.9em;
         color: #666;
+    }
+
+    .cert-label {
+        font-family: 'Poppins-BoldItalic';
+        margin-top: 20px;
+        margin-bottom: 0;
+        font-size: .8em;
+        color: #222;
     }
 
     .certificate-container {
@@ -245,7 +256,7 @@
         width: 40px;
         height: 40px;
         border: none;
-        background-color: #4a90e2;
+        background-color: #435F77;
         color: #fff;
         font-size: 1.2em;
         border-radius: 50%;
@@ -254,7 +265,9 @@
     }
 
     .certificate-container button:hover {
-        background-color: #357abd;
+        background-color: #B5BFDE;
+        color: #222;
+        box-shadow: 4px 4px 12px #AFADAD;
         transform: scale(1.1);
     }
 
@@ -284,7 +297,7 @@
     .add-button-Con button {
         width: 80px;
         height: 80px;
-        border: 2px dashed #4a90e2;
+        border: 2px dashed #435F77;
         background-color: #e8f0fe;
         border-radius: 12px;
         cursor: pointer;
@@ -335,7 +348,7 @@
     .chef-recipe-container {
         width: 100%;
         height: 90%;
-        border-left: 3px solid white;
+        border-left: 4px solid #A2B0BC;
         display: flex;
         flex-wrap: wrap;
         gap: 16px;

@@ -1,33 +1,36 @@
 <template>
     <div class="chef-main-container">
         <div class="top-container">
+        <div class="label-row">
             <div class="label-container">
-                <h2 v-if="activeTab === 'register'">Registered Chefs</h2>
-                <h2 v-if="activeTab === 'request'">Chefs Request</h2>
+            <h2 v-if="activeTab === 'register'">Registered Chefs</h2>
+            <h2 v-if="activeTab === 'request'">Chefs Request</h2>
             </div>
 
-            <div class="navigate-button-container">
-                <button
-                    :class="{ active: activeTab === 'register' }"
-                    @click="activeTab = 'register'"
-                >
-                    Registered Chef
-                </button>
-                <button
-                    :class="{ active: activeTab === 'request' }"
-                    @click="activeTab = 'request'"
-                >
-                    Pending Request
-                </button>
-            </div>
             <div class="search-container">
-                <div class="search-bar">
-                    <input placeholder="Search Chefs">
-                    <img src="/public/images/Button-icon/search.png" alt="icon" />
-                </div>
+            <div class="search-bar">
+                <input placeholder="Search Chefs">
+                <img src="/public/images/Button-icon/search.png" alt="icon" />
             </div>
-
+            </div>
         </div>
+
+        <div class="navigate-button-container">
+            <button
+            :class="{ active: activeTab === 'register' }"
+            @click="activeTab = 'register'"
+            >
+            REGISTERED CHEFS
+            </button>
+            <button
+            :class="{ active: activeTab === 'request' }"
+            @click="activeTab = 'request'"
+            >
+            PENDING REQUESTS
+            </button>
+        </div>
+        </div>
+
 
         <div class="registered-chef-main-body" v-show="activeTab === 'register'">
             <button
@@ -54,6 +57,9 @@
                     <div class="rowThreeH">
                         <h3>Email</h3>
                     </div>
+                    <div class="rowSixH">
+                        <h3>Years of Experience</h3>
+                    </div>
                     <div class="rowFourH">
                         <h3>Certificate</h3>
                     </div>
@@ -74,6 +80,9 @@
                         </div>
                         <div class="rowThreeB">
                             <p>{{ chef.email }}</p>
+                        </div>
+                        <div class="rowSixB">
+                            <p>{{ chef.user_info?.experience }}</p>
                         </div>
                         <div class="rowFourB">
                             <a
@@ -106,85 +115,103 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
-    import axios from "axios";
+import { ref, computed } from "vue";
+import axios from "axios";
 
-    const props = defineProps({
-        chefs: Array
-    })
+const props = defineProps({
+  chefs: Array
+})
 
-    const activeChefs = computed(() => {
-        return props.chefs.filter(chef => chef.status === 'active');
+const activeChefs = computed(() => {
+  return props.chefs.filter(chef => chef.status === 'active');
+});
+
+const pendingChefs = computed(() => {
+  return props.chefs.filter(chef => chef.status === 'pending');
+});
+
+function getProfilePic(chef) {
+  const gender = chef.user_info?.gender;
+  if (gender === 'male') {
+    return '/images/male.png';
+  } else if (gender === 'female') {
+    return '/images/female.png';
+  } else {
+    return '/images/male.png';
+  }
+}
+
+function capitalizeFullName(name) {
+  if (!name) return 'No Name Provided';
+  return name
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+function getFileName(path) {
+  if (!path) return '';
+  return path.split('/').pop();
+}
+
+const activeTab = ref("register");
+
+async function acceptChef(userId) {
+  try {
+    const response = await axios.post('/accept-chef', {
+      user_id: userId
     });
+    console.log(response.data.message);
 
-    const pendingChefs = computed(() => {
-        return props.chefs.filter(chef => chef.status === 'pending');
+    const index = props.chefs.findIndex(chef => chef.id === userId);
+    if (index !== -1) {
+      props.chefs[index].status = 'active';
+    }
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+  }
+}
+
+async function rejectChef(userId) {
+  try {
+    const response = await axios.post('/decline-chef', {
+      user_id: userId
     });
+    console.log(response.data.message);
 
-    function getProfilePic(chef) {
-        const gender = chef.user_info?.gender;
-        if (gender === 'male') {
-            return '/images/male.png';
-        } else if (gender === 'female') {
-            return '/images/female.png';
-        } else {
-            return '/images/male.png';
-        }
+    const index = props.chefs.findIndex(chef => chef.id === userId);
+    if (index !== -1) {
+      props.chefs[index].status = 'inactive';
     }
-    function capitalizeFullName(name) {
-        if (!name) return 'No Name Provided';
-        return name
-            .toLowerCase()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    }
-    function getFileName(path) {
-        if (!path) return '';
-        return path.split('/').pop();
-    }
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+  }
+}
 
+const emit = defineEmits(["navigate"]);
+function viewChefInfo(chef) {
+  emit("navigate", "ChefInfo", chef);
+}
 
-    const activeTab = ref("register");
+/* para mu fit ang words into 1 line 
+function applyFitty() {
+  fitty(".registered-chef-main-body button h2", {
+    minSize: 12,
+    maxSize: 20
+  });
+}
 
-    async function acceptChef(userId) {
-        try {
-            const response = await axios.post('/accept-chef', {
-                user_id: userId
-            });
+onMounted(() => {
+  applyFitty();
+});
 
-            console.log(response.data.message);
-
-            // Remove accepted chef from pending list without page reload
-            const index = props.chefs.findIndex(chef => chef.id === userId);
-            if (index !== -1) {
-                props.chefs[index].status = 'active';
-            }
-        } catch (error) {
-            console.error(error.response?.data || error.message);
-        }
-    }
-
-    async function rejectChef(userId) {
-        try {
-            const response = await  axios.post('/decline-chef', {
-                user_id: userId
-            });
-            console.log(response.data.message);
-
-            const index = props.chefs.findIndex(chef => chef.id === userId);
-            if (index !== -1) {
-                props.chefs[index].status = 'inactive';
-            }
-        } catch (error) {
-            console.error(error.response?.data || error.message);
-        }
-    }
-    const emit =defineEmits(["navigate"]);
-    function viewChefInfo(chef) {
-        emit("navigate", "ChefInfo", chef);
-    }
+onUpdated(() => {
+  applyFitty(); 
+});
+*/
 </script>
+
 
 <style scoped>
     .chef-main-container {
@@ -193,91 +220,82 @@
         overflow: hidden;
     }
     .top-container {
-        width: 100%;
-        height: 9%;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .label-row {
+        display: flex;
         justify-content: space-between;
-        flex-direction: row;
-    }
-    .label-container {
-        width: 20%;
-        height: 100%;
-        display: flex;
         align-items: center;
     }
-    .label-container h2{
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
-        margin-left: 10px;
+    .label-container h2 {
+        margin-top: 20px;
+        font-size: 35px;
+        margin-left: 20px;
+        font-family: 'Poppins-Bold';
     }
     .navigate-button-container {
-        width: 40%;
-        height: 100%;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
+        justify-content: center; 
+        gap: 30px;
+        margin-top: -20px;
     }
     .navigate-button-container button {
-        padding: 12px 16px;
+        padding: 10px 40px 10px 40px;
         border: none;
-        background-color: #435F77;
-        cursor: pointer;
-        margin-right: 8px;
-        width: 200px;
         border-radius: 20px;
+        background: #435F77;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        font-size: 13px;
+        font-family: 'Poppins-Bold';
     }
-
     .navigate-button-container button.active {
-        background-color: #E0E7FF;
-        color: black;
-        font-family: 'Poppins', sans-serif;
+        background: #E0E7FF;
+        color: #435F77;
+        box-shadow: 4px 4px 12px #AFADAD;
+        border-right: #AFADAD solid 1px;
     }
-    .search-container {
-        width: 20%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: end;
+    .navigate-button-container button:hover {
+        transform: scale(1.1);
     }
     .search-bar {
-        width: 70%;
-        height: 50%;
         display: flex;
-        flex-direction: row;
         align-items: center;
-        justify-content: space-between;
-        background-color: #E0E7FF;
-        border-radius: 20px;
+        background: #E0E7FF;
+        padding: 10px 15px 10px 10px;
         margin-right: 20px;
+        border-radius: 30px;
+        border-right: #B5BFDE solid 1px;
+        border-bottom: #B5BFDE solid 3px;
     }
     .search-bar input {
-        width: 80%;
-        height: 95%;
         border: none;
-        padding-left: 15px;
         outline: none;
-        border-radius: 20px;
-        background-color: #E0E7FF;
+        width: 200px;
+        padding: 10px 20px;
+        background: #435F77;
+        border-radius: 30px;
+        font-family: 'Poppins-Italic';
+        color: white;
     }
     .search-bar img {
         width: 25px;
         height: 25px;
-        margin-right: 10px;
+        margin-left: 5px;
+        cursor: pointer;
     }
     .registered-chef-main-body {
         width: 100%;
-        height: 75%;
+        height: 70%;
         flex-wrap: wrap;
         flex-direction: row;
         overflow: auto;
         gap: 30px;
         display: flex;
         justify-content: center;
-
+        margin-top: 30px;
     }
     .registered-chef-main-body button {
         width: 220px;
@@ -290,21 +308,27 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-color: #E0E7FF;
     }
     .registered-chef-main-body button img {
-        width: 70%;
+        width: 73%;
         height: auto;
         border-radius: 50%;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .registered-chef-main-body button h2{
-        margin: 0;
-        font-size: 1.2em;
-        font-family: 'Poppins', sans-serif;
+        margin: 0; 
+        font-size: 20px; 
+        font-family: 'Poppins-Bold'; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        max-width: 90%; 
+        text-align: center;
     }
     .registered-chef-main-body button p{
         margin: 0;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Italic';
         font-size: .9em;
     }
     .chef-request-main-body {
@@ -322,19 +346,16 @@
         width: 90%;
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 8px #AFADAD;
         background-color: white;
         display: flex;
         flex-direction: column;
     }
 
     /* Table header */
+    .table/* Table header */
     .table-head {
         display: flex;
-        background-color: #435F77;
-        color: white;
-        font-weight: 600;
-        height: 55px;
     }
 
     .table-head > div {
@@ -343,12 +364,13 @@
         justify-content: center;
     }
 
-    /* Column widths */
-    .rowOneH, .rowOneB { width: 10%; }
-    .rowTwoH, .rowTwoB { width: 25%; }
-    .rowThreeH, .rowThreeB { width: 20%; }
-    .rowFourH, .rowFourB { width: 25%; }
-    .rowFiveH, .rowFiveB { width: 20%; }
+    /* Column widths (locked with flex-basis) */
+    .rowOneH, .rowOneB { flex: 0 0 5%; }
+    .rowTwoH, .rowTwoB { flex: 0 0 20%; }
+    .rowThreeH, .rowThreeB { flex: 0 0 25%; }
+    .rowFourH, .rowFourB { flex: 0 0 22.47%; }
+    .rowFiveH, .rowFiveB { flex: 0 0 15%; }
+    .rowSixH, .rowSixB { flex: 0 0 5%; }
 
     /* Table body */
     .table-body {
@@ -374,24 +396,60 @@
         background-color: #eef3f8;
     }
 
-    /* Row cells */
-    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB {
+    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSixB {
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0 10px;
         font-size: 14px;
         color: #333;
+        font-family: 'Poppins-Regular';
+        overflow: hidden;
+        white-space: nowrap;
     }
 
-    .rowTwoB, .rowThreeB {
-        justify-content: flex-start;
+    .rowOneB, .rowTwoB, .rowThreeB, .rowSixB {
+        border-right: #AFADAD solid 1px;
+        font-family: 'Poppins-Bold';
     }
 
-    /* Certificate link */
+    .rowThreeB {
+        text-decoration: underline;
+        font-style: italic;
+    }
+
+    .rowFourB {
+        text-overflow: ellipsis;
+        border-right: #AFADAD solid 1px;
+    }
+    
+    .rowOneH, .rowTwoH, .rowThreeH, .rowFiveH, .rowFourH {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        font-size: 12px;
+        color: black;
+        font-family: 'Poppins-Bold';
+        text-align: center;
+        background-color: #7592AB;
+    }
+
+    .rowSixH {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        font-size: 10px;
+        color: black;
+        font-family: 'Poppins-Bold';
+        text-align: center;
+        background-color: #7592AB;
+    }
+
     .rowFourB a {
         color: #3498db;
-        text-decoration: none;
+        text-decoration: underline;
         max-width: 95%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -402,7 +460,6 @@
         text-decoration: underline;
     }
 
-    /* Action buttons */
     .rowFiveB {
         display: flex;
         gap: 8px;
@@ -410,33 +467,35 @@
     }
 
     .rowFiveB button {
-        padding: 6px 12px;
-        border-radius: 6px;
-        border: none;
+        padding: 6px 20px;
+        border-radius: 30px;
         cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 10px;
+        font-family: 'Poppins-Bold';
+        color: white;
         transition: background-color 0.2s ease, transform 0.1s ease;
     }
 
     /* Accept button */
     .accept-bttn {
         background-color: #28a745;
-        color: white;
+        border: #006400 1px solid;
     }
     .accept-bttn:hover {
-        background-color: #218838;
+        background-color: #00ff00;
         transform: scale(1.05);
+        color: black;
     }
 
     /* Delete button */
     .delete-bttn {
         background-color: #dc3545;
-        color: white;
+        border: #800000 1px solid;
     }
     .delete-bttn:hover {
-        background-color: #b02a37;
+        background-color: #ff0000;
         transform: scale(1.05);
+        color: black;
     }
 
 

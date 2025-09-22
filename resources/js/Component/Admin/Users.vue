@@ -24,15 +24,17 @@
                         <h3>ID</h3>
                     </div>
                     <div class="rowTwoH">
-                        <h3>Email</h3>
+                        <h3>Full Name</h3>
                     </div>
                     <div class="rowThreeH">
-                        <h3>Full Name</h3>
+                        <h3>User Name</h3>
                     </div>
                     <div class="rowFourH">
-                        <h3>Full Name</h3>
+                        <h3>Email</h3>
                     </div>
-
+                    <div class="rowSevenH">
+                        <h3>Gender</h3>
+                    </div>
                     <div class="rowFiveH">
                         <h3>Status</h3>
                     </div>
@@ -48,15 +50,17 @@
                             <p>{{ user.id }}</p>
                         </div>
                         <div class="rowTwoB">
-                            <p>{{ user.email }}</p>
+                            <p>{{ user.user_info?.fullName  }}</p>
                         </div>
                         <div class="rowThreeB">
-                            <p>{{ user.user_info?.fullName }}</p>
-                        </div>
-                        <div class="rowFourB">
                             <p>{{ user.user_info?.userName }}</p>
                         </div>
-
+                        <div class="rowFourB">
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="rowSevenB">
+                            <p>{{ user.user_info?.gender }}</p>
+                        </div>
                         <div class="rowFiveB">
                             <p>{{user.status}}</p>
                         </div>
@@ -84,15 +88,17 @@
                         <h3>ID</h3>
                     </div>
                     <div class="rowTwoH">
-                        <h3>Email</h3>
+                        <h3>Full Name</h3>
                     </div>
                     <div class="rowThreeH">
-                        <h3>Full Name</h3>
+                        <h3>User Name</h3>
                     </div>
                     <div class="rowFourH">
-                        <h3>Full Name</h3>
+                        <h3>Email</h3>
                     </div>
-
+                    <div class="rowSevenH">
+                        <h3>Gender</h3>
+                    </div>
                     <div class="rowFiveH">
                         <h3>Status</h3>
                     </div>
@@ -108,15 +114,17 @@
                             <p>{{ user.id }}</p>
                         </div>
                         <div class="rowTwoB">
-                            <p>{{ user.email }}</p>
+                            <p>{{ user.user_info?.fullName  }}</p>
                         </div>
                         <div class="rowThreeB">
-                            <p>{{ user.user_info?.fullName }}</p>
-                        </div>
-                        <div class="rowFourB">
                             <p>{{ user.user_info?.userName }}</p>
                         </div>
-
+                        <div class="rowFourB">
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="rowSevenB">
+                            <p>{{ user.user_info?.gender }}</p>
+                        </div>
                         <div class="rowFiveB">
                             <p>{{user.status}}</p>
                         </div>
@@ -237,39 +245,47 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Header */
-    .table-head {
-        width: 100%;
-        height: 50px;
-        display: flex;
-        background-color: #435F77;
-        color: white;
-        font-weight: 600;
-    }
+    /* Shared column sizing */
+    .rowOne, .rowOneH, .rowOneB { width: 5%; }
+    .rowTwo, .rowTwoH, .rowTwoB { width: 20%; }
+    .rowThree, .rowThreeH, .rowThreeB { width: 20%; }
+    .rowFour, .rowFourH, .rowFourB { width: 20%; }
+    .rowFive, .rowFiveH, .rowFiveB { width: 10%; }
+    .rowSix, .rowSixH, .rowSixB { width: 20%; }
+    .rowSeven, .rowSevenH, .rowSevenB { width: 5%; }
 
-    .table-head > div {
+    /* Force borders + padding into width */
+    .table-head > div,
+    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSixB, .rowSevenB {
+        box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
+        border: #217dbb 1px solid;
     }
 
-    /* Row sizing */
-    .rowOneH,.rowOneB { width: 10%; }
-    .rowTwoH,.rowTwoB { width: 25%; }
-    .rowThreeH,.rowThreeB { width: 20%; }
-    .rowFourH,.rowFourB { width: 25%; }
-    .rowFiveH,.rowFiveB { width: 10%; }
-    .rowSixH,.rowSixB { width: 20%; }
+    /* Head row */
+    .table-head {
+        display: flex;
+        font-size: 12px;
+        color: black;
+        font-family: 'Poppins-Bold';
+        text-align: center;
+        background-color: #7592AB;
+    }
 
-    /* Body */
+    /* Body container */
     .table-body {
         display: flex;
         flex-direction: column;
         width: 100%;
         overflow: auto;
+        -ms-overflow-style: none; 
+        scrollbar-width: none; 
     }
+    .table-body::-webkit-scrollbar { display: none; }
 
-    /* Table rows */
+    /* Body rows */
     .body-item {
         display: flex;
         height: 50px;
@@ -277,28 +293,16 @@
         transition: background-color 0.2s ease;
         border-bottom: 1px solid #e0e0e0;
     }
+    .body-item:nth-child(even) { background-color: #f9f9f9; }
+    .body-item:hover { background-color: #eef3f8; }
 
-    .body-item:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-
-    .body-item:hover {
-        background-color: #eef3f8;
-    }
-
-    /* Cells */
-    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSixB {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* Body cells */
+    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSixB, .rowSevenB {
         padding: 0 8px;
         font-size: 14px;
         color: #333;
     }
-
-    .rowTwoB, .rowThreeB, .rowFourB {
-        justify-content: flex-start;
-    }
+    .rowTwoB, .rowThreeB, .rowFourB { justify-content: flex-start; }
 
     /* Buttons */
     .rowSixB {

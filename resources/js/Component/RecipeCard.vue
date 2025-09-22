@@ -5,7 +5,7 @@
         </div>
         <img class="premium-icon" src="/public/images/premium-icon.png" alt="icon" v-if="recipeCardDetail.is_free === 'premium'"/>
         <button class="dot-menu" @click="toggleMenu">
-            <span class="material-icons">more_vert</span>
+            <img alt="icon" src="/public/images/Button-icon/option.png" />
         </button>
         <div v-if="menuOpen" class="menu-container">
             <button @click="toggleHide">
@@ -20,7 +20,7 @@
         <div class="text-container">
             <h2>{{recipeCardDetail.recipeName}}</h2>
             <h3>{{recipeCardDetail.cuisineType}}</h3>
-            <h5>chef: @{{ recipeCardDetail.user.user_info.userName }}</h5>
+            <h5>Chef: @{{ recipeCardDetail.user.user_info.userName }}</h5>
         </div>
         <div class="button-container">
             <button
@@ -135,11 +135,12 @@
 
 <style scoped>
     .card {
-        width: 220px;
+        width: 240px;
         height: 270px;
         border-radius: 20px;
-        background-color: #E0E7FF;
+        background-color: #CFDAFF;
         box-shadow: 5px 4px 2px #AFADAD;
+        border-bottom: #AFADAD solid 1px;
         position: relative;
     }
     .image-container {
@@ -151,9 +152,11 @@
         padding: 5px;
     }
     .image-container img {
-        width: 60%;
-        height: 90%;
+        width: 65%;
+        height: 100%;
         border-radius: 50%;
+        border: #333 solid 1px;
+        margin-top: 10px;
     }
     .text-container {
         width: 100%;
@@ -161,21 +164,25 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        margin-top: 5px;
     }
     .text-container h2 {
-        font-size: 1.3em;
+        font-size: 1.2em;
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 200px;
+        font-family: 'Poppins-Bold';
     }
     .text-container h3 {
-        font-size: 1em;
+        font-size: .8em;
+        font-family: 'Poppins-BoldItalic';
     }
     .text-container h5 {
-        font-size: 1em;
-        font-weight: normal;
+        font-size: .8em;
+        font-family: 'Poppins-Regular';
     }
     .text-container h2, .text-container h3,.text-container h5{
         margin: 0;
@@ -196,7 +203,14 @@
         border: none;
         background-color: #435F77;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-size: .8em;
+    }
+    .view-bttn:hover {
+        background-color: #E0E7FF;
+        box-shadow: 4px 4px 12px #AFADAD;
+        border-right: #AFADAD solid 1px;
+        color: #435F77;
     }
     .like-container {
         width: 18%;
@@ -233,14 +247,14 @@
     }
     .like-bttn span, .dislike-bttn span{
         font-size: 1.7em;
-        color: #E693AB;
+        color: #ec3f57;
     }
     .premium-icon {
         position: absolute;
-        width: 35px;
+        width: 25px;
         height: auto;
-        top: 10px;
-        left: 10px;
+        top: 15px;
+        left: 15px;
     }
     .dot-menu {
         cursor: pointer;
@@ -248,16 +262,16 @@
         align-items: center;
         justify-content: center;
         position: absolute;
-        top: 0;
-        right: 3px;
+        top: 5px;
+        right: 5px;
         background-color: transparent;
         border: none;
         margin-top: 10px;
         width: 20px;
     }
-    .dot-menu span{
-        font-size: 28px;
-        color: #333;
+    .dot-menu img{
+        width: 10px;
+        height: 24px;
     }
     .menu-container {
         border: none;

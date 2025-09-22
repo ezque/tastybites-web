@@ -1,9 +1,23 @@
 <template>
     <div class="main-container-recipe">
         <div class="top-button-container">
-            <button @click="activeFilter = 'all'">All Recipe</button>
-            <button @click="activeFilter = 'premium'">Premium</button>
-            <button @click="activeFilter = 'free'">Free</button>
+            <button 
+                :class="{ active: activeFilter === 'all' }" 
+                @click="activeFilter = 'all'">
+                ALL RECIPE
+            </button>
+
+            <button 
+                :class="{ active: activeFilter === 'premium' }" 
+                @click="activeFilter = 'premium'">
+                PREMIUM
+            </button>
+
+            <button 
+                :class="{ active: activeFilter === 'free' }" 
+                @click="activeFilter = 'free'">
+                FREE
+            </button>
         </div>
         <div class="main-body">
             <button
@@ -92,30 +106,39 @@
         gap: 20px;
     }
     .top-button-container button {
-        width: 120px;
+        width: 140px;
         height: 40px;
-        background-color: #435F77;
         border: none;
-        border-radius: 10px;
+        border-radius: 20px;
+        background: #435F77;
         color: white;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 600;
-        font-style: italic;
         cursor: pointer;
+        font-size: 13px;
+        font-family: 'Poppins-Bold';
+    }
+    .top-button-container button.active {
+        background: #E0E7FF;
+        color: #435F77;
+        box-shadow: 4px 4px 12px #AFADAD;
+        border-right: #AFADAD solid 1px;
+    }
+    .top-button-container button:hover {
+        transform: scale(1.1);
     }
     .main-body {
         width: 100%;
         flex-wrap: wrap;
         flex-direction: row;
         display: flex;
-        padding-left: 3%;
-        padding-right: 5%;
-        gap: 70px;
-        align-items: flex-start;
+        gap: 90px;
+        align-items: center;
+        justify-content: center;
         padding-top: 10px;
         padding-bottom: 10px;
         max-height: 73%;
         overflow: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #AFADAD transparent;
     }
     .add-button {
         width: 220px;
@@ -127,7 +150,7 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-style: italic;
         color: #31485B;
         font-weight: bolder;
@@ -149,6 +172,8 @@
         justify-content: center;
         position: fixed;
         bottom: -20px;
+        font-size: .7em;
+        font-family: 'Poppins-SemiBold';
     }
     .footer p {
         margin-right: 10%;

@@ -45,7 +45,7 @@
                                     <button
                                         @click="viewPurchase(purchase)"
                                     >
-                                        View
+                                        VIEW
                                     </button>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                 <div class="recipe-information">
                                     <h2>{{ selectedRecipe.recipeName }}</h2>
                                     <h4>{{ selectedRecipe.cuisineType }} Cuisine</h4>
-                                    <h5>₱{{selectedRecipe.price}}</h5>
+                                    <h5>₱ {{selectedRecipe.price}}.00</h5>
                                 </div>
                             </div>
                             <div class="purchase-details-con">
@@ -332,8 +332,11 @@
         background-color: #435F77;
         color: white;
         font-family: 'Poppins-Bold';
-        font-size: 11px;
+        font-size: 12px;
         cursor: pointer;
+    }
+    .row-5 button:hover {
+        transform: scale(1.1);
     }
     .purchase-details-container {
         width: 60%;
@@ -357,8 +360,8 @@
         position: absolute;
     }
     .close-container button {
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -371,8 +374,8 @@
         background-color: none;
     }
     .close-container button img {
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
     }
     .purchase-details-body {
         margin-top: 30px;
@@ -437,13 +440,14 @@
         justify-content: center;
     }
     .recipe-image-container {
-        width: 79%;
-        height: 100%;
+        width: 70%;
+        height: 90%;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-left: 40px;
+        border: #31485B solid 1px;
     }
     .recipe-image-container img {
         width: 100%;
@@ -456,30 +460,29 @@
         justify-content: center;
         flex-direction: column;
         width: 60%;
+        gap: 5px;
     }
     .recipe-information h2 {
         color: white;
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
+        font-family: 'Poppins-Bold';
         margin: 2px;
-        font-size: 2.1em;
+        font-size: 30px;
         text-align: center;
     }
     .recipe-information h4 {
         margin: 0;
-        font-size: 1.5em;
+        font-size: 16px;
         color: #D9D9D9;
-        font-style: italic;
+        font-family: 'Poppins-Italic';
     }
     .recipe-information h5 {
         margin: 5px;
-        padding: 5px 20px 5px 20px;
+        padding: 5px 25px 5px 25px;
         background-color: #E0E7FF;
         border-radius: 20px;
         color: #435F77;
-        font-size: 1em;
-        font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-size: 20px;
+        font-family: 'Poppins-Bold';
     }
     .purchase-details-con {
         width: 100%;
@@ -499,11 +502,13 @@
         height: 100%;
         display: flex;
         align-items: center;
-        justify-content: end;
+        justify-content: end
     }
     .purchase-label-con p {
         margin: 0;
         color: #D9D9D9;
+        font-size: 15px;
+        font-family: 'Poppins-Regular';
     }
     .purchase-details {
         width: 60%;
@@ -514,27 +519,31 @@
     .purchase-details p{
         color: white;
         margin-left: 10px;
-        font-size: 1em;
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
+        font-size: 20px;
+        font-family: 'Poppins-BoldItalic';
     }
     .buttons-container {
         width: 100%;
-        height: 10%;
         display: flex;
         align-items: start;
         justify-content: center;
         gap: 20px;
+        margin-top: 10px;
     }
     .buttons-container button {
-        width: 100px;
-        padding: 10px;
-        border-radius: 20px;
+        padding: 10px 40px 10px 40px;
+        border-radius: 30px;
         border: none;
         color: #435F77;
-        font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-size: 13px;
         cursor: pointer;
+        box-shadow: 4px 4px 12px rgb(0, 0, 0, 0.3);
+        border-right: #AFADAD solid 1px;
     }
+    .buttons-container button:hover {
+        transform: scale(1.1);
+    }
+
 
 </style>
