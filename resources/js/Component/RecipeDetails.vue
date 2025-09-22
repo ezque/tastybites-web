@@ -234,24 +234,22 @@
 
     // console.log(props.recipe.is_free)
 
-    const recipeIsFree = computed(() => props.recipe.is_free === "free");
+    const recipeIsFree = computed(() => props.recipe?.is_free === "free");
 
     const ownedRecipe = computed(() => {
-        return props.recipe.purchase?.status === "confirmed";
+        return props.recipe?.purchase?.status === "confirmed";
     });
 
     const isAuthor = computed(() => {
-        return props.recipe.userID === props.user.id;
+        return props.recipe?.userID === props.user?.id;
     });
-
     const isAdmin = computed(() => {
-        return props.user.role === "admin";
-    })
+        return props.user?.role === "admin";
+    });
 
     const pendingRecipe = computed(() => {
-        return props.recipe.purchase?.status === "pending";
+        return props.recipe?.purchase?.status === "pending";
     });
-
 
     const canViewDetails = computed(() => {
         return recipeIsFree.value || ownedRecipe.value || isAuthor.value || isAdmin.value;

@@ -34,7 +34,7 @@
                 :user="user"
             />
             <RecipeDetails
-                v-if="activeComponent === 'RecipeDetails'"
+                v-if="activeComponent === 'RecipeDetails' && selectedRecipe"
                 :recipe="selectedRecipe"
                 :user="user"
                 @back="back"
@@ -97,10 +97,17 @@
         if (componentName === "ChefInfo") {
             selectedChef.value = data;
             activeComponent.value = "ChefInfo";
-        } else {
+        }
+        else if (componentName === "RecipeDetails" && data) {
+            const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
+            selectedRecipe.value = fullDetails || data; // fallback
+            activeComponent.value = "RecipeDetails";
+        }
+        else {
             activeComponent.value = componentName;
         }
     };
+
     const goToRecipeDetails = (recipeData) => {
         if (!recipeData) {
             console.warn("No recipe passed");
