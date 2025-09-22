@@ -74,7 +74,10 @@
         usersInfo: Array,
         getRecipeDetailsAdmin: Array,
         getNotification: Array,
+        adminTotalIncome: Object,
     })
+
+    console.log(props.adminTotalIncome.total)
 
     if (props.getRecipeDetailsAdmin.length > 0) {
         console.log(props.getRecipeDetailsAdmin[0].id)
@@ -100,7 +103,7 @@
         }
         else if (componentName === "RecipeDetails" && data) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
-            selectedRecipe.value = fullDetails || data; // fallback
+            selectedRecipe.value = fullDetails || data;
             activeComponent.value = "RecipeDetails";
         }
         else {

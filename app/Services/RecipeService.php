@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Purchase;
@@ -80,7 +81,16 @@ class RecipeService
             ->get();
     }
 
+    public function getAdminTotalIncome()
+    {
+        $totalIncome = Recipe::where('status', 'active')
+            ->where('is_free', 'premium')
+            ->sum(DB::raw('price * 0.10'));
 
+        return [
+            'total' => $totalIncome
+        ];
+    }
 
 
 
