@@ -230,7 +230,7 @@
             </div>
             <div class="menu-user-info">
                 <h1>{{ capitalizedfullName }}</h1>
-                <h6>{{ user?.role }}</h6>
+                <h6>{{ roleLabels[user?.role] }}</h6>
             </div>
             <div class="menu-buttons-container">
                 <button @click="emit('navigate', 'Settings')">
@@ -278,8 +278,6 @@
     const toggleMenu = () => {
         isMenuVisible.value = !isMenuVisible.value;
     }
-
-
 
     const toggleMenuOpen = () => {
     menuOpen.value = !menuOpen.value;
@@ -349,6 +347,12 @@
             day: "numeric", // e.g. "10"
             year: "numeric" // e.g. "2025"
         });  
+    }
+
+    const roleLabels = {
+        admin: 'Administrator',
+        chef: 'Chef',
+        user: 'User'
     }
 </script>
 
