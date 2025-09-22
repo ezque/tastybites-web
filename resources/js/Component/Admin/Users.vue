@@ -53,24 +53,37 @@
                             <p>{{ user.user_info?.fullName  }}</p>
                         </div>
                         <div class="rowThreeB">
-                            <p>{{ user.user_info?.userName }}</p>
+                            <p>@{{ user.user_info?.userName }}</p>
                         </div>
                         <div class="rowFourB">
                             <p>{{ user.email }}</p>
                         </div>
                         <div class="rowSevenB">
-                            <p>{{ user.user_info?.gender }}</p>
+                            <p
+                                :style="{
+                                color: user.user_info?.gender === 'male' ? '#435F77' : '#ec3f57'
+                                }"
+                            >
+                                {{ genderLabel[user.user_info?.gender] }}
+                            </p>
                         </div>
                         <div class="rowFiveB">
-                            <p>{{user.status}}</p>
+                            <p
+                                :style="{
+                                color: user.status === 'active' ? 'green' : 'red'
+                                }"
+                            >
+                                {{ statusLabel[user.status] }}
+                            </p>
                         </div>
                         <div class="rowSixB">
                             <button
                                 class="action-btn"
-                                @click="blockUser(user.id)">
+                                @click="blockUser(user.id)"
+                                :class="user.status.toLowerCase() === 'blocked' ? 'unblock' : 'block'"
+                            >
                                 {{ user.status.toLowerCase() === 'blocked' ? 'Unblock' : 'Block' }}
                             </button>
-                            <button class="action-btn">View</button>
                         </div>
                     </div>
                 </div>
@@ -117,24 +130,37 @@
                             <p>{{ user.user_info?.fullName  }}</p>
                         </div>
                         <div class="rowThreeB">
-                            <p>{{ user.user_info?.userName }}</p>
+                            <p>@{{ user.user_info?.userName }}</p>
                         </div>
                         <div class="rowFourB">
                             <p>{{ user.email }}</p>
                         </div>
                         <div class="rowSevenB">
-                            <p>{{ user.user_info?.gender }}</p>
+                            <p
+                                :style="{
+                                color: user.user_info?.gender === 'male' ? '#435F77' : '#ec3f57'
+                                }"
+                            >
+                                {{ genderLabel[user.user_info?.gender] }}
+                            </p>
                         </div>
                         <div class="rowFiveB">
-                            <p>{{user.status}}</p>
+                            <p
+                                :style="{
+                                color: user.status === 'active' ? '#00ff00' : '#ff0000'
+                                }"
+                            >
+                                {{ statusLabel[user.status] }}
+                            </p>
                         </div>
                         <div class="rowSixB">
                             <button
                                 class="action-btn"
-                                @click="blockUser(user.id)">
+                                @click="blockUser(user.id)"
+                                :class="user.status.toLowerCase() === 'blocked' ? 'unblock' : 'block'"
+                            >
                                 {{ user.status.toLowerCase() === 'blocked' ? 'Unblock' : 'Block' }}
                             </button>
-                            <button class="action-btn">View</button>
                         </div>
                     </div>
                 </div>
@@ -178,6 +204,17 @@
         } catch (error) {
             console.error(error.response?.data || error.message)
         }
+
+    }
+
+    const genderLabel = {
+        male: 'Male',
+        female: 'Female'
+    }
+
+    const statusLabel = {
+        active: 'Active',
+        blocked: 'Blocked'
     }
 
 </script>
@@ -189,7 +226,6 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f6f8fa;
     }
 
@@ -204,25 +240,26 @@
     }
 
     .top-bttn-container button {
-        width: 160px;
+        width: 140px;
         height: 40px;
-        background-color: #435F77;
-        color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 20px;
+        background: #435F77;
+        color: white;
         cursor: pointer;
-        transition: 0.3s ease;
-        font-size: 14px;
+        font-size: 13px;
+        font-family: 'Poppins-Bold';
     }
 
     .top-bttn-container button.active {
-        background-color: #2C3E50;
-        font-weight: bold;
-        transform: scale(1.05);
+        background: #E0E7FF;
+        color: #435F77;
+        box-shadow: 4px 4px 12px #AFADAD;
+        border-right: #AFADAD solid 1px;
     }
 
     .top-bttn-container button:hover {
-        background-color: #34495E;
+        transform: scale(1.1);
     }
 
     /* Table containers */
@@ -248,11 +285,11 @@
     /* Shared column sizing */
     .rowOne, .rowOneH, .rowOneB { width: 5%; }
     .rowTwo, .rowTwoH, .rowTwoB { width: 20%; }
-    .rowThree, .rowThreeH, .rowThreeB { width: 20%; }
+    .rowThree, .rowThreeH, .rowThreeB { width: 15%; }
     .rowFour, .rowFourH, .rowFourB { width: 20%; }
-    .rowFive, .rowFiveH, .rowFiveB { width: 10%; }
-    .rowSix, .rowSixH, .rowSixB { width: 20%; }
-    .rowSeven, .rowSevenH, .rowSevenB { width: 5%; }
+    .rowFive, .rowFiveH, .rowFiveB { width: 15%; }
+    .rowSix, .rowSixH, .rowSixB { width: 10%; }
+    .rowSeven, .rowSevenH, .rowSevenB { width: 15%; }
 
     /* Force borders + padding into width */
     .table-head > div,
@@ -261,7 +298,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: #217dbb 1px solid;
+        font-family: 'Poppins-Bold';
+    }
+
+    .rowFourB {
+        color: #435F77;
+        text-decoration: underline;
+        padding: 0 8px;
+        font-size: 14px;
     }
 
     /* Head row */
@@ -291,51 +335,69 @@
         height: 50px;
         align-items: center;
         transition: background-color 0.2s ease;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e5e7eb;
     }
     .body-item:nth-child(even) { background-color: #f9f9f9; }
     .body-item:hover { background-color: #eef3f8; }
 
     /* Body cells */
-    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSixB, .rowSevenB {
+    .rowOneB, .rowFiveB, .rowSixB, .rowSevenB {
         padding: 0 8px;
         font-size: 14px;
         color: #333;
     }
-    .rowTwoB, .rowThreeB, .rowFourB { justify-content: flex-start; }
 
+    .rowTwoB{ 
+        justify-content: flex-start; 
+        padding: 0 15px;
+        font-size: 14px;
+        color: #333;
+    }
+    
+    .rowThreeB{  
+        padding: 0 15px;
+        font-size: 15px;
+        color: #333;
+        font-family: 'Poppins-BoldItalic';
+    }
     /* Buttons */
     .rowSixB {
         gap: 8px;
     }
-
-    .rowSixB button {
-        padding: 6px 12px;
-        border-radius: 6px;
-        border: none;
+    .rowOneB, .rowTwoB, .rowThreeB, .rowFourB, .rowFiveB, .rowSevenB {
+        border-right: 1px solid #e5e7eb;
+    }
+    .rowSixB .action-btn {
+        width: 120px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        border-right: 2px solid #31485B;
+        border-bottom: 2px solid #31485B;
+        border-top: none;
+        border-left: none;
+        font-family: 'Poppins-Bold';
+        font-size: 12px;
         cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        transition: all 0.2s ease;
+        transition: transform 0.2s ease, background-color 0.2s ease;
     }
 
-    .rowSixB button:first-child {
-        background-color: #e74c3c;
+    .rowSixB .block {
+        background-color: #ff0000;
         color: white;
     }
 
-    .rowSixB button:first-child:hover {
-        background-color: #c0392b;
-    }
-
-    .rowSixB button:last-child {
-        background-color: #3498db;
+    .rowSixB .unblock {
+        background-color: #00ff00;
         color: white;
     }
 
-    .rowSixB button:last-child:hover {
-        background-color: #217dbb;
+    .rowSixB .action-btn:hover {
+        transform: scale(1.1);
     }
+
 
 </style>
 
