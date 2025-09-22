@@ -24,6 +24,11 @@
             <Notification
                 v-if="activeComponent === 'Notification'"
             />
+            <UserChef
+                v-if="activeComponent === 'userChef'"
+                :chefs="chefs"
+                :user="user"
+            />
 
         </div>
 
@@ -39,11 +44,13 @@
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import UserSettings from "@/Component/UserSettings.vue";
     import Notification from "@/Component/Notification.vue";
+    import UserChef from "@/Component/userChef.vue";
 
     import {computed, ref} from "vue";
 
     const props = defineProps({
         user: Object,
+        chefs: Array,
         recipeCardDetails: Array,
         recipeAllDetails: Object,
         getNotification: Array,
@@ -52,7 +59,7 @@
     const isUser = computed(() => props.user.role === 'user');
     const activeComponent = ref(isUser.value ? 'Home' : null);
     const selectedRecipe = ref(null);
-
+    const selectedChef = ref(null)
 
 
     const setActiveComponent = (componentName) => {

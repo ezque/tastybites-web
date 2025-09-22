@@ -9,6 +9,13 @@
                 <h1>Home</h1>
             </button>
             <button
+                :class="{ active: active === userChef }"
+                @click="goUserChef"
+            >
+                <img src="/public/images/Button-icon/home.png"/>
+                <h1>Chef</h1>
+            </button>
+            <button
                 :class="{ active: active === incomeKey }"
                 @click="goIncome"
                 v-if="!isUser"
@@ -82,10 +89,17 @@
 
 
     const homeKey   = computed(() => isAdmin.value ? 'AdminHome' : isChef.value ? 'Home' : 'Home')
+    const userChef = computed(() => isUser.value ? 'userChef' : isUser.value ? 'userChef' : 'userChef')
     const incomeKey = computed(() => isAdmin.value ? 'AdminIncome' : isChef.value ? 'ChefIncome' : null)
 
     function goHome() {
         emit('navigate', homeKey.value)
+    }
+
+    function goUserChef() {
+        if (userChef.value) {
+            emit('navigate', userChef.value)
+        }
     }
 
     function goIncome() {

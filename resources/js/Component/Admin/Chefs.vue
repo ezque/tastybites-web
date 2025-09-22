@@ -115,101 +115,101 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import axios from "axios";
+    import { ref, computed } from "vue";
+    import axios from "axios";
 
-const props = defineProps({
-  chefs: Array
-})
+    const props = defineProps({
+      chefs: Array
+    })
 
-const activeChefs = computed(() => {
-  return props.chefs.filter(chef => chef.status === 'active');
-});
-
-const pendingChefs = computed(() => {
-  return props.chefs.filter(chef => chef.status === 'pending');
-});
-
-function getProfilePic(chef) {
-  const gender = chef.user_info?.gender;
-  if (gender === 'male') {
-    return '/images/male.png';
-  } else if (gender === 'female') {
-    return '/images/female.png';
-  } else {
-    return '/images/male.png';
-  }
-}
-
-function capitalizeFullName(name) {
-  if (!name) return 'No Name Provided';
-  return name
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-function getFileName(path) {
-  if (!path) return '';
-  return path.split('/').pop();
-}
-
-const activeTab = ref("register");
-
-async function acceptChef(userId) {
-  try {
-    const response = await axios.post('/accept-chef', {
-      user_id: userId
+    const activeChefs = computed(() => {
+      return props.chefs.filter(chef => chef.status === 'active');
     });
-    console.log(response.data.message);
 
-    const index = props.chefs.findIndex(chef => chef.id === userId);
-    if (index !== -1) {
-      props.chefs[index].status = 'active';
-    }
-  } catch (error) {
-    console.error(error.response?.data || error.message);
-  }
-}
-
-async function rejectChef(userId) {
-  try {
-    const response = await axios.post('/decline-chef', {
-      user_id: userId
+    const pendingChefs = computed(() => {
+      return props.chefs.filter(chef => chef.status === 'pending');
     });
-    console.log(response.data.message);
 
-    const index = props.chefs.findIndex(chef => chef.id === userId);
-    if (index !== -1) {
-      props.chefs[index].status = 'inactive';
+    function getProfilePic(chef) {
+      const gender = chef.user_info?.gender;
+      if (gender === 'male') {
+        return '/images/male.png';
+      } else if (gender === 'female') {
+        return '/images/female.png';
+      } else {
+        return '/images/male.png';
+      }
     }
-  } catch (error) {
-    console.error(error.response?.data || error.message);
-  }
-}
 
-const emit = defineEmits(["navigate"]);
-function viewChefInfo(chef) {
-  emit("navigate", "ChefInfo", chef);
-}
+    function capitalizeFullName(name) {
+      if (!name) return 'No Name Provided';
+      return name
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
 
-/* para mu fit ang words into 1 line 
-function applyFitty() {
-  fitty(".registered-chef-main-body button h2", {
-    minSize: 12,
-    maxSize: 20
-  });
-}
+    function getFileName(path) {
+      if (!path) return '';
+      return path.split('/').pop();
+    }
 
-onMounted(() => {
-  applyFitty();
-});
+    const activeTab = ref("register");
 
-onUpdated(() => {
-  applyFitty(); 
-});
-*/
+    async function acceptChef(userId) {
+      try {
+        const response = await axios.post('/accept-chef', {
+          user_id: userId
+        });
+        console.log(response.data.message);
+
+        const index = props.chefs.findIndex(chef => chef.id === userId);
+        if (index !== -1) {
+          props.chefs[index].status = 'active';
+        }
+      } catch (error) {
+        console.error(error.response?.data || error.message);
+      }
+    }
+
+    async function rejectChef(userId) {
+      try {
+        const response = await axios.post('/decline-chef', {
+          user_id: userId
+        });
+        console.log(response.data.message);
+
+        const index = props.chefs.findIndex(chef => chef.id === userId);
+        if (index !== -1) {
+          props.chefs[index].status = 'inactive';
+        }
+      } catch (error) {
+        console.error(error.response?.data || error.message);
+      }
+    }
+
+    const emit = defineEmits(["navigate"]);
+    function viewChefInfo(chef) {
+      emit("navigate", "ChefInfo", chef);
+    }
+
+    /* para mu fit ang words into 1 line
+    function applyFitty() {
+      fitty(".registered-chef-main-body button h2", {
+        minSize: 12,
+        maxSize: 20
+      });
+    }
+
+    onMounted(() => {
+      applyFitty();
+    });
+
+    onUpdated(() => {
+      applyFitty();
+    });
+    */
 </script>
 
 
@@ -237,7 +237,7 @@ onUpdated(() => {
     }
     .navigate-button-container {
         display: flex;
-        justify-content: center; 
+        justify-content: center;
         gap: 30px;
         margin-top: -20px;
     }
@@ -317,13 +317,13 @@ onUpdated(() => {
         margin-bottom: 10px;
     }
     .registered-chef-main-body button h2{
-        margin: 0; 
-        font-size: 20px; 
-        font-family: 'Poppins-Bold'; 
-        white-space: nowrap; 
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-        max-width: 90%; 
+        margin: 0;
+        font-size: 20px;
+        font-family: 'Poppins-Bold';
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 90%;
         text-align: center;
     }
     .registered-chef-main-body button p{
@@ -422,7 +422,7 @@ onUpdated(() => {
         text-overflow: ellipsis;
         border-right: #AFADAD solid 1px;
     }
-    
+
     .rowOneH, .rowTwoH, .rowThreeH, .rowFiveH, .rowFourH {
         display: flex;
         align-items: center;
