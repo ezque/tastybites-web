@@ -16,6 +16,10 @@
                 <img alt="icon" src="/public/images/Button-icon/save.png" />
                 <span>{{ recipeIsSave ? 'Unsave' : 'Save' }}</span>
             </button>
+            <button @click="reportRecipe" v-if="!recipeCardDetail.is_owned">
+                <img alt="icon" src="/public/images/Button-icon/report.png" />
+                <span>Report</span>
+            </button>
         </div>
         <div class="text-container">
             <h2>{{recipeCardDetail.recipeName}}</h2>
@@ -129,6 +133,18 @@
         console.log("recipeIsSave changed:", newVal)
     })
 
+    const reportRecipe = async () => {
+        try {
+            const { data } = await axios.post(`/report/${props.recipeCardDetail.id}`, {
+                type: 'recipe',
+                reason: 'Inappropriate content'
+            })
+            alert(data.message) // show success message
+        } catch (error) {
+            console.error(error)
+            alert("Failed to submit report.")
+        }
+    }
 
 
 </script>

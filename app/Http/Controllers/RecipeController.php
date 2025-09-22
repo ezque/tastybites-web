@@ -9,7 +9,7 @@ use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\Procedure;
 use App\Models\User;
-use App\Models\UserInfo;
+use App\Models\Report;
 use App\Models\Purchase;
 use App\Models\Reaction;
 use App\Models\HideRecipe;
@@ -319,7 +319,35 @@ class RecipeController extends Controller
         ]);
     }
 
+    public function reportRecipe(Request $request, $id)
+    {
+        $request->validate([
+            'type'   => 'required|in:user,recipe',
+            'reason' => 'required|string|max:1000',
+        ]);
 
+        $reportData = [
+            'reporterID'       => auth()->id(),
+            'reportedUserID'   => null,
+            'reportedRecipeID' => null,
+            'reason'           => $request->reason,
+            'status'           => 'pending',
+        ];
+
+        if ($request->type === 'user') {
+            $reportData['reportedUserID'] = $id;
+        } elseif ($request->type === 'recipe') {
+            $reportData['reportedRecipeID'] = $id;
+        }
+
+        $report = Report::create($reportData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Report submitted successfully.',
+            'report'  => $report,
+        ]);
+    }
 
 
 

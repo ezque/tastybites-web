@@ -8,7 +8,7 @@
                 </button>
                 <div class="notification-container" v-if="isNotificationVisible">
                     <div class="notification-label-container">
-                    <h2>Notifications</h2>
+                        <h2>Notifications</h2>
                         <div class="notification-buttons">
                             <button
                                 :class="{ active: activeFilter === 'all' }"
@@ -37,7 +37,7 @@
                                 <p>Mark All Read</p>
                             </button>
                             <div class="white-line"></div>
-                            <button @click="openNotifications" class="open-notifications">
+                            <button @click="emit('navigate', 'Notification')" class="open-notifications">
                                 <img src="/public/images/Button-icon/notifications.png" alt="mark all read"/>
                                 <p>Open Notifications</p>
                             </button>
@@ -263,6 +263,8 @@
     const activeFilter = ref("all");
     const menuOpen = ref(false);
 
+    const emit = defineEmits(['navigate']);
+
     const filteredNotifications = computed(() => {
         if (activeFilter.value === "unread") {
             return props.getNotification.filter(n => n.status === "unread");
@@ -320,7 +322,7 @@
             });
         }
     };
-    const emit = defineEmits(['navigate']);
+
 
     function formatMessage(message) {
         return message.replace(/(@\w+)/, "<strong>$1</strong>");

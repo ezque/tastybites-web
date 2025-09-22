@@ -43,6 +43,9 @@
                 v-if="activeComponent === 'Settings'"
                 :user="user"
             />
+            <Notification
+                v-if="activeComponent === 'Notification'"
+            />
 
         </div>
     </div>
@@ -61,6 +64,7 @@
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import ChefInfo from "@/Component/Admin/ChefInfo.vue";
     import AdminSettings from "@/Component/Admin/AdminSettings.vue";
+    import Notification from "@/Component/Notification.vue";
 
     const props = defineProps({
         user: Object,

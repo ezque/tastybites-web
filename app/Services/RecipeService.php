@@ -24,7 +24,7 @@ class RecipeService
         ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->get()
-            ->map(function ($recipe) {
+            ->map(function ($recipe) use ($userId) {
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
@@ -32,11 +32,14 @@ class RecipeService
                 $recipe->is_hidden = $recipe->hidden?->is_hidden ?? '0';
                 $recipe->is_saved = $recipe->savedBy?->save_status ?? '0';
 
+                $recipe->is_owned = $recipe->userID === $userId;
+
                 return $recipe;
             });
 
         return $recipes;
     }
+
 
 
     public function getAllRecipeDetails()
