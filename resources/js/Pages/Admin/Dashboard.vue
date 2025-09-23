@@ -14,6 +14,7 @@
             <Home
                 v-if="activeComponent === 'AdminHome'"
                 :adminTotalIncome="adminTotalIncome"
+                @navigate="setActiveComponent"
             />
             <Income
                 v-if="activeComponent === 'AdminIncome'"

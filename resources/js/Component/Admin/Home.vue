@@ -2,10 +2,21 @@
     <div class="admin-home-main-body">
         <h2>Dashboard</h2>
         <div class="admin-button-container">
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
+            <button>
+                total
+            </button>
+            <button
+                @click="emit('navigate','Users')">
+                user
+            </button>
+            <button
+                @click="emit('navigate','AdminChefs')">
+                chef
+            </button>
+            <button
+                @click="emit('navigate', 'Recipes')">
+                recipes
+            </button>
         </div>
         <div class="graph-container">
             <div class="graph-header">
@@ -46,7 +57,7 @@
     const props = defineProps({
         adminTotalIncome: Object
     })
-
+    const emit = defineEmits(['navigate'])
     const LineChart = Line
     const currentView = ref('month')
 
