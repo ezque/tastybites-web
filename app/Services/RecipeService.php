@@ -83,14 +83,31 @@ class RecipeService
 
     public function getAdminTotalIncome()
     {
+        $monthly = Recipe::selectRaw('MONTH(created_at) as month, SUM(price * 0.10) as total')
+            ->where('status', 'active')
+            ->where('is_free', 'premium')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $yearly = Recipe::selectRaw('YEAR(created_at) as year, SUM(price * 0.10) as total')
+            ->where('status', 'active')
+            ->where('is_free', 'premium')
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get();
+
         $totalIncome = Recipe::where('status', 'active')
             ->where('is_free', 'premium')
             ->sum(DB::raw('price * 0.10'));
 
         return [
-            'total' => $totalIncome
+            'total' => $totalIncome,
+            'monthly' => $monthly,
+            'yearly' => $yearly
         ];
     }
+
 
 
 

@@ -1,9 +1,20 @@
 <template>
     <div class="main-body">
-        <Header :user="user" @navigate="setActiveComponent" :getNotification="getNotification"/>
+        <Header
+            :user="user"
+            @navigate="setActiveComponent"
+            :getNotification="getNotification"
+        />
         <div class="main-container">
-            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Home v-if="activeComponent === 'AdminHome'" />
+            <Sidebar
+                :user="user"
+                @navigate="setActiveComponent"
+                :active="activeComponent"
+            />
+            <Home
+                v-if="activeComponent === 'AdminHome'"
+                :adminTotalIncome="adminTotalIncome"
+            />
             <Income
                 v-if="activeComponent === 'AdminIncome'"
                 :getRecipeDetailsAdmin="getRecipeDetailsAdmin"
