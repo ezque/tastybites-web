@@ -74,10 +74,22 @@
     });
 
     function getChefProfile() {
-        return props.chef?.user_info?.gender === "male"
-            ? "/images/male.png"
-            : "/images/female.png";
+        const profilePath = props.chef?.user_info?.profilePath;
+
+        if (profilePath && profilePath.trim() !== "") {
+            return `/storage/${profilePath}`; // ✅ adjust if you store differently
+        }
+
+        const gender = props.chef?.user_info?.gender;
+        if (gender === "male") {
+            return "/images/male.png";
+        } else if (gender === "female") {
+            return "/images/female.png";
+        } else {
+            return "/images/male.png"; // default fallback
+        }
     }
+
 
     const currentIndex = ref(0);
 

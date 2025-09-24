@@ -40,6 +40,21 @@
             <Notification
                 v-if="activeComponent === 'Notification'"
             />
+            <UserChef
+                v-if="activeComponent === 'userChef'"
+                :chefs="chefs"
+                :user="user"
+                @navigate="handleNavigation"
+            />
+            <ChefDetails
+                v-if="activeComponent === 'ChefDetails'"
+                :chef="selectedChef"
+                :recipeCardDetails="recipeCardDetails"
+                @navigate="handleNavigation"
+                @recipeNavigate="goToRecipeDetails"
+                :user="user"
+            />
+
         </div>
     </div>
 </template>
@@ -59,11 +74,14 @@
     import Report from "@/Component/Chef/Report.vue";
     import UserSettings from "@/Component/UserSettings.vue";
     import Notification from "@/Component/Notification.vue";
+    import UserChef from "@/Component/userChef.vue";
+    import ChefDetails from "@/Component/chefDetails.vue";
 
 
 
     const props = defineProps({
         user: Object,
+        chefs: Array,
         recipeCardDetails: Array,
         recipeAllDetails: Object,
         purchases: Array,
@@ -72,6 +90,7 @@
     })
 
     const isChef = computed(() => props.user.role === 'chef');
+    const selectedChef = ref(null)
 
     const activeComponent = ref(isChef.value ? 'Home' : 'ChefIncome');
 
@@ -80,10 +99,16 @@
     const setActiveComponent = (componentName) => {
         activeComponent.value = componentName;
     }
-    const handleNavigation = (componentName, recipeData = null) => {
+    const handleNavigation = (componentName, recipeData = null, data = null) => {
         if (componentName === 'AddRecipe') {
             selectedRecipe.value = null;
             activeComponent.value = 'AddRecipe';
+            return;
+        }
+
+        if (componentName === "ChefDetails") {
+            selectedChef.value = recipeData;  // use recipeData instead of data
+            activeComponent.value = "ChefDetails";
             return;
         }
 
@@ -106,6 +131,17 @@
         } else {
             activeComponent.value = isUser.value ? 'Home' : null;
         }
+    };
+    const goToRecipeDetails = (recipeData) => {
+        if (!recipeData) {
+            console.warn("No recipe passed");
+            return;
+        }
+
+        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        selectedRecipe.value = fullDetails ?? recipeData;
+
+        activeComponent.value = "RecipeDetails";
     };
 
 </script>

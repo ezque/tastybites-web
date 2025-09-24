@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\RecipeService;
 use App\Services\ChefService;
@@ -14,7 +15,7 @@ use App\Services\NotificationServices;
 
 class ChefController extends Controller
 {
-    public function dashboard(Request $request, RecipeService $recipeService, ChefService $chefService, NotificationServices $notificationServices): \Inertia\Response
+    public function dashboard(Request $request, RecipeService $recipeService, ChefService $chefService, NotificationServices $notificationServices, UserService $userService): \Inertia\Response
     {
         $user = Auth::user()->load('userInfo');
 
@@ -23,9 +24,11 @@ class ChefController extends Controller
         $purchases = $chefService->getPurchase();
         $getNotification = $notificationServices->getNotification();
         $chefCertificate = $chefService->getChefOwnedCertificates();
+        $chefs = $userService->getChefInfo();
 
         return Inertia::render('Chef/Dashboard', [
             'user' => $user,
+            'chefs' => $chefs,
             'recipeCardDetails' => $recipeCardDetails,
             'recipeAllDetails' => $recipeAllDetails,
             'purchases' => $purchases,

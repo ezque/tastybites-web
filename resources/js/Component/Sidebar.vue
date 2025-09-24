@@ -11,7 +11,7 @@
             <button
                 :class="{ active: active === userChef }"
                 @click="goUserChef"
-                v-if="!isAdmin && !isChef"
+                v-if="!isAdmin"
             >
                 <img src="/public/images/Button-icon/home.png"/>
                 <h1>Chef</h1>

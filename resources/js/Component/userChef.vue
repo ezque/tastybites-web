@@ -1,9 +1,6 @@
 <template>
     <div class="userChef-main-body">
         <div class="userChef-header">
-            <button>
-                <img src="/public/images/Button-icon/back.png" alt="back" />
-            </button>
             <h2>Chefs</h2>
         </div>
         <div class="user-chef-container">
@@ -21,19 +18,29 @@
 </template>
 <script setup>
     import { ref, computed } from "vue";
-    import axios from "axios";
 
     const props = defineProps({
-        chefs: Array
+        chefs: Array,
+        user: Object,
     })
     const activeChefs = computed(() => {
-        return props.chefs.filter(chef => chef.status === 'active');
+        return props.chefs.filter(
+            chef => chef.status === 'active' && chef.id !== props.user.id
+        );
     });
     const emit = defineEmits(["navigate"]);
     function viewChefInfo(chef) {
         emit("navigate", "ChefDetails", chef);
     }
     function getProfilePic(chef) {
+        const profilePath = chef.user_info?.profilePath;
+
+        if (profilePath && profilePath.trim() !== "") {
+            // if the user uploaded a profile picture, return it
+            return `/storage/${profilePath}`; // 👈 adjust path if you're storing in storage/public
+        }
+
+        // fallback to gender-based image
         const gender = chef.user_info?.gender;
         if (gender === 'male') {
             return '/images/male.png';
@@ -44,6 +51,7 @@
         }
     }
 
+
     function capitalizeFullName(name) {
         if (!name) return 'No Name Provided';
         return name
@@ -53,6 +61,7 @@
             .join(' ');
     }
 </script>
+
 <style scoped>
     .userChef-main-body{
         width: 100%;
