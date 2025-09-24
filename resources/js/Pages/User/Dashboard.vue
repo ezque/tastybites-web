@@ -28,6 +28,15 @@
                 v-if="activeComponent === 'userChef'"
                 :chefs="chefs"
                 :user="user"
+                @navigate="handleNavigation"
+            />
+            <ChefDetails
+                v-if="activeComponent === 'ChefDetails'"
+                :chef="selectedChef"
+                :recipeCardDetails="recipeCardDetails"
+                @navigate="handleNavigation"
+                @recipeNavigate="goToRecipeDetails"
+                :user="user"
             />
 
         </div>
@@ -45,6 +54,7 @@
     import UserSettings from "@/Component/UserSettings.vue";
     import Notification from "@/Component/Notification.vue";
     import UserChef from "@/Component/userChef.vue";
+    import ChefDetails from "@/Component/chefDetails.vue";
 
     import {computed, ref} from "vue";
 
@@ -78,15 +88,36 @@
         }
     };
 
-    const handleNavigation = (componentName, recipeData) => {
+    const handleNavigation = (componentName, recipeData = null, data = null) => {
         if (activeComponent.value) {
             historyStack.value.push(activeComponent.value);
         }
 
-        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        if (componentName === "ChefDetails") {
+            selectedChef.value = recipeData;  // use recipeData instead of data
+            activeComponent.value = "ChefDetails";
+            return;
+        }
 
-        selectedRecipe.value = fullDetails;
+
+        if (recipeData) {
+            const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+            selectedRecipe.value = fullDetails ?? recipeData;
+        }
+
         activeComponent.value = componentName;
+    };
+
+    const goToRecipeDetails = (recipeData) => {
+        if (!recipeData) {
+            console.warn("No recipe passed");
+            return;
+        }
+
+        const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
+        selectedRecipe.value = fullDetails ?? recipeData;
+
+        activeComponent.value = "RecipeDetails";
     };
 
 </script>

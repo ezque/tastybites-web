@@ -15,7 +15,6 @@
                 <img :src="getProfilePic(chef)" alt="img"/>
                 <h2>{{ capitalizeFullName(chef.user_info?.fullName) }}</h2>
                 <p>Since {{ new Date(chef.created_at).getFullYear() }}</p>
-
             </button>
         </div>
     </div>
@@ -30,6 +29,10 @@
     const activeChefs = computed(() => {
         return props.chefs.filter(chef => chef.status === 'active');
     });
+    const emit = defineEmits(["navigate"]);
+    function viewChefInfo(chef) {
+        emit("navigate", "ChefDetails", chef);
+    }
     function getProfilePic(chef) {
         const gender = chef.user_info?.gender;
         if (gender === 'male') {
