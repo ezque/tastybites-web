@@ -35,6 +35,7 @@
                 @navigate="handleNavigation"
                 :user="user"
                 :recipeCardDetails="recipeCardDetails"
+                :chefCertificate="chefCertificate"
             />
             <Notification
                 v-if="activeComponent === 'Notification'"
@@ -67,6 +68,7 @@
         recipeAllDetails: Object,
         purchases: Array,
         getNotification: Array,
+        chefCertificate: Array,
     })
 
     const isChef = computed(() => props.user.role === 'chef');

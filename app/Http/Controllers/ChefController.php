@@ -22,13 +22,15 @@ class ChefController extends Controller
         $recipeAllDetails = $recipeService->getAllRecipeDetails();
         $purchases = $chefService->getPurchase();
         $getNotification = $notificationServices->getNotification();
+        $chefCertificate = $chefService->getChefOwnedCertificates();
 
         return Inertia::render('Chef/Dashboard', [
             'user' => $user,
             'recipeCardDetails' => $recipeCardDetails,
             'recipeAllDetails' => $recipeAllDetails,
             'purchases' => $purchases,
-            'getNotification' => $getNotification
+            'getNotification' => $getNotification,
+            'chefCertificate' => $chefCertificate
         ]);
     }
     public function acceptPurchase($id)

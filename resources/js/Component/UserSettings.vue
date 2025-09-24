@@ -41,7 +41,7 @@
                     <span class="button-text">Saved Recipe</span>
                 </button>
             </div>
-            <!--Container-->
+
             <div class="settings-card-container">
                 <div v-if="activeButton === 'personal'" class="card-1">
                     <div class="card-label">
@@ -111,6 +111,43 @@
                             </div>
                         </div>
                     </div>
+                    <div class="chef-certificates-container" v-if="isChef">
+                        <button class="nav-btn left" @click="prevCertificate" :disabled="currentCertificateIndex === 0">
+                            ⬅
+                        </button>
+
+                        <div class="certificate-viewer">
+                            <!-- Index 0 = Upload Certificate -->
+                            <div v-if="currentCertificateIndex === 0" class="upload-certificate">
+                                <input type="file" id="certificateInput" @change="uploadCertificate" hidden />
+                                <button class="upload-btn" @click="triggerCertificateInput">
+                                    ➕ Upload Certificate
+                                </button>
+                            </div>
+
+                            <!-- Certificates -->
+                            <div v-else>
+                                <img
+                                    :src="`/storage/${chefCertificate[currentCertificateIndex - 1].certificate_path}`"
+                                    alt="Certificate"
+                                    class="certificate-image"
+                                />
+                                <span class="certificate-counter">
+                                    {{ currentCertificateIndex }} / {{ chefCertificate.length }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <button
+                            class="nav-btn right"
+                            @click="nextCertificate"
+                            :disabled="currentCertificateIndex === chefCertificate.length"
+                        >
+                            ➡
+                        </button>
+                    </div>
+
+
                 </div>
 
                 <div v-if="activeButton === 'password'" class="card-2">
@@ -147,14 +184,17 @@
     </div>
 </template>
 <script setup>
-    import { ref } from "vue";
+    import { ref, computed } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     import axios from "axios";
 
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array,
+        chefCertificate: Array
     });
+
+    const isChef = computed(() => props.user.role === 'chef');
 
     const activeButton = ref("personal");
     const editMode = ref("");
@@ -166,6 +206,33 @@
     const newPassword = ref("");
     const confirmPassword = ref("");
     const passwordMessage = ref("");
+    const currentCertificateIndex = ref(0);
+
+    function triggerCertificateInput() {
+        document.getElementById("certificateInput").click();
+    }
+
+    async function uploadCertificate(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("userID", props.user.id);
+        formData.append("certificate", file);
+
+        try {
+            const response = await axios.post("/add-certificate", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            if (response.data.certificate) {
+                props.chefCertificate.push(response.data.certificate);
+                currentCertificateIndex.value = props.chefCertificate.length;
+            }
+        } catch (error) {
+            console.error("Error uploading certificate:", error.response?.data || error);
+        }
+    }
 
     async function saveEdit(field) {
         try {
@@ -232,6 +299,17 @@
 
     function triggerFileInput() {
         document.getElementById("profileInput").click();
+    }
+    function nextCertificate() {
+        if (currentCertificateIndex.value < props.chefCertificate.length) {
+            currentCertificateIndex.value++;
+        }
+    }
+
+    function prevCertificate() {
+        if (currentCertificateIndex.value > 0) {
+            currentCertificateIndex.value--;
+        }
     }
 
 </script>
@@ -490,6 +568,73 @@
     .card-body-security button:hover {
         background-color: #31485B;
         transform: translateY(-2px);
+    }
+    .chef-certificates-container {
+        width: 100%;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        gap: 15px;
+    }
+
+    .certificate-viewer {
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
+
+    .certificate-image {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .certificate-counter {
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.9em;
+        color: #31485B;
+        font-weight: 500;
+    }
+
+    .nav-btn {
+        background-color: #435F77;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+        background-color: #31485B;
+        transform: scale(1.1);
+    }
+
+    .nav-btn:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .nav-btn.left {
+        margin-right: 10px;
+    }
+
+    .nav-btn.right {
+        margin-left: 10px;
     }
 
 

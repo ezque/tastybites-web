@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Purchase;
 use App\Models\Certificate;
+use Illuminate\Support\Facades\Auth;
 class ChefService
 {
     public function getPurchase()
@@ -17,8 +18,15 @@ class ChefService
 
         return $purchases;
     }
-    public function getChefOwnedRecipe()
+    public function getChefOwnedCertificates()
     {
+        $user = Auth::user();
 
+        if ($user && $user->role === 'chef') {
+            return $user->certificates; // uses certificates() relation in User model
+        }
+
+        return collect();
     }
+
 }
