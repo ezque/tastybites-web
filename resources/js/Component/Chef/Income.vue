@@ -137,10 +137,10 @@
                             </div>
                         </div>
                         <div class="buttons-container">
-                            <button style="background-color: #B5BFDE" @click="acceptPurchase(selectedRecipe.id)">
+                            <button style="background-color: #B5BFDE"  @click="rejectPurchase(selectedRecipe.id)">
                                 DECLINE
                             </button>
-                            <button style="background-color: #E0E7FF" @click="rejectPurchase(selectedRecipe.id)">
+                            <button style="background-color: #E0E7FF" @click="acceptPurchase(selectedRecipe.id)">
                                 ACCEPT
                             </button>
                         </div>

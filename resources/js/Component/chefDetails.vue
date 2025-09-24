@@ -77,7 +77,7 @@
         const profilePath = props.chef?.user_info?.profilePath;
 
         if (profilePath && profilePath.trim() !== "") {
-            return `/storage/${profilePath}`; // ✅ adjust if you store differently
+            return `/storage/${profilePath}`;
         }
 
         const gender = props.chef?.user_info?.gender;
