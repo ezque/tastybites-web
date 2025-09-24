@@ -26,6 +26,9 @@ class ChefController extends Controller
         $chefCertificate = $chefService->getChefOwnedCertificates();
         $chefs = $userService->getChefInfo();
 
+        $chefId = $user->id;
+        $chefTotalIncome = $chefService->getChefTotalEarnings($chefId);
+
         return Inertia::render('Chef/Dashboard', [
             'user' => $user,
             'chefs' => $chefs,
@@ -33,7 +36,8 @@ class ChefController extends Controller
             'recipeAllDetails' => $recipeAllDetails,
             'purchases' => $purchases,
             'getNotification' => $getNotification,
-            'chefCertificate' => $chefCertificate
+            'chefCertificate' => $chefCertificate,
+            'chefTotalIncome' => $chefTotalIncome,
         ]);
     }
     public function acceptPurchase($id)

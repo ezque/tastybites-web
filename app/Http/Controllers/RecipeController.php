@@ -222,7 +222,7 @@ class RecipeController extends Controller
                 $notificationType = null;
                 if ($reactionType == 1) $notificationType = 5;
                 elseif ($reactionType == 2) $notificationType = 6;
-                else $notificationType = 7; // optional for reaction_type 3
+//                else $notificationType = 7; // optional for reaction_type 3
 
                 Notification::create([
                     'userID' => $recipe->userID, // notify recipe owner

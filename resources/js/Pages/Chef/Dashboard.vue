@@ -29,6 +29,7 @@
             />
             <Report
                 v-if="activeComponent === 'Report'"
+                :chefTotalIncome="chefTotalIncome"
             />
             <UserSettings
                 v-if="activeComponent === 'Settings'"
@@ -87,6 +88,7 @@
         purchases: Array,
         getNotification: Array,
         chefCertificate: Array,
+        chefTotalIncome: Object,
     })
 
     const isChef = computed(() => props.user.role === 'chef');
