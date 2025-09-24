@@ -77,7 +77,6 @@
         }]
     }
 
-    // Prepare yearly chart data
     const yearlyData = {
         labels: props.adminTotalIncome?.yearly?.map(r => r.year) || [],
         datasets: [{
@@ -99,7 +98,6 @@
         maintainAspectRatio: false,
         plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: 'Admin Revenue Graph' }
         }
     }
 
