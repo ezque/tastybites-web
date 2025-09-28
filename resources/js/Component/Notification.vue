@@ -1,9 +1,6 @@
 <template>
     <div class="notification-main-body">
         <div class="notification-header">
-            <button>
-                <img src="/public/images/Button-icon/back.png" alt="back"/>
-            </button>
             <h2>Notification</h2>
         </div>
         <div class="notification-main">
@@ -17,8 +14,14 @@
                     </button>
                 </div>
                 <div class="notification-container">
-                    <button v-for="index in 20" :key="index">
-                        <h2>{{index}}</h2>
+                    <button class="notification-item">
+                        <div class="notif-icon">
+                            <img src="/public/images/Button-icon/follow.png" alt="follow" />
+                        </div>
+                        <div class="notif-content">
+                            <p><strong>@appletamesis</strong> is now following you!</p>
+                            <span class="time">Just now</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -26,7 +29,7 @@
     </div>
 </template>
 <script setup>
-
+    
 </script>
 <style scoped>
     .notification-main-body {
@@ -60,8 +63,9 @@
         height: 100%;
     }
     .notification-header h2 {
-        color: #768082;
-        font-size: 2em;
+        margin-top: 20px;
+        font-size: 35px;
+        font-family: 'Poppins-Bold';
     }
     .notification-main {
         width: 100%;
@@ -87,22 +91,74 @@
         flex-direction: row;
         align-items: center;
         gap: 10px;
+        height: 5%;
     }
     .card-main-header button {
-        width: 80px;
-        height: 20px;
+        background-color: transparent;
+        border: none;
+        color: #435F77;
+        font-family: 'Poppins-Regular';
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .card-main-header button.active {
+        color: #435F77;
+        background-color: #B5BFDE;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-family: 'Poppins-SemiBold';
     }
     .notification-container{
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        display: flex;
+                display: flex;
         flex-direction: column;
-        border: 1px solid black;
         gap: 10px;
     }
-    .notification-container button {
-        width: 100%;
-        height: 40px;
+    .notification-item {
+        display: flex;
+        flex-direction: row;
+        border: none;
+        box-shadow: 0px 4px 1px #AFADAD;
+        border-radius: 15px;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        border-right: #AFADAD solid 1px;
+    }
+    .notification-item-active {
+        display: flex;
+        flex-direction: row;
+        border: none;
+        border-radius: 15px;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        background-color: #E0E7FF;
+        border-right: #AFADAD solid 1px;
+        box-shadow: 0px 4px 1px #AFADAD;
+        margin-top: 10px;
+    }
+    .notif-icon {
+        width: 10%;
+    }
+    .notif-icon img {
+        width: 50%;
+    }
+    .notif-content {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 90%;
+    }
+    .notif-content p {
+        margin: 0;
+        font-size: 12px;
+        color: black;
+        font-family: 'Poppins-Regular';
+        text-align: left;
+    }
+    .notif-content span {
+        font-size: 9px;
+        color: black;
+        font-family: 'Poppins-Regular';
     }
 </style>

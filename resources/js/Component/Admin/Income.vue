@@ -148,11 +148,13 @@
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 </template>
 <script setup>
     import axios from "axios";
     import {ref} from "vue";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
         getRecipeDetailsAdmin: Array,
@@ -310,12 +312,12 @@
         display: flex;
         flex-direction: row;
     }
-    .row-1,.row-2,.row-3,.row-4,.row-5,.row-6 {
+    .row-1,.row-2, .row-3, .row-4,.row-5,.row-6 {
         display: flex;
         align-items: center;
         justify-content: center;
         border: .1em solid #B5BFDE;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins-Bold';
         font-size: 13px;
     }
     .row-5 button{

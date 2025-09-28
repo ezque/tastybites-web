@@ -188,7 +188,7 @@
                     </div>
                 </div>
             </div>
-
+            <div class="white-line2"></div>
             <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
                     <img
@@ -233,12 +233,12 @@
                 <h6>{{ roleLabels[user?.role] }}</h6>
             </div>
             <div class="menu-buttons-container">
-                <button @click="emit('navigate', 'Settings')">
+                <button @click="emit('navigate', 'Settings')" class="settings-btn">
                     <img src="/public/images/Button-icon/settings.png" alt="img" />
                     <h1>Settings</h1>
                 </button>
-                <span class="white-line"></span>
-                <button @click="handleLogout">
+                <div class="white-line1"></div>
+                <button @click="handleLogout" class="logout-btn">
                     <img src="/public/images/Button-icon/logout(3).png" alt="img" />
                     <h1>Logout</h1>
                 </button>
@@ -335,17 +335,18 @@
         const minutes = Math.floor(diffMs / (1000 * 60));
         const hours = Math.floor(diffMs / (1000 * 60 * 60));
         const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const weeks = Math.floor(days / 7);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(days / 365);
 
-        if (seconds < 60) return `${seconds}s ago`;
-        if (minutes < 60) return `${minutes}m ago`;
-        if (hours < 24) return `${hours}h ago`;
-        if (days < 7) return `${days}d ago`;
-
-        return date.toLocaleDateString("en-US", {
-            month: "short", 
-            day: "numeric", 
-            year: "numeric" 
-        });  
+        if (seconds < 5) return "Just now";
+        if (seconds < 60) return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+        if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+        if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+        if (days < 7) return `${days} day${days !== 1 ? "s" : ""} ago`;
+        if (weeks < 5) return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
+        if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
+        return `${years} year${years !== 1 ? "s" : ""} ago`;
     }
 
     const roleLabels = {
@@ -373,7 +374,7 @@
         padding: 20px 0 20px 20px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 20px;
     }
     .menu-button {
         padding: 5px;
@@ -386,8 +387,8 @@
         background-color: transparent;
     }
     .profile-container {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border: none;
         border-radius: 50%;
         background-color: #BB98B8;
@@ -398,7 +399,8 @@
         border-radius: 50%;
     }
     .menu-button h1{
-        font-size: 1em;
+        font-size: 1.1em;
+        font-family: 'Poppins-Bold';
     }
 
     .rs-button {
@@ -468,7 +470,7 @@
         align-items: center;
         gap: 5px;
     }
-    .menu-buttons-container button {
+    .settings-btn, .logout-btn {
         width: 60%;
         background-color: transparent;
         display: flex;
@@ -477,20 +479,19 @@
         border: none;
         cursor: pointer;
     }
-    .menu-buttons-container button img {
+    .settings-btn img, .logout-btn img {
         width: 30px;
         height: auto;
     }
-    .menu-buttons-container button h1 {
+    .settings-btn h1, .logout-btn h1 {
         font-size: 1.2em;
         color: white;
         margin-left: 10px;
         text-align: left;
         font-family: 'Poppins', sans-serif;
     }
-    .white-line {
-        width: 60%;
-        border: 1px solid white;
+    .settings-btn:hover, .logout-btn:hover {
+        transform: scale(1.1);
     }
     .notification-box {
         position: relative;
@@ -681,6 +682,14 @@
         width: 100%;
         border-radius: 10px;
         border: 1px solid #435F77;
+    }
+    .white-line1 {
+        width: 80%;
+        border: 1px solid white;
+    }
+    .white-line2 {
+        height: 55px;
+        border: 1px solid white;
     }
 
     .mark-all-read img{
