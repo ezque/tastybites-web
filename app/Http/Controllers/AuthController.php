@@ -74,7 +74,7 @@ class AuthController extends Controller
                 Notification::create([
                     'userID'   => $admin->id,
                     'senderID' => $user->id,
-                    'type'     => 2,
+                    'type'     => 'chefApplicant',
                     'message'  =>  " has signed up as a new chef. Review their profile.",
                 ]);
             }
@@ -86,7 +86,7 @@ class AuthController extends Controller
                 Notification::create([
                     'userID'   => $admin->id,
                     'senderID' => $user->id,
-                    'type'     => 3,
+                    'type'     => 'userApplicant',
                     'message' => " has joined the community."
 
                 ]);

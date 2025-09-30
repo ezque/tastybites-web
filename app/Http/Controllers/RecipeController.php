@@ -111,7 +111,7 @@ class RecipeController extends Controller
                         'senderID' => auth()->id(),
                         'message'  => 'submitted a premium recipe. Review now.',
                         'status'   => 'unread',
-                        'type'     => 1,
+                        'type'     => 'addPremiumRecipe',
                     ]);
                 }
             }
