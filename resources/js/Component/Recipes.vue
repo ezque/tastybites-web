@@ -38,16 +38,14 @@
 
 
         </div>
-        <div class="footer">
-            <p>© 2025 Tastybites. All rights reserved.</p>
-        </div>
-
+        <Footer/>
     </div>
 </template>
 
 <script setup>
     import {computed, ref} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
+    import Footer from "@/Component/Footer.vue";
     const emit = defineEmits(['navigate'])
 
     const activeFilter = ref("all")
@@ -164,19 +162,6 @@
         width: 150px;
         height: auto;
     }
-    .footer {
-        width: 100%;
-        height: 7%;
-        display: flex;
-        align-items: start;
-        justify-content: center;
-        position: fixed;
-        bottom: -20px;
-        font-size: .7em;
-        font-family: 'Poppins-SemiBold';
-    }
-    .footer p {
-        margin-right: 10%;
-    }
+
 </style>
 

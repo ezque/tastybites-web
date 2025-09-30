@@ -111,12 +111,14 @@
             </div>
 
         </div>
+        <Footer/>
     </div>
 </template>
 
 <script setup>
     import { ref, computed } from "vue";
     import axios from "axios";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
       chefs: Array

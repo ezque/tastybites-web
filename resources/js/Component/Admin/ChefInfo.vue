@@ -63,6 +63,7 @@
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 </template>
 
@@ -70,6 +71,7 @@
     import { ref, computed } from "vue";
     import axios from "axios";
     import RecipeCard from "@/Component/RecipeCard.vue";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
         chef: Object,
