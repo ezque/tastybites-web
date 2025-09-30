@@ -50,7 +50,7 @@
                             :key="notif.id"
                         >
                             <div class="main-notification">
-                                <!-- Admin -->
+                                <!-- Premium Recipe -->
                                 <button v-if="notif.type === '1'" class="notification-item-active">
                                     <div class="notif-icon">
                                         <img src="/public/images/premium-icon.png" alt="Premium recipe" />
@@ -60,6 +60,7 @@
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
+                                <!--New Chef-->
                                 <button v-if="notif.type === '2'" class="notification-item-active">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="Chef" />
@@ -69,7 +70,7 @@
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
-
+                                <!--New User-->
                                 <button v-if="notif.type === '3'" class="notification-item-active">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/new_user3.png" alt="user" />
@@ -80,30 +81,32 @@
                                     </div>
                                 </button>
 
-<!--                                <button class="notification-item" v-if="notif.type === '4'">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/report.png" alt="report" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> is reported by <strong>@Zellyace</strong>. Review report now!</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
-
-                                <!-- chef -->
-                                <button class="notification-item-active" v-if="notif.type === '5' || notif.type === '6'">
+                                <!--Report-->
+                                <button class="notification-item" v-if="notif.type === '4'">
                                     <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === '5'"/>
-                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === '6'"/>
+                                        <img src="/public/images/Button-icon/report.png" alt="report" />
                                     </div>
                                     <div class="notif-content">
-                                        <p v-if="notif.type === '5'"> {{ notif.message }} </p>
-                                        <p v-if="notif.type === '6'"> {{ notif.message }} </p>
+                                        <p>{{notif.message}}</p>
                                         <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                     </div>
                                 </button>
 
-                                <button class="notification-item-active" v-if="notif.type === '7'">
+                                <!--Reaction-->
+                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === 'liked'"/>
+                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === 'disliked'"/>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p v-if="notif.type === 'liked'"> {{ notif.message }} </p>
+                                        <p v-if="notif.type === 'disliked'"> {{ notif.message }} </p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <!--Recipe purchase-->
+                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/payment.png" alt="payment" />
                                     </div>
@@ -113,25 +116,27 @@
                                     </div>
                                 </button>
 
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/follow.png" alt="follow" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>@appletamesis</strong> is now following you!</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
+                                <!--Followed-->
+                                <button class="notification-item" v-if="notif.type === 'followed'">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/follow.png" alt="follow" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@appletamesis</strong> is now following you!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
 
-<!--                                <button class="notification-item">-->
-<!--                                    <div class="notif-icon">-->
-<!--                                        <img src="/public/images/Button-icon/block.png" alt="follow" />-->
-<!--                                    </div>-->
-<!--                                    <div class="notif-content">-->
-<!--                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>-->
-<!--                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>-->
-<!--                                    </div>-->
-<!--                                </button>-->
+                                <!--recipe Block by admin-->
+                                <button class="notification-item" v-if="recipeBlocked">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/block.png" alt="follow" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
 <!--                                -->
 <!--                                <button class="notification-item">-->
 <!--                                    <div class="notif-icon">-->
@@ -342,10 +347,10 @@
         if (days < 7) return `${days}d ago`;
 
         return date.toLocaleDateString("en-US", {
-            month: "short", 
-            day: "numeric", 
-            year: "numeric" 
-        });  
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
     }
 
     const roleLabels = {

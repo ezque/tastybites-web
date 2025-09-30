@@ -164,7 +164,7 @@ class RecipeController extends Controller
                 'message'  => 'Your recipe "' . $recipe->recipeName . '" has been purchased by '
                     . auth()->user()->userInfo->userName,
                 'status'  => 'unread',
-                'type'    => 7,
+                'type'    => 'recipePurchased',
             ]);
 
             return response()->json([
@@ -220,12 +220,11 @@ class RecipeController extends Controller
 
                 // Map reaction_type to notification type
                 $notificationType = null;
-                if ($reactionType == 1) $notificationType = 5;
-                elseif ($reactionType == 2) $notificationType = 6;
-//                else $notificationType = 7; // optional for reaction_type 3
+                if ($reactionType == 1) $notificationType = 'liked';
+                elseif ($reactionType == 2) $notificationType = 'disliked';
 
                 Notification::create([
-                    'userID' => $recipe->userID, // notify recipe owner
+                    'userID' => $recipe->userID,
                     'senderID' => $userID,
                     'message' => $reactorName . ' reacted to your recipe "' . $recipe->recipeName . '"',
                     'status' => 'unread',
