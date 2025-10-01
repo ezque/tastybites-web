@@ -24,6 +24,8 @@ class AdminController extends Controller
         $getRecipeDetailsAdmin = $recipeService->getRecipeDetailsAdmin();
         $getNotification = $notificationServices->getNotification();
         $adminTotalIncome = $recipeService->getAdminTotalIncome();
+        $totalCountsUsers = $userService->totalCountsUsers();
+        $getTotalRecipeCounts = $recipeService->getTotalRecipeCounts();
 
         return Inertia::render('Admin/Dashboard',
             [
@@ -34,7 +36,9 @@ class AdminController extends Controller
                 'recipeAllDetails' => $recipeAllDetails,
                 'getRecipeDetailsAdmin' => $getRecipeDetailsAdmin,
                 'getNotification' => $getNotification,
-                'adminTotalIncome' => $adminTotalIncome
+                'adminTotalIncome' => $adminTotalIncome,
+                'totalCountsUsers' => $totalCountsUsers,
+                'getTotalRecipeCounts' => $getTotalRecipeCounts,
             ]
         );
     }

@@ -14,6 +14,8 @@
             <Home
                 v-if="activeComponent === 'AdminHome'"
                 :adminTotalIncome="adminTotalIncome"
+                :totalCountsUsers="totalCountsUsers"
+                :getTotalRecipeCounts="getTotalRecipeCounts"
                 @navigate="setActiveComponent"
             />
             <Income
@@ -87,6 +89,8 @@
         getRecipeDetailsAdmin: Array,
         getNotification: Array,
         adminTotalIncome: Object,
+        totalCountsUsers: Object,
+        getTotalRecipeCounts: Object,
     })
 
     console.log(props.adminTotalIncome.total)

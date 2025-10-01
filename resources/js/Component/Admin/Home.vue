@@ -5,7 +5,7 @@
             <button class="card">
                 <div class="card-left">
                     <p class="label">TOTAL INCOME</p>
-                    <p class="amount">₱15,000</p>
+                    <p class="amount">₱{{props.adminTotalIncome.total}}</p>
                     <p class="growth">↑ 3.48% <span> since last month</span></p>
                 </div>
                 <div class="card-right">
@@ -16,7 +16,7 @@
                 @click="emit('navigate','Users')" class="card">
                 <div class="card-left">
                     <p class="label">USERS</p>
-                    <p class="amount">399</p>
+                    <p class="amount">{{ props.totalCountsUsers.usersCounts }}</p>
                     <p class="growth">↑ 3.48% <span> since last month</span></p>
                 </div>
                 <div class="card-right-users">
@@ -27,7 +27,7 @@
                 @click="emit('navigate','AdminChefs')" class="card">
                 <div class="card-left">
                     <p class="label">CHEFS</p>
-                    <p class="amount">399</p>
+                    <p class="amount">{{ props.totalCountsUsers.chefsCounts }}</p>
                     <p class="growth">↑ 3.48% <span> since last month</span></p>
                 </div>
                 <div class="card-right">
@@ -38,7 +38,7 @@
                 @click="emit('navigate', 'Recipes')" class="card">
                 <div class="card-left">
                     <p class="label">RECIPES</p>
-                    <p class="amount">399</p>
+                    <p class="amount">{{ props.getTotalRecipeCounts.recipeCounts }}</p>
                     <p class="growth">↑ 3.48% <span> since last month</span></p>
                 </div>
                 <div class="card-right">
@@ -88,7 +88,9 @@
     ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler)
 
     const props = defineProps({
-        adminTotalIncome: Object
+        adminTotalIncome: Object,
+        totalCountsUsers: Object,
+        getTotalRecipeCounts: Object
     })
     const emit = defineEmits(['navigate'])
     const LineChart = Line
@@ -196,7 +198,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 70%;       
+        width: 70%;
     }
     .label {
         font-size: 16px;
@@ -217,7 +219,7 @@
         font-family: 'Poppins-Bold';
     }
     .growth span {
-        color: #6c757d; 
+        color: #6c757d;
         font-size: 11px;
         font-family: 'Poppins-Italic';
     }
@@ -286,31 +288,31 @@
         border-radius: 10px 0 10px 10px;
         overflow: hidden;
         box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        width: 100px;           
+        width: 100px;
         display: flex;
         flex-direction: column;
     }
 
     .dropdown-content a {
         display: block;
-        width: 100%;              
-        text-align: center;       
+        width: 100%;
+        text-align: center;
         color: white;
         text-decoration: none;
         cursor: pointer;
         font-family: 'Poppins-Bold';
-        padding: 8px 0;          
+        padding: 8px 0;
     }
 
     .dropdown-content a + a {
         border-top: 2px solid white;
         width: 80%;
-        align-self: center; 
+        align-self: center;
     }
 
     .dropdown-content a:hover {
-        background: #31485B;   
-        width: 100%;   
+        background: #31485B;
+        width: 100%;
     }
     .chart-container {
         width: 95%;

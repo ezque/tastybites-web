@@ -107,6 +107,12 @@ class RecipeService
             'yearly' => $yearly
         ];
     }
+    public function getTotalRecipeCounts()
+    {
+        return [
+            'recipeCounts' => Recipe::where('status', 'active')->count()
+        ];
+    }
 
 
 

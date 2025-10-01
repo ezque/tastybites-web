@@ -62,6 +62,7 @@
                     <button :class="{ active: role === 'chef' }" @click="selectRole('chef')">Chef</button>
                 </div>
 
+
                 <div v-if="role === 'chef'" class="credExp-input-group">
                     <input
                         class="chef-input"
@@ -447,6 +448,15 @@ async function handleLogin() {
     .chef-input[type="number"] {
         -moz-appearance: textfield;
     }
+    .button-container button.active {
+        background-color: #2C3E50;
+        color: #FFD700;
+        font-weight: bold;
+        border: 2px solid #FFD700;
+        transform: scale(1.05);
+        transition: all 0.2s ease-in-out;
+    }
+
 
 
 

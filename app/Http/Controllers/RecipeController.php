@@ -115,6 +115,19 @@ class RecipeController extends Controller
                     ]);
                 }
             }
+            if ($isFree === 'free') {
+                $admins = User::where('role', 'admin')->get();
+
+                foreach ($admins as $admin) {
+                    Notification::create([
+                        'userID'   => $admin->id,
+                        'senderID' => auth()->id(),
+                        'message'  => 'submitted a free recipe. Review now.',
+                        'status'   => 'unread',
+                        'type'     => 'addFreeRecipe',
+                    ]);
+                }
+            }
 
 
             return response()->json([
@@ -318,6 +331,7 @@ class RecipeController extends Controller
         ]);
     }
 
+
     public function reportRecipe(Request $request, $id)
     {
         $request->validate([
@@ -341,12 +355,37 @@ class RecipeController extends Controller
 
         $report = Report::create($reportData);
 
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            if ($report->reportedUserID !== null) {
+                Notification::create([
+                    'userID'   => $admin->id,
+                    'senderID' => auth()->id(),
+                    'message'  => 'A user has been reported. Reporter ID: ' . auth()->id(),
+                    'status'   => 'unread',
+                    'type'     => 'report',
+                ]);
+            } elseif ($report->reportedRecipeID !== null) {
+                $recipe = Recipe::find($report->reportedRecipeID);
+
+                Notification::create([
+                    'userID'   => $admin->id,
+                    'senderID' => auth()->id(),
+                    'message'  => 'A recipe "' . ($recipe->recipeName ?? 'Unknown') . '" has been reported.',
+                    'status'   => 'unread',
+                    'type'     => 'report',
+                ]);
+            }
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Report submitted successfully.',
             'report'  => $report,
         ]);
     }
+
 
 
 

@@ -13,6 +13,15 @@ class UserService
             ->where('role', 'chef')
             ->get();
     }
+    public function totalCountsUsers()
+    {
+        return [
+            'usersCounts' => User::where('role', 'user')->count(),
+            'chefsCounts' => User::where('role', 'chef')->count(),
+        ];
+    }
+
+
     public function getUserInfo()
     {
         return User::with('userInfo')
