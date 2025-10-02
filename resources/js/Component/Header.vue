@@ -128,7 +128,7 @@
                                 </button>
 
                                 <!-- recipe Block by admin-->
-                                <button class="notification-item" v-if="recipeBlocked">
+                                <button class="notification-item" v-if="notif.type === 'recipeBlocked'">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/block.png" alt="follow" />
                                     </div>
@@ -275,7 +275,7 @@
     }
 
     const toggleMenuOpen = () => {
-    menuOpen.value = !menuOpen.value;
+        menuOpen.value = !menuOpen.value;
     };
 
     const capitalizedfullName = computed(() => {

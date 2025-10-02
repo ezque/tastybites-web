@@ -6,31 +6,210 @@
         <div class="notification-main">
             <div class="card-main">
                 <div class="card-main-header">
-                    <button>
-                        All
-                    </button>
-                    <button>
-                        Unread
+                    <button @click="activeFilter = 'all'" :class="{ active: activeFilter === 'all' }">All</button>
+                    <button @click="activeFilter = 'unread'" :class="{ active: activeFilter === 'unread' }">Unread</button>
+
+                    <!-- Sorting -->
+                    <button @click="sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'">
+                        Sort: {{ sortOrder === 'desc' ? 'Newest' : 'Oldest' }}
                     </button>
                 </div>
-                <div class="notification-container">
-                    <button class="notification-item">
-                        <div class="notif-icon">
-                            <img src="/public/images/Button-icon/follow.png" alt="follow" />
+
+                <div class="all-notifications-box">
+                    <div
+                        class="notifications-card"
+                        v-for="notif in filteredNotifications"
+                        :key="notif.id"
+                    >
+                        <div class="main-notification">
+                            <!-- Premium Recipe -->
+                            <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active">
+                                <div class="notif-icon">
+                                    <img src="/public/images/premium-icon.png" alt="Premium recipe" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>@{{ notif.sender.user_info.userName }} </strong> {{ notif.message }}</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+                            <!--New Chef-->
+                            <button v-if="notif.type === 'chefApplicant'" class="notification-item-active">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/chef.png" alt="Chef" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+                            <!--New User-->
+                            <button v-if="notif.type === 'userApplicant'" class="notification-item-active">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/new_user3.png" alt="user" />
+                                </div>
+                                <div class="notif-content">
+                                    <p>We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!--Report-->
+                            <button v-if="notif.type === 'report'" class="notification-item-active">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/report.png" alt="report" />
+                                </div>
+                                <div class="notif-content">
+                                    <p>{{notif.message}}</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!--Reaction-->
+                            <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === 'liked'"/>
+                                    <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === 'disliked'"/>
+                                </div>
+                                <div class="notif-content">
+                                    <p v-if="notif.type === 'liked'"> {{ notif.message }} </p>
+                                    <p v-if="notif.type === 'disliked'"> {{ notif.message }} </p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!--Recipe purchase-->
+                            <button class="notification-item-active" v-if="notif.type === 'recipePurchased'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/payment.png" alt="payment" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!--Followed-->
+                            <button class="notification-item" v-if="notif.type === 'followed'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/follow.png" alt="follow" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>@appletamesis</strong> is now following you!</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!-- recipe Block by admin-->
+                            <button class="notification-item" v-if="notif.type === 'recipeBlocked'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/block.png" alt="follow" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+                            <!-- approved as a chef -->
+                            <button class="notification-item" v-if="notif.type === 'chefApproved'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/chef.png" alt="as_chef" />
+                                </div>
+                                <div class="notif-content">
+                                    <p><strong>Chef status unlocked! ✨</strong> Share your first recipe now!</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+                            <!-- premium recipe approved by admin -->
+                            <button class="notification-item" v-if="notif.type === 'premiumRecipeApproved'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/approved.png" alt="approved" />
+                                </div>
+                                <div class="notif-content">
+                                    <p>Your premium recipe, <strong>Adobo <i>(Filipino cuisine)</i></strong> was approved! Recipe is now available for purchase.</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+                            <!-- recipe purchase approved -->
+                            <button class="notification-item" v-if="notif.type === 'recipePurchaseApproved'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
+                                </div>
+                                <div class="notif-content">
+                                    <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
+
+                            <!-- new recipe added -->
+                            <button class="notification-item" v-if="notif.type === 'newRecipeAdded'">
+                                <div class="notif-icon">
+                                    <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />
+                                </div>
+                                <div class="notif-content">
+                                    <p>Chef <strong>@bon</strong> added new recipe, check it now!</p>
+                                    <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
                         </div>
-                        <div class="notif-content">
-                            <p><strong>@appletamesis</strong> is now following you!</p>
-                            <span class="time">Just now</span>
-                        </div>
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-    
+    import { ref, computed } from "vue";
+
+    const props = defineProps({
+        getNotification: Array
+    })
+
+    const activeFilter = ref("all"); // all | unread
+    const sortOrder = ref("desc");   // desc = newest first, asc = oldest first
+
+    function timeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (seconds < 60) return `${seconds}s ago`;
+        if (minutes < 60) return `${minutes}m ago`;
+        if (hours < 24) return `${hours}h ago`;
+        if (days < 7) return `${days}d ago`;
+
+        return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
+    }
+
+    const filteredNotifications = computed(() => {
+        let notifications = props.getNotification;
+
+        // Filter by status
+        if (activeFilter.value === "unread") {
+            notifications = notifications.filter(n => n.status === "unread");
+        }
+
+        // Sort by date
+        notifications = [...notifications].sort((a, b) => {
+            const dateA = new Date(a.created_at);
+            const dateB = new Date(b.created_at);
+            return sortOrder.value === "desc"
+                ? dateB - dateA
+                : dateA - dateB;
+        });
+
+        return notifications;
+    });
 </script>
+
 <style scoped>
     .notification-main-body {
         width: 100%;
@@ -108,11 +287,6 @@
         padding: 5px 10px;
         font-family: 'Poppins-SemiBold';
     }
-    .notification-container{
-                display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
     .notification-item {
         display: flex;
         flex-direction: row;
@@ -134,8 +308,9 @@
         align-items: center;
         background-color: #E0E7FF;
         border-right: #AFADAD solid 1px;
-        box-shadow: 0px 4px 1px #AFADAD;
-        margin-top: 10px;
+        box-shadow: 0 4px 1px #AFADAD;
+        margin-top: 5px;
+        width: 100%;
     }
     .notif-icon {
         width: 10%;
@@ -160,5 +335,55 @@
         font-size: 9px;
         color: black;
         font-family: 'Poppins-Regular';
+    }
+    .all-notifications-box {
+        max-height: 750px;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        overflow: auto;
+        margin-top: 30px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        padding: 5px;
+    }
+    .all-notifications-box::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .all-notifications-box::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    .notification-item-active {
+        display: flex;
+        flex-direction: row;
+        border: none;
+        border-radius: 15px;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        background-color: #E0E7FF;
+        border-right: #AFADAD solid 1px;
+        box-shadow: 0 4px 1px #AFADAD;
+        margin-top: 10px;
+    }
+    .main-notification {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+    }
+    .notifications-card {
+        display: flex;
+        flex-direction: row;
     }
 </style>

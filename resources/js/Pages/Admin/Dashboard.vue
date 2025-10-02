@@ -59,6 +59,7 @@
             />
             <Notification
                 v-if="activeComponent === 'Notification'"
+                :getNotification="getNotification"
             />
 
         </div>

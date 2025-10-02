@@ -40,6 +40,7 @@
             />
             <Notification
                 v-if="activeComponent === 'Notification'"
+                :getNotification="getNotification"
             />
             <UserChef
                 v-if="activeComponent === 'userChef'"
