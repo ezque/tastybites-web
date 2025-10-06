@@ -10,21 +10,21 @@
             <div class="inputs">
                 <div class="user-information-group">
                     <div class="user-text-input-group">
-                        <span class="material-icons-outlined">person</span>
+                        <img src="/public/images/Button-icon/user.png" class="user-icon" />
                         <input placeholder="Fullname" v-model="fullName" />
                     </div>
                     <div class="user-text-input-group">
-                        <span class="material-icons-outlined">person</span>
+                        <img src="/public/images/Button-icon/user.png" class="user-icon" />
                         <input placeholder="Username" v-model="userName" />
                     </div>
                 </div>
 
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">email</span>
+                    <img src="/public/images/Button-icon/user.png" class="user-icon" />
                     <input placeholder="Email" v-model="email" />
                 </div>
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">person</span>
+                    <img src="/public/images/Button-icon/user.png" class="user-icon" />
                     <select v-model="gender">
                         <option disabled value="">Select Gender</option>
                         <option value="male">Male</option>
@@ -33,45 +33,69 @@
                 </div>
 
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">lock</span>
+                    <img src="/public/images/Button-icon/password.png" class="password-icon" />
                     <input
                         :type="showPassword ? 'text' : 'password'"
                         placeholder="Password"
                         v-model="password"
                     />
-                    <span class="material-icons-outlined visibility-icon" @click="togglePassword">
-                        {{ showPassword ? 'visibility_off' : 'visibility' }}
-                    </span>
+                    <img 
+                        :src="showPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'" 
+                        class="visibility-icon"
+                        @click="togglePassword"
+                        alt="Toggle Password"
+                    />
                 </div>
 
                 <div class="text-input-group">
-                    <span class="material-icons-outlined">lock</span>
+                    <img src="/public/images/Button-icon/password.png" class="password-icon" />
                     <input
                         :type="showConfirmPassword ? 'text' : 'password'"
                         placeholder="Confirm Password"
                         v-model="confirmPassword"
                     />
-                    <span class="material-icons-outlined visibility-icon" @click="toggleConfirmPassword">
-                        {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
-                    </span>
+                    <img 
+                        :src="showConfirmPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'" 
+                        class="visibility-icon"
+                        @click="toggleConfirmPassword"
+                        alt="Toggle Password"
+                    />
                 </div>
 
-                <!-- 👇 Role Buttons -->
+                <p v-if="confirmPassword" 
+                :class="passwordMatch ? 'match-text' : 'mismatch-text'">
+                {{ passwordMatch ? 'Passwords match ✅' : 'Passwords do not match ❌' }}
+                </p>
+
+                <!-- Role Buttons -->
                 <div class="button-container">
-                    <button :class="{ active: role === 'user' }" @click="selectRole('user')">User</button>
-                    <button :class="{ active: role === 'chef' }" @click="selectRole('chef')">Chef</button>
+                    <button :class="{ active: role === 'user' }" @click="selectRole('user')">
+                        <img src="/public/images/Button-icon/user_white.png" class="role-icon" />
+                        <p>USER</p>
+                    </button>
+                    <button :class="{ active: role === 'chef' }" @click="selectRole('chef')">
+                        <img src="/public/images/Button-icon/chef_white.png" class="role-icon" style="margin-right: 8px;" />
+                        <p>CHEF</p>
+                    </button>
                 </div>
 
 
                 <div v-if="role === 'chef'" class="credExp-input-group">
-                    <input
-                        class="chef-input"
-                        type="number"
-                        v-model="experience"
-                        placeholder="Experience"
-                    />
 
-                    <div class="input-with-button">
+                    <!-- Experience Input -->
+                    <div class="text-input-group">
+                        <img src="/public/images/Button-icon/experience.png" class="experience-icon" />
+                        <input
+                            class="chef-input"
+                            type="number"
+                            v-model="experience"
+                            placeholder="Years of experience"
+                        />
+                    </div>
+
+                    <!-- Credentials Upload -->
+                    <div class="text-input-group input-with-button">
+                        <img src="/public/images/Button-icon/certificates.png" class="credential-icon" />
                         <input
                             class="chef-input"
                             type="text"
@@ -92,23 +116,29 @@
                             style="display: none"
                         />
                     </div>
+
                 </div>
+
 
             </div>
 
-            <button class="submit-button" @click="handleLogin" :disabled="loading">
+            <button 
+                class="submit-button" 
+                @click="handleLogin" 
+                :disabled="loading || !passwordMatch"
+            >
                 <span v-if="loading" class="spinner"></span>
                 <span v-else>REGISTER</span>
             </button>
 
-            <p class="below-button-text">Already have an account? <a href="/">Login</a></p>
+            <p class="below-button-text">Already have an account? <a href="/" class="register-link">Login</a></p>
             <img src="/public/images/tastybites_logo.png" class="form-footer-logo" />
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
 
 const loading = ref(false)
@@ -201,6 +231,11 @@ async function handleLogin() {
         loading.value = false
     }
 }
+
+const passwordMatch = computed(() => {
+  if (!confirmPassword.value) return true // hide until user types
+  return password.value === confirmPassword.value
+})
 </script>
 
 
@@ -278,24 +313,11 @@ async function handleLogin() {
         border-radius: 10px;
         align-items: center;
         display: flex;
-        padding: 10px 3px 10px 5px;
+        padding: 10px;
+        box-sizing: border-box;
         width: 40%;
         flex: 1;
     }
-
-    .user-text-input-group input {
-        height: 100%;
-        border: none;
-        outline: none;
-        color: #AFADAD;
-        padding: 0 2px 0 2px;
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .user-text-input-group span {
-        color: #AFADAD;
-    }
-
     .text-input-group {
         background-color: white;
         border-radius: 10px;
@@ -305,28 +327,35 @@ async function handleLogin() {
         width: 100%;
         box-sizing: border-box;
     }
-
-    .text-input-group input {
+    .text-input-group input, .user-text-input-group input, .text-input-group select {
         flex: 1;
         height: 100%;
         border: none;
         outline: none;
         margin-left: 10px;
-        color: #AFADAD;
-        font-family: 'Poppins', sans-serif;
+        color: black;
+        font-family: 'Poppins-Regular';
+        font-size: .80em;
+    }   
+    .user-icon {
+        width: 20px;
+        height: 18px;
+    }  
+    .email-icon {
+        width: 24px;
+        height: 18px;
     }
-
-    .text-input-group span {
-        color: #AFADAD;
+    .password-icon {
+        width: 20px;
+        height: 22px;
+        margin-left: 2px;
+        cursor: pointer;
     }
-    .text-input-group select {
-        flex: 1;
-        height: 100%;
-        border: none;
-        outline: none;
-        margin-left: 10px;
-        color: #AFADAD;
-        font-family: 'Poppins', sans-serif;
+    .visibility-icon {
+        width: 24px;
+        height: 20px;
+        flex-shrink: 0; 
+        object-fit: contain;
     }
     .submit-button {
         width: 100%;
@@ -336,7 +365,7 @@ async function handleLogin() {
         padding: 10px;
         margin-top: 15px;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-weight: bold;
         font-size: 16px;
         display: flex;
@@ -346,7 +375,9 @@ async function handleLogin() {
         transition: background-color 0.3s ease, opacity 0.3s ease;
         cursor: pointer;
     }
-
+    .submit-button:hover {
+        transform: scale(1.05);
+    }
     .submit-button:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -369,17 +400,19 @@ async function handleLogin() {
 
     .below-button-text {
         margin-top: 10px;
-        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-family: 'Poppins-Regular';
     }
-
+    .register-link {
+        color: #435F77;
+        font-family: 'Poppins-SemiBold';
+        font-style: italic;
+        text-decoration: none;
+    }
     .form-footer-logo {
         width: 150px;
         height: auto;
         margin-top: 10px;
-    }
-    .visibility-icon {
-        cursor: pointer;
-        user-select: none;
     }
     .button-container {
         width: 100%;
@@ -395,43 +428,64 @@ async function handleLogin() {
         width: 150px;
         border-radius: 20px;
         border: none;
-        color: white;
+        color: white; 
         align-items: center;
         justify-content: center;
         display: flex;
+        font-family: 'Poppins-Bold';
+        align-self: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .credExp-input-group {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px; /* Adds spacing between experience and credentials input */
+    .button-container button:hover {
+        transform: translateY(-2px);
+    }
+    .button-container button img {
+        width: 25px;
+        height: 20px;
+    }     
+    .button-container button p {
+        margin: 0;
+        font-size: 1em;
     }
 
-    .input-with-button {
-        position: relative;
-        width: 100%;
+    .credExp-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .text-input-group img {
+        width: 20px;
+        height: 20px;
     }
 
     .chef-input {
-        width: 100%;
-        padding: 10px 60px 10px 10px; /* Add space for button on the right */
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        background-color: white;
-        box-sizing: border-box;
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        background: transparent;
+    }
+
+    .input-with-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .input-with-button .chef-input {
+        margin-left: 5px;
     }
 
     .chef-inside-btn {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        padding: 6px 12px;
-        border: none;
-        background-color: #3498db;
+        background: #435F77;
         color: white;
-        border-radius: 5px;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 12px;
         cursor: pointer;
     }
 
@@ -449,15 +503,37 @@ async function handleLogin() {
         -moz-appearance: textfield;
     }
     .button-container button.active {
-        background-color: #2C3E50;
-        color: #FFD700;
-        font-weight: bold;
-        border: 2px solid #FFD700;
+        background-color: #31485B;
+        color: white;
+        font-weight: 600;
         transform: scale(1.05);
-        transition: all 0.2s ease-in-out;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .experience-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 2px;
+        cursor: pointer;
+    }
+    .credential-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 2px;
+        cursor: pointer;
+    }
+    .match-text {
+        color: green;
+        font-size: .85em;
+        font-family: 'Poppins-BoldItalic';
+        align-self: flex-start;
+        margin-left: 10px;
     }
 
-
-
-
+    .mismatch-text {
+        color: red;
+        font-size: .85em;
+        font-family: 'Poppins-BoldItalic';
+        align-self: flex-start;
+        margin-left: 10px;
+    }
 </style>
