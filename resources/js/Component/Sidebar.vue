@@ -13,7 +13,7 @@
                 @click="goUserChef"
                 v-if="!isAdmin"
             >
-                <img src="/public/images/Button-icon/home.png"/>
+                <img src="/public/images/Button-icon/chef.png"/>
                 <h1>Chef</h1>
             </button>
             <button

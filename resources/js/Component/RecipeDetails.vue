@@ -13,23 +13,24 @@
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image"/>
                     </div>
                     <div class="recipe-name-container">
-                        <h1>{{ recipe.recipeName}}</h1>
-                        <h2>{{ recipe.cuisineType }}</h2>
-                        <h3>Chef: @{{ recipe.user.user_info.userName }}</h3>
+                        <p class="recipe-name">{{ recipe.recipeName}}</p>
+                        <p class="cuisine-type">{{ recipe.cuisineType }}</p>
+                        <p class="chef-name">Chef: @{{ recipe.user.user_info.userName }}</p>
                     </div>
                     <div class="recipe-react-container">
                         <button class="like-bttn" @click="react(1)">
                             <span class="material-icons" v-if="userReactedLike">favorite</span>
                             <span class="material-icons" v-else>favorite_border</span>
+                            <p>{{ likeCount }}</p>
                         </button>
-                        <p>{{ likeCount }}</p>
 
                         <!-- DISLIKE -->
                         <button class="dislike-bttn" @click="react(2)">
                             <span class="material-icons" v-if="userReactedDislike">thumb_down</span>
                             <span class="material-icons" v-else>thumb_down_off_alt</span>
+                            <p>{{ dislikeCount }}</p>
                         </button>
-                        <p>{{ dislikeCount }}</p>
+                        
                     </div>
                 </div>
                 <div class="right-side-details-container">
@@ -112,23 +113,27 @@
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image"/>
                     </div>
                     <div class="recipe-name-container">
-                        <h1>{{ recipe.recipeName}}</h1>
-                        <h2>{{ recipe.cuisineType }}</h2>
-                        <h3>Chef: @{{ recipe.user.user_info.userName }}</h3>
+                        <p class="recipe-name">{{ recipe.recipeName}}</p>
+                        <p class="cuisine-type">{{ recipe.cuisineType }}</p>
+                        <p class="chef-name">Chef: @{{ recipe.user.user_info.userName }}</p>
                     </div>
                     <div class="recipe-react-container">
                         <button class="like-bttn" @click="react(1)">
                             <span class="material-icons" v-if="userReactedLike">favorite</span>
                             <span class="material-icons" v-else>favorite_border</span>
-                        </button>
                             <p>{{ likeCount }}</p>
+                        </button>
 
                         <!-- DISLIKE -->
                         <button class="dislike-bttn" @click="react(2)">
                             <span class="material-icons" v-if="userReactedDislike">thumb_down</span>
                             <span class="material-icons" v-else>thumb_down_off_alt</span>
+                            <p>{{ dislikeCount }}</p>
                         </button>
-                        <p>{{ dislikeCount }}</p>
+                    </div>
+                    <div  class="recipe-price-container">
+                        <p class="recipe-price-label">COST:</p>
+                        <p class="recipe-price-value">₱ {{ recipe.price }}.00</p>
                     </div>
                 </div>
                 <div class="right-side-details-container">
@@ -140,10 +145,10 @@
                                     <img alt="qrcode" :src="`/storage/${recipe.gCash_path}`"/>
                                 </div>
                                 <div class="gcash-number-container">
-                                    <label>Gcash Number:</label>
-                                    <p>{{ recipe.gcash_number }}</p>
+                                    <p class="gcash-label">G-Cash Number:</p>
+                                    <p class="gcash-number">{{ recipe.gcash_number }}</p>
                                 </div>
-                                <p>Please send your payment to the QR code or the number provided above and upload a screenshot as proof of payment. Purchased recipe will be available after verification.</p>
+                                <p class="proof-payment-text">Please send your payment to the QR code or the number provided above and upload a screenshot as proof of payment. Purchased recipe will be available after verification.</p>
                                 <div class="proof-payment-container">
                                     <button
                                         @click="triggerFileInput"
@@ -161,58 +166,74 @@
                             </div>
                             <div class="nb-form-right">
                                 <label>Order Form</label>
-                                <p>In order to access this premium recipe, a one-time recipe fee is required. Once purchased, the recipe will be permanently accessible in your account.</p>
+                                <p>
+                                    In order to access this premium recipe, a one-time recipe fee is required.
+                                    Once purchased, the recipe will be permanently accessible in your account.
+                                </p>
+
                                 <div class="form-container">
                                     <div class="form-input">
                                         <div class="form-label-container">
                                             <label>Email:</label>
                                         </div>
-
-                                        <p>{{ user.email }}</p>
+                                        <div class="form-field-container">
+                                            <p>{{ user.email }}</p>
+                                        </div>
                                     </div>
+
                                     <div class="form-input">
                                         <div class="form-label-container">
                                             <label>Full Name:</label>
                                         </div>
-                                        <p class="fullName">{{ user.user_info.fullName}}</p>
+                                        <div class="form-field-container">
+                                            <p class="fullName">{{ user.user_info.fullName }}</p>
+                                        </div>
                                     </div>
+
                                     <div class="form-input">
                                         <div class="form-label-container">
                                             <label>Phone Number:</label>
                                         </div>
-                                        <input
+                                        <div class="form-field-container">
+                                            <input
                                             placeholder="Phone Number"
                                             v-model="form.phone_number"
                                             required
-                                        />
+                                            />
+                                        </div>
                                     </div>
+
                                     <div class="form-input">
                                         <div class="form-label-container">
                                             <label>Amount:</label>
                                         </div>
-                                        <input
-                                            placeholder="Amount"
-                                            v-model="form.amount"
-                                            required
-                                        />
+                                        <div class="form-field-container">
+                                            <input placeholder="Amount" v-model="form.amount" required />
+                                        </div>
                                     </div>
+
                                     <div class="form-input">
                                         <div class="form-label-container">
                                             <label>Reference #:</label>
                                         </div>
-                                        <input
-                                            placeholder="Reference"
-                                            v-model="form.reference"
-                                            required
-                                        />
+                                        <div class="form-field-container">
+                                            <input placeholder="Reference" v-model="form.reference" required />
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="nb-submit-container">
-                                    <button
-                                        @click="buyRecipe"
-                                    >Submit</button>
+                                    <button 
+                                        @click="buyRecipe" 
+                                        :disabled="!isFormComplete"
+                                        :class="{ disabled: !isFormComplete }"
+                                    >
+                                        Submit
+                                    </button>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -372,7 +393,14 @@
     const userReactedLike = computed(() => Number(props.recipe?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipe?.reaction_type) === 2)
 
-
+    const isFormComplete = computed(() => {
+        return (
+            form.phone_number.trim() !== "" &&
+            form.amount.trim() !== "" &&
+            form.reference.trim() !== "" &&
+            form.proof !== null
+        );
+    });
 </script>
 
 <style scoped>
@@ -423,8 +451,8 @@
         width: 60%;
     }
     .recipe-img-container {
-        width: 55%;
-        height: 54%;
+        width: 65%;
+        height: 59%;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -443,18 +471,26 @@
         align-items: center;
         margin-top: 20px;
     }
-    .recipe-name-container h1, .recipe-name-container h2, .recipe-name-container h3 {
+    .recipe-name {
         margin: 0;
-        font-family: 'Poppins', sans-serif;
-    }
-    .recipe-name-container h1 {
-        font-weight: bold;
-        font-size: 2em;
+        padding: 0;
+        font-family: 'Poppins-Bold';
+        font-size: 2.3em;
         color: #31485B;
     }
-    .recipe-name-container h2, .recipe-name-container h3 {
+    .cuisine-type {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins-SemiBold';
         font-style: italic;
-        font-size: 1.2em;
+        font-size: 1.3em;
+        color: #768082;
+    }
+    .chef-name {
+        margin-top: 5px;
+        padding: 0;
+        font-family: 'Poppins-Regular';
+        font-size: 1em;
         color: #768082;
     }
     .recipe-react-container {
@@ -464,6 +500,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        gap: 20px;
     }
     .recipe-react-container button {
         width: 25px;
@@ -475,11 +512,43 @@
         background-color: transparent;
         cursor: pointer;
         margin: 10px;
+        gap: 5px;
+        font-family: 'Poppins-Regular';
+        font-size: 1em;
     }
-    .recipe-react-container button img {
-        height: 100%;
-        width: auto;
+    .recipe-react-container button span {  
+        font-size: 2em;
+        color: #EC3F57;
     }
+
+    .recipe-price-container {
+        width: 216px;
+        height: 42px;
+        display: flex;
+        justify-content: space-between; /* push label left, value right */
+        align-items: center; /* vertically center both */
+        background-color: #7592AB;
+        margin-top: 10px;
+        border-radius: 15px;
+        padding: 0 15px; /* add inner spacing */
+    }
+
+    .recipe-price-label {
+        font-family: 'Poppins-Bold';
+        font-size: 1em;
+        color: #E0E7FF;
+        margin: 0;
+        padding: 0;
+    }
+
+    .recipe-price-value {
+        font-family: 'Poppins-Bold';
+        font-size: 1.3em;
+        color: #FF000D;
+        margin: 0;
+        padding: 0;
+    }
+
     .right-side-details-main {
         background-color: #B5BFDE;
         width: 85%;
@@ -491,14 +560,23 @@
         display: flex;
         flex-direction: column;
     }
-    .description-container, .ingredient-container, .procedure-container, .video-container{
+    .description-container, .ingredient-container, .procedure-container{
         width: 100%;
         height: auto;
+        margin-bottom: 10px;
+    }
+    .description-container {
+        margin-top: 10px;
+    }
+    .video-container {
+        margin-bottom: 20px;
     }
     .description-container p {
         text-align: justify;
         margin-top: 0;
         margin-left: 70px;
+        font-family: 'Poppins-Regular';
+        font-size: .95em;
     }
     .label-container {
         width: 100%;
@@ -509,11 +587,12 @@
     .label-container img {
         width: 30px;
         height: 30px;
-        margin-left: 20px;
     }
     .label-container h2 {
         margin: 0;
-        margin-left: 10px;
+        margin-left: 13px;
+        font-family: 'Poppins-Bold';
+        font-size: 1.3em;
     }
     .main-ingredient {
         width: 100%;
@@ -540,28 +619,32 @@
         height: auto;
         display: flex;
     }
-    .ingredient-quantity p, .ingredient-name p{
+    .ingredient-quantity p{
         margin: 0;
         padding: 0;
         text-align: justify;
-        font-family: 'Poppins', sans-serif;
-    }
-    .ingredient-quantity p{
+        font-family: 'Poppins-Regular';
         margin-right: 20px;
+        font-size: .95em;
     }
     .ingredient-name p{
+        margin: 0;
+        padding: 0;
+        text-align: justify;
+        font-family: 'Poppins-Bold';
         margin-left: 20px;
         font-weight: bold;
         text-transform: capitalize;
+        font-size: .95em;
     }
     .procedure-main {
         width: 100%;
         height: auto;
         display: flex;
         flex-direction: column;
-        align-items: end;
-        gap: 25px;
-        padding-top: 20px;
+        align-items: center;
+        gap: 20px;
+        padding-top: 10px;
     }
     .procedure-list-container {
         width: 80%;
@@ -571,13 +654,15 @@
         padding-bottom: 10px;
         padding-left: 40px;
         background-color: #7592AB;
-        border-radius: 20px;
+        border-radius: 15px;
         position: relative;
     }
     .procedure-list-container p {
         margin: 0;
         padding: 0;
         text-align: justify;
+        font-family: 'Poppins-SemiBold';
+        font-size: .95em;
     }
     .procedure-number {
         position: absolute;
@@ -591,6 +676,7 @@
         color: white;
         bottom: 45%;
         right: 96%;
+        font-family: 'Poppins-Bold';
     }
     .video-main {
         width: 100%;
@@ -603,19 +689,19 @@
         border-radius: 20px;
     }
     .nb-form-container {
-        width: 100%;
         height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 100%;
     }
     .nb-form {
-        width: 70%;
-        height: 70%;
-        padding: 30px;
         background-color: #F5F5F5;
-        border-radius: 20px;
-        box-shadow: 4px 4px 2px #AFADAD;
+        border-right: #AFADAD 1px solid;
+        box-shadow: #AFADAD 1px 4px 5px;
+        width: 85%;
+        height: 95%;
+        border-radius: 35px;
+        margin-left: 30px;
+        overflow: auto;
+        padding: 20px 40px 20px 40px;
         display: flex;
         flex-direction: row;
     }
@@ -626,12 +712,13 @@
         flex-direction: column;
         align-items: center;
         border-right: 2px solid white;
-        padding-right: 20px;
+        justify-content: center;
+        gap: 10px;
+        margin-top: -10px;
+        padding-right: 40px;
     }
     .nb-form-left label {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-weight: bold;
         color: #768082;
         font-size: 1.8em;
@@ -646,7 +733,7 @@
     }
     .qr-code-container img {
         width: auto;
-        height: 90%;
+        height: 95%;
     }
     .gcash-number-container {
         width: 100%;
@@ -657,26 +744,22 @@
         justify-content: center;
         gap: 10px;
     }
-    .gcash-number-container label {
+    .gcash-label {
         color: white;
-        padding: 5px 10px 5px 10px;
+        padding: 8px 10px 8px 10px;
         background-color: #435F77;
         border-radius: 30px;
-        font-size: 1em;
+        font-size: .7em;
         align-self: center;
+        font-family: 'Poppins-Bold';
     }
-    .gcash-number-container p {
-        padding: 10px 10px 10px 10px;
+    .gcash-number {
+        padding: 15px 12.5px 15px 12.5px;
         background-color: #B5BFDE;
         border-radius: 10px;
         color: #768082;
-    }
-    .nb-form-left p {
-        text-align: justify;
-        color: #768082;
-        font-style: italic;
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.7em;
+        font-size: .8em;
+        font-family: 'Poppins-Bold';
     }
     .proof-payment-container {
         width: 100%;
@@ -687,6 +770,12 @@
         flex-direction: row;
         align-items: center;
     }
+    .proof-payment-text {
+        text-align: justify;
+        font-family: 'Poppins-Italic';
+        font-size: .75em;
+        color: #768082;
+    }
     .proof-payment-container button {
         width: 20%;
         height: 65%;
@@ -696,6 +785,8 @@
         color: white;
         margin-left: 20px;
         cursor: pointer;
+        font-family: 'Poppins-Bold';
+        font-size: .7em;    
     }
     .proof-payment-container p {
         color: #768082;
@@ -704,6 +795,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-family: 'Poppins-Italic';
+        font-size: .75em;
     }
 
     .nb-form-right {
@@ -713,103 +806,112 @@
         flex-direction: column;
         align-items: center;
         border-left: 2px solid white;
-        padding-left: 20px;
+        justify-content: center;
+        gap: 10px;
+        padding-left: 40px;
+        margin-top: -10px;
     }
-    .nb-form-right label {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
+
+    .nb-form-right > label {
+        font-family: 'Poppins-Bold';
         font-weight: bold;
         color: #768082;
         font-size: 1.8em;
         align-self: flex-start;
     }
-    .nb-form-right p {
+
+    .nb-form-right > p {
         text-align: justify;
+        font-family: 'Poppins-Italic';
+        font-size: .75em;
         color: #768082;
-        font-style: italic;
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.7em;
-        margin-left: 20px;
+        margin-top: -5px;
     }
+
     .form-container {
         width: 100%;
-        height: 55%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
+
     .form-input {
-        width: 100%;
-        height: 50px;
         display: flex;
         align-items: center;
-        justify-content: start;
+        gap: 10px;
     }
+
     .form-label-container {
-        width: 35%;
-        height: 100%;
+        width: 30%;
         display: flex;
-        align-items: center;
         justify-content: flex-end;
+        align-items: center;
     }
-    .form-label-container label{
-        color: black;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        font-size: .7em;
-        margin-right: 10px;
-        padding: 0;
-        align-self: center;
-    }
-    .form-input p {
-        margin: 0;
-        padding: 0;
-        color: #31485B;
-        font-family: 'Poppins', sans-serif;
-        font-size: .8em;
-    }
-    .form-input input {
+
+    .form-field-container {
         width: 60%;
-        height: 70%;
-        border-radius: 20px;
-        padding-left: 10px;
-        border: none;
-        background-color: #B5BFDE;
+        display: flex;
+        flex-direction: column;
     }
+
+    .form-label-container label {
+        color: black;
+        font-family: 'Poppins-BoldItalic';
+        font-size: 0.8em;
+        margin-right: 5px;
+    }
+
+    .form-field-container p {
+        font-family: 'Poppins-Bold';
+        font-size: 0.85em;
+        color: #31485B;
+        margin: 0;
+    }
+
+    .form-field-container input {
+        width: 100%;
+        height: 38px;
+        border-radius: 20px;
+        padding-left: 20px;
+        border: none;
+        background-color: #B5BFDE;        
+        font-family: 'Poppins-Bold';
+        font-size: 0.80em;
+        color: #31485B;
+    }
+
     .nb-submit-container {
         width: 100%;
-        height: 15%;
         display: flex;
-        align-items: center;
         justify-content: center;
+        margin-top: 20px;
     }
+
     .nb-submit-container button {
-        background-color: #B5BFDE;
-        width: 100%;
-        height: 60%;
+        background-color: #435F77;
+        width: 80%;
+        height: 45px;
         border: none;
-        cursor: pointer;
         border-radius: 25px;
-        color: black;
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
-    }
-    .fullName {
-        text-transform: capitalize;
-    }
-    .like-bttn, .dislike-bttn {
-        background-color: transparent;
-        padding: 1px;
+        color: white;
+        font-family: 'Poppins-Bold';
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        border: none;
-        justify-content: center;
+        align-self: center;
     }
-    .like-bttn span, .dislike-bttn span{
-        font-size: 1.7em;
-        color: #E693AB;
+    .nb-submit-container button:hover {
+        background-color: #7592AB;
+        color: #31485B;
+        box-shadow: #AFADAD 1px 4px 5px;
+    }
+
+    .nb-submit-container button:disabled,
+    .nb-submit-container button.disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 
 </style>

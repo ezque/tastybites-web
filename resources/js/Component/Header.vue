@@ -278,17 +278,29 @@
         }
         return props.getNotification;
     });
-    const toggleNotification = () => {
-        isNotificationVisible.value = !isNotificationVisible.value;
-    };
-
-    const toggleMenu = () => {
-        isMenuVisible.value = !isMenuVisible.value;
+const toggleNotification = () => {
+    // Close menu if it's open
+    if (isMenuVisible.value) {
+        isMenuVisible.value = false;
     }
 
-    const toggleMenuOpen = () => {
-        menuOpen.value = !menuOpen.value;
-    };
+    // Toggle notification dropdown
+    isNotificationVisible.value = !isNotificationVisible.value;
+};
+
+const toggleMenu = () => {
+    // Close notification if it's open
+    if (isNotificationVisible.value) {
+        isNotificationVisible.value = false;
+    }
+
+    // Toggle menu dropdown
+    isMenuVisible.value = !isMenuVisible.value;
+};
+
+const toggleMenuOpen = () => {
+    menuOpen.value = !menuOpen.value;
+};
 
     const capitalizedfullName = computed(() => {
         const name = props.user?.user_info?.fullName ?? 'User'

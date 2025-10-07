@@ -24,7 +24,7 @@
         <div class="text-container">
             <h2>{{recipeCardDetail.recipeName}}</h2>
             <h3>{{recipeCardDetail.cuisineType}}</h3>
-            <h5>Chef: @{{ recipeCardDetail.user.user_info.userName }}</h5>
+            <p>Chef: @{{ recipeCardDetail.user.user_info.userName }}</p>
         </div>
         <div class="button-container">
             <button
@@ -171,7 +171,6 @@
         width: 65%;
         height: 100%;
         border-radius: 50%;
-        border: #333 solid 1px;
         margin-top: 10px;
     }
     .text-container {
@@ -196,11 +195,11 @@
         font-size: .8em;
         font-family: 'Poppins-BoldItalic';
     }
-    .text-container h5 {
+    .text-container p {
         font-size: .8em;
         font-family: 'Poppins-Regular';
     }
-    .text-container h2, .text-container h3,.text-container h5{
+    .text-container h2, .text-container h3,.text-container p{
         margin: 0;
     }
     .button-container {
@@ -213,8 +212,8 @@
     }
     .view-bttn {
         cursor: pointer;
-        width: 55%;
-        height: 30px;
+        width: 50%;
+        height: 33px;
         border-radius: 20px;
         border: none;
         background-color: #435F77;
@@ -239,6 +238,7 @@
     .like-container p {
         margin: 0;
         font-size: 0.7em;
+        font-family: 'Poppins-Regular';
     }
     .dislike-container {
         width: 18%;
@@ -251,6 +251,7 @@
     .dislike-container p {
         margin: 0;
         font-size: 0.7em;
+        font-family: 'Poppins-Regular';
     }
     .like-bttn, .dislike-bttn {
         background-color: transparent;
@@ -293,7 +294,7 @@
         border: none;
         position: absolute;
         left: 88%;
-        top: 40px;
+        top: 45px;
         margin-left: 10px;
         background-color: #435F77;
         border-radius: 0 10px 10px 10px;
@@ -304,7 +305,7 @@
         gap: 10px;
     }
     .menu-container button {
-        width: 70px;
+        width: 90px;
         height: 25px;
         background-color: transparent;
         border: none;
@@ -312,12 +313,23 @@
         align-items: center;
         justify-content: center;
         color: white;
-        gap: 10px;
+        gap: 15px;
         cursor: pointer;
+        font-family: 'Poppins-Bold';
+    }
+    .menu-container button span {
+        width: 70%;
+        text-align: start;
     }
     .menu-container button img {
-        height: 100%;
-        width: 20px;
+        height: 90%;
+        width: 30%;
+    }
+    .menu-container button:hover {
+        background-color: #CFDAFF;
+        border-right: #AFADAD solid 1px;
+        color: #435F77;
+        border-radius: 5px;
     }
 
 
