@@ -212,7 +212,9 @@
         transition: background-color 0.3s ease, opacity 0.3s ease;
         cursor: pointer;
     }
-
+    .submit-button span:hover {
+        transform: scale(1.05);
+    }   
     .submit-button:disabled {
         opacity: 0.6;
         cursor: not-allowed;

@@ -161,7 +161,13 @@
                             <p v-if="confirmPassword" :style="{ color: isMatch ? 'green' : 'red' }">
                             {{ isMatch ? 'Passwords match ✅' : 'Passwords do not match ❌' }}
                         </p>
-                        <button @click="changePassword">CHANGE PASSWORD</button>
+                        <button 
+                            @click="changePassword" 
+                            :disabled="!isMatch || !currentPassword || !newPassword || !confirmPassword"
+                            :class="{ disabled: !isMatch || !currentPassword || !newPassword || !confirmPassword }"
+                        >
+                            CHANGE PASSWORD
+                        </button>
                         </div>
                     </div>
                 </div>
@@ -588,6 +594,9 @@ async function changePassword() {
     .action-row button:hover {
         background-color: #31485B;
     }
-
+    button.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 
 </style>

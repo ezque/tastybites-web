@@ -37,10 +37,17 @@
                                 <p>Mark All Read</p>
                             </button>
                             <div class="white-line"></div>
-                            <button @click="emit('navigate', 'Notification')" class="open-notifications">
-                                <img src="/public/images/Button-icon/notifications.png" alt="mark all read"/>
-                                <p>Open Notifications</p>
-                            </button>
+                        <button 
+                            @click="
+                                menuOpen = false;
+                                isNotificationVisible = false;
+                                emit('navigate', 'Notification');
+                            " 
+                            class="open-notifications"
+                        >
+                            <img src="/public/images/Button-icon/notifications.png" alt="open notifications"/>
+                            <p>Open Notifications</p>
+                        </button>
                         </div>
                     </div>
                     <div class="all-notifications-box">
@@ -183,7 +190,7 @@
                     </div>
                 </div>
             </div>
-
+            <div class="white-line2"></div>
             <button class="menu-button" @click="toggleMenu">
                 <div class="profile-container">
                     <img
@@ -228,11 +235,16 @@
                 <h6>{{ roleLabels[user?.role] }}</h6>
             </div>
             <div class="menu-buttons-container">
-                <button @click="emit('navigate', 'Settings')">
+                <button 
+                    @click="
+                        isMenuVisible = false;
+                        emit('navigate', 'Settings');
+                    "
+                >
                     <img src="/public/images/Button-icon/settings.png" alt="img" />
                     <h1>Settings</h1>
                 </button>
-                <span class="white-line"></span>
+                <div class="white-line1"></div>
                 <button @click="handleLogout">
                     <img src="/public/images/Button-icon/logout(3).png" alt="img" />
                     <h1>Logout</h1>
@@ -381,8 +393,8 @@
         background-color: transparent;
     }
     .profile-container {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border: none;
         border-radius: 50%;
         background-color: #BB98B8;
@@ -393,7 +405,8 @@
         border-radius: 50%;
     }
     .menu-button h1{
-        font-size: 1em;
+        font-size: 1.1em;
+        font-family: 'Poppins-Bold';
     }
 
     .rs-button {
@@ -447,45 +460,52 @@
         margin: 0;
         font-size: 1.2em;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
     }
     .menu-user-info h6 {
         margin: 0;
         color: white;
-        font-family: 'Poppins', sans-serif;
-        font-weight: normal;
-        font-style: italic;
+        font-family: 'Poppins-Italic';
     }
     .menu-buttons-container {
         display: flex;
         flex-direction: column;
         width: 100%;
         align-items: center;
-        gap: 5px;
     }
     .menu-buttons-container button {
-        width: 60%;
+        width: 70%;
         background-color: transparent;
         display: flex;
         align-items: center;
         color: white;
         border: none;
         cursor: pointer;
+        gap: 5px;
     }
     .menu-buttons-container button img {
-        width: 30px;
+        width: 25px;
         height: auto;
+        margin-left: 5px;
     }
     .menu-buttons-container button h1 {
         font-size: 1.2em;
         color: white;
         margin-left: 10px;
         text-align: left;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
     }
-    .white-line {
-        width: 60%;
+    .menu-buttons-container button:hover {
+        transform: translateY(-2px);
+    }
+    .white-line1 {
+        width: 80%;
         border: 1px solid white;
+    }
+    .white-line2 {
+        height: 50px;
+        border: 1px solid white;
+        border-radius: 10px;
     }
     .notification-box {
         position: relative;
