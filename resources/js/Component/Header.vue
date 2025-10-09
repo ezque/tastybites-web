@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <img src="/public/images/tastybites_logo.png" class="logo"/>
+    <div class="w-full h-[100px] flex items-center justify-between p-5 m-0">
+        <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto"/>
         <div class="right-side-container">
             <div class="notification-box">
                 <button class="rs-button" @click="toggleNotification">

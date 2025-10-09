@@ -1,50 +1,89 @@
 <template>
-    <div class="container">
-        <img src="/public/images/register_back - rotated.png" class="background-image" />
-        <div class="leftside-container">
-            <img src="/public/images/tastybites_plate.png" class="logo-plate" />
+    <div class="h-screen w-full flex items-center justify-center relative">
+        <!-- Background -->
+        <img
+            src="/public/images/register_back - rotated.png"
+            class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain"
+        />
+
+
+        <!-- Left side -->
+        <div class="p-2 items-center justify-center z-10 relative hidden lg:flex">
+            <img src="/public/images/tastybites_plate.png" class="h-[700px] w-auto max-w-full" />
         </div>
-        <div class="rightside-container">
-            <h1 class="page-label">Welcome Back!</h1>
-            <div class="inputs">
-                <p v-if="errors.email" class="error-message">{{ errors.email[0] }}</p>
-                <div class="text-input-group">
-                    <img src="/public/images/Button-icon/email.png" class="email-icon" />
-                    <input placeholder="Email" v-model="form.email" id="email" />
+
+        <!-- Right side -->
+        <div class="p-[50px_30px_30px_30px] border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative">
+            <h1 class="text-[4.5em] font-[100] font-[Rouge_Script] text-center relative -bottom-[15px] m-0">
+                Welcome Back!
+            </h1>
+
+            <!-- Inputs -->
+            <div class="flex flex-col gap-[10px] relative -bottom-[10px] m-0">
+                <p v-if="errors.email" class="text-[#ff4d4f] text-sm">{{ errors.email[0] }}</p>
+
+                <div class="bg-white rounded-[10px] flex items-center p-[10px] w-[400px]">
+                    <img src="/public/images/Button-icon/email.png" class="w-6 h-[18px]" />
+                    <input
+                        placeholder="Email"
+                        v-model="form.email"
+                        id="email"
+                        class="w-full h-full ml-2 border-0 outline-0 text-[#768082] font-[Poppins] text-base"
+                    />
                 </div>
 
-                <p v-if="errors.password" class="error-message">{{ errors.password[0] }}</p>
-                <div class="text-input-group">
-                    <img src="/public/images/Button-icon/password.png" class="password-icon" />
+                <p v-if="errors.password" class="text-[#ff4d4f] text-sm">{{ errors.password[0] }}</p>
+
+                <div class="bg-white rounded-[10px] flex items-center p-[10px] w-[400px]">
+                    <img src="/public/images/Button-icon/password.png" class="w-6 h-[22px] ml-[2px] cursor-pointer" />
                     <input
                         :type="showPassword ? 'text' : 'password'"
                         placeholder="Password"
                         v-model="form.password"
+                        class="w-full h-full ml-2 border-0 outline-0 text-[#768082] font-[Poppins] text-base"
                     />
-                    <img 
-                        :src="showPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'" 
-                        class="visibility-icon"
+                    <img
+                        :src="showPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'"
+                        class="w-6 h-4 ml-[10px] cursor-pointer select-none"
                         @click="togglePassword"
                         alt="Toggle Password"
                     />
                 </div>
             </div>
 
-            <div class="remember-me-group">
-                <input type="checkbox" v-model="form.remember" id="remember" />
+            <!-- Remember me -->
+            <div class="w-full flex items-center mt-5 ml-[20px] font-[Poppins-SemiBold] text-[13px]">
+                <input
+                    type="checkbox"
+                    v-model="form.remember"
+                    id="remember"
+                    class="scale-140 border border-[#AFADAD] mr-2"
+                />
                 <label for="remember">Remember me</label>
             </div>
 
-            <button class="submit-button" @click="handleLogin" :disabled="loading">
-                <span v-if="loading" class="spinner"></span>
+            <!-- Submit button -->
+            <button
+                class="w-full bg-[#435F77] rounded-[20px] py-2 mt-4 text-white font-[Poppins-Bold] font-bold text-[16px] flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                @click="handleLogin"
+                :disabled="loading"
+            >
+                <span v-if="loading" class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 <span v-else>LOGIN</span>
             </button>
 
-            <p class="below-button-text">Don't have an account? <a href="/register" class="register-link">Register</a></p>
-            <img src="/public/images/tastybites_logo.png" class="form-footer-logo" />
+            <!-- Below button text -->
+            <p class="mt-2 text-[13px] font-[Poppins-Regular]">
+                Don't have an account?
+                <a href="/register" class="text-[#435F77] font-[Poppins-SemiBold] italic">Register</a>
+            </p>
+
+            <!-- Footer Logo -->
+            <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto mt-2" />
         </div>
     </div>
 </template>
+
 
 <script setup>
     import { reactive, ref } from 'vue'
@@ -89,174 +128,3 @@
         }
     }
 </script>
-
-
-
-<style scoped>
-    .container {
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .background-image {
-        width: 40%;
-        height: 88%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-    }
-    .leftside-container {
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-        position: relative;
-    }
-    .page-label {
-        font-size: 4.5em;
-        font-family: 'Rouge Script';
-        font-weight: 100;
-        text-align: center;
-        position: relative;
-        bottom: 15px;
-        margin: 0;
-    }
-    .rightside-container {
-        padding: 50px 30px 30px 30px;
-        border: 1px solid #D9D9D9;
-        background-color: #CFDAFF;
-        border-radius: 25px;
-        flex-direction: column;
-        align-items: center;
-        display: flex;
-    }
-    .inputs {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        bottom: 10px;
-        position: relative;
-        margin: 0;
-    }
-    .text-input-group {
-        background-color: white;
-        border-radius: 10px;
-        align-items: center;
-        display: flex;
-        padding: 10px 10px 10px 10px;
-        width: 400px;
-    }
-    .text-input-group input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        margin-left: 10px;
-        color: #768082;
-        font-family: 'Poppins', sans-serif;
-    }
-    .email-icon {
-        width: 24px;
-        height: 18px;
-    }
-    .password-icon {
-        width: 24px;
-        height: 22px;
-        margin-left: 2px;
-        cursor: pointer;
-    }
-    .visibility-icon {
-        width: 24px;
-        height: 16px;
-        margin-left: 10px;
-    }
-    .remember-me-group {
-        width: 100%;
-        align-items: center;
-        margin-left: 50px;
-        font-family: 'Poppins-SemiBold';
-        font-size: 13px;
-        margin-top: 5px;
-    }
-    .remember-me-group input {
-        transform: scale(1.4);
-        background: none;
-        border: 1px solid #AFADAD;
-    }
-    .remember-me-group label {
-        margin-left: 5px;
-    }
-    .logo-plate {
-        width: auto;
-        height: 700px;
-    }
-    .submit-button {
-        width: 100%;
-        background-color: #435F77;
-        border: none;
-        border-radius: 20px;
-        padding: 10px;
-        margin-top: 15px;
-        color: white;
-        font-family: 'Poppins-Bold';
-        font-weight: bold;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: background-color 0.3s ease, opacity 0.3s ease;
-        cursor: pointer;
-    }
-    .submit-button span:hover {
-        transform: scale(1.05);
-    }   
-    .submit-button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    .spinner {
-        width: 20px;
-        height: 20px;
-        border: 3px solid white;
-        border-top: 3px solid transparent;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .below-button-text {
-        margin-top: 10px;
-        font-size: 13px;
-        font-family: 'Poppins-Regular';
-    }
-    .register-link {
-        color: #435F77;
-        font-family: 'Poppins-SemiBold';
-        font-style: italic;
-        text-decoration: none;
-    }
-    .form-footer-logo {
-        width: 150px;
-        height: auto;
-        margin-top: 10px;
-    }
-    .visibility-icon {
-        cursor: pointer;
-        user-select: none;
-    }
-    .error-message {
-        color: #ff4d4f;
-        font-size: 0.875rem;
-    }
-</style>
