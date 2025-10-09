@@ -58,7 +58,7 @@
                         >
                             <div class="main-notification">
                                 <!-- Premium Recipe -->
-                                <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active" @click="goToNotification">
+                                <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/premium-icon.png" alt="Premium recipe" />
                                     </div>
@@ -68,7 +68,7 @@
                                     </div>
                                 </button>
                                 <!--New Chef-->
-                                <button v-if="notif.type === 'chefApplicant'" class="notification-item-active" @click="goToNotification">
+                                <button v-if="notif.type === 'chefApplicant'" class="notification-item-active" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="Chef" />
                                     </div>
@@ -78,7 +78,7 @@
                                     </div>
                                 </button>
                                 <!--New User-->
-                                <button v-if="notif.type === 'userApplicant'" class="notification-item-active" @click="goToNotification">
+                                <button v-if="notif.type === 'userApplicant'" class="notification-item-active" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/new_user3.png" alt="user" />
                                     </div>
@@ -89,7 +89,7 @@
                                 </button>
 
                                 <!--Report-->
-                                <button class="notification-item-active" v-if="notif.type === 'report'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'report'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/report.png" alt="report" />
                                     </div>
@@ -100,7 +100,7 @@
                                 </button>
 
                                 <!--Reaction-->
-                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === 'liked'"/>
                                         <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === 'disliked'"/>
@@ -113,7 +113,7 @@
                                 </button>
 
                                 <!--Recipe purchase-->
-                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/payment.png" alt="payment" />
                                     </div>
@@ -124,7 +124,7 @@
                                 </button>
 
                                 <!--Followed-->
-                                <button class="notification-item-active" v-if="notif.type === 'followed'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'followed'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/follow.png" alt="follow" />
                                     </div>
@@ -135,7 +135,7 @@
                                 </button>
 
                                 <!-- recipe Block by admin-->
-                                <button class="notification-item-active" v-if="notif.type === 'recipeBlocked'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'recipeBlocked'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/block.png" alt="follow" />
                                     </div>
@@ -145,7 +145,7 @@
                                     </div>
                                 </button>
                                 <!-- approved as a chef -->
-                                <button class="notification-item-active" v-if="notif.type === 'chefApproved'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'chefApproved'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="as_chef" />
                                     </div>
@@ -155,7 +155,7 @@
                                     </div>
                                 </button>
                                 <!-- premium recipe approved by admin -->
-                                <button class="notification-item-active" v-if="notif.type === 'premiumRecipeApproved'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'premiumRecipeApproved'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/approved.png" alt="approved" />
                                     </div>
@@ -165,7 +165,7 @@
                                     </div>
                                 </button>
                                 <!-- recipe purchase approved -->
-                                <button class="notification-item-active" v-if="notif.type === 'recipePurchaseApproved'" @click="goToNotification">
+                                <button class="notification-item-active" v-if="notif.type === 'recipePurchaseApproved'" @click="goToNotification(notif)">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
                                     </div>
@@ -176,7 +176,7 @@
                                 </button>
 
                                 <!-- new recipe added -->
-                                <button class="notification-item-active" v-if="notif.type === 'newRecipeAdded'" @click="goToNotification" >
+                                <button class="notification-item-active" v-if="notif.type === 'newRecipeAdded'" @click="goToNotification(notif)" >
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />
                                     </div>
@@ -374,9 +374,10 @@
     }
 
 
-    const goToNotification = () => {
-        emit('navigate', 'TheNotification');
+    const goToNotification = (notif) => {
+        emit('navigate', 'TheNotification', notif);
     };
+
 </script>
 
 <style scoped>

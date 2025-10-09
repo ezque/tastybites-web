@@ -92,9 +92,8 @@
         document.removeEventListener("click", handleClickOutside)
     );
 
-    // --- Reporting logic ---
+
     async function reportChef(chef) {
-        // Prompt user for a reason (simple prompt for example)
         const reason = prompt(`Why are you reporting ${chef.user_info?.fullName || "this chef"}? (Max 1000 characters)`);
 
         if (!reason || reason.trim() === "") {

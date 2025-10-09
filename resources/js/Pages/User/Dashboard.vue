@@ -41,6 +41,8 @@
             />
             <TheNotification
                 v-if="activeComponent === 'TheNotification'"
+                :notification="selectedNotification"
+                class="flex-1 overflow-y-auto"
             />
 
         </div>
@@ -74,15 +76,35 @@
     const isUser = computed(() => props.user.role === 'user');
     const activeComponent = ref(isUser.value ? 'Home' : null);
     const selectedRecipe = ref(null);
-    const selectedChef = ref(null)
+    const selectedChef = ref(null);
+    const selectedNotification = ref(null);
 
 
-    const setActiveComponent = (componentName) => {
-        if (activeComponent.value) {
-            historyStack.value.push(activeComponent.value);
+    // const setActiveComponent = (componentName) => {
+    //     if (activeComponent.value) {
+    //         historyStack.value.push(activeComponent.value);
+    //     }
+    //     activeComponent.value = componentName;
+    // }
+    const setActiveComponent = (componentName, data = null) => {
+        if (componentName === "TheNotification" && data) {
+            selectedNotification.value = data;
+            activeComponent.value = "TheNotification";
+        } else if (componentName === "ChefInfo") {
+            selectedChef.value = data;
+            activeComponent.value = "ChefInfo";
+        } else if (componentName === "RecipeDetails" && data) {
+            const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
+            selectedRecipe.value = fullDetails || data;
+            activeComponent.value = "RecipeDetails";
+        } else {
+            activeComponent.value = componentName;
         }
-        activeComponent.value = componentName;
-    }
+    };
+
+
+
+
     const historyStack = ref([]);
 
     const back = () => {

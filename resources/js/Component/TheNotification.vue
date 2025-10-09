@@ -1,17 +1,20 @@
 <template>
     <div class="the-notification-container">
-        <h2>The Notification</h2>
+        <h2>Notification Details</h2>
+        <div v-if="notification">
+            <p><strong>Type:</strong> {{ notification.type }}</p>
+            <p><strong>Message:</strong> {{ notification.message }}</p>
+            <p><strong>From:</strong> {{ notification.sender?.user_info?.userName }}</p>
+            <p><strong>Time:</strong> {{ notification.created_at }}</p>
+        </div>
+        <div v-else>
+            <p>No notification selected.</p>
+        </div>
     </div>
 </template>
-<script setup>
 
+<script setup>
+const props = defineProps({
+    notification: Object
+});
 </script>
-<style scoped>
-    .the-notification-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-</style>
