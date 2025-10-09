@@ -1,258 +1,139 @@
 <template>
-    <div class="w-full h-[100px] flex items-center justify-between p-5 m-0">
-        <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto"/>
-        <div class="right-side-container">
-            <div class="notification-box">
-                <button class="rs-button" @click="toggleNotification">
-                    <img src="/public/images/Button-icon/notifications.png"/>
+    <div class="w-full h-[100px] flex items-center justify-between p-5 m-0 bg-[#E0E7FF]">
+        <!-- Logo -->
+        <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto" />
+
+        <!-- Right side -->
+        <div class="flex items-center gap-3 pl-5">
+            <!-- Notification box -->
+            <div class="relative flex">
+                <button class="p-1 flex items-center justify-center bg-transparent cursor-pointer" @click="toggleNotification">
+                    <img src="/public/images/Button-icon/notifications.png" class="w-[25px] h-auto" />
                 </button>
-                <div class="notification-container" v-if="isNotificationVisible">
-                    <div class="notification-label-container">
-                        <h2>Notifications</h2>
-                        <div class="notification-buttons">
+
+                <!-- Notification dropdown -->
+                <div v-if="isNotificationVisible"
+                     class="absolute right-0 top-[75px] w-[320px] p-3 flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-md border-r border-gray-400 z-[199]">
+
+                    <!-- Header -->
+                    <div class="flex flex-col w-[250px] h-[50px] mt-2">
+                        <h2 class="text-[#435F77] font-bold text-[20px] m-0">Notifications</h2>
+                        <div class="flex gap-1 mt-2 mb-2">
                             <button
-                                :class="{ active: activeFilter === 'all' }"
-                                @click="activeFilter = 'all'"
-                            >
-                                All
-                            </button>
+                                class="px-3 py-1 text-sm rounded-md"
+                                :class="activeFilter === 'all'
+                  ? 'bg-[#B5BFDE] font-semibold text-[#435F77]'
+                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                                @click="activeFilter = 'all'">All</button>
                             <button
-                                :class="{ active: activeFilter === 'unread' }"
-                                @click="activeFilter = 'unread'"
-                            >
-                                Unread
-                            </button>
+                                class="px-3 py-1 text-sm rounded-md"
+                                :class="activeFilter === 'unread'
+                  ? 'bg-[#B5BFDE] font-semibold text-[#435F77]'
+                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                                @click="activeFilter = 'unread'">Unread</button>
                         </div>
                     </div>
-                    <div class="notification-actions">
-                        <img
-                        src="/public/images/Button-icon/option.png"
-                        alt="options"
-                        @click="toggleMenuOpen"
-                        />
 
-                        <div v-if="menuOpen" class="dropdown-menu">
-                            <button @click="markAllRead" class="mark-all-read">
-                                <img src="/public/images/Button-icon/check.png" alt="mark all read"/>
+                    <!-- Menu (options) -->
+                    <div class="absolute right-2 top-5 cursor-pointer">
+                        <img src="/public/images/Button-icon/option.png" alt="options" @click="toggleMenuOpen" />
+                        <div v-if="menuOpen"
+                             class="absolute right-0 top-[30px] flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-lg px-3 py-2 w-[170px] z-10">
+                            <button @click="markAllRead"
+                                    class="flex items-center gap-2 text-xs font-bold text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
+                                <img src="/public/images/Button-icon/check.png" class="w-[25px] h-[20px]" />
                                 <p>Mark All Read</p>
                             </button>
-                            <div class="white-line"></div>
-                        <button
-                            @click="
-                                menuOpen = false;
-                                isNotificationVisible = false;
-                                emit('navigate', 'Notification');
-                            "
-                            class="open-notifications"
-                        >
-                            <img src="/public/images/Button-icon/notifications.png" alt="open notifications"/>
-                            <p>Open Notifications</p>
-                        </button>
+                            <div class="w-full border border-[#435F77] rounded-md my-1"></div>
+                            <button
+                                @click="menuOpen = false; isNotificationVisible = false; emit('navigate', 'Notification');"
+                                class="flex items-center gap-2 text-xs font-bold text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
+                                <img src="/public/images/Button-icon/notifications.png" class="w-[20px] h-[20px]" />
+                                <p>Open Notifications</p>
+                            </button>
                         </div>
                     </div>
-                    <div class="all-notifications-box">
-                        <div
-                            class="notifications-card"
-                            v-for="notif in filteredNotifications"
-                            :key="notif.id"
-                        >
-                            <div class="main-notification">
-                                <!-- Premium Recipe -->
-                                <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/premium-icon.png" alt="Premium recipe" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>@{{ notif.sender.user_info.userName }} </strong> {{ notif.message }}</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                                <!--New Chef-->
-                                <button v-if="notif.type === 'chefApplicant'" class="notification-item-active" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/chef.png" alt="Chef" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                                <!--New User-->
-                                <button v-if="notif.type === 'userApplicant'" class="notification-item-active" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/new_user3.png" alt="user" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p>We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
 
-                                <!--Report-->
-                                <button class="notification-item-active" v-if="notif.type === 'report'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/report.png" alt="report" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p>{{notif.message}}</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <!--Reaction-->
-                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === 'liked'"/>
-                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === 'disliked'"/>
-                                    </div>
-                                    <div class="notif-content">
-                                        <p v-if="notif.type === 'liked'"> {{ notif.message }} </p>
-                                        <p v-if="notif.type === 'disliked'"> {{ notif.message }} </p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <!--Recipe purchase-->
-                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <!--Followed-->
-                                <button class="notification-item-active" v-if="notif.type === 'followed'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/follow.png" alt="follow" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>@appletamesis</strong> is now following you!</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <!-- recipe Block by admin-->
-                                <button class="notification-item-active" v-if="notif.type === 'recipeBlocked'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/block.png" alt="follow" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                                <!-- approved as a chef -->
-                                <button class="notification-item-active" v-if="notif.type === 'chefApproved'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/chef.png" alt="as_chef" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p><strong>Chef status unlocked! ✨</strong> Share your first recipe now!</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                                <!-- premium recipe approved by admin -->
-                                <button class="notification-item-active" v-if="notif.type === 'premiumRecipeApproved'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/approved.png" alt="approved" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p>Your premium recipe, <strong>Adobo <i>(Filipino cuisine)</i></strong> was approved! Recipe is now available for purchase.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                                <!-- recipe purchase approved -->
-                                <button class="notification-item-active" v-if="notif.type === 'recipePurchaseApproved'" @click="goToNotification(notif)">
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-
-                                <!-- new recipe added -->
-                                <button class="notification-item-active" v-if="notif.type === 'newRecipeAdded'" @click="goToNotification(notif)" >
-                                    <div class="notif-icon">
-                                        <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <p>Chef <strong>@bon</strong> added new recipe, check it now!</p>
-                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
-                                    </div>
-                                </button>
-                            </div>
+                    <!-- Notifications list -->
+                    <div class="flex flex-col mt-8 max-h-[500px] h-[500px] w-full overflow-auto rounded-b-[20px]">
+                        <div v-for="notif in filteredNotifications" :key="notif.id" class="flex flex-col gap-2">
+                            <button v-if="notif.type" @click="goToNotification(notif)"
+                                    class="flex items-center gap-2 bg-[#E0E7FF] rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer">
+                                <div class="w-[10%]">
+                                    <!-- Icons based on type -->
+                                    <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" />
+                                    <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" />
+                                    <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" />
+                                    <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" />
+                                    <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" />
+                                    <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" />
+                                    <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" />
+                                    <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" />
+                                    <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" />
+                                    <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" />
+                                    <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" />
+                                    <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" />
+                                    <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
+                                </div>
+                                <div class="flex flex-col items-start w-[90%]">
+                                    <p class="text-xs text-black m-0">
+                                        <!-- Messages -->
+                                        <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
+                                        <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
+                                        <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
+                                        <span v-else>{{ notif.message }}</span>
+                                    </p>
+                                    <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="white-line2"></div>
-            <button class="menu-button" @click="toggleMenu">
-                <div class="profile-container">
-                    <img
-                        v-if="user.user_info.profilePath"
-                        :src="`/storage/${user.user_info.profilePath}`"
-                        alt="Profile"
-                    />
-                    <img
-                        v-else-if="user.user_info.gender === 'male'"
-                        src="/public/images/male.png"
-                        alt="Male Default"
-                    />
-                    <img
-                        v-else
-                        src="/public/images/female.png"
-                        alt="Female Default"
-                    />
+
+            <!-- Divider -->
+            <div class="h-[50px] border border-white rounded-md"></div>
+
+            <!-- Profile + Menu button -->
+            <button class="flex items-center gap-2 pr-6 cursor-pointer bg-transparent" @click="toggleMenu">
+                <div class="w-[45px] h-[45px] rounded-full bg-[#BB98B8] overflow-hidden">
+                    <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full"/>
+                    <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
+                    <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
                 </div>
-                <h1>{{ capitalizedfullName }}</h1>
+                <h1 class="text-[1.1em] font-bold">{{ capitalizedfullName }}</h1>
             </button>
         </div>
-        <div class="menu-container" v-if="isMenuVisible">
-            <div class="menu-profile-container">
-                <img
-                    v-if="user.user_info.profilePath"
-                    :src="`/storage/${user.user_info.profilePath}`"
-                    alt="Profile"
-                />
-                <img
-                    v-else-if="user.user_info.gender === 'male'"
-                    src="/public/images/male.png"
-                    alt="Male Default"
-                />
-                <img
-                    v-else
-                    src="/public/images/female.png"
-                    alt="Female Default"
-                />
+
+        <!-- Profile menu dropdown -->
+        <div v-if="isMenuVisible"
+             class="absolute right-2 top-[10%] flex flex-col items-center bg-[#435F77] rounded-[20px_0_20px_20px] p-5 min-w-[200px] z-[999]">
+            <div class="w-[100px] h-[100px] rounded-full bg-[#BB98B8] overflow-hidden">
+                <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full"/>
+                <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
+                <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
             </div>
-            <div class="menu-user-info">
-                <h1>{{ capitalizedfullName }}</h1>
-                <h6>{{ roleLabels[user?.role] }}</h6>
+            <div class="flex flex-col items-center justify-center p-2">
+                <h1 class="text-white font-bold text-[1.2em]">{{ capitalizedfullName }}</h1>
+                <h6 class="text-white italic">{{ roleLabels[user?.role] }}</h6>
             </div>
-            <div class="menu-buttons-container">
-                <button
-                    @click="
-                        isMenuVisible = false;
-                        emit('navigate', 'Settings');
-                    "
-                >
-                    <img src="/public/images/Button-icon/settings.png" alt="img" />
-                    <h1>Settings</h1>
+            <div class="flex flex-col w-full items-center">
+                <button @click="isMenuVisible = false; emit('navigate', 'Settings');"
+                        class="flex items-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition">
+                    <img src="/public/images/Button-icon/settings.png" class="w-[25px] ml-1" />
+                    <h1 class="text-white font-bold text-[1.2em]">Settings</h1>
                 </button>
-                <div class="white-line1"></div>
-                <button @click="handleLogout">
-                    <img src="/public/images/Button-icon/logout(3).png" alt="img" />
-                    <h1>Logout</h1>
+                <div class="w-[80%] border border-white my-2"></div>
+                <button @click="handleLogout"
+                        class="flex items-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition">
+                    <img src="/public/images/Button-icon/logout(3).png" class="w-[25px] ml-1" />
+                    <h1 class="text-white font-bold text-[1.2em]">Logout</h1>
                 </button>
             </div>
         </div>
     </div>
 </template>
+
 
 <script setup>
     import { computed, ref } from 'vue';
@@ -380,356 +261,3 @@
 
 </script>
 
-<style scoped>
-    .container {
-        height: 50px;
-        background-color: #E0E7FF;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        margin: 0;
-    }
-    .logo {
-        width: 150px;
-        height: auto;
-    }
-    .right-side-container {
-        padding: 20px 0 20px 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .menu-button {
-        padding: 5px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        border: none;
-        background-color: transparent;
-        margin-right: 25px;
-    }
-    .profile-container {
-        width: 45px;
-        height: 45px;
-        border: none;
-        border-radius: 50%;
-        background-color: #BB98B8;
-    }
-    .profile-container img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-    .menu-button h1{
-        font-size: 1.1em;
-        font-family: 'Poppins-Bold';
-    }
-
-    .rs-button {
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-    }
-    .rs-button img {
-        width: 25px;
-        height: auto;
-    }
-    .menu-container {
-        position: absolute;
-        padding: 20px 20px 20px 20px;
-        right: 1%;
-        top: 10%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-        background-color: #435F77;
-        border-radius: 20px 0 20px 20px;
-        min-width: 200px;
-        z-index: 999;
-    }
-    .menu-profile-container {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: #BB98B8;
-        margin: 0;
-    }
-    .menu-profile-container img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-    .menu-user-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 10px;
-    }
-    .menu-user-info h1 {
-        margin: 0;
-        font-size: 1.2em;
-        color: white;
-        font-family: 'Poppins-Bold';
-    }
-    .menu-user-info h6 {
-        margin: 0;
-        color: white;
-        font-family: 'Poppins-Italic';
-    }
-    .menu-buttons-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-    }
-    .menu-buttons-container button {
-        width: 70%;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        color: white;
-        border: none;
-        cursor: pointer;
-        gap: 5px;
-    }
-    .menu-buttons-container button img {
-        width: 25px;
-        height: auto;
-        margin-left: 5px;
-    }
-    .menu-buttons-container button h1 {
-        font-size: 1.2em;
-        color: white;
-        margin-left: 10px;
-        text-align: left;
-        font-family: 'Poppins-Bold';
-    }
-    .menu-buttons-container button:hover {
-        transform: translateY(-2px);
-    }
-    .white-line1 {
-        width: 80%;
-        border: 1px solid white;
-    }
-    .white-line2 {
-        height: 50px;
-        border: 1px solid white;
-        border-radius: 10px;
-    }
-    .notification-box {
-        position: relative;
-        display: flex;
-    }
-    .notification-container {
-        position: absolute;
-        right: 0;
-        width: 320px;
-        top: 75px;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        background-color: White;
-        border-radius: 20px 0 20px 20px;
-        z-index: 199;
-        box-shadow: 4px 4px 12px #AFADAD;
-        border-right: #AFADAD solid 1px;
-    }
-    .notification-label-container {
-        width: 250px;
-        height: 50px;
-        flex-direction: column;
-        margin-top: 10px;
-    }
-
-    .notification-label-container h2 {
-        color: #435F77;
-        font-family: 'Poppins-Bold';
-        font-size: 20px;
-        margin: 0;
-    }
-
-    .notification-buttons {
-        display: flex;
-        gap: 5px;
-    }
-
-    .notification-buttons button {
-        background-color: transparent;
-        border: none;
-        color: #435F77;
-        font-family: 'Poppins-Regular';
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    .notification-buttons button.active {
-        color: #435F77;
-        background-color: #B5BFDE;
-        border-radius: 6px;
-        padding: 5px 10px;
-        font-family: 'Poppins-SemiBold';
-    }
-
-    .notification-buttons button:hover {
-        background-color: #E0E7FF;
-        color: #435F77;
-        border-radius: 6px;
-    }
-    .notification-actions {
-        display: flex;
-        top: 20px;
-        width: 10px;
-        height: 24px;
-        position: absolute;
-        right: 10px;
-        cursor: pointer;
-    }
-    .all-notifications-box {
-        max-height: 500px;
-        height: 500px;
-        width: 100%;
-        flex-direction: column;
-        overflow: auto;
-        margin-top: 30px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
-    .all-notifications-box::-webkit-scrollbar {
-        width: 2px;
-    }
-
-    .all-notifications-box::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .all-notifications-box::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 4px;
-    }
-
-    .all-notifications-box::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-
-    .notifications-card {
-        display: flex;
-        flex-direction: row;
-    }
-    .main-notification {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .notification-item {
-        display: flex;
-        flex-direction: row;
-        border: none;
-        box-shadow: 0px 4px 1px #AFADAD;
-        border-radius: 15px;
-        padding: 10px;
-        gap: 10px;
-        align-items: center;
-        border-right: #AFADAD solid 1px;
-    }
-    .notification-item-active {
-        display: flex;
-        flex-direction: row;
-        border: none;
-        border-radius: 15px;
-        padding: 10px;
-        gap: 10px;
-        align-items: center;
-        background-color: #E0E7FF;
-        border-right: #AFADAD solid 1px;
-        box-shadow: 0px 4px 1px #AFADAD;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .notif-icon {
-        width: 10%;
-    }
-    .notif-icon img {
-        width: 100%;
-    }
-    .notif-content {
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
-        width: 90%;
-    }
-    .notif-content p {
-        margin: 0;
-        font-size: 12px;
-        color: black;
-        font-family: 'Poppins-Regular';
-        text-align: left;
-    }
-    .notif-content span {
-        font-size: 9px;
-        color: black;
-        font-family: 'Poppins-Regular';
-    }
-    .dropdown-menu {
-        position: absolute;
-        right: 0;
-        top: 30px;
-        background: #fff;
-        border-radius: 20px 0px 20px 20px;
-        box-shadow: 4px 6px 12px #AFADAD;
-        padding: 5px 10px;
-        display: flex;
-        flex-direction: column;
-        z-index: 10;
-        width: 170px;
-    }
-
-    .mark-all-read, .open-notifications {
-        background: none;
-        border: none;
-        text-align: left;
-        font-size: 12px;
-        cursor: pointer;
-        border-radius: 6px;
-        font-family: 'Poppins-Bold';
-        color: #435F77;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-direction: row;
-    }
-
-    .dropdown-menu button:hover {
-        background: #f3f4f6;
-    }
-
-    .white-line {
-        width: 100%;
-        border-radius: 10px;
-        border: 1px solid #435F77;
-    }
-
-    .mark-all-read img{
-        width: 25px;
-        height: 20px;
-    }
-
-    .open-notifications img{
-        width: 20px;
-        height: 20px;
-    }
-    .notification-buttons {
-        display: flex;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-</style>

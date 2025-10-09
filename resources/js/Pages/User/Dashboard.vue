@@ -1,8 +1,10 @@
 <template>
-    <div class="main-body">
-        <Header :user="user"  @navigate="setActiveComponent" :getNotification="getNotification"/>
-        <div class="main-container">
-            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent"/>
+    <div class="w-full h-screen flex flex-col overflow-hidden">
+        <Header :user="user" @navigate="setActiveComponent" :getNotification="getNotification" />
+
+        <div class="w-full h-full flex flex-row bg-white">
+            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent" />
+
             <Home
                 v-if="activeComponent === 'Home'"
                 @navigate="handleNavigation"
@@ -44,15 +46,12 @@
                 :notification="selectedNotification"
                 class="flex-1 overflow-y-auto"
             />
-
         </div>
-
     </div>
-
 </template>
 
 <script setup>
-    import  { Inertia} from "@inertiajs/inertia";
+    import { Inertia } from "@inertiajs/inertia";
     import Header from '../../Component/Header.vue';
     import Sidebar from '../../Component/Sidebar.vue';
     import Home from "@/Component/Home.vue";
@@ -63,7 +62,7 @@
     import ChefDetails from "@/Component/chefDetails.vue";
     import TheNotification from "@/Component/TheNotification.vue";
 
-    import {computed, ref} from "vue";
+    import { computed, ref } from "vue";
 
     const props = defineProps({
         user: Object,
@@ -79,13 +78,6 @@
     const selectedChef = ref(null);
     const selectedNotification = ref(null);
 
-
-    // const setActiveComponent = (componentName) => {
-    //     if (activeComponent.value) {
-    //         historyStack.value.push(activeComponent.value);
-    //     }
-    //     activeComponent.value = componentName;
-    // }
     const setActiveComponent = (componentName, data = null) => {
         if (componentName === "TheNotification" && data) {
             selectedNotification.value = data;
@@ -101,9 +93,6 @@
             activeComponent.value = componentName;
         }
     };
-
-
-
 
     const historyStack = ref([]);
 
@@ -121,11 +110,10 @@
         }
 
         if (componentName === "ChefDetails") {
-            selectedChef.value = recipeData;  // use recipeData instead of data
+            selectedChef.value = recipeData;
             activeComponent.value = "ChefDetails";
             return;
         }
-
 
         if (recipeData) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
@@ -146,23 +134,4 @@
 
         activeComponent.value = "RecipeDetails";
     };
-
 </script>
-
-
-<style scoped>
-    .main-body {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        overflow: hidden;
-        flex-direction: column;
-    }
-    .main-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        background-color: white;
-        flex-direction: row;
-    }
-</style>

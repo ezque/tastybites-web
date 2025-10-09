@@ -188,21 +188,3 @@
 
 </script>
 
-<style scoped>
-    .main-body {
-        width: 100%;
-        height: 100vh;
-        background-color: gray;
-        display: flex;
-        overflow: hidden;
-        flex-direction: column;
-    }
-    .main-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        background-color: white;
-        flex-direction: row;
-    }
-</style>
-

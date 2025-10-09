@@ -1,11 +1,15 @@
 <template>
-    <div class="main-body">
+    <div class="w-full h-screen bg-gray-500 flex flex-col overflow-hidden">
         <Header
             :user="user"
             @navigate="setActiveComponent"
-            :getNotification="getNotification"/>
-        <div class="main-container">
+            :getNotification="getNotification"
+        />
+
+        <div class="w-full h-full flex flex-row bg-white">
             <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent" />
+
+            <!-- Pages -->
             <Home
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails"
@@ -21,8 +25,13 @@
                 :recipeCardDetails="recipeCardDetails"
                 :user="user"
             />
-            <AddRecipe v-if="activeComponent === 'AddRecipe'" @navigate="setActiveComponent" :active="activeComponent"/>
-            <Profile v-if="activeComponent === 'Profile'"/>
+            <AddRecipe
+                v-if="activeComponent === 'AddRecipe'"
+                @navigate="setActiveComponent"
+                :active="activeComponent"
+            />
+            <Profile v-if="activeComponent === 'Profile'" />
+
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
                 @navigate="setActiveComponent"
@@ -64,14 +73,13 @@
                 :notification="selectedNotification"
                 class="flex-1 overflow-y-auto"
             />
-
         </div>
     </div>
 </template>
 
 <script setup>
-    import  { Inertia} from "@inertiajs/inertia";
-    import {computed, ref} from "vue";
+    import  { Inertia } from "@inertiajs/inertia";
+    import { computed, ref } from "vue";
     import Header from '../../Component/Header.vue';
     import Sidebar from "@/Component/Sidebar.vue";
 
@@ -87,7 +95,6 @@
     import UserChef from "@/Component/userChef.vue";
     import ChefDetails from "@/Component/chefDetails.vue";
     import TheNotification from "@/Component/TheNotification.vue";
-
 
     const props = defineProps({
         user: Object,
@@ -108,9 +115,6 @@
     const selectedRecipe = ref(null);
     const selectedNotification = ref(null);
 
-    // const setActiveComponent = (componentName) => {
-    //     activeComponent.value = componentName;
-    // }
     const setActiveComponent = (componentName, data = null) => {
         if (componentName === "TheNotification" && data) {
             selectedNotification.value = data;
@@ -126,6 +130,7 @@
             activeComponent.value = componentName;
         }
     };
+
     const handleNavigation = (componentName, recipeData = null, data = null) => {
         if (componentName === 'AddRecipe') {
             selectedRecipe.value = null;
@@ -134,7 +139,7 @@
         }
 
         if (componentName === "ChefDetails") {
-            selectedChef.value = recipeData;  // use recipeData instead of data
+            selectedChef.value = recipeData;
             activeComponent.value = "ChefDetails";
             return;
         }
@@ -147,7 +152,6 @@
         activeComponent.value = componentName;
     };
 
-
     const historyStack = ref([]);
     const isUser = computed(() => props.user.role === 'chef');
 
@@ -158,6 +162,7 @@
             activeComponent.value = isUser.value ? 'Home' : null;
         }
     };
+
     const goToRecipeDetails = (recipeData) => {
         if (!recipeData) {
             console.warn("No recipe passed");
@@ -169,22 +174,4 @@
 
         activeComponent.value = "RecipeDetails";
     };
-
 </script>
-<style scoped>
-    .main-body {
-        width: 100%;
-        height: 100vh;
-        background-color: gray;
-        display: flex;
-        overflow: hidden;
-        flex-direction: column;
-    }
-    .main-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        background-color: white;
-        flex-direction: row;
-    }
-</style>
