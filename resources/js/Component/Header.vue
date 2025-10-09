@@ -36,7 +36,13 @@
 
                     <!-- Menu (options) -->
                     <div class="absolute right-2 top-5 cursor-pointer">
-                        <img src="/public/images/Button-icon/option.png" alt="options" @click="toggleMenuOpen" />
+                        <img
+                            src="/public/images/Button-icon/option.png"
+                            alt="options"
+                            @click="toggleMenuOpen"
+                            class="w-2 h-auto mr-[5px]"
+                        />
+
                         <div v-if="menuOpen"
                              class="absolute right-0 top-[30px] flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-lg px-3 py-2 w-[170px] z-10">
                             <button @click="markAllRead"
@@ -76,13 +82,13 @@
                                     <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
                                 </div>
                                 <div class="flex flex-col items-start w-[90%]">
-                                    <p class="text-xs text-black m-0">
-                                        <!-- Messages -->
+                                    <p class="text-xs text-black m-0 text-justify">
                                         <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
                                         <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
                                         <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
                                         <span v-else>{{ notif.message }}</span>
                                     </p>
+
                                     <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
                                 </div>
                             </button>

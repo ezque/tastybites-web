@@ -1,73 +1,93 @@
 <template>
-    <div class="admin-home-main-body">
-        <h2>Dashboard</h2>
-        <div class="admin-button-container">
-            <button class="card">
-                <div class="card-left">
-                    <p class="label">TOTAL INCOME</p>
-                    <p class="amount">₱{{props.adminTotalIncome.total}}</p>
-                    <p class="growth">↑ 3.48% <span> since last month</span></p>
+    <div class="flex flex-col w-full h-full overflow-hidden">
+        <!-- Header -->
+        <h2 class="mt-5 ml-5 text-[35px] font-[Poppins-Bold]">Dashboard</h2>
+
+        <!-- Cards Section -->
+        <div class="flex flex-row flex-wrap items-center justify-between mt-[-10px] pb-2 w-full">
+            <!-- Income -->
+            <button class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+                <div class="flex flex-col justify-center w-[70%]">
+                    <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">TOTAL INCOME</p>
+                    <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">₱{{ props.adminTotalIncome.total }}</p>
+                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
+                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
+                    </p>
                 </div>
-                <div class="card-right">
-                    <img src="/public/images/Button-icon/dashboard-sales.png" alt="money icon">
-                </div>
-            </button>
-            <button
-                @click="emit('navigate','Users')" class="card">
-                <div class="card-left">
-                    <p class="label">USERS</p>
-                    <p class="amount">{{ props.totalCountsUsers.usersCounts }}</p>
-                    <p class="growth">↑ 3.48% <span> since last month</span></p>
-                </div>
-                <div class="card-right-users">
-                    <img src="/public/images/Button-icon/dashboars-users.png" alt="users icon">
+                <div class="flex flex-col justify-center items-center w-[30%] h-full">
+                    <img src="/public/images/Button-icon/dashboard-sales.png" alt="money icon" class="w-[90px] h-[90px]" />
                 </div>
             </button>
-            <button
-                @click="emit('navigate','AdminChefs')" class="card">
-                <div class="card-left">
-                    <p class="label">CHEFS</p>
-                    <p class="amount">{{ props.totalCountsUsers.chefsCounts }}</p>
-                    <p class="growth">↑ 3.48% <span> since last month</span></p>
+
+            <!-- Users -->
+            <button @click="emit('navigate','Users')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+                <div class="flex flex-col justify-center w-[70%]">
+                    <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">USERS</p>
+                    <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.usersCounts }}</p>
+                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
+                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
+                    </p>
                 </div>
-                <div class="card-right">
-                    <img src="/public/images/Button-icon/dashboard-chef.png" alt="chef icon">
+                <div class="flex flex-col justify-center items-center w-[30%] h-full">
+                    <img src="/public/images/Button-icon/dashboars-users.png" alt="users icon" class="w-[100px] h-[75px]" />
                 </div>
             </button>
-            <button
-                @click="emit('navigate', 'Recipes')" class="card">
-                <div class="card-left">
-                    <p class="label">RECIPES</p>
-                    <p class="amount">{{ props.getTotalRecipeCounts.recipeCounts }}</p>
-                    <p class="growth">↑ 3.48% <span> since last month</span></p>
+
+            <!-- Chefs -->
+            <button @click="emit('navigate','AdminChefs')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+                <div class="flex flex-col justify-center w-[70%]">
+                    <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">CHEFS</p>
+                    <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.chefsCounts }}</p>
+                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
+                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
+                    </p>
                 </div>
-                <div class="card-right">
-                    <img src="/public/images/Button-icon/dashboard-recipes.png" alt="recipes icon">
+                <div class="flex flex-col justify-center items-center w-[30%] h-full">
+                    <img src="/public/images/Button-icon/dashboard-chef.png" alt="chef icon" class="w-[90px] h-[90px]" />
+                </div>
+            </button>
+
+            <!-- Recipes -->
+            <button @click="emit('navigate','Recipes')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+                <div class="flex flex-col justify-center w-[70%]">
+                    <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">RECIPES</p>
+                    <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.getTotalRecipeCounts.recipeCounts }}</p>
+                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
+                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
+                    </p>
+                </div>
+                <div class="flex flex-col justify-center items-center w-[30%] h-full">
+                    <img src="/public/images/Button-icon/dashboard-recipes.png" alt="recipes icon" class="w-[90px] h-[90px]" />
                 </div>
             </button>
         </div>
-        <div class="graph-container">
-            <div class="graph-header">
-                <h3 class="graph-title">Income Recap Report</h3>
-                <div class="dropdown">
-                    <button class="menu-btn" @click="toggleDropdown">
-                        <img src="/public/images/Button-icon/option.png" alt="dropdown"></img>
+
+        <!-- Graph Section -->
+        <div class="flex flex-col bg-[#D9D9D9] rounded-lg shadow-md p-3 w-[80%] mt-[60px] mx-auto">
+            <!-- Graph Header -->
+            <div class="flex items-center justify-between px-2">
+                <h3 class="text-[18px] font-[Poppins-Bold] m-2">Income Recap Report</h3>
+                <div class="relative">
+                    <button class="bg-transparent border-none cursor-pointer" @click="toggleDropdown">
+                        <img src="/public/images/Button-icon/option.png" alt="dropdown" class="w-2 h-auto"/>
                     </button>
-                    <div class="dropdown-content" v-if="dropdownOpen">
-                        <a href="#" @click.prevent="setView('month')">Month</a>
-                        <a href="#" @click.prevent="setView('year')">Year</a>
+                    <div v-if="dropdownOpen" class="absolute top-[35px] right-[5px] bg-[#435F77] rounded-tr-none rounded-bl-lg rounded-br-lg shadow-md w-[100px] flex flex-col">
+                        <a href="#" @click.prevent="setView('month')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B]">Month</a>
+                        <a href="#" @click.prevent="setView('year')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] border-t-2 border-white">Year</a>
                     </div>
                 </div>
             </div>
 
-            <div class="chart-container">
-                <LineChart :data="chartData" :options="chartOptions" class="chart"/>
+            <!-- Chart -->
+            <div class="w-[95%] h-[300px] bg-white p-2 self-center">
+                <LineChart :data="chartData" :options="chartOptions" class="w-full h-full"/>
             </div>
         </div>
 
-        <Footer/>
+        <Footer />
     </div>
 </template>
+
 
 <script setup>
     import { ref, watch } from 'vue'
@@ -159,171 +179,3 @@
 </script>
 
 
-<style scoped>
-    .admin-home-main-body{
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
-    .admin-home-main-body h2{
-        margin-top: 20px;
-        font-size: 35px;
-        margin-left: 20px;
-        font-family: 'Poppins-Bold';
-    }
-    .admin-button-container {
-        width: 100%;
-        margin-top: -10px;
-        display: flex;
-        flex-direction: row;
-        padding-bottom: 10px;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #D9D9D9;
-        padding: 20px;
-        border-radius: 10px;
-        width: 350px;
-        border: none;
-        cursor: pointer;
-        text-align: left;
-    }
-    .card-left {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 70%;
-    }
-    .label {
-        font-size: 16px;
-        font-family: 'Poppins-Bold';
-        color: #333;
-        margin: 0;
-    }
-    .amount {
-        font-size: 32px;
-        font-family: 'Poppins-Bold';
-        color: #435F77;
-        margin: 5px 0;
-    }
-    .growth {
-        font-size: 12px;
-        color: #28a745;
-        margin: 0;
-        font-family: 'Poppins-Bold';
-    }
-    .growth span {
-        color: #6c757d;
-        font-size: 11px;
-        font-family: 'Poppins-Italic';
-    }
-    .card-right {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 30%;
-        height: 100%;
-        align-items: center;
-    }
-    .card-right img {
-        width: 90px;
-        height: 90px;
-    }
-    .card-right-users img {
-        width: 100px;
-        height: 75px;
-    }
-    .admin-button-container button{
-        width: 23%;
-        height: 140px;
-        margin-left: 20px;
-        margin-right: 20px;
-        cursor: pointer;
-    }
-    .graph-container {
-        width: 100%;
-        background: #D9D9D9;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin: 60px auto;
-    }
-    .graph-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 10px;
-    }
-    .graph-title {
-        font-size: 18px;
-        font-family: 'Poppins-Bold';
-        margin: 10px;
-    }
-    .dropdown {
-        position: relative;
-    }
-    .menu-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-    .menu-btn img {
-        width: 8px;
-        height: auto;
-    }
-    .dropdown-content {
-        position: absolute;
-        top: 35px;
-        right: 5px;
-        background: #435F77;
-        border-radius: 10px 0 10px 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .dropdown-content a {
-        display: block;
-        width: 100%;
-        text-align: center;
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
-        font-family: 'Poppins-Bold';
-        padding: 8px 0;
-    }
-
-    .dropdown-content a + a {
-        border-top: 2px solid white;
-        width: 80%;
-        align-self: center;
-    }
-
-    .dropdown-content a:hover {
-        background: #31485B;
-        width: 100%;
-    }
-    .chart-container {
-        width: 95%;
-        height: 300px;
-        padding: 10px;
-        align-self: center;
-        background-color: white;
-    }
-    .chart {
-        width: 100%;
-        height: 100%;
-    }
-
-</style>
