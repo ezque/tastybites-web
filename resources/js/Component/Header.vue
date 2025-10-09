@@ -37,12 +37,12 @@
                                 <p>Mark All Read</p>
                             </button>
                             <div class="white-line"></div>
-                        <button 
+                        <button
                             @click="
                                 menuOpen = false;
                                 isNotificationVisible = false;
                                 emit('navigate', 'Notification');
-                            " 
+                            "
                             class="open-notifications"
                         >
                             <img src="/public/images/Button-icon/notifications.png" alt="open notifications"/>
@@ -58,7 +58,7 @@
                         >
                             <div class="main-notification">
                                 <!-- Premium Recipe -->
-                                <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active">
+                                <button v-if="notif.type === 'addPremiumRecipe'" class="notification-item-active" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/premium-icon.png" alt="Premium recipe" />
                                     </div>
@@ -68,7 +68,7 @@
                                     </div>
                                 </button>
                                 <!--New Chef-->
-                                <button v-if="notif.type === 'chefApplicant'" class="notification-item-active">
+                                <button v-if="notif.type === 'chefApplicant'" class="notification-item-active" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="Chef" />
                                     </div>
@@ -78,7 +78,7 @@
                                     </div>
                                 </button>
                                 <!--New User-->
-                                <button v-if="notif.type === 'userApplicant'" class="notification-item-active">
+                                <button v-if="notif.type === 'userApplicant'" class="notification-item-active" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/new_user3.png" alt="user" />
                                     </div>
@@ -89,7 +89,7 @@
                                 </button>
 
                                 <!--Report-->
-                                <button class="notification-item" v-if="notif.type === 'report'">
+                                <button class="notification-item-active" v-if="notif.type === 'report'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/report.png" alt="report" />
                                     </div>
@@ -100,7 +100,7 @@
                                 </button>
 
                                 <!--Reaction-->
-                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'">
+                                <button class="notification-item-active" v-if="notif.type === 'liked' || notif.type === 'disliked'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/filled_heart.png" alt="love" v-if="notif.type === 'liked'"/>
                                         <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" v-if="notif.type === 'disliked'"/>
@@ -113,7 +113,7 @@
                                 </button>
 
                                 <!--Recipe purchase-->
-                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'">
+                                <button class="notification-item-active" v-if="notif.type === 'recipePurchased'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/payment.png" alt="payment" />
                                     </div>
@@ -124,7 +124,7 @@
                                 </button>
 
                                 <!--Followed-->
-                                <button class="notification-item" v-if="notif.type === 'followed'">
+                                <button class="notification-item-active" v-if="notif.type === 'followed'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/follow.png" alt="follow" />
                                     </div>
@@ -135,7 +135,7 @@
                                 </button>
 
                                 <!-- recipe Block by admin-->
-                                <button class="notification-item" v-if="notif.type === 'recipeBlocked'">
+                                <button class="notification-item-active" v-if="notif.type === 'recipeBlocked'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/block.png" alt="follow" />
                                     </div>
@@ -145,7 +145,7 @@
                                     </div>
                                 </button>
                                 <!-- approved as a chef -->
-                                <button class="notification-item" v-if="notif.type === 'chefApproved'">
+                                <button class="notification-item-active" v-if="notif.type === 'chefApproved'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/chef.png" alt="as_chef" />
                                     </div>
@@ -155,7 +155,7 @@
                                     </div>
                                 </button>
                                 <!-- premium recipe approved by admin -->
-                                <button class="notification-item" v-if="notif.type === 'premiumRecipeApproved'">
+                                <button class="notification-item-active" v-if="notif.type === 'premiumRecipeApproved'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/approved.png" alt="approved" />
                                     </div>
@@ -165,7 +165,7 @@
                                     </div>
                                 </button>
                                 <!-- recipe purchase approved -->
-                                <button class="notification-item" v-if="notif.type === 'recipePurchaseApproved'">
+                                <button class="notification-item-active" v-if="notif.type === 'recipePurchaseApproved'" @click="goToNotification">
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
                                     </div>
@@ -176,7 +176,7 @@
                                 </button>
 
                                 <!-- new recipe added -->
-                                <button class="notification-item" v-if="notif.type === 'newRecipeAdded'">
+                                <button class="notification-item-active" v-if="notif.type === 'newRecipeAdded'" @click="goToNotification" >
                                     <div class="notif-icon">
                                         <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />
                                     </div>
@@ -235,7 +235,7 @@
                 <h6>{{ roleLabels[user?.role] }}</h6>
             </div>
             <div class="menu-buttons-container">
-                <button 
+                <button
                     @click="
                         isMenuVisible = false;
                         emit('navigate', 'Settings');
@@ -278,29 +278,29 @@
         }
         return props.getNotification;
     });
-const toggleNotification = () => {
-    // Close menu if it's open
-    if (isMenuVisible.value) {
-        isMenuVisible.value = false;
-    }
+    const toggleNotification = () => {
+        // Close menu if it's open
+        if (isMenuVisible.value) {
+            isMenuVisible.value = false;
+        }
 
-    // Toggle notification dropdown
-    isNotificationVisible.value = !isNotificationVisible.value;
-};
+        // Toggle notification dropdown
+        isNotificationVisible.value = !isNotificationVisible.value;
+    };
 
-const toggleMenu = () => {
-    // Close notification if it's open
-    if (isNotificationVisible.value) {
-        isNotificationVisible.value = false;
-    }
+    const toggleMenu = () => {
+        // Close notification if it's open
+        if (isNotificationVisible.value) {
+            isNotificationVisible.value = false;
+        }
 
-    // Toggle menu dropdown
-    isMenuVisible.value = !isMenuVisible.value;
-};
+        // Toggle menu dropdown
+        isMenuVisible.value = !isMenuVisible.value;
+    };
 
-const toggleMenuOpen = () => {
-    menuOpen.value = !menuOpen.value;
-};
+    const toggleMenuOpen = () => {
+        menuOpen.value = !menuOpen.value;
+    };
 
     const capitalizedfullName = computed(() => {
         const name = props.user?.user_info?.fullName ?? 'User'
@@ -372,6 +372,11 @@ const toggleMenuOpen = () => {
         chef: 'Chef',
         user: 'User'
     }
+
+
+    const goToNotification = () => {
+        emit('navigate', 'TheNotification');
+    };
 </script>
 
 <style scoped>
@@ -403,6 +408,7 @@ const toggleMenuOpen = () => {
         cursor: pointer;
         border: none;
         background-color: transparent;
+        margin-right: 25px;
     }
     .profile-container {
         width: 45px;
@@ -646,6 +652,7 @@ const toggleMenuOpen = () => {
         border-right: #AFADAD solid 1px;
         box-shadow: 0px 4px 1px #AFADAD;
         margin-top: 10px;
+        cursor: pointer;
     }
     .notif-icon {
         width: 10%;

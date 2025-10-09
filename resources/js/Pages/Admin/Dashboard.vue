@@ -1,32 +1,36 @@
 <template>
-    <div class="main-body">
+    <div class="w-full h-screen bg-gray-100 flex flex-col overflow-hidden">
         <Header
             :user="user"
             @navigate="setActiveComponent"
             :getNotification="getNotification"
         />
-        <div class="main-container">
+        <div class="w-full h-full flex flex-row bg-white">
             <Sidebar
                 :user="user"
                 @navigate="setActiveComponent"
                 :active="activeComponent"
             />
+
             <Home
                 v-if="activeComponent === 'AdminHome'"
                 :adminTotalIncome="adminTotalIncome"
                 :totalCountsUsers="totalCountsUsers"
                 :getTotalRecipeCounts="getTotalRecipeCounts"
                 @navigate="setActiveComponent"
+                class="flex-1 overflow-y-auto"
             />
             <Income
                 v-if="activeComponent === 'AdminIncome'"
                 :getRecipeDetailsAdmin="getRecipeDetailsAdmin"
+                class="flex-1 overflow-y-auto"
             />
             <Chefs
                 v-if="activeComponent === 'AdminChefs'"
                 :chefs="chefs"
                 :user="user"
                 @navigate="handleNavigation"
+                class="flex-1 overflow-y-auto"
             />
             <ChefInfo
                 v-if="activeComponent === 'ChefInfo'"
@@ -35,36 +39,45 @@
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
                 :user="user"
+                class="flex-1 overflow-y-auto"
             />
 
             <Users
                 v-if="activeComponent === 'Users'"
                 :usersInfo="usersInfo"
+                class="flex-1 overflow-y-auto"
             />
             <Recipes
                 v-if="activeComponent === 'Recipes'"
                 @navigate="handleNavigation"
                 :recipeCardDetails="recipeCardDetails"
                 :user="user"
+                class="flex-1 overflow-y-auto"
             />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails' && selectedRecipe"
                 :recipe="selectedRecipe"
                 :user="user"
                 @back="back"
+                class="flex-1 overflow-y-auto"
             />
             <AdminSettings
                 v-if="activeComponent === 'Settings'"
                 :user="user"
+                class="flex-1 overflow-y-auto"
             />
             <Notification
                 v-if="activeComponent === 'Notification'"
                 :getNotification="getNotification"
+                class="flex-1 overflow-y-auto"
+            />
+            <TheNotification
+                v-if="activeComponent === 'TheNotification'"
+                class="flex-1 overflow-y-auto"
             />
 
         </div>
     </div>
-
 </template>
 
 <script setup>
@@ -80,6 +93,7 @@
     import ChefInfo from "@/Component/Admin/ChefInfo.vue";
     import AdminSettings from "@/Component/Admin/AdminSettings.vue";
     import Notification from "@/Component/Notification.vue";
+    import TheNotification from "@/Component/TheNotification.vue";
 
     const props = defineProps({
         user: Object,

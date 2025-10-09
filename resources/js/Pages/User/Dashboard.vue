@@ -39,6 +39,9 @@
                 @recipeNavigate="goToRecipeDetails"
                 :user="user"
             />
+            <TheNotification
+                v-if="activeComponent === 'TheNotification'"
+            />
 
         </div>
 
@@ -56,6 +59,7 @@
     import Notification from "@/Component/Notification.vue";
     import UserChef from "@/Component/userChef.vue";
     import ChefDetails from "@/Component/chefDetails.vue";
+    import TheNotification from "@/Component/TheNotification.vue";
 
     import {computed, ref} from "vue";
 

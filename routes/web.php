@@ -31,7 +31,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
     Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
 
-
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
     Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
 
@@ -43,5 +42,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
     Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
+    Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
 });
 
