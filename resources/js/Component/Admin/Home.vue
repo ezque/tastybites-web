@@ -4,15 +4,12 @@
         <h2 class="mt-5 ml-5 text-[35px] font-[Poppins-Bold]">Dashboard</h2>
 
         <!-- Cards Section -->
-        <div class="flex flex-row flex-wrap items-center justify-between mt-[-10px] pb-2 w-full">
+        <div class="flex flex-row flex-wrap items-center justify-center mt-5 pb-2 w-full">
             <!-- Income -->
-            <button class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
-                <div class="flex flex-col justify-center w-[70%]">
+            <button class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[380px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+                <div class="flex flex-col justify-center align-center w-[70%]">
                     <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">TOTAL INCOME</p>
-                    <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">₱{{ props.adminTotalIncome.total }}</p>
-                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
-                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
-                    </p>
+                    <p class="text-[36px] font-[Poppins-Bold] text-[#435F77] my-1">₱{{ props.adminTotalIncome.total }}</p>
                 </div>
                 <div class="flex flex-col justify-center items-center w-[30%] h-full">
                     <img src="/public/images/Button-icon/dashboard-sales.png" alt="money icon" class="w-[90px] h-[90px]" />
@@ -20,13 +17,14 @@
             </button>
 
             <!-- Users -->
-            <button @click="emit('navigate','Users')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','Users')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[390px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
                 <div class="flex flex-col justify-center w-[70%]">
                     <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">USERS</p>
                     <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.usersCounts }}</p>
-                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
-                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
-                    </p>
+                    <div class="flex items-center gap-2">
+                        <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
+                        <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]">For more information</span>
+                    </div>
                 </div>
                 <div class="flex flex-col justify-center items-center w-[30%] h-full">
                     <img src="/public/images/Button-icon/dashboars-users.png" alt="users icon" class="w-[100px] h-[75px]" />
@@ -34,13 +32,14 @@
             </button>
 
             <!-- Chefs -->
-            <button @click="emit('navigate','AdminChefs')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','AdminChefs')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[390px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
                 <div class="flex flex-col justify-center w-[70%]">
                     <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">CHEFS</p>
                     <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.chefsCounts }}</p>
-                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
-                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
-                    </p>
+                    <div class="flex items-center gap-2">
+                        <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
+                        <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]">For more information</span>
+                    </div>
                 </div>
                 <div class="flex flex-col justify-center items-center w-[30%] h-full">
                     <img src="/public/images/Button-icon/dashboard-chef.png" alt="chef icon" class="w-[90px] h-[90px]" />
@@ -48,13 +47,14 @@
             </button>
 
             <!-- Recipes -->
-            <button @click="emit('navigate','Recipes')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[350px] h-[140px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','Recipes')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[380px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
                 <div class="flex flex-col justify-center w-[70%]">
                     <p class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">RECIPES</p>
                     <p class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.getTotalRecipeCounts.recipeCounts }}</p>
-                    <p class="text-[12px] font-[Poppins-Bold] text-green-600 m-0">
-                        ↑ 3.48% <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]"> since last month</span>
-                    </p>
+                    <div class="flex items-center gap-2">
+                        <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
+                        <span class="text-[#6c757d] text-[11px] font-[Poppins-Italic]">For more information</span>
+                    </div>
                 </div>
                 <div class="flex flex-col justify-center items-center w-[30%] h-full">
                     <img src="/public/images/Button-icon/dashboard-recipes.png" alt="recipes icon" class="w-[90px] h-[90px]" />

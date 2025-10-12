@@ -191,22 +191,21 @@
     async function blockUser(userId) {
         try {
             const response = await axios.post('/block-user', {
-                user_id: userId
-            })
-            console.log(response.data.message)
+            user_id: userId
+            });
+            console.log(response.data.message);
 
-            const index = users.value.findIndex(user => user.id === userId)
+            const index = users.value.findIndex(user => user.id === userId);
             if (index !== -1) {
-                // Toggle status to match backend
-                users.value[index].status =
-                    users.value[index].status.toLowerCase() === 'blocked'
-                        ? 'Active'
-                        : 'blocked'
+            // Toggle status correctly (use lowercase to match filters and display)
+            users.value[index].status =
+                users.value[index].status.toLowerCase() === 'blocked'
+                ? 'active'
+                : 'blocked';
             }
         } catch (error) {
-            console.error(error.response?.data || error.message)
+            console.error(error.response?.data || error.message);
         }
-
     }
 
     const genderLabel = {
@@ -280,7 +279,8 @@
         display: flex;
         flex-direction: column;
         border-radius: 8px;
-        overflow: hidden;
+        overflow-y: scroll;
+        scrollbar-width: none;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
@@ -313,11 +313,12 @@
     /* Head row */
     .table-head {
         display: flex;
-        font-size: 12px;
+        font-size: 14px;
         color: black;
         font-family: 'Poppins-Bold';
         text-align: center;
         background-color: #7592AB;
+        padding: 12px;
     }
 
     /* Body container */

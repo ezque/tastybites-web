@@ -13,23 +13,23 @@
 
                 <!-- Notification dropdown -->
                 <div v-if="isNotificationVisible"
-                     class="absolute right-0 top-[75px] w-[320px] p-3 flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-md border-r border-gray-400 z-[199]">
+                     class="absolute right-0 top-[75px] w-[340px] p-3 flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-md border-r border-gray-400 z-[199]">
 
                     <!-- Header -->
                     <div class="flex flex-col w-[250px] h-[50px] mt-2">
-                        <h2 class="text-[#435F77] font-bold text-[20px] m-0">Notifications</h2>
+                        <h2 class="text-[#435F77] text-[22px] m-0" style="font-family: 'Poppins-Bold'">Notifications</h2>
                         <div class="flex gap-1 mt-2 mb-2">
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'all'
-                  ? 'bg-[#B5BFDE] font-semibold text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                  ? 'bg-[#B5BFDE] text-[#435F77]'
+                  : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'all'">All</button>
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'unread'
-                  ? 'bg-[#B5BFDE] font-semibold text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                  ? 'bg-[#B5BFDE] text-[#435F77]'
+                  : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'unread'">Unread</button>
                         </div>
                     </div>
@@ -44,18 +44,18 @@
                         />
 
                         <div v-if="menuOpen"
-                             class="absolute right-0 top-[30px] flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-lg px-3 py-2 w-[170px] z-10">
+                             class="absolute right-0 top-[30px] flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-lg px-3 py-2 w-[185px] z-10">
                             <button @click="markAllRead"
-                                    class="flex items-center gap-2 text-xs font-bold text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
+                                    class="flex items-center gap-2 text-xs text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
                                 <img src="/public/images/Button-icon/check.png" class="w-[25px] h-[20px]" />
-                                <p>Mark All Read</p>
+                                <p style="font-family: 'Poppins-Bold'">Mark All Read</p>
                             </button>
                             <div class="w-full border border-[#435F77] rounded-md my-1"></div>
                             <button
                                 @click="menuOpen = false; isNotificationVisible = false; emit('navigate', 'Notification');"
-                                class="flex items-center gap-2 text-xs font-bold text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
+                                class="flex items-center gap-2 text-xs text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
                                 <img src="/public/images/Button-icon/notifications.png" class="w-[20px] h-[20px]" />
-                                <p>Open Notifications</p>
+                                <p style="font-family: 'Poppins-Bold'">Open Notifications</p>
                             </button>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                                     <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
                                 </div>
                                 <div class="flex flex-col items-start w-[90%]">
-                                    <p class="text-xs text-black m-0 text-justify">
+                                    <p class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
                                         <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
                                         <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
                                         <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
@@ -107,33 +107,39 @@
                     <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
                     <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
                 </div>
-                <h1 class="text-[1.1em] font-bold">{{ capitalizedfullName }}</h1>
+                <h1 class="text-[1.1em] font-[Poppins-Bold] ">{{ capitalizedfullName }}</h1>
             </button>
         </div>
 
         <!-- Profile menu dropdown -->
         <div v-if="isMenuVisible"
-             class="absolute right-2 top-[10%] flex flex-col items-center bg-[#435F77] rounded-[20px_0_20px_20px] p-5 min-w-[200px] z-[999]">
+             class="absolute right-5 top-[10%] flex flex-col items-center bg-[#435F77] rounded-[20px_0_20px_20px] p-5 min-w-[230px] z-[999]">
             <div class="w-[100px] h-[100px] rounded-full bg-[#BB98B8] overflow-hidden">
                 <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full"/>
                 <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
                 <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
             </div>
             <div class="flex flex-col items-center justify-center p-2">
-                <h1 class="text-white font-bold text-[1.2em]">{{ capitalizedfullName }}</h1>
-                <h6 class="text-white italic">{{ roleLabels[user?.role] }}</h6>
+                <h1 class="text-white text-[1.2em] font-[Poppins-Bold] ">{{ capitalizedfullName }}</h1>
+                <h6 class="text-white text-[.8em] font-[Poppins-Italic] ">{{ roleLabels[user?.role] }}</h6>
             </div>
-            <div class="flex flex-col w-full items-center">
-                <button @click="isMenuVisible = false; emit('navigate', 'Settings');"
-                        class="flex items-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition">
+            <div class="flex flex-col w-full items-center justify-center text-center">
+                <button 
+                    @click="isMenuVisible = false; emit('navigate', 'Settings');"
+                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
+                >
                     <img src="/public/images/Button-icon/settings.png" class="w-[25px] ml-1" />
-                    <h1 class="text-white font-bold text-[1.2em]">Settings</h1>
+                    <p class="text-white text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Settings</p>
                 </button>
+
                 <div class="w-[80%] border border-white my-2"></div>
-                <button @click="handleLogout"
-                        class="flex items-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition">
+
+                <button 
+                    @click="handleLogout"
+                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
+                >
                     <img src="/public/images/Button-icon/logout(3).png" class="w-[25px] ml-1" />
-                    <h1 class="text-white font-bold text-[1.2em]">Logout</h1>
+                    <p class="text-white font-bold text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Logout</p>
                 </button>
             </div>
         </div>
