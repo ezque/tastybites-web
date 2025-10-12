@@ -33,13 +33,21 @@ class RecipeService
                 $recipe->is_hidden = $recipe->hidden?->is_hidden ?? '0';
                 $recipe->is_saved = $recipe->savedBy?->save_status ?? '0';
 
+                // ✅ Ownership check
                 $recipe->is_owned = $recipe->userID === $userId;
+
+                // ✅ Purchase check (for current user)
+                $recipe->is_purchased = $recipe->purchase ? true : false;
+
+                // ✅ Can the user access this recipe? (owned OR purchased OR free)
+                $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
                 return $recipe;
             });
 
         return $recipes;
     }
+
 
 
 

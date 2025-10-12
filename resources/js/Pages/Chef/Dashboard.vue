@@ -73,6 +73,10 @@
                 :notification="selectedNotification"
                 class="flex-1 overflow-y-auto"
             />
+            <UserRecipe
+                v-if="activeComponent === 'UserRecipe'"
+                :recipeCardDetails="recipeCardDetails"
+            />
         </div>
     </div>
 </template>
@@ -95,6 +99,7 @@
     import UserChef from "@/Component/userChef.vue";
     import ChefDetails from "@/Component/chefDetails.vue";
     import TheNotification from "@/Component/TheNotification.vue";
+    import UserRecipe from "@/Component/UserRecipe.vue";
 
     const props = defineProps({
         user: Object,
