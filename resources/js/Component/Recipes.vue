@@ -1,33 +1,59 @@
 <template>
-    <div class="main-container-recipe">
-        <div class="top-button-container">
-            <button 
-                :class="{ active: activeFilter === 'all' }" 
-                @click="activeFilter = 'all'">
-                ALL RECIPE
+    <div class="w-full h-full flex flex-col">
+        <!-- Top Buttons -->
+        <div class="w-full h-[10%] flex flex-row items-center justify-center gap-5">
+            <button
+                :class="[
+                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                  activeFilter === 'all'
+                    ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                    : 'hover:scale-110'
+                ]"
+                        @click="activeFilter = 'all'"
+                    >
+                        ALL RECIPE
             </button>
 
-            <button 
-                :class="{ active: activeFilter === 'premium' }" 
-                @click="activeFilter = 'premium'">
-                PREMIUM
+            <button
+                :class="[
+                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                  activeFilter === 'premium'
+                    ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                    : 'hover:scale-110'
+                ]"
+                        @click="activeFilter = 'premium'"
+                    >
+                        PREMIUM
             </button>
 
-            <button 
-                :class="{ active: activeFilter === 'free' }" 
-                @click="activeFilter = 'free'">
-                FREE
+            <button
+                :class="[
+                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                  activeFilter === 'free'
+                    ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                    : 'hover:scale-110'
+                ]"
+                        @click="activeFilter = 'free'"
+                    >
+                        FREE
             </button>
         </div>
-        <div class="main-body">
+
+        <!-- Main Body -->
+        <div
+            class="w-full h-[690px] flex flex-wrap flex-row gap-[90px] items-center justify-center py-2 overflow-auto scrollbar-thin scrollbar-thumb-[#AFADAD] scrollbar-track-transparent "
+        >
+            <!-- Add Recipe Button -->
             <button
-                class="add-button"
+                class="w-[220px] h-[270px] rounded-[20px] flex flex-col items-center justify-center gap-2 font-[Poppins-Bold] italic text-[#31485B] font-extrabold text-base bg-[#E0E7FF] border-none shadow-[3px_6px_6px_#AFADAD] cursor-pointer"
                 @click="emit('navigate', 'AddRecipe')"
-                v-if="props.user.role === 'chef' && props.user.status === 'active' && activeFilter  === 'all'"
+                v-if="props.user.role === 'chef' && props.user.status === 'active' && activeFilter === 'all'"
             >
                 Add Recipe
-                <img src="/public/images/Button-icon/add.png"/>
+                <img src="/public/images/Button-icon/add.png" class="w-[150px] h-auto" />
             </button>
+
+            <!-- Recipe Cards -->
             <RecipeCard
                 v-for="(recipeCardDetail, index) in filteredRecipes"
                 :key="recipeCardDetail.id"
@@ -35,10 +61,9 @@
                 :index="index"
                 @navigate="(component, data) => emit('navigate', component, data)"
             />
-
-
         </div>
-        <Footer/>
+
+        <Footer />
     </div>
 </template>
 
@@ -87,81 +112,4 @@
 
 </script>
 
-<style scoped>
-    .main-container-recipe {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .top-button-container {
-        width: 100%;
-        height: 10%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-    }
-    .top-button-container button {
-        width: 140px;
-        height: 40px;
-        border: none;
-        border-radius: 20px;
-        background: #435F77;
-        color: white;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: 'Poppins-Bold';
-    }
-    .top-button-container button.active {
-        background: #E0E7FF;
-        color: #435F77;
-        box-shadow: 4px 4px 12px #AFADAD;
-        border-right: #AFADAD solid 1px;
-    }
-    .top-button-container button:hover {
-        transform: scale(1.1);
-    }
-    .main-body {
-        width: 100%;
-        flex-wrap: wrap;
-        flex-direction: row;
-        display: flex;
-        gap: 90px;
-        align-items: center;
-        justify-content: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        max-height: 73%;
-        overflow: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #AFADAD transparent;
-    }
-    .add-button {
-        width: 220px;
-        height: 270px;
-        cursor: pointer;
-        border-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        font-family: 'Poppins-Bold';
-        font-style: italic;
-        color: #31485B;
-        font-weight: bolder;
-        font-size: 1em;
-        background-color: #E0E7FF;
-        border: none;
-        box-shadow: 3px 6px 6px #AFADAD;
-
-    }
-    .add-button img {
-        width: 150px;
-        height: auto;
-    }
-
-</style>
 
