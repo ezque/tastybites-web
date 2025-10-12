@@ -395,7 +395,7 @@ async function changePassword() {
         color: #435F77;
         font-family: 'Poppins-Italic';
         margin-left: 70px;
-        margin-top: -10px;
+        margin-top: 10px;
     }
     .card-body-personal {
         display: flex;
@@ -563,8 +563,7 @@ async function changePassword() {
         cursor: pointer;
     }
     .password-field button img {
-        width: 100%;
-        height: 100%;
+        width: 80%;
     }
     .action-row {
         margin-top: 15px;
