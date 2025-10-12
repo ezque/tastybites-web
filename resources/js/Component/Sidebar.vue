@@ -1,65 +1,107 @@
 <template>
-    <div class="sidebar-container">
-        <div class="button-container">
+    <div class="w-[8%] h-full bg-[#B5BFDE] flex flex-col justify-between">
+        <div class="pt-10 flex flex-col items-end gap-5">
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 :class="{ active: active === homeKey }"
                 @click="goHome"
             >
-                <img src="/public/images/Button-icon/home.png"/>
-                <h1>Home</h1>
+                <img src="/public/images/Button-icon/home.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Home</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 :class="{ active: active === userChef }"
                 @click="goUserChef"
                 v-if="!isAdmin"
             >
-                <img src="/public/images/Button-icon/chef.png"/>
-                <h1>Chef</h1>
+                <img src="/public/images/Button-icon/chef.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Chef</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 :class="{ active: active === incomeKey }"
                 @click="goIncome"
                 v-if="!isUser"
             >
-                <img src="/public/images/Button-icon/queue.png"/>
-                <h1>Queue</h1>
+                <img src="/public/images/Button-icon/queue.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Queue</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 v-if="isAdmin"
                 :class="{ active: active === 'AdminChefs' }"
                 @click="emit('navigate','AdminChefs')"
             >
-                <img src="/public/images/Button-icon/chef.png"/>
-                <h1>Chefs</h1>
+                <img src="/public/images/Button-icon/chef.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Chefs</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 v-if="isAdmin || isChef"
                 :class="{ active: active === 'Recipes' }"
                 @click="emit('navigate', 'Recipes')"
             >
-                <img src="/public/images/Button-icon/recipes.png"/>
-                <h1>Recipes</h1>
+                <img src="/public/images/Button-icon/recipes.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Recipes</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 v-if="isAdmin"
                 :class="{ active: active === 'Users' }"
                 @click="emit('navigate','Users')"
             >
-                <img src="/public/images/Button-icon/user_sidebar.png"/>
-                <h1>Users</h1>
+                <img src="/public/images/Button-icon/user_sidebar.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Users</h1>
             </button>
             <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 v-if="isChef"
                 :class="{ active: active === 'Report' }"
                 @click="emit('navigate','Report')"
             >
-                <img src="/public/images/Button-icon/chef_reports.png" alt="img"/>
-                <h1>Reports</h1>
+                <img src="/public/images/Button-icon/chef_reports.png" alt="img" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Reports</h1>
             </button>
         </div>
-        <div class="logout-container">
-            <button class="logout-bttn" @click="handleLogout">
-                <img src="/public/images/Button-icon/logout.png"/>
+        <div class="w-[100px] flex items-center justify-center mb-[30px] fixed bottom-[-30px] left-[23px]">
+            <button class="p-[10px] flex items-center bg-transparent border-none cursor-pointer" @click="handleLogout">
+                <img src="/public/images/Button-icon/logout.png" class="w-[40px] h-auto"/>
             </button>
         </div>
 
@@ -118,77 +160,5 @@
             });
         }
     };
-
 </script>
 
-<style scoped>
-    .sidebar-container {
-        width: 8%;
-        height: 100%;
-        background-color: #B5BFDE;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .button-container {
-        padding-top: 40px;
-        flex-direction: column;
-        display: flex;
-        align-items: end;
-        gap: 20px;
-    }
-    .button-container button {
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-radius: 50px 0 0 50px;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        gap: 5px;
-        transition: all 0.5s ease-in-out;
-    }
-    .button-container button:hover {
-        background-color: #E0E7FF;
-    }
-    .button-container button.active {
-        background-color: #E0E7FF;
-        border-right: #AFADAD solid 1px;
-        box-shadow: 0px 4px 1px rgba(0.3,0.4,0.2,0.2);
-    }
-    .button-container button img {
-        width: 50px;
-        height: auto;
-    }
-    .button-container button h1 {
-        font-size: 12px;
-        margin: 0;
-        font-family: 'Poppins-Bold';
-    }
-    .logout-container {
-        width: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 30px;
-        position: fixed;
-        bottom: -30px;
-        left: 23px;
-    }
-    .logout-bttn {
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-    }
-    .logout-bttn img {
-        width: 40px;
-        height: auto;
-    }
-</style>
