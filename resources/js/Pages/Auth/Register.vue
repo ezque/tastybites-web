@@ -108,7 +108,7 @@
                 <!-- Role Buttons -->
                 <div class="flex justify-center gap-4 mt-2">
                     <button
-                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md',
+                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md cursor-pointer',
                         role === 'user' ? 'bg-[#31485B] scale-105 shadow-lg' : 'bg-[#435F77] hover:-translate-y-1']"
                         @click="selectRole('user')"
                     >
@@ -116,7 +116,7 @@
                         <span>USER</span>
                     </button>
                     <button
-                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md',
+                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md cursor-pointer',
                         role === 'chef' ? 'bg-[#31485B] scale-105 shadow-lg' : 'bg-[#435F77] hover:-translate-y-1']"
                         @click="selectRole('chef')"
                     >
@@ -148,7 +148,7 @@
                         />
                         <button
                             type="button"
-                            class="bg-[#435F77] text-white px-3 py-1 rounded-lg text-sm"
+                            class="bg-[#435F77] text-white px-3 py-1 rounded-lg text-sm cursor-pointer"
                             @click="triggerFileInput"
                         >
                             Attach
@@ -165,7 +165,7 @@
 
             <!-- Submit -->
             <button
-                class="w-full bg-[#435F77] rounded-[20px] py-2 mt-4 text-white font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-full bg-[#435F77] rounded-[20px] py-2 mt-4 text-white font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                 @click="handleLogin"
                 :disabled="loading || !passwordMatch"
             >

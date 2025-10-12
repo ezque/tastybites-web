@@ -64,7 +64,7 @@
 
             <!-- Submit button -->
             <button
-                class="w-full bg-[#435F77] rounded-[20px] py-2 mt-4 text-white font-[Poppins-Bold] font-bold text-[16px] flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-full bg-[#435F77] rounded-[20px] py-2 mt-4 text-white font-[Poppins-Bold] font-bold text-[16px] flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                 @click="handleLogin"
                 :disabled="loading"
             >
