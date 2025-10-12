@@ -168,18 +168,17 @@
 
             const index = users.value.findIndex(user => user.id === userId);
             if (index !== -1) {
-<<<<<<< HEAD
                 // Toggle status to match backend
                 users.value[index].status =
                     users.value[index].status.toLowerCase() === 'blocked'
                         ? 'active'
                         : 'blocked'
-=======
+
                 users.value[index].status =
                     users.value[index].status.toLowerCase() === 'blocked'
                         ? 'active'
                         : 'blocked';
->>>>>>> c9594d2c2d7df969cdb0aca792cb93663a626469
+
             }
         } catch (error) {
             console.error(error.response?.data || error.message);
