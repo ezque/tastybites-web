@@ -151,31 +151,41 @@
         }
     })
 
-    const activeTab = ref('all')
 
-    const blockedUsers = computed(() => props.usersInfo.filter(user => user.status === 'blocked'))
 
     const users = ref([...props.usersInfo])
 
+    const activeTab = ref('all')
+
+    const blockedUsers = computed(() =>
+        users.value.filter(user => user.status === 'blocked')
+    )
+
     async function blockUser(userId) {
         try {
-            const response = await axios.post('/block-user', {
-            user_id: userId
-            });
+            const response = await axios.post('/block-user', { user_id: userId });
             console.log(response.data.message);
 
             const index = users.value.findIndex(user => user.id === userId);
             if (index !== -1) {
+<<<<<<< HEAD
                 // Toggle status to match backend
                 users.value[index].status =
                     users.value[index].status.toLowerCase() === 'blocked'
                         ? 'active'
                         : 'blocked'
+=======
+                users.value[index].status =
+                    users.value[index].status.toLowerCase() === 'blocked'
+                        ? 'active'
+                        : 'blocked';
+>>>>>>> c9594d2c2d7df969cdb0aca792cb93663a626469
             }
         } catch (error) {
             console.error(error.response?.data || error.message);
         }
     }
+
 
     const genderLabel = {
         male: 'Male',

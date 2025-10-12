@@ -142,14 +142,12 @@
     });
 
     function getProfilePic(chef) {
-      const gender = chef.user_info?.gender;
-      if (gender === 'male') {
-        return '/images/male.png';
-      } else if (gender === 'female') {
-        return '/images/female.png';
-      } else {
-        return '/images/male.png';
-      }
+        const path = chef.user_info?.profilePath;
+        if (path && path.trim() !== "") return `/storage/${path}`;
+        const gender = chef.user_info?.gender;
+        return gender === "female"
+            ? "/images/female.png"
+            : "/images/male.png";
     }
 
     function capitalizeFullName(name) {
