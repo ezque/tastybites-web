@@ -30,8 +30,8 @@ class RecipeService
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
 
-                $recipe->is_hidden = $recipe->hidden?->is_hidden ?? '0';
-                $recipe->is_saved = $recipe->savedBy?->save_status ?? '0';
+                $recipe->is_hidden = $recipe->hidden?->is_hidden ?? 0;
+                $recipe->is_saved = $recipe->savedBy?->save_status ?? 0;
 
                 // ✅ Ownership check
                 $recipe->is_owned = $recipe->userID === $userId;
