@@ -92,7 +92,6 @@
     import Recipes from "@/Component/Recipes.vue";
     import AddRecipe from "@/Component/Chef/AddRecipe.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
-    import Profile from "@/Component/Profile.vue";
     import Report from "@/Component/Chef/Report.vue";
     import UserSettings from "@/Component/UserSettings.vue";
     import Notification from "@/Component/Notification.vue";

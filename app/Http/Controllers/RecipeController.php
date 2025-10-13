@@ -362,7 +362,7 @@ class RecipeController extends Controller
                 Notification::create([
                     'userID'   => $admin->id,
                     'senderID' => auth()->id(),
-                    'message'  => 'A user has been reported. Reporter ID: ' . auth()->id(),
+                    'message'  => 'A Chef has been reported.',
                     'status'   => 'unread',
                     'type'     => 'report',
                 ]);
