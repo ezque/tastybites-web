@@ -70,7 +70,7 @@
                                     <p>Full Name:</p>
                                     <h2>{{ user.user_info.fullName }}</h2>
                                     <button @click="editMode = 'fullName'">
-                                        <img alt="icon" src="/public/images/Button-icon/edit%20icon.png" />
+                                        <img alt="icon" src="/public/images/Button-icon/edit-icon.png" />
                                     </button>
                                 </template>
                             </div>
@@ -92,7 +92,7 @@
                                     <p>User Name:</p>
                                     <h2>@{{ user.user_info.userName }}</h2>
                                     <button @click="editMode = 'userName'">
-                                        <img alt="icon" src="/public/images/Button-icon/edit%20icon.png" />
+                                        <img alt="icon" src="/public/images/Button-icon/edit-icon.png" />
                                     </button>
                                 </template>
                             </div>
