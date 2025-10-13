@@ -28,16 +28,16 @@
                     :class="{ active: activeButton === 'hiddenRecipe' }"
                     @click="activeButton = 'hiddenRecipe'"
                 >
-                    <img v-if="activeButton === 'password'" alt="button" src="/public/images/Button-icon/password_open.png" />
-                    <img v-else  alt="button" src="/public/images/Button-icon/password_notopen.png" />
+                    <img v-if="activeButton === 'hiddenRecipe'" alt="button" src="/public/images/Button-icon/hide_open.png" />
+                    <img v-else  alt="button" src="/public/images/Button-icon/hide_not_open.png" />
                     <span class="button-text">Hidden Recipe</span>
                 </button>
                 <button
                     :class="{ active: activeButton === 'savedRecipe' }"
                     @click="activeButton = 'savedRecipe'"
                 >
-                    <img v-if="activeButton === 'password'" alt="button" src="/public/images/Button-icon/password_open.png" />
-                    <img v-else  alt="button" src="/public/images/Button-icon/password_notopen.png" />
+                    <img v-if="activeButton === 'savedRecipe'" alt="button" src="/public/images/Button-icon/save_yes.png" />
+                    <img v-else  alt="button" src="/public/images/Button-icon/save_not.png" />
                     <span class="button-text">Saved Recipe</span>
                 </button>
             </div>

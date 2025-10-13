@@ -623,7 +623,7 @@
         margin: 0;
         padding: 0;
         text-align: justify;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins-Italic';
         margin-right: 20px;
         font-size: .95em;
     }

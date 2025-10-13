@@ -178,7 +178,6 @@
                     users.value[index].status.toLowerCase() === 'blocked'
                         ? 'active'
                         : 'blocked';
-
             }
         } catch (error) {
             console.error(error.response?.data || error.message);

@@ -326,10 +326,8 @@
         width: 30%;
     }
     .menu-container button:hover {
-        background-color: #CFDAFF;
-        border-right: #AFADAD solid 1px;
-        color: #435F77;
-        border-radius: 5px;
+        transform: translateY(-2px);
+        transition: all 0.2s ease;
     }
 
 
