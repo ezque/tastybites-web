@@ -7,7 +7,7 @@
                 :class="activeFilter === 'saved' ? 'bg-gray-300' : ''"
                 @click="activeFilter = 'saved'"
             >
-                Saved Recipe
+                <span>Saved Recipe</span>
             </button>
 
             <button
@@ -15,14 +15,22 @@
                 :class="activeFilter === 'purchased' ? 'bg-gray-300' : ''"
                 @click="activeFilter = 'purchased'"
             >
-                Purchased Recipe
+                <span>Purchased Recipe</span>
+            </button>
+
+            <button
+                class="px-6 py-2 cursor-pointer border border-black rounded"
+                :class="activeFilter === 'hidden' ? 'bg-gray-300' : ''"
+                @click="activeFilter = 'hidden'"
+            >
+                <span>Hidden Recipe</span>
+
             </button>
 
         </div>
 
-        <!-- Recipe Cards -->
         <div
-            class="w-full h-full flex flex-wrap justify-center gap-5 p-5 border border-black overflow-auto"
+            class="w-full min-h-[80%] max-h-[80%] flex flex-wrap justify-center gap-20 p-5 overflow-auto"
         >
             <RecipeCard
                 v-for="recipe in filteredRecipes"
@@ -50,6 +58,8 @@
             return props.recipeCardDetails.filter((r) => r.is_saved);
         }  else if (activeFilter.value === "purchased") {
             return props.recipeCardDetails.filter((r) => r.is_purchased);
+        } else if (activeFilter.value === "hidden") {
+            return props.recipeCardDetails.filter(r => r.is_hidden === '1');
         }
         return props.recipeCardDetails;
     });
