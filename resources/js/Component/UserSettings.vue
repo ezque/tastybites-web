@@ -47,7 +47,120 @@
                     <div class="card-label">
                         <h2>Personal Details</h2>
                     </div>
-                    <div class="card-body-personal">
+
+                    <!-- If Chef: Split layout into 2 columns -->
+                    <div v-if="isChef" class="chef-grid-layout">
+                        <!-- Column 1: Profile + Personal Info -->
+                        <div class="chef-col personal-info-col">
+                            <div class="profile-picture-container-chef">
+                                <input type="file" id="profileInput" @change="uploadProfile" hidden />
+                                <button type="button" @click="triggerFileInput">
+                                    <img
+                                        v-if="user.user_info.profilePath"
+                                        :src="`/storage/${user.user_info.profilePath}`"
+                                        alt="Profile"
+                                    />
+                                    <img
+                                        v-else-if="user.user_info.gender === 'male'"
+                                        src="/public/images/male.png"
+                                        alt="Male Default"
+                                    />
+                                    <img
+                                        v-else
+                                        src="/public/images/female.png"
+                                        alt="Female Default"
+                                    />
+                                </button>
+                            </div>
+
+                            <div class="personal-information-container">
+                                <!-- Full Name -->
+                                <div class="info-container1-chef">
+                                    <template v-if="editMode === 'fullName'">
+                                        <input v-model="editableFullName" placeholder="Full Name" />
+                                        <div class="personal-buttons-chef">
+                                            <button @click="cancelEdit">
+                                                <img alt="icon" src="/public/images/Button-icon/decline.png" />
+                                            </button>
+                                            <button @click="saveEdit('fullName')">
+                                                <img alt="icon" src="/public/images/Button-icon/approved.png" />
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <p>Full Name:</p>
+                                        <h2>{{ user.user_info.fullName }}</h2>
+                                        <button @click="editMode = 'fullName'">
+                                            <img alt="icon" src="/public/images/Button-icon/edit-icon.png" />
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="info-container2-chef">
+                                    <template v-if="editMode === 'userName'">
+                                        <input v-model="editableUserName" placeholder="Username" />
+                                        <div class="personal-buttons-chef">
+                                            <button @click="cancelEdit">
+                                                <img alt="icon" src="/public/images/Button-icon/decline.png" />
+                                            </button>
+                                            <button @click="saveEdit('userName')">
+                                                <img alt="icon" src="/public/images/Button-icon/approved.png" />
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <p>User Name:</p>
+                                        <h2>@{{ user.user_info.userName }}</h2>
+                                        <button @click="editMode = 'userName'">
+                                            <img alt="icon" src="/public/images/Button-icon/edit-icon.png" />
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="horizontal-line"></div>
+                        <div class="chef-col certificate-col">
+                            <div class="chef-certificates-container">
+                                <button class="nav-btn left" @click="prevCertificate" :disabled="currentCertificateIndex === 0">
+                                    ⬅
+                                </button>
+
+                                <div class="certificate-viewer">
+                                    <!-- Upload certificate -->
+                                    <div v-if="currentCertificateIndex === 0" class="upload-certificate">
+                                        <input type="file" id="certificateInput" @change="uploadCertificate" hidden />
+                                        <button class="upload-btn" @click="triggerCertificateInput">
+                                            ➕ Upload Certificate
+                                        </button>
+                                    </div>
+
+                                    <!-- Certificate preview -->
+                                    <div v-else>
+                                        <img
+                                            :src="`/storage/${chefCertificate[currentCertificateIndex - 1].certificate_path}`"
+                                            alt="Certificate"
+                                            class="certificate-image"
+                                        />
+                                        <span class="certificate-counter">
+                                            {{ currentCertificateIndex }} / {{ chefCertificate.length }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <button
+                                    class="nav-btn right"
+                                    @click="nextCertificate"
+                                    :disabled="currentCertificateIndex === chefCertificate.length"
+                                >
+                                    ➡
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- If NOT a Chef: Show only personal details -->
+                    <div v-else class="card-body-personal">
                         <div class="profile-picture-container">
                             <input type="file" id="profileInput" @change="uploadProfile" hidden />
                             <button type="button" @click="triggerFileInput">
@@ -70,15 +183,16 @@
                         </div>
 
                         <div class="personal-information-container">
+                            <!-- Reuse same full name + username layout -->
                             <div class="info-container1">
                                 <template v-if="editMode === 'fullName'">
                                     <input v-model="editableFullName" placeholder="Full Name" />
                                     <div class="personal-buttons">
                                         <button @click="cancelEdit">
-                                            <img alt="icon" src="/public/images/Button-icon/decline.png">
+                                            <img alt="icon" src="/public/images/Button-icon/decline.png" />
                                         </button>
                                         <button @click="saveEdit('fullName')">
-                                            <img alt="icon" src="/public/images/Button-icon/approved.png">
+                                            <img alt="icon" src="/public/images/Button-icon/approved.png" />
                                         </button>
                                     </div>
                                 </template>
@@ -96,10 +210,10 @@
                                     <input v-model="editableUserName" placeholder="Username" />
                                     <div class="personal-buttons">
                                         <button @click="cancelEdit">
-                                            <img alt="icon" src="/public/images/Button-icon/decline.png">
+                                            <img alt="icon" src="/public/images/Button-icon/decline.png" />
                                         </button>
                                         <button @click="saveEdit('userName')">
-                                            <img alt="icon" src="/public/images/Button-icon/approved.png">
+                                            <img alt="icon" src="/public/images/Button-icon/approved.png" />
                                         </button>
                                     </div>
                                 </template>
@@ -113,44 +227,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chef-certificates-container" v-if="isChef">
-                        <button class="nav-btn left" @click="prevCertificate" :disabled="currentCertificateIndex === 0">
-                            ⬅
-                        </button>
-
-                        <div class="certificate-viewer">
-                            <!-- Index 0 = Upload Certificate -->
-                            <div v-if="currentCertificateIndex === 0" class="upload-certificate">
-                                <input type="file" id="certificateInput" @change="uploadCertificate" hidden />
-                                <button class="upload-btn" @click="triggerCertificateInput">
-                                    ➕ Upload Certificate
-                                </button>
-                            </div>
-
-                            <!-- Certificates -->
-                            <div v-else>
-                                <img
-                                    :src="`/storage/${chefCertificate[currentCertificateIndex - 1].certificate_path}`"
-                                    alt="Certificate"
-                                    class="certificate-image"
-                                />
-                                <span class="certificate-counter">
-                                    {{ currentCertificateIndex }} / {{ chefCertificate.length }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <button
-                            class="nav-btn right"
-                            @click="nextCertificate"
-                            :disabled="currentCertificateIndex === chefCertificate.length"
-                        >
-                            ➡
-                        </button>
-                    </div>
-
-
                 </div>
+
 
                 <div v-if="activeButton === 'password'" class="card-2">
                     <div class="card-label">
@@ -474,7 +552,7 @@
     .card-3,
     .card-4 {
         width: 90%;
-        min-height: 85%;
+        height: 85%;
         margin: 20px 0 0 20px;
         background-color: #E0E7FF;
         border-radius: 20px;
@@ -482,7 +560,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08)
     }
     .card-1,
     .card-2 {
@@ -496,6 +574,147 @@
         overflow: auto;
         gap: 20px;
     }
+
+    .chef-grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 2px 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+    .horizontal-line {
+        background-color: #fff;
+        height: 100%;
+        width: 2px;
+    }
+
+    .personal-info-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .certificate-col {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .certificate-viewer {
+        text-align: center;
+    }
+
+    .certificate-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .profile-picture-container-chef {
+        display: flex;
+        justify-content: center;
+        width: 45%;
+    }
+    .profile-picture-container-chef button {
+        width: 457px;
+        height: 457px;
+        border-radius: 50%;
+        background: #E0E7FF;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+    }
+    .profile-picture-container-chef button img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: none;
+    }
+    .profile-picture-container-chef button:hover {
+        transform: scale(1.01);
+    }
+
+    .personal-information-container-chef {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 55%;
+        justify-content: center;
+        align-items: center;
+    }
+    .info-container1-chef, .info-container2-chef {
+        width: 80%;
+        height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #cdd6f6;
+        padding: 0 12px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .info-container1-chef {
+        border-radius: 15px 15px 0 0;
+    }
+    .info-container2-chef {
+        border-radius: 0 0 15px 15px;
+        border-top: #E0E7FF solid 2px;
+    }
+    .info-container1-chef input, .info-container2-chef input {
+        background-color: #cdd6f6;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        color: #31485B;
+        font-family: 'Poppins-Bold';
+    }
+    .info-container1-chef p, .info-container2-chef p {
+        width: 25%;
+        font-size: 1em;
+        color: #435F77;
+        margin: 0;
+        font-family: 'Poppins-Regular';
+    }
+    .info-container1-chef h2, .info-container2-chef h2 {
+        width: 70%;
+        font-size: 1.1em;
+        color: black;
+        font-family: 'Poppins-Bold';
+        margin: 0;
+    }
+    .info-container1-chef button, .info-container2-chef button {
+        width: 42px;
+        height: 42px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        margin-right: -5px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+    .info-container1-chef img, .info-container2-chef img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .personal-buttons-chef {
+        display: flex;
+        gap: 8px;
+    }
+    .personal-buttons-chef button {
+        height: 42px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .personal-buttons-chef button img {
+        width: 95%;
+        height: 95%;
+    }
+
 
     .card-label h2 {
         margin-top: 2em;
