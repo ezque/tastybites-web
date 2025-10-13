@@ -77,6 +77,20 @@
                        hover:bg-[#E0E7FF]
                        [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
                        [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
+                v-if="isUser || isChef"
+                :class="{ active: active === 'UserRecipe' }"
+                @click="emit('navigate', 'UserRecipe')"
+            >
+                <img src="/public/images/Button-icon/recipes.png" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Save Recipes</h1>
+            </button>
+            <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
                 v-if="isAdmin"
                 :class="{ active: active === 'Users' }"
                 @click="emit('navigate','Users')"

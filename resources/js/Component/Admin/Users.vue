@@ -168,6 +168,12 @@
 
             const index = users.value.findIndex(user => user.id === userId);
             if (index !== -1) {
+                // Toggle status to match backend
+                users.value[index].status =
+                    users.value[index].status.toLowerCase() === 'blocked'
+                        ? 'active'
+                        : 'blocked'
+
                 users.value[index].status =
                     users.value[index].status.toLowerCase() === 'blocked'
                         ? 'active'
