@@ -72,7 +72,7 @@ class AdminController extends Controller
         ]);
 
     }
-    public function blockUser(Request $request)
+    public function updateUserStatus(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -86,18 +86,21 @@ class AdminController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User blocked successfully.'
+                'message' => 'User blocked successfully.',
+                'new_status' => $user->status
             ]);
         } else {
             // Unblock the user
-            $user->update(['status' => 'Active']);
+            $user->update(['status' => 'active']); // <-- lowercase for consistency
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User unblocked successfully.'
+                'message' => 'User unblocked successfully.',
+                'new_status' => $user->status
             ]);
         }
     }
+
     public function updateChefRecipeStatus(Request $request, $id)
     {
         $request->validate([
@@ -115,6 +118,7 @@ class AdminController extends Controller
             'recipe' => $recipe,
         ]);
     }
+
 
 
 }

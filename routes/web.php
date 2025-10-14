@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
     Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
     Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
-    Route::post('/block-user', [AdminController::class, 'blockUser']);
+    Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);
     Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
 
     Route::post('/purchase-accept/{id}', [ChefController::class, 'acceptPurchase']);

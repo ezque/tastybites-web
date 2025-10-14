@@ -7,6 +7,7 @@
                 <div class="mt-5 ml-5">
                     <h2 v-if="activeTab === 'register'" class="text-[35px] font-[Poppins-Bold]">Registered Chefs</h2>
                     <h2 v-if="activeTab === 'request'" class="text-[35px] font-[Poppins-Bold]">Chefs Request</h2>
+                    <h2 v-if="activeTab === 'block'" class="text-[35px] font-[Poppins-Bold]">Blocked Chefs</h2>
                 </div>
 
                 <!-- Search -->
@@ -35,14 +36,25 @@
 
                 <button
                     :class="[
-            'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
-            activeTab === 'request'
-              ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-              : 'hover:scale-110'
-          ]"
+                        'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                        activeTab === 'request'
+                          ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                          : 'hover:scale-110'
+                    ]"
                     @click="activeTab = 'request'"
                 >
                     PENDING REQUESTS
+                </button>
+                <button
+                    :class="[
+                        'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                        activeTab === 'block'
+                          ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                          : 'hover:scale-110'
+                    ]"
+                    @click="activeTab = 'block'"
+                >
+                    BLOCKED CHEFS
                 </button>
             </div>
         </div>
@@ -117,6 +129,54 @@
                 </table>
             </div>
         </div>
+        <!--Blocked Chefs-->
+        <div class="w-full h-[75%] flex flex-col items-center bg-slate-50 py-5 mt-[7px]" v-show="activeTab === 'block'">
+            <div class="w-[90%] bg-white rounded-md shadow-md overflow-hidden">
+                <table class="w-full border-collapse">
+                    <!-- Header -->
+                    <thead>
+                    <tr class="bg-[#7592AB] text-white">
+                        <th class="w-[5%] text-xs font-[Poppins-Bold] h-[40px]">ID</th>
+                        <th class="w-[20%] text-xs font-[Poppins-Bold]">Full Name</th>
+                        <th class="w-[25%] text-xs font-[Poppins-Bold]">Email</th>
+                        <th class="w-[5%] text-[10px] font-[Poppins-Bold]">Years</th>
+                        <th class="w-[22%] text-xs font-[Poppins-Bold]">Certificate</th>
+                        <th class="w-[15%] text-xs font-[Poppins-Bold]">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr
+                        v-for="chef in blockedChefs"
+                        :key="chef.id"
+                        class="even:bg-gray-50 hover:bg-slate-100 h-[50px] text-center border-b border-gray-200"
+                    >
+                        <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.id }}</td>
+                        <td class="w-[20%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.fullName }}</td>
+                        <td class="w-[25%] italic underline border-r border-[#AFADAD]">{{ chef.email }}</td>
+                        <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.experience }}</td>
+                        <td class="w-[22%] truncate border-r border-[#AFADAD]">
+                            <a
+                                :href="chef.user_info?.credentials"
+                                :download="getFileName(chef.user_info?.credentials)"
+                                class="text-blue-500 underline"
+                            >
+                                {{ chef.user_info?.credentials }}
+                            </a>
+                        </td>
+                        <td class="w-[100%] h-[50px] flex justify-center items-center gap-2">
+                            <button
+                                class="px-5 h-[50%] rounded-full bg-green-600 border border-green-900 text-white text-xs font-[Poppins-Bold] hover:bg-green-400 hover:scale-105 hover:text-black"
+                                @click="updateUserStatus(chef.id)"
+                            >
+                                Unblock
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
 
         <Footer />
@@ -130,7 +190,7 @@
     import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
-      chefs: Array
+        chefs: Array,
     })
 
     const activeChefs = computed(() => {
@@ -140,6 +200,10 @@
     const pendingChefs = computed(() => {
       return props.chefs.filter(chef => chef.status === 'pending');
     });
+
+    const blockedChefs = computed(() => {
+        return props.chefs.filter(chef => chef.status === 'blocked');
+    })
 
     function getProfilePic(chef) {
         const path = chef.user_info?.profilePath;
@@ -200,8 +264,24 @@
 
     const emit = defineEmits(["navigate"]);
     function viewChefInfo(chef) {
-      emit("navigate", "ChefInfo", chef);
+        emit("navigate", "ChefInfo", chef);
     }
+    async function updateUserStatus(userId) {
+        try {
+            const response = await axios.post('/update-user-status', { user_id: userId });
+            console.log(response.data.message);
+
+            const newStatus = response.data.new_status; // backend gives us this
+            const index = props.chefs.findIndex(chef => chef.id === userId);
+
+            if (index !== -1) {
+                props.chefs[index].status = newStatus;
+            }
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+        }
+    }
+
 
     /* para mu fit ang words into 1 line
     function applyFitty() {

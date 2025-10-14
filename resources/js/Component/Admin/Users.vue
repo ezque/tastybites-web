@@ -69,7 +69,7 @@
                         <div class="w-[10%] flex justify-center items-center gap-2">
                             <button
                                 class="w-[120px] h-[30px] flex items-center justify-center rounded-[20px] border-r-2 border-b-2 border-[#31485B] font-[Poppins-Bold] text-[12px] cursor-pointer transition-transform duration-200 hover:scale-110"
-                                @click="blockUser(user.id)"
+                                @click="updateUserStatus(user.id)"
                                 :class="user.status.toLowerCase() === 'blocked' ? 'bg-[#435F77] text-white' : 'bg-red-600 text-white'"
                             >
                                 {{ user.status.toLowerCase() === 'blocked' ? 'Unblock' : 'Block' }}
@@ -123,7 +123,7 @@
                         <div class="w-[10%] flex justify-center items-center gap-2">
                             <button
                                 class="w-[120px] h-[30px] flex items-center justify-center rounded-[20px] border-r-2 border-b-2 border-[#31485B] font-[Poppins-Bold] text-[12px] cursor-pointer transition-transform duration-200 hover:scale-110"
-                                @click="blockUser(user.id)"
+                                @click="updateUserStatus(user.id)"
                                 :class="user.status.toLowerCase() === 'blocked' ? 'bg-[#435F77] text-white' : 'bg-red-600 text-white'"
                             >
                                 {{ user.status.toLowerCase() === 'blocked' ? 'Unblock' : 'Block' }}
@@ -161,28 +161,23 @@
         users.value.filter(user => user.status === 'blocked')
     )
 
-    async function blockUser(userId) {
+    async function updateUserStatus(userId) {
         try {
-            const response = await axios.post('/block-user', { user_id: userId });
+            const response = await axios.post('/update-user-status', { user_id: userId });
             console.log(response.data.message);
 
+            const newStatus = response.data.new_status; // <- backend gives us this
             const index = users.value.findIndex(user => user.id === userId);
-            if (index !== -1) {
-                // Toggle status to match backend
-                users.value[index].status =
-                    users.value[index].status.toLowerCase() === 'blocked'
-                        ? 'active'
-                        : 'blocked'
 
-                users.value[index].status =
-                    users.value[index].status.toLowerCase() === 'blocked'
-                        ? 'active'
-                        : 'blocked';
+            if (index !== -1) {
+                users.value[index].status = newStatus;
             }
         } catch (error) {
             console.error(error.response?.data || error.message);
         }
     }
+
+
 
 
     const genderLabel = {
