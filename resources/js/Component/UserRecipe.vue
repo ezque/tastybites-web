@@ -3,24 +3,24 @@
         <!-- Filter Buttons -->
         <div class="w-full h-20 flex flex-row items-center justify-center gap-10 font-['Poppins-Bold']">
             <button
-                class="px-6 py-2 cursor-pointer border border-black rounded"
-                :class="activeFilter === 'saved' ? 'bg-gray-300' : ''"
+                class="w-[170px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300"
+                :class="activeFilter === 'saved' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'saved'"
             >
                 <span>Saved Recipe</span>
             </button>
 
             <button
-                class="px-6 py-2 cursor-pointer border border-black rounded"
-                :class="activeFilter === 'purchased' ? 'bg-gray-300' : ''"
+                class="w-[170px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300"
+                :class="activeFilter === 'purchased' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'purchased'"
             >
                 <span>Purchased Recipe</span>
             </button>
 
             <button
-                class="px-6 py-2 cursor-pointer border border-black rounded"
-                :class="activeFilter === 'hidden' ? 'bg-gray-300' : ''"
+                class="w-[170px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300"
+                :class="activeFilter === 'hidden' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'hidden'"
             >
                 <span>Hidden Recipe</span>

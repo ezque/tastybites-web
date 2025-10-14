@@ -74,7 +74,7 @@
                                 @click="addIngredient"
                             >
                                 <img src="/public/images/Button-icon/add.png" alt="icon"/>
-                                Add new Ingredient
+                                Add new ingredient
                             </button>
                         </div>
                         <div class="ingredients-body">
@@ -474,7 +474,7 @@
         font-size: .9em;
     }
     .right-side-container {
-        width: 65%;
+        width: 70%;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -578,7 +578,7 @@
         background-color: #435F77;
         color: white;
         gap: 10px;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-weight: bolder;
         border-radius: 20px;
         border: none;
