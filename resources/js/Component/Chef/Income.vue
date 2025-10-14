@@ -144,16 +144,18 @@
                                 ACCEPT
                             </button>
                         </div>
-                    </div>
+                    </div> 
                </div>
-            </div>
-        </div>
+            </div> 
+        </div> 
     </div>
+
 </template>
 
 <script setup>
     import { ref } from "vue";
     import axios from "axios";
+    import Footer from "@/Component/Footer.vue";
     const props = defineProps({
         purchases: Array
     });

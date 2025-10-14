@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-[95%] flex flex-col">
         <!-- Filter Buttons -->
-        <div class="w-full h-20 flex flex-row items-center justify-center gap-10">
+        <div class="w-full h-20 flex flex-row items-center justify-center gap-10 font-['Poppins-Bold']">
             <button
                 class="px-6 py-2 cursor-pointer border border-black rounded"
                 :class="activeFilter === 'saved' ? 'bg-gray-300' : ''"

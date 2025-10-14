@@ -81,7 +81,7 @@
                 :class="{ active: active === 'UserRecipe' }"
                 @click="emit('navigate', 'UserRecipe')"
             >
-                <img src="/public/images/Button-icon/recipes.png" class="w-[50px] h-auto"/>
+                <img src="/public/images/Button-icon/save_not.png" class="w-[50px] h-auto"/>
                 <h1 class="text-[12px] font-[Poppins-Bold] m-0">Save Recipes</h1>
             </button>
             <button

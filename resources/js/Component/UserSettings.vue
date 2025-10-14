@@ -123,7 +123,7 @@
                         <div class="chef-col certificate-col">
                             <div class="chef-certificates-container">
                                 <button class="nav-btn left" @click="prevCertificate" :disabled="currentCertificateIndex === 0">
-                                    ⬅
+                                    <
                                 </button>
 
                                 <div class="certificate-viewer">
@@ -131,7 +131,8 @@
                                     <div v-if="currentCertificateIndex === 0" class="upload-certificate">
                                         <input type="file" id="certificateInput" @change="uploadCertificate" hidden />
                                         <button class="upload-btn" @click="triggerCertificateInput">
-                                            ➕ Upload Certificate
+                                            <img alt="icon" src="/public/images/Button-icon/add.png" />
+                                            Upload Certificate
                                         </button>
                                     </div>
 
@@ -153,7 +154,7 @@
                                     @click="nextCertificate"
                                     :disabled="currentCertificateIndex === chefCertificate.length"
                                 >
-                                    ➡
+                                    >
                                 </button>
                             </div>
                         </div>
@@ -599,30 +600,21 @@
         align-items: center;
     }
 
-    .certificate-viewer {
-        text-align: center;
-    }
-
-    .certificate-image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-
     .profile-picture-container-chef {
         display: flex;
         justify-content: center;
         width: 45%;
     }
     .profile-picture-container-chef button {
-        width: 457px;
-        height: 457px;
+        width: 250px;
+        height: 250px;
         border-radius: 50%;
         background: #E0E7FF;
         cursor: pointer;
         transition: 0.2s;
         border: none;
+        margin-top: -10px;
+        margin-bottom: 15px;
     }
     .profile-picture-container-chef button img{
         width: 100%;
@@ -643,8 +635,8 @@
         align-items: center;
     }
     .info-container1-chef, .info-container2-chef {
-        width: 80%;
-        height: 85px;
+        width: 450px;
+        height: 80px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -669,7 +661,7 @@
     }
     .info-container1-chef p, .info-container2-chef p {
         width: 25%;
-        font-size: 1em;
+        font-size: .9em;
         color: #435F77;
         margin: 0;
         font-family: 'Poppins-Regular';
@@ -797,7 +789,7 @@
     }
     .info-container1 p, .info-container2 p {
         width: 25%;
-        font-size: 1em;
+        font-size: .9em;
         color: #435F77;
         margin: 0;
         font-family: 'Poppins-Regular';
@@ -954,9 +946,8 @@
         width: 100%;
         max-height: 200px;
         object-fit: contain;
-        border: 2px solid #ddd;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        background-color: none;
     }
 
     .certificate-counter {
@@ -964,11 +955,10 @@
         bottom: -25px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 0.9em;
+        font-size: .8em;
         color: #31485B;
-        font-weight: 500;
+        font-family: 'Poppins-SemiBold';
     }
-
     .nav-btn {
         background-color: #435F77;
         color: white;
@@ -976,12 +966,13 @@
         border-radius: 50%;
         width: 45px;
         height: 45px;
-        font-size: 1.2em;
+        font-size: 1.5em;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: background 0.2s, transform 0.2s;
+        font-family: 'Poppins-Bold';
     }
 
     .nav-btn:hover:not(:disabled) {
@@ -1002,5 +993,32 @@
         margin-left: 10px;
     }
 
+    .upload-certificate {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    .upload-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60%;
+        padding: 10px 30px;
+        border-radius: 50px;
+        color: #435F77;
+        font-size: .8em;
+        cursor: pointer;
+        transition: all 0.25s;
+        gap: 10px;
+        background-color: white;
+        font-family: 'Poppins-SemiBold';
+        box-shadow: 4px 4px 10px #AFADAD;
+        font-style: italic;
+    }
 
+    .upload-btn img {
+        width: 12%;
+    }
 </style>

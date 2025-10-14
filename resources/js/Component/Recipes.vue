@@ -4,38 +4,38 @@
         <div class="w-full h-[10%] flex flex-row items-center justify-center gap-5">
             <button
                 :class="[
-                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
-                  activeFilter === 'all'
+                    'w-[140px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                    activeFilter === 'all'
                     ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-                    : 'hover:scale-110'
+                    : 'bg-[#435F77] text-white hover:scale-110'
                 ]"
-                        @click="activeFilter = 'all'"
-                    >
-                        ALL RECIPE
+                @click="activeFilter = 'all'"
+                >
+                ALL RECIPE
             </button>
 
             <button
                 :class="[
-                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
-                  activeFilter === 'premium'
+                    'w-[140px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                    activeFilter === 'premium'
                     ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-                    : 'hover:scale-110'
+                    : 'bg-[#435F77] text-white hover:scale-110'
                 ]"
-                        @click="activeFilter = 'premium'"
-                    >
-                        PREMIUM
+                @click="activeFilter = 'premium'"
+                >
+                PREMIUM
             </button>
 
             <button
                 :class="[
-                  'w-[140px] h-[40px] rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
-                  activeFilter === 'free'
+                    'w-[140px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                    activeFilter === 'free'
                     ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-                    : 'hover:scale-110'
+                    : 'bg-[#435F77] text-white hover:scale-110'
                 ]"
-                        @click="activeFilter = 'free'"
-                    >
-                        FREE
+                @click="activeFilter = 'free'"
+                >
+                FREE
             </button>
         </div>
 

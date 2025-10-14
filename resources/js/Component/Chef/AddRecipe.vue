@@ -214,15 +214,13 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <p>© 2025 Tastybites. All rights reserved.</p>
-        </div>
+        <Footer />
     </div>
 </template>
 <script setup>
     import { ref, computed } from "vue";
     import axios from "axios";
-
+    import Footer from "@/Component/Footer.vue";
 
     const emit = defineEmits(['navigate']);
 
@@ -395,7 +393,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 5px;
+        gap: 15px;
     }
     .top-container button {
         display: flex;
@@ -409,14 +407,13 @@
         margin-left: 20px;
     }
     .top-container button img {
-        width: 100%;
+        width: 80%;
         height: auto;
     }
     .top-container h2 {
         font-size: 2em;
         color: #768082;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
+        font-family: 'Poppins-Bold';
         font-style: italic;
     }
     .main-body {
@@ -433,8 +430,8 @@
         align-items: center;
     }
     .left-side-container button{
-        width: 50%;
-        height: 300px;
+        width: 60%;
+        height: 350px;
         border-radius: 50%;
         margin-top: 15%;
         border: none;
@@ -443,6 +440,7 @@
         align-items: center;
         justify-content: center;
         background-color: transparent;
+        box-shadow: 0 5px 3px #AFADAD;
     }
     .left-side-container button img {
         height: 100%;
@@ -450,28 +448,30 @@
         border-radius: 50%;
     }
     .recipe-name-input {
-        width: 50%;
+        width: 60%;
         height: 50px;
         margin-top: 20px;
-        padding-left: 10px;
+        padding: 35px 20px;
         border: none;
         border-radius: 10px 10px 0 0;
         background-color: #E0E7FF;
+        font-family: 'Poppins-Bold';
+        font-size: 1.25em;
     }
     .recipe-name-input::placeholder{
-        font-family: 'Poppins', sans-serif;
-        font-style: italic;
-        font-weight: bold;
-        font-size: 1.4em;
+        font-family: 'Poppins-Bold';
+        font-size: 1.25em;
     }
     .recipe-type-input {
-        width: 50%;
+        width: 60%;
         height: 35px;
         margin-top: 3px;
-        padding-left: 10px;
+        padding: 25px 20px;
         border: none;
         border-radius: 0 0 10px 10px;
         background-color: #E0E7FF;
+        font-family: 'Poppins-Italic';
+        font-size: .9em;
     }
     .right-side-container {
         width: 65%;
@@ -489,8 +489,8 @@
         gap: 30px;
     }
     .right-button-container button{
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 70px;
         border-radius: 10px;
         cursor: pointer;
         border: none;
@@ -500,13 +500,14 @@
         display: flex;
     }
     .right-button-container button img{
-        width: 60%;
+        width: 40%;
         height: auto;
     }
     .right-button-container button.active {
         background-color: #B5BFDE;
         color: white;
-        font-weight: bold;
+        box-shadow: 0 4px 5px #AFADAD;
+        border: #435F77 dashed 1px;
     }
     .right-main-body {
         width: 100%;
@@ -514,7 +515,6 @@
         display: flex;
         align-items: start;
         justify-content: center;
-
     }
     .description-container, .ingredients-container,  .procedure-container,.video-container, .payment-container{
         width: 80%;
@@ -541,7 +541,8 @@
         background-color: #F5F5F5;
         font-size: 1.4em;
         line-height: 1.5;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-style: italic;
     }
     .description-container textarea:focus {
         outline: none;
@@ -549,9 +550,10 @@
     }
     .description-container textarea::placeholder{
         color: #AFADAD;
-        font-size: 1.4em;
+        font-size: 1.1em;
         font-family: inherit;
-        font-weight: bold;
+        font-family: 'Poppins-Bold';
+        font-style: italic;
         line-height: 1.1;
         vertical-align: top;
     }
@@ -887,18 +889,6 @@
     }
     .upload-button-container p{
         color: #768082;
-    }
-    .footer {
-        width: 100%;
-        height: 7%;
-        display: flex;
-        align-items: start;
-        justify-content: center;
-        position: fixed;
-        bottom: -20px;
-    }
-    .footer p {
-        margin-right: 10%;
     }
     .save-button {
         width: 85%;
