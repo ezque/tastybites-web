@@ -17,18 +17,17 @@
                     <div class="certificate-container">
                         <button @click="prevCertificate">&lt;</button>
 
-                        <div class="certificates">
-                            <!-- Show current certificate if available -->
-                            <div v-if="chef.certificates.length > 0" class="certificate-con">
-                                <img
-                                    :src="`/storage/${chef.certificates[currentIndex]?.certificate_path}`"
-                                    alt="certificate"
-                                />
+                            <div class="certificates">
+                                <div v-if="chef.certificates.length > 0" class="certificate-con">
+                                    <img
+                                        :src="`/storage/${chef.certificates[currentIndex]?.certificate_path}`"
+                                        alt="certificate"
+                                    />
+                                </div>
+                                <div v-else>
+                                    <p>No certificates available</p>
+                                </div>
                             </div>
-                            <div v-else>
-                                <p>No certificates available</p>
-                            </div>
-                        </div>
 
                         <button @click="nextCertificate">&gt;</button>
                     </div>

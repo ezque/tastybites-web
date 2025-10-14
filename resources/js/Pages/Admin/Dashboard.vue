@@ -32,7 +32,7 @@
                 @navigate="handleNavigation"
                 class="flex-1 overflow-y-auto"
             />
-            <ChefInfo
+            <ChefDetails
                 v-if="activeComponent === 'ChefInfo'"
                 :chef="selectedChef"
                 :recipeCardDetails="recipeCardDetails"
@@ -88,6 +88,7 @@
     import Home from "@/Component/Admin/Home.vue";
     import Income from "@/Component/Admin/Income.vue";
     import Chefs from "@/Component/Admin/Chefs.vue";
+    import ChefDetails from "@/Component/chefDetails.vue";
     import Users from "@/Component/Admin/Users.vue";
     import Recipes from "@/Component/Recipes.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
