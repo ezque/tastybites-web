@@ -457,6 +457,7 @@
         background-color: #E0E7FF;
         font-family: 'Poppins-Bold';
         font-size: 1.25em;
+        outline: none;
     }
     .recipe-name-input::placeholder{
         font-family: 'Poppins-Bold';
@@ -472,6 +473,7 @@
         background-color: #E0E7FF;
         font-family: 'Poppins-Italic';
         font-size: .9em;
+        outline: none;
     }
     .right-side-container {
         width: 70%;
@@ -579,13 +581,13 @@
         color: white;
         gap: 10px;
         font-family: 'Poppins-Bold';
-        font-weight: bolder;
+        font-size: .8em;
         border-radius: 20px;
         border: none;
         cursor: pointer;
     }
     .ing-button-con button img, .pro-button-con button img {
-        width: 20px;
+        width: 15px;
         height: auto;
         filter: brightness(0) saturate(0%) invert(1);
     }
@@ -596,6 +598,7 @@
         flex-direction: column;
         align-items: center;
         overflow: auto;
+        gap: 15px;
     }
     .procedure-body {
         width: 100%;
@@ -604,6 +607,7 @@
         flex-direction: column;
         align-items: center;
         overflow: auto;
+        gap: 15px;
     }
     .ingredients-group-input, .procedure-group-input {
         width: 90%;
@@ -615,7 +619,7 @@
     }
     .procedure-delete,.ingredients-delete {
         width: 30px;
-        height: 30px;
+        height: 25px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -630,27 +634,31 @@
     }
     .ingredients-group-input h6{
         width: 17%;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Italic';
         color: #435F77;
-        font-size: 0.7em;
-        font-style: italic;
+        font-size: 0.8em;
     }
     .quantity-input {
         width: 40%;
-        height: 90%;
+        height: 40px;
         box-shadow: 2px 3px 2px #AFADAD;
         border: none;
         border-radius: 10px 0 0 10px;
-        padding-left: 10px;
+        padding-left: 20px;
+        font-family: 'Poppins-Regular';
+        font-size: .8em;
+        outline: none;
     }
     .ingredients-input {
         width: 100%;
-        height: 90%;
+        height: 40px;
         box-shadow: 2px 3px 2px #AFADAD;
         border: none;
         border-radius: 0 10px 10px 0;
-        margin-left: 2px;
-        padding-left: 10px;
+        padding-left: 20px;
+        font-family: 'Poppins-Regular';
+        font-size: .8em;
+        outline: none;
     }
     .procedure-input {
         width: 100%;
@@ -660,6 +668,7 @@
         border-radius: 10px;
         margin-left: 2px;
         padding-left: 10px;
+        outline: none;
     }
     .video-container {
         display: flex;
