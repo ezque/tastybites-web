@@ -152,7 +152,7 @@
                                 <div class="price-container">
                                     <label>Price</label>
                                     <input
-                                        placeholder="Price"
+                                        placeholder="₱"
                                         v-model="price"
                                     >
                                 </div>
@@ -173,7 +173,7 @@
                                 <div class="number-container">
                                     <label>GCash</label>
                                     <input
-                                        placeholder="Number"
+                                        placeholder="+63"
                                         v-model="gcash_number"
                                     />
                                 </div>
@@ -668,21 +668,22 @@
         border-radius: 10px;
         margin-left: 2px;
         padding-left: 10px;
+        font-family: 'Poppins-Regular';
+        font-size: .8em;
         outline: none;
     }
     .video-container {
         display: flex;
         align-items: center;
         justify-content: center;
+        font-family: 'Poppins-Italic';
+        font-size: .8em;
     }
     .video-body {
         width: 50%;
         height: 50px;
         background-color: #B5BFDE;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 5px 10px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -692,17 +693,16 @@
     }
     .video-body label {
         width: 15%;
-        height: 70%;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: #435F77;
         color: white;
         font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         border-radius: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 5px 45px;
+        font-size: 13px;
     }
     .video-body input {
         width: 100%;
@@ -726,8 +726,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        border-right: 4px solid white;
+        gap: 20px;
+        border-right: 2px solid white;
     }
     .price-container {
         width: 90%;
@@ -747,9 +747,9 @@
         justify-content: center;
         border-radius: 20px;
         color: white;
-        font-family: 'Poppins', sans-serif;
-        font-size: 1em;
-        font-weight: bold;
+        font-family: 'Poppins-Bold';
+        font-size: .8em;
+        padding: 20px 35px;
     }
     .price-container input {
         width: 80%;
@@ -757,14 +757,15 @@
         border: none;
         background-color: #B5BFDE;
         border-radius: 10px;
-        padding-left: 10px;
         color: black;
+        font-family: 'Poppins-Regular';
         outline: none;
+        padding: 20px;
     }
     .chef-qrcode-container {
         background-color: #B5BFDE;
         width: 85%;
-        height: 30px;
+        height: 45px;
         display: flex;
         align-items: center;
         padding: 10px;
@@ -774,17 +775,19 @@
     .chef-qrcode-container button {
         background-color: #435F77;
         width: 30%;
-        height: 100%;
+        height: 35px;
         border-radius: 20px;
         color: white;
         border: none;
         cursor: pointer;
         font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         font-size: .7em;
     }
     .chef-qrcode-container p {
         color: #768082;
+        font-size: .8em;
+        font-family: 'Poppins-Regular';
     }
     .number-container {
         width: 90%;
@@ -795,56 +798,61 @@
         gap: 10px;
     }
     .number-container label {
-        width: 20%;
-        height: 100%;
         background-color: #435F77;
-        border: none;
+        width: 20%;
+        height: 80%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-family: 'Poppins', sans-serif;
-        font-size: .8em;
         border-radius: 20px;
-        font-weight: bold;
+        color: white;
+        font-family: 'Poppins-Bold';
+        font-size: .8em;
+        padding: 20px 35px;
+        margin-top: -10px;
     }
     .number-container input {
         width: 80%;
-        background-color: #B5BFDE;
         height: 100%;
-        border-radius: 10px;
         border: none;
+        background-color: #B5BFDE;
+        border-radius: 10px;
+        color: black;
+        font-family: 'Poppins-Regular';
         outline: none;
-        padding-left: 10px;
+        padding: 20px;
+        font-size: .8em;
+        margin-top: -10px;
     }
     .total-amount-container {
-        width: 85%;
-        height: 30px;
-        padding: 10px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        justify-content: space-between;
         background-color: #B5BFDE;
-        border-radius: 20px;
-        border: none;
+        width: 85%;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 30px;
+        gap: 10px;
     }
     .total-amount-container label {
-        width: 30%;
-        height: 100%;
+        width: 27%;
+        height: 35px;
         background-color: #435F77;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 20px;
         color: white;
-        font-weight: bold;
-        font-family: 'Poppins', sans-serif;
-        font-size: .8em;
+        font-family: 'Poppins-Bold';
+        font-size: .7em;
     }
     .total-amount-container p {
         color: #768082;
+        font-size: .8em;
+        font-family: 'Poppins-Regular';
+        text-align: right;
+        width: 70%;
+        padding-right: 10px;
     }
     .payment-right {
         width: 50%;
@@ -854,60 +862,73 @@
         align-items: center;
         justify-content: start;
         border-left: 4px solid white;
+        gap: 10px;
     }
     .payment-right label {
-        font-size: 1.5em;
+        font-size: 1.6em;
         color: #768082;
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
+        font-family: 'Poppins-Bold';
         margin-left: 10px;
         align-self: start;
     }
     .payment-right p{
         margin-left: 20px;
         color: #768082;
-        font-size: .9em;
+        font-size: .8em;
+        font-family: 'Poppins-Italic';
+        text-align: justify;
     }
     .admin-qr-code-container {
-        width: 40%;
-        height: 40%;
+        width: 50%;
+        height: 50%;
         background-image: url("/images/example-qr-code.jpg");
         background-position: center;
-        background-size: cover;
+        background-size: contain;
         background-repeat: no-repeat;
     }
 
     .upload-button-container {
-        width: 80%;
-        height: 6%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
         background-color: #B5BFDE;
+        width: 85%;
+        height: 45px;
+        display: flex;
+        align-items: center;
         padding: 10px;
-        border-radius: 20px;
+        border-radius: 30px;
     }
     .upload-button-container button {
+        width: 27%;
+        height: 35px;
         background-color: #435F77;
-        width: 20%;
-        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 20px;
-        border: none;
         color: white;
-        cursor: pointer;
+        font-family: 'Poppins-Bold';
+        font-size: .7em;
     }
     .upload-button-container p{
         color: #768082;
+        font-size: .8em;
+        font-family: 'Poppins-Italic';
+        width: 75%;
     }
     .save-button {
         width: 85%;
-        height: 40px;
-        margin-top: 25px;
+        height: 60px;
+        margin-top: 10px;
         border-radius: 20px;
         border: none;
         background-color: #435F77;
         color: white;
         cursor: pointer;
+        font-family: 'Poppins-Bold';
+        font-size: .9em;
+        box-shadow: 3px 3px 3px #AFADAD;
+    }
+    .save-button:hover {
+        transform: scale(1.05);
     }
 
 </style>
