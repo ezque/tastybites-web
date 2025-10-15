@@ -78,6 +78,7 @@
                                     <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" />
                                     <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" />
                                     <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" />
+                                    <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/approved.png" />
                                     <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" />
                                     <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
                                 </div>
@@ -124,7 +125,7 @@
                 <h6 class="text-white text-[.8em] font-[Poppins-Italic] ">{{ roleLabels[user?.role] }}</h6>
             </div>
             <div class="flex flex-col w-full items-center justify-center text-center">
-                <button 
+                <button
                     @click="isMenuVisible = false; emit('navigate', 'Settings');"
                     class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
                 >
@@ -134,7 +135,7 @@
 
                 <div class="w-[80%] border border-white my-2"></div>
 
-                <button 
+                <button
                     @click="handleLogout"
                     class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
                 >

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -11,6 +12,7 @@ use App\Services\RecipeService;
 use App\Services\ChefService;
 use App\Services\NotificationServices;
 use App\Models\Recipe;
+use App\Models\Notification;
 
 class AdminController extends Controller
 {
@@ -112,10 +114,38 @@ class AdminController extends Controller
             'status' => $request->status,
         ]);
 
+        // Recipient: the chef who created the recipe
+        $recipientId = $recipe->userID;
+
+        // Sender: admin who reviewed it
+        $senderId = auth()->id();
+
+        // Notification message & type
+        if ($request->status === 'active') {
+            $message = "Your recipe '{$recipe->recipeName}' has been approved.";
+            $type = 'premiumRecipeApproved';
+        } else {
+            $message = "Your recipe '{$recipe->recipeName}' has been declined.";
+            $type = 'premiumRecipeDeclined';
+        }
+
+        // Create notification
+        $notification = Notification::create([
+            'userID'   => $recipientId,
+            'senderID' => $senderId,
+            'message'  => $message,
+            'status'   => 'unread',
+            'type'     => $type,
+        ]);
+
+        // Debug log
+        Log::info('Notification created', $notification->toArray());
+
         return response()->json([
             'success' => true,
             'message' => "Recipe status updated to {$request->status}.",
             'recipe' => $recipe,
+            'notification' => $notification,
         ]);
     }
 

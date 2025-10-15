@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\Purchase;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Certificate;
 use App\Services\NotificationServices;
+use App\Models\Notification;
 
 
 class ChefController extends Controller
@@ -42,15 +44,37 @@ class ChefController extends Controller
     }
     public function acceptPurchase($id)
     {
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::where('recipeID', $id)->firstOrFail();
+
         $purchase->status = "confirmed";
         $purchase->save();
 
+        $recipientId = $purchase->userID;
+        $senderId = auth()->id();
+
+        Log::info('Creating notification...', [
+            'recipientId' => $recipientId,
+            'senderId' => $senderId,
+            'recipeName' => $purchase->recipe->recipeName ?? null
+        ]);
+
+        $notification = Notification::create([
+            'userID'   => $recipientId,
+            'senderID' => $senderId,
+            'message'  => 'Your purchase of the recipe "' . $purchase->recipe->recipeName . '" has been confirmed.',
+            'status'   => 'unread',
+            'type'     => 'purchase',
+        ]);
+
+        Log::info('Notification created', $notification->toArray());
+
         return response()->json([
             'message' => 'Purchase accepted successfully!',
-            'purchase' => $purchase
+            'purchase' => $purchase,
+            'notification' => $notification
         ]);
     }
+
     public function deniedPurchae($id)
     {
         $purchase = Purchase::findOrFail($id);
