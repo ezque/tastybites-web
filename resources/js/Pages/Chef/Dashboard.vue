@@ -30,7 +30,6 @@
                 @navigate="setActiveComponent"
                 :active="activeComponent"
             />
-            <Profile v-if="activeComponent === 'Profile'" />
 
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
@@ -82,7 +81,6 @@
 </template>
 
 <script setup>
-    import  { Inertia } from "@inertiajs/inertia";
     import { computed, ref } from "vue";
     import Header from '../../Component/Header.vue';
     import Sidebar from "@/Component/Sidebar.vue";

@@ -80,6 +80,7 @@
                                     <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" />
                                     <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/approved.png" />
                                     <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" />
+                                    <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" />
                                     <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
                                 </div>
                                 <div class="flex flex-col items-start w-[90%]">

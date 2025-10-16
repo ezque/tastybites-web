@@ -42,50 +42,49 @@ class ChefController extends Controller
             'chefTotalIncome' => $chefTotalIncome,
         ]);
     }
-    public function acceptPurchase($id)
+
+    public function purchaseStatus(Request $request, $id)
     {
-        $purchase = Purchase::where('recipeID', $id)->firstOrFail();
-
-        $purchase->status = "confirmed";
-        $purchase->save();
-
-        $recipientId = $purchase->userID;
-        $senderId = auth()->id();
-
-        Log::info('Creating notification...', [
-            'recipientId' => $recipientId,
-            'senderId' => $senderId,
-            'recipeName' => $purchase->recipe->recipeName ?? null
+        $request->validate([
+            'status' => 'required|in:confirmed,denied',
         ]);
 
+        $purchase = Purchase::with('recipe')->findOrFail($id);
+        $purchase->status = $request->status;
+        $purchase->save();
+
+        // Recipient: the buyer (customer)
+        $recipientId = $purchase->userID;
+
+        // Sender: the chef who owns the recipe
+        $senderId = $purchase->recipe->userID;
+
+        $recipeName = $purchase->recipe->recipeName ?? 'the recipe';
+
+        if ($request->status === 'confirmed') {
+            $message = "Your purchase for {$recipeName} has been approved.";
+            $type = 'recipePurchaseApproved';
+        } else {
+            $message = "Your purchase for {$recipeName} has been denied.";
+            $type = 'recipePurchaseDenied';
+        }
+
+        // Create notification
         $notification = Notification::create([
             'userID'   => $recipientId,
             'senderID' => $senderId,
-            'message'  => 'Your purchase of the recipe "' . $purchase->recipe->recipeName . '" has been confirmed.',
+            'message'  => $message,
             'status'   => 'unread',
-            'type'     => 'purchase',
+            'type'     => $type,
         ]);
 
-        Log::info('Notification created', $notification->toArray());
-
         return response()->json([
-            'message' => 'Purchase accepted successfully!',
-            'purchase' => $purchase,
+            'message' => "Purchase {$request->status} successfully.",
             'notification' => $notification
         ]);
     }
 
-    public function deniedPurchae($id)
-    {
-        $purchase = Purchase::findOrFail($id);
-        $purchase->status = "denied";
-        $purchase->save();
 
-        return response()->json([
-            'message' => 'Purchase rejected successfully!',
-            'purchase' => $purchase
-        ]);
-    }
 
     public function addCertificate(Request $request)
     {

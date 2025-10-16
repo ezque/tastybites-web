@@ -25,8 +25,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);
     Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
 
-    Route::post('/purchase-accept/{id}', [ChefController::class, 'acceptPurchase']);
-    Route::post('/purchase-reject/{id}', [ChefController::class, 'deniedPurchae']);
+//    Route::post('/purchase-accept/{id}', [ChefController::class, 'acceptPurchase']);
+//    Route::post('/purchase-reject/{id}', [ChefController::class, 'deniedPurchae']);
+    //accept or decline the purchase of a recipe by the user
+    Route::post('/purchase-status/{id}', [ChefController::class, 'purchaseStatus']);
 
     Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
     Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);

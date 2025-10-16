@@ -137,17 +137,17 @@
                             </div>
                         </div>
                         <div class="buttons-container">
-                            <button style="background-color: #B5BFDE"  @click="rejectPurchase(selectedRecipe.id)">
+                            <button style="background-color: #B5BFDE"  @click="updatePurchaseStatus(selectedRecipe.id, 'denied')">
                                 DECLINE
                             </button>
-                            <button style="background-color: #E0E7FF" @click="acceptPurchase(selectedRecipe.id)">
-                                ACCEPT
+                            <button style="background-color: #E0E7FF" @click="updatePurchaseStatus(selectedRecipe.id, 'confirmed')">
+                                CONFIRM
                             </button>
                         </div>
-                    </div> 
+                    </div>
                </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
     </div>
 
 </template>
@@ -170,30 +170,19 @@
         selectedRecipe.value = null;
     };
 
-    const acceptPurchase = async (id) => {
+    const updatePurchaseStatus = async (id, status) => {
         try {
-            const response = await axios.post(`/purchase-accept/${id}`);
-            selectedRecipe.value.status = 'confirmed';
+            const response = await axios.post(`/purchase-status/${id}`, {
+                status: status
+            });
+            selectedRecipe.value.status = status;
             alert(response.data.message);
             selectedRecipe.value = null;
         } catch (error) {
             console.error(error);
-            alert("Failed to accept purchase.");
+            alert(`Failed to ${status} purchase.`);
         }
     };
-    const rejectPurchase = async (id) => {
-        try {
-            const response = await axios.post(`/purchase-reject/${id}`);
-            selectedRecipe.value.status = 'confirmed';
-            alert(response.data.message);
-            selectedRecipe.value = null;
-        } catch (error) {
-            console.error(error);
-            alert("Failed to reject purchase.");
-        }
-    };
-
-
 
 </script>
 
