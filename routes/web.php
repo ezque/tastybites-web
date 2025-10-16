@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChefController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ViewController;
 
 
 
@@ -17,9 +18,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user-dashboard', [UserController::class, 'dashboard']);
-    Route::get('/chef-dashboard', [ChefController::class, 'dashboard']);
-    Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/user-dashboard', [ViewController::class, 'userDashboard']);
+    Route::get('/chef-dashboard', [ViewController::class, 'chefDashboard']);
+    Route::get('/admin-dashboard', [ViewController::class, 'adminDashboard']);
     Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
     Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
     Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);

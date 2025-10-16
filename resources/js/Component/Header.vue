@@ -158,8 +158,6 @@
         getNotification: Array,
     })
 
-    console.log(props.getNotification?.[0]);
-
     const isMenuVisible = ref(false);
     const isNotificationVisible = ref(false);
     const activeFilter = ref("all");

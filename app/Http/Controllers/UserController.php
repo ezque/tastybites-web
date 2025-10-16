@@ -16,25 +16,7 @@ use App\Services\NotificationServices;
 
 class UserController extends Controller
 {
-    public function dashboard(RecipeService $recipeService, NotificationServices $notificationServices, UserService $userService): \Inertia\Response
-    {
-        $user = Auth::user()->load('userInfo');
 
-        $recipeCardDetails = $recipeService->getRecipeCardDetails();
-        $recipeAllDetails = $recipeService->getAllRecipeDetails();
-        $getNotification = $notificationServices->getNotification();
-        $chefs = $userService->getChefInfo();
-
-        return Inertia::render('User/Dashboard',
-            [
-                'user' => $user,
-                'chefs' => $chefs,
-                'recipeCardDetails' => $recipeCardDetails,
-                'recipeAllDetails' => $recipeAllDetails,
-                'getNotification' => $getNotification
-            ]
-        );
-    }
     public function reportChef(Request $request, $id)
     {
         $request->validate([

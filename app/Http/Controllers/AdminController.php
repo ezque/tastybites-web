@@ -16,34 +16,7 @@ use App\Models\Notification;
 
 class AdminController extends Controller
 {
-    public function dashboard(UserService $userService, RecipeService $recipeService, NotificationServices $notificationServices): \Inertia\Response
-    {
-        $user = Auth::user()->load('userInfo');
-        $chefs = $userService->getChefInfo();
-        $usersInfo = $userService->getUserInfo();
-        $recipeAllDetails = $recipeService->getAllRecipeDetails();
-        $recipeCardDetails = $recipeService->getRecipeCardDetails();
-        $getRecipeDetailsAdmin = $recipeService->getRecipeDetailsAdmin();
-        $getNotification = $notificationServices->getNotification();
-        $adminTotalIncome = $recipeService->getAdminTotalIncome();
-        $totalCountsUsers = $userService->totalCountsUsers();
-        $getTotalRecipeCounts = $recipeService->getTotalRecipeCounts();
 
-        return Inertia::render('Admin/Dashboard',
-            [
-                'user' => $user,
-                'recipeCardDetails' => $recipeCardDetails,
-                'chefs' => $chefs,
-                'usersInfo' => $usersInfo,
-                'recipeAllDetails' => $recipeAllDetails,
-                'getRecipeDetailsAdmin' => $getRecipeDetailsAdmin,
-                'getNotification' => $getNotification,
-                'adminTotalIncome' => $adminTotalIncome,
-                'totalCountsUsers' => $totalCountsUsers,
-                'getTotalRecipeCounts' => $getTotalRecipeCounts,
-            ]
-        );
-    }
 
     public function acceptChef(Request $request)
     {
