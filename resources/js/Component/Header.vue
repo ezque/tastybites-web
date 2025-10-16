@@ -63,8 +63,13 @@
                     <!-- Notifications list -->
                     <div class="flex flex-col mt-8 max-h-[500px] h-[500px] w-full overflow-auto rounded-b-[20px]">
                         <div v-for="notif in filteredNotifications" :key="notif.id" class="flex flex-col gap-2">
-                            <button v-if="notif.type" @click="goToNotification(notif)"
-                                    class="flex items-center gap-2 bg-[#E0E7FF] rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer">
+                            <button
+                                v-if="notif.type" @click="goToNotification(notif)"
+                                :class="[
+                                    'flex items-center gap-2 rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer',
+                                    notif.status === 'unread' ? 'bg-[#E0E7FF]' : 'bg-white'
+                                ]"
+                            >
                                 <div class="w-[10%]">
                                     <!-- Icons based on type -->
                                     <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" />
@@ -152,6 +157,8 @@
 <script setup>
     import { computed, ref } from 'vue';
     import {Inertia} from "@inertiajs/inertia";
+    import axios from "axios";
+
 
     const props = defineProps({
         user: Object,
@@ -269,6 +276,23 @@
 
     const goToNotification = (notif) => {
         emit('navigate', 'TheNotification', notif);
+    };
+
+    const markAllRead = async () => {
+        try {
+            const response = await axios.post("/read-all-notifications");
+            alert(response.data.message);
+
+            // Update local notifications so UI matches backend
+            props.getNotification.forEach(n => {
+                if (n.status === "unread") {
+                    n.status = "read";
+                }
+            });
+        } catch (error) {
+            console.error("Error marking all as read:", error);
+            alert("Failed to mark notifications as read.");
+        }
     };
 
 </script>

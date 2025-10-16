@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChefController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ViewController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -26,8 +27,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);
     Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
 
-//    Route::post('/purchase-accept/{id}', [ChefController::class, 'acceptPurchase']);
-//    Route::post('/purchase-reject/{id}', [ChefController::class, 'deniedPurchae']);
     //accept or decline the purchase of a recipe by the user
     Route::post('/purchase-status/{id}', [ChefController::class, 'purchaseStatus']);
 
@@ -46,5 +45,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
     Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
     Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
+
+    //Notification Read All
+    Route::post('/read-all-notifications', [NotificationController::class, 'readAllNotifications']);
+
 });
 
