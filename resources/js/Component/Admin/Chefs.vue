@@ -70,10 +70,10 @@
                 <span class="w-[73%] h-[60%] rounded-full mb-3">
                     <img :src="getProfilePic(chef)" alt="img" class="w-full h-full  rounded-full" />
                 </span>
-                <h2 class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
+                <span class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
                     {{ capitalizeFullName(chef.user_info?.fullName) }}
-                </h2>
-                <p class="font-[Poppins-Italic] text-[0.9em]">Since {{ new Date(chef.created_at).getFullYear() }}</p>
+                </span>
+                <span class="font-[Poppins-Italic] text-[0.9em]">Since {{ new Date(chef.created_at).getFullYear() }}</span>
             </button>
         </div>
 

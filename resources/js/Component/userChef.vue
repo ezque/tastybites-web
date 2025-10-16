@@ -19,11 +19,14 @@
                     class="flex flex-col items-center justify-center w-full h-full"
                     @click="viewChefInfo(chef)"
                 >
-                    <img
-                        :src="getProfilePic(chef)"
-                        alt="Chef Image"
-                        class="w-[73%] mb-2 rounded-full"
-                    />
+                    <span class="w-[73%] h-[60%] rounded-full mb-3">
+                        <img
+                            :src="getProfilePic(chef)"
+                            alt="Chef Image"
+                            class="w-full h-full  rounded-full"
+                        />
+                    </span>
+
                     <h2
                         class="max-w-[90%] text-[20px] font-bold font-poppins text-center truncate"
                     >
