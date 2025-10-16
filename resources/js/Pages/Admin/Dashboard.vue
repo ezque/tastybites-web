@@ -110,27 +110,12 @@
         getTotalRecipeCounts: Object,
     })
 
-    console.log(props.adminTotalIncome.total)
-
-    if (props.getRecipeDetailsAdmin.length > 0) {
-        console.log(props.getRecipeDetailsAdmin[0].id)
-    } else {
-        console.log('No pending premium recipes found')
-    }
-
-
     const isAdmin = computed(() => props.user.role === 'admin');
-
-
-
     const activeComponent = ref(isAdmin.value ? 'AdminHome' : 'AdminIncome');
     const selectedRecipe = ref(null);
     const selectedChef = ref(null);
     const selectedNotification = ref(null);
 
-    // const setActiveComponent = (componentName) => {
-    //     activeComponent.value = componentName;
-    // }
     const setActiveComponent = (componentName, data = null) => {
         if (componentName === "TheNotification" && data) {
             selectedNotification.value = data;
