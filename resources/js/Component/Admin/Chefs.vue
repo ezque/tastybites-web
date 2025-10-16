@@ -67,7 +67,9 @@
                 @click="viewChefInfo(chef)"
                 class="w-[220px] h-[250px] flex flex-col items-center justify-center rounded-[20px] bg-[#E0E7FF] shadow-[5px_4px_2px_#AFADAD] cursor-pointer"
             >
-                <img :src="getProfilePic(chef)" alt="img" class="w-[73%] rounded-full mb-3" />
+                <span class="w-[73%] h-[60%] rounded-full mb-3">
+                    <img :src="getProfilePic(chef)" alt="img" class="w-full h-full  rounded-full" />
+                </span>
                 <h2 class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
                     {{ capitalizeFullName(chef.user_info?.fullName) }}
                 </h2>
