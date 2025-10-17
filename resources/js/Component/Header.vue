@@ -67,7 +67,7 @@
                                 v-if="notif.type" @click="goToNotification(notif)"
                                 :class="[
                                     'flex items-center gap-2 rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer',
-                                    notif.status === 'unread' ? 'bg-[/#E0E7FF]' : 'bg-white'
+                                    notif.status === 'unread' ? 'bg-[#E0E7FF]' : 'bg-white'
                                 ]"
                             >
                                 <span class="w-[10%]">
@@ -273,9 +273,26 @@
     }
 
 
-    const goToNotification = (notif) => {
-        emit('navigate', 'TheNotification', notif);
+    const goToNotification = async (notif) => {
+        try {
+            // Call backend to update the notification status
+            const response = await axios.post(`/read-notification/${notif.id}`);
+
+            // Update local state immediately for UI feedback
+            const target = props.getNotification.find(n => n.id === notif.id);
+            if (target) {
+                target.status = "read";
+            }
+
+            // Navigate to Notification page (or wherever you want)
+            emit('navigate', 'TheNotification', notif);
+
+        } catch (error) {
+            console.error("Error marking notification as read:", error);
+            alert("Failed to update notification.");
+        }
     };
+
 
     const markAllRead = async () => {
         try {
@@ -293,6 +310,7 @@
             alert("Failed to mark notifications as read.");
         }
     };
+
 
 </script>
 

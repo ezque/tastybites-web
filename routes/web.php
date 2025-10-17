@@ -48,6 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Notification Read All
     Route::post('/read-all-notifications', [NotificationController::class, 'readAllNotifications']);
+    //Read a Notification
+    Route::post('/read-notification/{id}', [NotificationController::class, 'readNotification']);
 
 });
 
