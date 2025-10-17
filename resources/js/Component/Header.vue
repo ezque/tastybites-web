@@ -22,14 +22,14 @@
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'all'
-                  ? 'bg-[#B5BFDE] text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
+                                ? 'bg-[#B5BFDE] text-[#435F77]'
+                                : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'all'">All</button>
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'unread'
-                  ? 'bg-[#B5BFDE] text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
+                                ? 'bg-[#B5BFDE] text-[#435F77]'
+                                : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'unread'">Unread</button>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <button
                                 @click="menuOpen = false; isNotificationVisible = false; emit('navigate', 'Notification');"
                                 class="flex items-center gap-2 text-xs text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
-                                <img src="/public/images/Button-icon/notifications.png" class="w-[20px] h-[20px]" />
+                                <img src="/public/images/Button-icon/notifications.png" class="w-[20px] h-[20px]" alt="icon"/>
                                 <p style="font-family: 'Poppins-Bold'">Open Notifications</p>
                             </button>
                         </div>
@@ -67,37 +67,36 @@
                                 v-if="notif.type" @click="goToNotification(notif)"
                                 :class="[
                                     'flex items-center gap-2 rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer',
-                                    notif.status === 'unread' ? 'bg-[#E0E7FF]' : 'bg-white'
+                                    notif.status === 'unread' ? 'bg-[/#E0E7FF]' : 'bg-white'
                                 ]"
                             >
-                                <div class="w-[10%]">
-                                    <!-- Icons based on type -->
-                                    <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" />
-                                    <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" />
-                                    <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" />
-                                    <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" />
-                                    <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" />
-                                    <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" />
-                                    <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" />
-                                    <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" />
-                                    <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" />
-                                    <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" />
-                                    <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" />
-                                    <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/approved.png" />
-                                    <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" />
-                                    <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" />
-                                    <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" />
-                                </div>
-                                <div class="flex flex-col items-start w-[90%]">
-                                    <p class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
+                                <span class="w-[10%]">
+                                    <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" alt="icon"/>
+                                    <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                    <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" alt="icon"/>
+                                    <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" alt="icon"/>
+                                    <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" alt="icon"/>
+                                    <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" alt="icon"/>
+                                    <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                    <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" alt="icon"/>
+                                    <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/approved.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
+                                </span>
+                                <span class="flex flex-col items-start w-[90%]">
+                                    <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
                                         <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
                                         <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
                                         <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
                                         <span v-else>{{ notif.message }}</span>
-                                    </p>
+                                    </span>
 
                                     <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
-                                </div>
+                                </span>
                             </button>
                         </div>
                     </div>
