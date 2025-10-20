@@ -77,7 +77,7 @@
                     />
                     <img
                         :src="showPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'"
-                        class="w-6 h-5 ml-2 cursor-pointer"
+                        class="w-6 h-4 ml-2 cursor-pointer"
                         @click="togglePassword"
                         alt="icon"
                     />
@@ -94,21 +94,21 @@
                     />
                     <img
                         :src="showConfirmPassword ? '/images/Button-icon/pass_hide.png' : '/images/Button-icon/pass_show.png'"
-                        class="w-6 h-5 ml-2 cursor-pointer"
+                        class="w-6 h-4 ml-2 cursor-pointer"
                         @click="toggleConfirmPassword"
                         alt="icon"
                     />
                 </div>
 
                 <!-- Password match text -->
-                <p v-if="confirmPassword" :class="passwordMatch ? 'text-green-600 text-xs ml-2' : 'text-red-600 text-xs ml-2'">
+                <p v-if="confirmPassword" :class="passwordMatch ? 'text-green-600 text-xs ml-2 font-[Poppins-BoldItalic]' : 'text-red-600 text-xs ml-2 font-[Poppins-BoldItalic]'">
                     {{ passwordMatch ? 'Passwords match ✅' : 'Passwords do not match ❌' }}
                 </p>
 
                 <!-- Role Buttons -->
                 <div class="flex justify-center gap-4 mt-2">
                     <button
-                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md cursor-pointer',
+                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-sm text-white  font-[Poppins-Bold] transition transform shadow-md cursor-pointer',
                         role === 'user' ? 'bg-[#31485B] scale-105 shadow-lg' : 'bg-[#435F77] hover:-translate-y-1']"
                         @click="selectRole('user')"
                     >
@@ -116,7 +116,7 @@
                         <span>USER</span>
                     </button>
                     <button
-                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-white font-bold transition transform shadow-md cursor-pointer',
+                        :class="['flex items-center gap-2 px-4 py-2 rounded-2xl text-sm text-white  font-[Poppins-Bold] transition transform shadow-md cursor-pointer',
                         role === 'chef' ? 'bg-[#31485B] scale-105 shadow-lg' : 'bg-[#435F77] hover:-translate-y-1']"
                         @click="selectRole('chef')"
                     >
@@ -148,7 +148,7 @@
                         />
                         <button
                             type="button"
-                            class="bg-[#435F77] text-white px-3 py-1 rounded-lg text-sm cursor-pointer"
+                            class="bg-[#435F77] text-white px-3 py-1 rounded-lg text-xs cursor-pointer font-[Poppins-Bold]"
                             @click="triggerFileInput"
                         >
                             Attach
@@ -173,7 +173,7 @@
             v-if="loading"
             class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
         ></span>
-                <span v-else>REGISTER</span>
+                <span v-else class="font-[Poppins-Bold]">REGISTER</span>
             </button>
 
             <!-- Footer -->
