@@ -38,7 +38,10 @@
                     <button class="w-[140px] h-[45px] bg-red-600 rounded-[25px] text-white cursor-pointer">
                         <span>DELETE</span>
                     </button>
-                    <button class="w-[140px] h-[45px] mr-2 bg-blue-600 rounded-[25px] text-white cursor-pointer">
+                    <button
+                        class="w-[140px] h-[45px] mr-2 bg-blue-600 rounded-[25px] text-white cursor-pointer"
+                        v-if="notification.type === 'report'"
+                    >
                         <span>BLOCK</span>
                     </button>
                 </div>
@@ -53,7 +56,11 @@
 </template>
 
 <script setup>
+    import axios from "axios";
+
     const props = defineProps({
         notification: Object
     });
+
+
 </script>
