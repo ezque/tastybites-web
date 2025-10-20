@@ -24,22 +24,22 @@
                     <img v-else  alt="button" src="/public/images/Button-icon/password_notopen.png" />
                     <span class="button-text">Password & Security</span>
                 </button>
-                <button
-                    :class="{ active: activeButton === 'hiddenRecipe' }"
-                    @click="activeButton = 'hiddenRecipe'"
-                >
-                    <img v-if="activeButton === 'hiddenRecipe'" alt="button" src="/public/images/Button-icon/hide_open.png" />
-                    <img v-else  alt="button" src="/public/images/Button-icon/hide_not_open.png" />
-                    <span class="button-text">Hidden Recipe</span>
-                </button>
-                <button
-                    :class="{ active: activeButton === 'savedRecipe' }"
-                    @click="activeButton = 'savedRecipe'"
-                >
-                    <img v-if="activeButton === 'savedRecipe'" alt="button" src="/public/images/Button-icon/save_yes.png" />
-                    <img v-else  alt="button" src="/public/images/Button-icon/save_not.png" />
-                    <span class="button-text">Saved Recipe</span>
-                </button>
+<!--                <button-->
+<!--                    :class="{ active: activeButton === 'hiddenRecipe' }"-->
+<!--                    @click="activeButton = 'hiddenRecipe'"-->
+<!--                >-->
+<!--                    <img v-if="activeButton === 'hiddenRecipe'" alt="button" src="/public/images/Button-icon/hide_open.png" />-->
+<!--                    <img v-else  alt="button" src="/public/images/Button-icon/hide_not_open.png" />-->
+<!--                    <span class="button-text">Hidden Recipe</span>-->
+<!--                </button>-->
+<!--                <button-->
+<!--                    :class="{ active: activeButton === 'savedRecipe' }"-->
+<!--                    @click="activeButton = 'savedRecipe'"-->
+<!--                >-->
+<!--                    <img v-if="activeButton === 'savedRecipe'" alt="button" src="/public/images/Button-icon/save_yes.png" />-->
+<!--                    <img v-else  alt="button" src="/public/images/Button-icon/save_not.png" />-->
+<!--                    <span class="button-text">Saved Recipe</span>-->
+<!--                </button>-->
             </div>
 
             <div class="settings-card-container">
@@ -240,15 +240,15 @@
                         <div class="info-row1">
                             <span class="label">Current Password:</span>
                             <div class="password-field">
-                                <input 
-                                :type="showCurrent ? 'text' : 'password'" 
-                                v-model="currentPassword" 
-                                required 
+                                <input
+                                :type="showCurrent ? 'text' : 'password'"
+                                v-model="currentPassword"
+                                required
                                 />
                                 <button type="button" class="toggle-btn" @click="showCurrent = !showCurrent">
-                                    <img 
-                                        :src="showCurrent ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'" 
-                                        alt="toggle password" 
+                                    <img
+                                        :src="showCurrent ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'"
+                                        alt="toggle password"
                                     />
                                 </button>
                             </div>
@@ -257,15 +257,15 @@
                         <div class="info-row2">
                             <span class="label">New Password:</span>
                             <div class="password-field">
-                                <input 
-                                :type="showNew ? 'text' : 'password'" 
-                                v-model="newPassword" 
-                                required 
+                                <input
+                                :type="showNew ? 'text' : 'password'"
+                                v-model="newPassword"
+                                required
                                 />
                                 <button type="button" class="toggle-btn" @click="showNew = !showNew">
-                                    <img 
-                                        :src="showNew ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'" 
-                                        alt="toggle password" 
+                                    <img
+                                        :src="showNew ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'"
+                                        alt="toggle password"
                                     />
                                 </button>
                             </div>
@@ -274,16 +274,16 @@
                         <div class="info-row3">
                             <span class="label">Re-type new password:</span>
                             <div class="password-field">
-                                <input 
-                                :type="showConfirm ? 'text' : 'password'" 
-                                v-model="confirmPassword" 
+                                <input
+                                :type="showConfirm ? 'text' : 'password'"
+                                v-model="confirmPassword"
                                 @input="checkMatch"
-                                required 
+                                required
                                 />
                                 <button type="button" class="toggle-btn" @click="showConfirm = !showConfirm">
-                                    <img 
-                                        :src="showConfirm ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'" 
-                                        alt="toggle password" 
+                                    <img
+                                        :src="showConfirm ? '/images/Button-icon/hide.png' : '/images/Button-icon/show.png'"
+                                        alt="toggle password"
                                     />
                                 </button>
                             </div>
@@ -293,8 +293,8 @@
                             <p v-if="confirmPassword" :style="{ color: isMatch ? 'green' : 'red' }">
                             {{ isMatch ? 'Passwords match ✅' : 'Passwords do not match ❌' }}
                             </p>
-                            <button 
-                                @click="changePassword" 
+                            <button
+                                @click="changePassword"
                                 :disabled="!isMatch || !currentPassword || !newPassword || !confirmPassword"
                                 :class="{ disabled: !isMatch || !currentPassword || !newPassword || !confirmPassword }"
                             >
@@ -303,21 +303,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-3" v-if="activeButton === 'hiddenRecipe'">
-                    <RecipeCard
-                        v-for="recipe in recipeCardDetails.filter(r => r.is_hidden === '1')"
-                        :key="recipe.id"
-                        :recipeCardDetail="recipe"
-                    />
-                </div>
+<!--                <div class="card-3" v-if="activeButton === 'hiddenRecipe'">-->
+<!--                    <RecipeCard-->
+<!--                        v-for="recipe in recipeCardDetails.filter(r => r.is_hidden === '1')"-->
+<!--                        :key="recipe.id"-->
+<!--                        :recipeCardDetail="recipe"-->
+<!--                    />-->
+<!--                </div>-->
 
-                <div class="card-4" v-if="activeButton === 'savedRecipe'">
-                    <RecipeCard
-                        v-for="recipe in recipeCardDetails.filter(r => r.is_saved === '1')"
-                        :key="recipe.id"
-                        :recipeCardDetail="recipe"
-                    />
-                </div>
+<!--                <div class="card-4" v-if="activeButton === 'savedRecipe'">-->
+<!--                    <RecipeCard-->
+<!--                        v-for="recipe in recipeCardDetails.filter(r => r.is_saved === '1')"-->
+<!--                        :key="recipe.id"-->
+<!--                        :recipeCardDetail="recipe"-->
+<!--                    />-->
+<!--                </div>-->
 
             </div>
         </div>
