@@ -1,14 +1,14 @@
 <template>
     <div class="w-full h-[100px] flex items-center justify-between p-5 m-0 bg-[#E0E7FF]">
         <!-- Logo -->
-        <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto" />
+        <img src="/public/images/tastybites_logo.png" class="w-[150px] h-auto" alt="icon"/>
 
         <!-- Right side -->
         <div class="flex items-center gap-3 pl-5">
             <!-- Notification box -->
             <div class="relative flex">
                 <button class="p-1 flex items-center justify-center bg-transparent cursor-pointer" @click="toggleNotification">
-                    <img src="/public/images/Button-icon/notifications.png" class="w-[25px] h-auto" />
+                    <img src="/public/images/Button-icon/notifications.png" class="w-[25px] h-auto" alt="icon"/>
                 </button>
 
                 <!-- Notification dropdown -->
@@ -30,7 +30,10 @@
                                 :class="activeFilter === 'unread'
                                 ? 'bg-[#B5BFDE] text-[#435F77]'
                                 : 'hover:bg-[#E0E7FF] text-[#435F77]'" style="font-family: 'Poppins-Regular'"
-                                @click="activeFilter = 'unread'">Unread</button>
+                                @click="activeFilter = 'unread'"
+                            >
+                                Unread
+                            </button>
                         </div>
                     </div>
 
@@ -47,15 +50,15 @@
                              class="absolute right-0 top-[30px] flex flex-col bg-white rounded-[20px_0_20px_20px] shadow-lg px-3 py-2 w-[185px] z-10">
                             <button @click="markAllRead"
                                     class="flex items-center gap-2 text-xs text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
-                                <img src="/public/images/Button-icon/check.png" class="w-[25px] h-[20px]" />
-                                <p style="font-family: 'Poppins-Bold'">Mark All Read</p>
+                                <img src="/public/images/Button-icon/check.png" class="w-[25px] h-[20px]" alt="icon"/>
+                                <span style="font-family: 'Poppins-Bold'">Mark All Read</span>
                             </button>
                             <div class="w-full border border-[#435F77] rounded-md my-1"></div>
                             <button
                                 @click="menuOpen = false; isNotificationVisible = false; emit('navigate', 'Notification');"
                                 class="flex items-center gap-2 text-xs text-[#435F77] hover:bg-gray-100 rounded-md px-2 py-1">
                                 <img src="/public/images/Button-icon/notifications.png" class="w-[20px] h-[20px]" alt="icon"/>
-                                <p style="font-family: 'Poppins-Bold'">Open Notifications</p>
+                                <span style="font-family: 'Poppins-Bold'">Open Notifications</span>
                             </button>
                         </div>
                     </div>
@@ -108,12 +111,12 @@
 
             <!-- Profile + Menu button -->
             <button class="flex items-center gap-2 pr-6 cursor-pointer bg-transparent" @click="toggleMenu">
-                <div class="w-[45px] h-[45px] rounded-full bg-[#BB98B8] overflow-hidden">
-                    <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full"/>
-                    <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
-                    <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
-                </div>
-                <h1 class="text-[1.1em] font-[Poppins-Bold] ">{{ capitalizedfullName }}</h1>
+                <span class="w-[45px] h-[45px] rounded-full bg-[#BB98B8] overflow-hidden">
+                    <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full" alt="icon"/>
+                    <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full" alt="icon"/>
+                    <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full" alt="icon"/>
+                </span>
+                <span class="text-[1.1em] font-[Poppins-Bold] ">{{ capitalizedfullName }}</span>
             </button>
         </div>
 
@@ -121,9 +124,9 @@
         <div v-if="isMenuVisible"
              class="absolute right-5 top-[10%] flex flex-col items-center bg-[#435F77] rounded-[20px_0_20px_20px] p-5 min-w-[230px] z-[999]">
             <div class="w-[100px] h-[100px] rounded-full bg-[#BB98B8] overflow-hidden">
-                <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full"/>
-                <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full"/>
-                <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full"/>
+                <img v-if="user.user_info.profilePath" :src="`/storage/${user.user_info.profilePath}`" class="w-full h-full object-cover rounded-full" alt="icon"/>
+                <img v-else-if="user.user_info.gender === 'male'" src="/public/images/male.png" class="w-full h-full object-cover rounded-full" alt="icon"/>
+                <img v-else src="/public/images/female.png" class="w-full h-full object-cover rounded-full" alt="icon"/>
             </div>
             <div class="flex flex-col items-center justify-center p-2">
                 <h1 class="text-white text-[1.2em] font-[Poppins-Bold] ">{{ capitalizedfullName }}</h1>
@@ -132,20 +135,20 @@
             <div class="flex flex-col w-full items-center justify-center text-center">
                 <button
                     @click="isMenuVisible = false; emit('navigate', 'Settings');"
-                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
+                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition cursor-pointer"
                 >
-                    <img src="/public/images/Button-icon/settings.png" class="w-[25px] ml-1" />
-                    <p class="text-white text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Settings</p>
+                    <img src="/public/images/Button-icon/settings.png" class="w-[25px] ml-1" alt="icon"/>
+                    <span class="text-white text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Settings</span>
                 </button>
 
                 <div class="w-[80%] border border-white my-2"></div>
 
                 <button
                     @click="handleLogout"
-                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition"
+                    class="flex items-center justify-center gap-2 w-[70%] text-white hover:translate-y-[-2px] transition cursor-pointer"
                 >
-                    <img src="/public/images/Button-icon/logout(3).png" class="w-[25px] ml-1" />
-                    <p class="text-white font-bold text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Logout</p>
+                    <img src="/public/images/Button-icon/logout(3).png" class="w-[25px] ml-1" alt="icon"/>
+                    <span class="text-white font-bold text-[1em] w-[75px] ml-1 font-[Poppins-Bold] ">Logout</span>
                 </button>
             </div>
         </div>
