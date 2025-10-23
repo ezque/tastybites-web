@@ -322,4 +322,5 @@
             alert("Failed to mark notifications as read.");
         }
     };
+    //new changes
 </script>
