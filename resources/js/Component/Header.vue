@@ -75,6 +75,7 @@
                         </div>
                     </div>
 
+<<<<<<< Updated upstream
                     <!-- Notifications list -->
                     <div class="flex flex-col mt-8 max-h-[500px] h-[500px] w-full overflow-auto rounded-b-[20px]">
                         <div v-for="notif in filteredNotifications" :key="notif.id" class="flex flex-col gap-2">
@@ -113,6 +114,154 @@
                     <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
                 </span>
                             </button>
+=======
+                                <button v-else>
+                                    <h2>🔔 {{ notif.message }}</h2>
+                                </button>
+                                
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/premium-icon.png" alt="premium" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p v-html="formatMessage(notif.message)"></p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/chef.png" alt="Chef" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@chefMario</strong> has signed up as a new chef. Review their profile.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/new_user3.png" alt="user" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>We have a new user! <strong>@Zellyace</strong> has joined the community.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/report.png" alt="report" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> is reported by <strong>@Zellyace</strong>. Review report now!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <!-- chef -->
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_dislike.png" alt="dislike" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was disliked by <strong>@Zellyace</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/filled_heart.png" alt="love" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was loved by <strong>@Zellyace</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/payment.png" alt="payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@appletamesis</strong> wants to purchase your <strong>Okonomiyaki <i>(Japanese cuisine)</i></strong>. Review and verify now.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/follow.png" alt="follow" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>@appletamesis</strong> is now following you!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/block.png" alt="follow" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Adobo <i>(Filipino cuisine)</i></strong> was blocked by <strong>Admin</strong>.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+                                
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/chef.png" alt="as_chef" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p><strong>Chef status unlocked! ✨</strong> Share your first recipe now!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/approved.png" alt="approved" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>Your premium recipe, <strong>Adobo <i>(Filipino cuisine)</i></strong> was approved! Recipe is now available for purchase.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <!-- user -->
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/RecipeFooter.png" alt="approved_payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>Chef <strong>@bon</strong> added new recipe, check it now!</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+
+                                <button class="notification-item">
+                                    <div class="notif-icon">
+                                        <img src="/public/images/Button-icon/payment.png" alt="approved_payment" />
+                                    </div>
+                                    <div class="notif-content">
+                                        <p>Purchase approved! <strong>Adobo <i>(Filipino cuisine)</i></strong> is now accessible in your profile.</p>
+                                        <span class="time">{{ timeAgo(notif.created_at) }}</span>
+                                    </div>
+                                </button>
+                            </div>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
