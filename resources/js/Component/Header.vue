@@ -8,11 +8,22 @@
             <!-- Notification box -->
             <div class="relative flex">
                 <button
-                    ref="notifButtonRef"
-                    class="p-1 flex items-center justify-center bg-transparent cursor-pointer"
-                    @click="toggleNotification"
+                ref="notifButtonRef"
+                class="relative p-1 flex items-center justify-center bg-transparent cursor-pointer"
+                @click="toggleNotification"
                 >
-                    <img src="/public/images/Button-icon/notifications.png" class="w-[25px] h-auto" alt="icon"/>
+                <!-- Notification icon -->
+                    <img
+                        src="/public/images/Button-icon/notifications.png"
+                        class="w-[25px] h-auto"
+                        alt="icon"
+                    />
+
+                    <!-- Red dot indicator -->
+                    <span
+                        v-if="hasNewNotification"
+                        class="absolute top-1 right-0.5 block w-[10px] h-[10px] bg-red-500 rounded-full border-1 border-white"
+                    ></span>
                 </button>
 
                 <!-- Notification dropdown -->
@@ -103,13 +114,13 @@
                    <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
                    <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
                 </span>
-                                <span class="flex flex-col items-start w-[90%]">
-                    <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
-                        <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
-                        <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
-                        <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
-                        <span v-else>{{ notif.message }}</span>
-                    </span>
+                    <span class="flex flex-col items-start w-[90%]">
+                        <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
+                            <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
+                            <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
+                            <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
+                            <span v-else>{{ notif.message }}</span>
+                        </span>
                     <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
                 </span>
                             </button>
@@ -190,11 +201,13 @@ const isMenuVisible = ref(false);
 const isNotificationVisible = ref(false);
 const activeFilter = ref("all");
 const menuOpen = ref(false);
+const hasNewNotification = ref(true) 
 
 const profileButtonRef = ref(null);
 const menuRef = ref(null);
 const notifButtonRef = ref(null);
 const notifDropdownRef = ref(null);
+
 
 // ✅ Close dropdowns when clicking outside
 const handleClickOutside = (event) => {
@@ -242,6 +255,10 @@ const filteredNotifications = computed(() => {
 const toggleNotification = () => {
     if (isMenuVisible.value) isMenuVisible.value = false;
     isNotificationVisible.value = !isNotificationVisible.value;
+
+    if (isNotificationVisible.value) {
+        hasNewNotification.value = false
+    }
 };
 
 const toggleMenu = () => {

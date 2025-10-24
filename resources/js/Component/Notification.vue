@@ -11,7 +11,7 @@
 
                     <!-- Sorting -->
                     <button @click="sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'">
-                        Sort: {{ sortOrder === 'desc' ? 'Newest' : 'Oldest' }}
+                        Sort: {{ sortOrder === 'asc' ? 'Newest' : 'Oldest' }}
                     </button>
                 </div>
 
