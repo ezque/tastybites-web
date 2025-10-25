@@ -39,12 +39,14 @@
                 @navigate="(component, data) => emit('navigate', component, data)"
             />
         </div>
+        <Footer />
     </div>
 </template>
 
 <script setup>
     import { ref, computed } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
         recipeCardDetails: Array,

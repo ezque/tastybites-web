@@ -90,92 +90,162 @@
 
 
 <script setup>
-    import { ref, watch } from 'vue'
-    import {
-        Chart as ChartJS,
-        Title,
-        Tooltip,
-        Legend,
-        LineElement,
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        Filler
-    } from 'chart.js'
-    import { Line } from 'vue-chartjs'
-    import Footer from "@/Component/Footer.vue";
+import { ref, computed } from 'vue'
+import {
+    Chart as ChartJS,
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    Filler
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
+import Footer from "@/Component/Footer.vue"
 
-    ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler)
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler)
 
-    const props = defineProps({
-        adminTotalIncome: Object,
-        totalCountsUsers: Object,
-        getTotalRecipeCounts: Object
-    })
-    const emit = defineEmits(['navigate'])
-    const LineChart = Line
-    const currentView = ref('month')
+const props = defineProps({
+    adminTotalIncome: Object,
+    totalCountsUsers: Object,
+    getTotalRecipeCounts: Object
+})
 
-    // Prepare monthly chart data
-    const monthlyData = {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-        datasets: [{
-            label: 'Revenue per Month',
-            data: Array.from({length: 12}, (_, i) => {
+const emit = defineEmits(['navigate'])
+const LineChart = Line
+const currentView = ref('month')
+const dropdownOpen = ref(false)
+
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
+
+// ✅ Gradient Fill Generator
+function createGradient(ctx, chartArea, color1, color2) {
+    const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+    gradient.addColorStop(0, color1)
+    gradient.addColorStop(1, color2)
+    return gradient
+}
+
+// ✅ Monthly Data
+const monthlyData = computed(() => ({
+    labels: monthNames,
+    datasets: [
+        {
+            label: 'Monthly Earnings',
+            data: Array.from({ length: 12 }, (_, i) => {
                 const record = props.adminTotalIncome?.monthly?.find(r => r.month === i + 1)
                 return record ? record.total : 0
             }),
             borderColor: '#435F77',
-            font: {
-                family: 'Poppins-Bold',
-                size: 13,
-                color: '#435F77'
+            backgroundColor: (context) => {
+                const { ctx, chartArea } = context.chart
+                if (!chartArea) return null
+                return createGradient(ctx, chartArea, 'rgba(67, 95, 119, 0.1)', 'rgba(67, 95, 119, 0.4)')
             },
             fill: true,
             tension: 0.4
-        }]
+        }
+    ]
+}))
+
+// ✅ Yearly Data (with min–max range +2 years)
+const yearlyData = computed(() => {
+    const yearly = props.adminTotalIncome?.yearly || []
+
+    if (!yearly.length) {
+        return { labels: [], datasets: [] }
     }
 
-    const yearlyData = {
-        labels: props.adminTotalIncome?.yearly?.map(r => r.year) || [],
-        datasets: [{
-            label: 'Revenue per Year',
-            data: props.adminTotalIncome?.yearly?.map(r => r.total) || [],
-            borderColor: '#435F77',
-            font: {
-                family: 'Poppins-Bold',
-                size: 13,
-                color: '#435F77'
-            },
-            fill: true,
-            tension: 0.4
-        }]
+    // Extract years
+    const yearlyMap = {}
+    yearly.forEach(item => yearlyMap[item.year] = item.total)
+
+    const years = Object.keys(yearlyMap).map(Number)
+    const minYear = Math.min(...years)
+    const maxYear = Math.max(...years)
+
+    const labels = []
+    const data = []
+
+    // Generate continuous range from min to max +2
+    for (let year = minYear; year <= maxYear + 2; year++) {
+        labels.push(year)
+        data.push(yearlyMap[year] || 0)
     }
 
-    const dropdownOpen = ref(false)
-    const chartData = ref(monthlyData)
+    return {
+        labels,
+        datasets: [
+            {
+                label: 'Yearly Earnings',
+                data,
+                borderColor: 'green',
+                backgroundColor: (context) => {
+                    const { ctx, chartArea } = context.chart
+                    if (!chartArea) return null
+                    return createGradient(ctx, chartArea, 'rgba(144, 238, 144, 0.1)', 'rgba(144, 238, 144, 0.4)')
+                },
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    }
+})
 
-    const chartOptions = {
+// ✅ Unified Chart Options (Poppins Font + ₱ prefix)
+const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-        legend: { display: false }
+        legend: {
+            display: true,
+            labels: {
+                font: {
+                    family: 'Poppins-BoldItalic',
+                    size: 15
+                },
+                color: '#374151'
+            }
+        },
+        tooltip: {
+            bodyFont: { family: 'Poppins-Regular' },
+            titleFont: { family: 'Poppins-Regular' }
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                font: { family: 'Poppins-Italic' },
+                color: '#333'
+            }
+        },
+        y: {
+            beginAtZero: true,
+            ticks: {
+                font: { family: 'Poppins-SemiBold', style: 'italic' },
+                color: '#333',
+                callback: value => '₱' + value
+            }
+        }
     }
-    }
+}
 
-    function toggleDropdown() {
+// ✅ Dynamically switch between month/year
+const chartData = computed(() =>
+    currentView.value === 'month' ? monthlyData.value : yearlyData.value
+)
+
+function toggleDropdown() {
     dropdownOpen.value = !dropdownOpen.value
-    }
+}
 
-    function setView(view) {
+function setView(view) {
     currentView.value = view
-    chartData.value = view === "month" ? monthlyData : yearlyData
     dropdownOpen.value = false
-    }
-
-    function updateChart() {
-    chartData.value = currentView.value === 'month' ? monthlyData : yearlyData
-    }
+}
 </script>
-
-

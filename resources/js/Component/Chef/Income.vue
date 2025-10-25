@@ -153,6 +153,7 @@
                </div>
             </div>
         </div>
+        <Footer class="ml-35" />
     </div>
 
 </template>
@@ -161,6 +162,7 @@
     import { ref } from "vue";
     import axios from "axios";
     import Footer from "@/Component/Footer.vue";
+
     const props = defineProps({
         purchases: Array
     });

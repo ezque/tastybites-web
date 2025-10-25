@@ -274,13 +274,13 @@
         flex-direction: row;
         border: 1px solid #B5BFDE;
     }
-    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5,.head-row-6 {
+    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5{
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5,.head-row-6 h1{
+    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5{
         color: black;
         font-size: 14px;
         font-family: 'Poppins-Bold';
@@ -312,13 +312,24 @@
         display: flex;
         flex-direction: row;
     }
-    .row-1,.row-2, .row-3, .row-4,.row-5,.row-6 {
+    .row-1,.row-2, .row-3,.row-5{
         display: flex;
         align-items: center;
         justify-content: center;
-        border: .1em solid #B5BFDE;
         font-family: 'Poppins-Bold';
         font-size: 13px;
+        border-bottom: .1em solid #B5BFDE;
+    }
+    .row-2, .row-3, .row-4, .row-5 {
+        border-left: .1em solid #B5BFDE;
+    }
+    .row-4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins-Italic';
+        font-size: 13px;
+        border-bottom: .1em solid #B5BFDE;
     }
     .row-5 button{
         width: 60%;
@@ -371,8 +382,8 @@
         border: none;
         cursor: pointer;
         position: absolute;
-        margin-right: 25px;
-        margin-top: -5px;
+        right: 20px;
+        top: 10px;
         background-color: none;
     }
     .close-container button img {

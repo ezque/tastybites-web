@@ -16,7 +16,4 @@
         font-size: .7em;
         font-family: 'Poppins-SemiBold';
     }
-    .footer p {
-        margin-right: 10%;
-    }
 </style>

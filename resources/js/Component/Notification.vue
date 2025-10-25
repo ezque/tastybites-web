@@ -83,7 +83,7 @@
                                     <img src="/public/images/Button-icon/payment.png" alt="payment" />
                                 </div>
                                 <div class="notif-content">
-                                    <p><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</p>
+                                    <p>{{ notif.message }}</p>
                                     <span class="time">{{ timeAgo(notif.created_at) }}</span>
                                 </div>
                             </button>

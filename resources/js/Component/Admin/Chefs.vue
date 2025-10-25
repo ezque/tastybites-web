@@ -24,22 +24,22 @@
             <div class="flex justify-center gap-[30px] -mt-5">
                 <button
                     :class="[
-            'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
-            activeTab === 'register'
-              ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-              : 'hover:scale-110'
-          ]"
+                        'px-10 py-2 rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                        activeTab === 'register'
+                        ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
+                        : 'bg-[#435F77] text-white hover:scale-110'
+                    ]"
                     @click="activeTab = 'register'"
                 >
-                    REGISTERED CHEFS
+                    REGISTERED
                 </button>
 
                 <button
                     :class="[
-                        'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                        'px-10 py-2 rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
                         activeTab === 'request'
                           ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-                          : 'hover:scale-110'
+                          : 'bg-[#435F77] text-white hover:scale-110'
                     ]"
                     @click="activeTab = 'request'"
                 >
@@ -47,14 +47,14 @@
                 </button>
                 <button
                     :class="[
-                        'px-10 py-2 rounded-[20px] bg-[#435F77] text-white cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300',
+                        'px-10 py-2 rounded-[20px] text-[13px] font-[Poppins-Bold] transition-transform duration-300',
                         activeTab === 'block'
                           ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]'
-                          : 'hover:scale-110'
+                          : 'bg-[#435F77] text-white hover:scale-110'
                     ]"
                     @click="activeTab = 'block'"
                 >
-                    BLOCKED CHEFS
+                    BLOCKED
                 </button>
             </div>
         </div>
