@@ -2,6 +2,15 @@
     <div class="income-container">
         <div class="container-label">
             <h2>Queue</h2>
+
+            <!-- Search -->
+            <div class="flex items-center bg-[#F5F5F5] px-1 py-1 mr-5 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
+                <input
+                    placeholder="Search Queue"
+                    class="border-none outline-none w-[200px] px-5 py-2 bg-[#435F77] rounded-full font-[Poppins-Italic] text-white"
+                />
+                <img src="/public/images/Button-icon/search.png" alt="icon" class="w-[20px] h-[20px] ml-1 cursor-pointer" />
+            </div>
         </div>
         <div class="income-body">
             <div class="income-card">
@@ -210,6 +219,7 @@
         height: 10%;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
     .container-label h2 {
         font-size: 35px;
@@ -318,10 +328,10 @@
         justify-content: center;
         font-family: 'Poppins-Bold';
         font-size: 13px;
-        border-bottom: .1em solid #B5BFDE;
+        border-bottom: .2em solid #B5BFDE;
     }
     .row-2, .row-3, .row-4, .row-5 {
-        border-left: .1em solid #B5BFDE;
+        border-left: .2em solid #B5BFDE;
     }
     .row-4 {
         display: flex;
@@ -329,7 +339,7 @@
         justify-content: center;
         font-family: 'Poppins-Italic';
         font-size: 13px;
-        border-bottom: .1em solid #B5BFDE;
+        border-bottom: .2em solid #B5BFDE;
     }
     .row-5 button{
         width: 60%;

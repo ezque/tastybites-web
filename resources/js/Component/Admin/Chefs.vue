@@ -11,12 +11,12 @@
                 </div>
 
                 <!-- Search -->
-                <div class="flex items-center bg-[#E0E7FF] px-4 py-2 mr-5 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
+                <div class="flex items-center bg-[#F5F5F5] px-1 py-1 mr-5 mt-3 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
                     <input
                         placeholder="Search Chefs"
                         class="border-none outline-none w-[200px] px-5 py-2 bg-[#435F77] rounded-full font-[Poppins-Italic] text-white"
                     />
-                    <img src="/public/images/Button-icon/search.png" alt="icon" class="w-[25px] h-[25px] ml-2 cursor-pointer" />
+                    <img src="/public/images/Button-icon/search.png" alt="icon" class="w-[20px] h-[20px] ml-1 cursor-pointer" />
                 </div>
             </div>
 
@@ -83,13 +83,13 @@
                 <table class="w-full border-collapse">
                     <!-- Header -->
                     <thead>
-                    <tr class="bg-[#7592AB] text-white">
-                        <th class="w-[5%] text-xs font-[Poppins-Bold] h-[40px]">ID</th>
-                        <th class="w-[20%] text-xs font-[Poppins-Bold]">Full Name</th>
-                        <th class="w-[25%] text-xs font-[Poppins-Bold]">Email</th>
-                        <th class="w-[5%] text-[10px] font-[Poppins-Bold]">Years</th>
-                        <th class="w-[22%] text-xs font-[Poppins-Bold]">Certificate</th>
-                        <th class="w-[15%] text-xs font-[Poppins-Bold]">Action</th>
+                    <tr class="bg-[#7592AB] text-[14px] text-black">
+                        <th class="w-[5%]  font-[Poppins-Bold] h-[50px]">ID</th>
+                        <th class="w-[20%] font-[Poppins-Bold]">Full Name</th>
+                        <th class="w-[20%] font-[Poppins-Bold]">Email</th>
+                        <th class="w-[5%] font-[Poppins-Bold]">Years</th>
+                        <th class="w-[27%] font-[Poppins-Bold]">Certificate</th>
+                        <th class="w-[15%] font-[Poppins-Bold]">Action</th>
                     </tr>
                     </thead>
 
@@ -97,30 +97,30 @@
                         <tr
                             v-for="chef in pendingChefs"
                             :key="chef.id"
-                            class="even:bg-gray-50 hover:bg-slate-100 h-[50px] text-center border-b border-gray-200"
+                            class="hover:bg-slate-100 h-[50px] text-center border-b-2 border-[#B5BFDE] bg-[#E0E7FF]"
                         >
-                            <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.id }}</td>
-                            <td class="w-[20%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.fullName }}</td>
-                            <td class="w-[25%] italic underline border-r border-[#AFADAD]">{{ chef.email }}</td>
-                            <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.experience }}</td>
-                            <td class="w-[22%] truncate border-r border-[#AFADAD]">
+                            <td class="w-[5%] font-[Poppins-Regular] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.id }}</td>
+                            <td class="w-[20%] font-[Poppins-Bold] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.user_info?.fullName }}</td>
+                            <td class="w-[20%] font-[Poppins-Italic] text-[15px] underline border-r-2 border-[#B5BFDE] text-[#435F77]">{{ chef.email }}</td>
+                            <td class="w-[5%] font-[Poppins-Bold] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.user_info?.experience }}</td>
+                            <td class="w-[27%] truncate border-r-2 border-[#B5BFDE]">
                                 <a
                                     :href="chef.user_info?.credentials"
                                     :download="getFileName(chef.user_info?.credentials)"
-                                    class="text-blue-500 underline"
+                                    class="text-[#435F77] underline font-[Poppins-Italic] text-[12px]" 
                                 >
                                     {{ chef.user_info?.credentials }}
                                 </a>
                             </td>
                             <td class="w-[100%] h-[50px] flex justify-center items-center gap-2">
                                 <button
-                                    class="px-5 h-[50%] rounded-full bg-green-600 border border-green-900 text-white text-xs font-[Poppins-Bold] hover:bg-green-400 hover:scale-105 hover:text-black"
+                                    class="px-5 h-[50%] rounded-full bg-green-600 border border-green-900 text-white text-xs font-[Poppins-BoldItalic] hover:bg-green-400 hover:scale-105 hover:text-black"
                                     @click="acceptChef(chef.id)"
                                 >
                                     Accept
                                 </button>
                                 <button
-                                    class="px-5 h-[50%] rounded-full bg-red-600 border border-red-900 text-white text-xs font-[Poppins-Bold] hover:bg-red-500 hover:scale-105 hover:text-black"
+                                    class="px-5 h-[50%] rounded-full bg-red-600 border border-red-900 text-white text-xs font-[Poppins-BoldItalic] hover:bg-red-500 hover:scale-105 hover:text-black"
                                     @click="rejectChef(chef.id)"
                                 >
                                     Delete
@@ -137,13 +137,13 @@
                 <table class="w-full border-collapse">
                     <!-- Header -->
                     <thead>
-                    <tr class="bg-[#7592AB] text-white">
-                        <th class="w-[5%] text-xs font-[Poppins-Bold] h-[40px]">ID</th>
-                        <th class="w-[20%] text-xs font-[Poppins-Bold]">Full Name</th>
-                        <th class="w-[25%] text-xs font-[Poppins-Bold]">Email</th>
-                        <th class="w-[5%] text-[10px] font-[Poppins-Bold]">Years</th>
-                        <th class="w-[22%] text-xs font-[Poppins-Bold]">Certificate</th>
-                        <th class="w-[15%] text-xs font-[Poppins-Bold]">Action</th>
+                    <tr class="bg-[#7592AB] text-black text-[14px]">
+                        <th class="w-[5%] font-[Poppins-Bold] h-[50px]">ID</th>
+                        <th class="w-[20%] font-[Poppins-Bold]">Full Name</th>
+                        <th class="w-[25%] font-[Poppins-Bold]">Email</th>
+                        <th class="w-[5%] font-[Poppins-Bold]">Years</th>
+                        <th class="w-[22%] font-[Poppins-Bold]">Certificate</th>
+                        <th class="w-[15%] font-[Poppins-Bold]">Action</th>
                     </tr>
                     </thead>
 
@@ -151,17 +151,17 @@
                     <tr
                         v-for="chef in blockedChefs"
                         :key="chef.id"
-                        class="even:bg-gray-50 hover:bg-slate-100 h-[50px] text-center border-b border-gray-200"
+                        class="hover:bg-slate-100 h-[50px] text-center border-b-2 border-[#B5BFDE] bg-[#E0E7FF]"
                     >
-                        <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.id }}</td>
-                        <td class="w-[20%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.fullName }}</td>
-                        <td class="w-[25%] italic underline border-r border-[#AFADAD]">{{ chef.email }}</td>
-                        <td class="w-[5%] font-[Poppins-Bold] border-r border-[#AFADAD]">{{ chef.user_info?.experience }}</td>
-                        <td class="w-[22%] truncate border-r border-[#AFADAD]">
+                        <td class="w-[5%] font-[Poppins-Bold] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.id }}</td>
+                        <td class="w-[20%] font-[Poppins-Bold] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.user_info?.fullName }}</td>
+                        <td class="w-[25%] font-[Poppins-Italic] text-[15px] underline text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.email }}</td>
+                        <td class="w-[5%] font-[Poppins-Bold] text-[15px] border-r-2 border-[#B5BFDE]">{{ chef.user_info?.experience }}</td>
+                        <td class="w-[22%] truncate text-[15px] border-r-2 border-[#B5BFDE]">
                             <a
                                 :href="chef.user_info?.credentials"
                                 :download="getFileName(chef.user_info?.credentials)"
-                                class="text-blue-500 underline"
+                                class="text-[#435F77] underline font-[Poppins-Italic] text-[12px]"
                             >
                                 {{ chef.user_info?.credentials }}
                             </a>
