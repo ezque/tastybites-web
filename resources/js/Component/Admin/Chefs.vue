@@ -61,20 +61,43 @@
 
         <!-- Registered Chefs -->
         <div v-show="activeTab === 'register'" class="w-full h-[70%] mt-8 flex flex-wrap justify-center gap-[30px] overflow-auto">
-            <button
-                v-for="chef in activeChefs"
-                :key="chef.id"
-                @click="viewChefInfo(chef)"
-                class="w-[220px] h-[250px] flex flex-col items-center justify-center rounded-[20px] bg-[#E0E7FF] shadow-[5px_4px_2px_#AFADAD] cursor-pointer"
+            <div
+            v-for="chef in activeChefs"
+            :key="chef.id"
+            class="relative w-[220px] h-[250px] flex flex-col items-center justify-center rounded-[20px] bg-[#E0E7FF] shadow-[5px_4px_2px_#AFADAD] cursor-pointer"
             >
-                <span class="w-[73%] h-[60%] rounded-full mb-3">
-                    <img :src="getProfilePic(chef)" alt="img" class="w-full h-full  rounded-full" />
-                </span>
-                <span class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
-                    {{ capitalizeFullName(chef.user_info?.fullName) }}
-                </span>
-                <span class="font-[Poppins-Italic] text-[0.9em]">Since {{ new Date(chef.created_at).getFullYear() }}</span>
+            <span class="w-[73%] h-[60%] rounded-full mb-3">
+                <img :src="getProfilePic(chef)" alt="img" class="w-full h-full rounded-full" />
+            </span>
+
+            <!-- Three-dot menu button -->
+            <button
+                class="absolute top-[5px] right-[5px] mt-[10px] w-[20px] flex items-center justify-center bg-transparent border-none cursor-pointer"
+                @click.stop="toggleMenu(chef.id)"
+            >
+                <img alt="icon" src="/public/images/Button-icon/option.png" class="w-[10px] h-[24px]" />
             </button>
+
+            <!-- Menu for this specific chef -->
+            <div
+                v-if="menuOpen === chef.id"
+                class="absolute left-[88%] top-[45px] ml-[10px] bg-[#435F77] rounded-tr-[10px] rounded-bl-[10px] rounded-br-[10px] z-[9] p-[10px] flex flex-col gap-[10px]"
+            >
+                <button
+                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-[15px] cursor-pointer font-[Poppins-Bold] hover:-translate-y-[2px] transition-all duration-200 ease-in-out"
+                >
+                <img alt="icon" src="/public/images/Button-icon/block.png" class="h-[90%] w-[30%]" />
+                <span class="w-[70%] text-left">Block</span>
+                </button>
+            </div>
+
+            <span class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
+                {{ capitalizeFullName(chef.user_info?.fullName) }}
+            </span>
+            <span class="font-[Poppins-Italic] text-[0.9em]">
+                Since {{ new Date(chef.created_at).getFullYear() }}
+            </span>
+            </div>
         </div>
 
         <!-- Pending Requests -->
@@ -206,6 +229,12 @@
     const blockedChefs = computed(() => {
         return props.chefs.filter(chef => chef.status === 'blocked');
     })
+
+    const menuOpen = ref(null);
+
+    function toggleMenu(chefId) {
+        menuOpen.value = menuOpen.value === chefId ? null : chefId;
+    }
 
     function getProfilePic(chef) {
         const path = chef.user_info?.profilePath;
