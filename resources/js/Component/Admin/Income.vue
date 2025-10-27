@@ -2,6 +2,15 @@
     <div class="income-container">
         <div class="container-label">
             <h2>Queue</h2>
+
+            <!-- Search -->
+            <div class="flex items-center bg-[#F5F5F5] px-1 py-1 mr-5 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
+                <input
+                    placeholder="Search Queue"
+                    class="border-none outline-none w-[200px] px-5 py-2 bg-[#435F77] rounded-full font-[Poppins-Italic] text-white"
+                />
+                <img src="/public/images/Button-icon/search.png" alt="icon" class="w-[20px] h-[20px] ml-1 cursor-pointer" />
+            </div>
         </div>
         <div class="income-body">
             <div class="income-card">
@@ -210,6 +219,7 @@
         height: 10%;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
     .container-label h2 {
         font-size: 35px;
@@ -274,13 +284,13 @@
         flex-direction: row;
         border: 1px solid #B5BFDE;
     }
-    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5,.head-row-6 {
+    .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5{
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5,.head-row-6 h1{
+    .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5{
         color: black;
         font-size: 14px;
         font-family: 'Poppins-Bold';
@@ -312,13 +322,24 @@
         display: flex;
         flex-direction: row;
     }
-    .row-1,.row-2, .row-3, .row-4,.row-5,.row-6 {
+    .row-1,.row-2, .row-3,.row-5{
         display: flex;
         align-items: center;
         justify-content: center;
-        border: .1em solid #B5BFDE;
         font-family: 'Poppins-Bold';
         font-size: 13px;
+        border-bottom: .2em solid #B5BFDE;
+    }
+    .row-2, .row-3, .row-4, .row-5 {
+        border-left: .2em solid #B5BFDE;
+    }
+    .row-4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins-Italic';
+        font-size: 13px;
+        border-bottom: .2em solid #B5BFDE;
     }
     .row-5 button{
         width: 60%;
@@ -371,8 +392,8 @@
         border: none;
         cursor: pointer;
         position: absolute;
-        margin-right: 25px;
-        margin-top: -5px;
+        right: 20px;
+        top: 10px;
         background-color: none;
     }
     .close-container button img {

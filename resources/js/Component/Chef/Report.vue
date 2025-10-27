@@ -1,29 +1,71 @@
 <template>
     <div class="report-container">
-        <div class="button-container">
-            <button>
-                Total Income: ₱{{ props.chefTotalIncome?.total ?? 0 }}
+        <!-- Header and Dropdown -->
+        <div class="flex items-center justify-between px-2">
+            <button
+                class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[400px] h-[120px] mx-5 cursor-pointer text-left hover:shadow-md transition"
+            >
+                <div class="flex flex-col justify-center align-center w-[80%]">
+                    <p class="text-[16px] font-[Poppins-Bold] text-[#333]">TOTAL INCOME</p>
+                    <p class="text-[36px] font-[Poppins-Bold] text-[#435F77] my-1">
+                        ₱ {{ props.chefTotalIncome?.total ?? 0 }}.00
+                    </p>
+                </div>
+                <div class="flex flex-col justify-center items-center w-[20%] h-full">
+                    <img
+                        src="/public/images/Button-icon/dashboard-sales.png"
+                        alt="money icon"
+                        class="w-[70px] h-[70px]"
+                    />
+                </div>
             </button>
-            <button @click="activeGraph = 'monthly'" :class="{ active: activeGraph === 'monthly' }">
-                Monthly Earnings
-            </button>
-            <button @click="activeGraph = 'yearly'" :class="{ active: activeGraph === 'yearly' }">
-                Yearly Earnings
-            </button>
+
+            <div class="relative">
+                <button class="bg-transparent border-none cursor-pointer" @click="toggleDropdown">
+                    <img src="/public/images/Button-icon/option.png" alt="dropdown" class="w-3 h-auto" />
+                </button>
+
+                <div
+                    v-if="dropdownOpen"
+                    class="absolute top-[45px] right-0 bg-[#435F77] rounded-lg shadow-md w-[120px] flex flex-col"
+                >
+                    <a
+                        href="#"
+                        @click.prevent="setGraph('monthly')"
+                        :class="[
+                            'block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] transition-colors',
+                            activeGraph === 'monthly' ? 'bg-[#31485B]' : ''
+                        ]"
+                    >Monthly</a>
+
+                    <a
+                        href="#"
+                        @click.prevent="setGraph('yearly')"
+                        :class="[
+                            'block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] border-white',
+                            activeGraph === 'yearly' ? 'bg-[#31485B]' : ''
+                        ]"
+                    >Yearly</a>
+                </div>
+            </div>
         </div>
 
-        <div class="graph-container">
-            <!-- Both monthly and yearly charts share the same container now -->
-            <LineChart
-                v-if="activeGraph === 'monthly'"
-                :data="monthlyChartData"
-                :options="chartOptions"
-            />
-            <LineChart
-                v-if="activeGraph === 'yearly'"
-                :data="yearlyChartData"
-                :options="chartOptions"
-            />
+        <!-- Graph Wrapper -->
+        <div class="graph-wrapper">
+            <div class="graph-box">
+                <LineChart
+                    v-if="activeGraph === 'monthly'"
+                    :data="monthlyChartData"
+                    :options="chartOptions"
+                    class="w-full h-full"
+                />
+                <LineChart
+                    v-if="activeGraph === 'yearly'"
+                    :data="yearlyChartData"
+                    :options="chartOptions"
+                    class="w-full h-full"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -38,41 +80,71 @@ import {
     LineElement,
     PointElement,
     CategoryScale,
-    LinearScale
+    LinearScale,
+    Filler
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, Filler)
 
 const props = defineProps({
-    chefTotalIncome: Object, // { total, monthly, yearly }
+    chefTotalIncome: Object
 })
 
 const activeGraph = ref('monthly')
+const dropdownOpen = ref(false)
+
+const toggleDropdown = () => dropdownOpen.value = !dropdownOpen.value
+const setGraph = (view) => {
+    activeGraph.value = view
+    dropdownOpen.value = false
+}
 
 const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ]
 
-// Chart options
+// Chart options (with Poppins font)
 const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-        legend: { display: true, labels: { font: { size: 13 } } }
+        legend: {
+            display: true,
+            labels: {
+                font: {
+                    family: 'Poppins-BoldItalic',
+                    size: 15
+                },
+                color: '#374151'
+            }
+        },
+        tooltip: {
+            bodyFont: { family: 'Poppins-Regular' },
+            titleFont: { family: 'Poppins-Regular' }
+        }
     },
     scales: {
+        x: {
+            ticks: {
+                font: { family: 'Poppins-Italic' }
+            }
+        },
         y: {
             beginAtZero: true,
             ticks: {
+                font: {
+                    family: 'Poppins-SemiBold',
+                    style: 'italic'
+                },
                 callback: value => '₱' + value
             }
         }
     }
 }
 
-// Monthly chart data
+// Monthly chart with smooth gradient fill
 const monthlyChartData = computed(() => {
     if (!props.chefTotalIncome?.monthly) return { labels: monthNames, datasets: [] }
 
@@ -89,18 +161,24 @@ const monthlyChartData = computed(() => {
             {
                 label: 'Monthly Earnings',
                 data,
-                borderColor: 'blue',
-                backgroundColor: 'transparent',
-                fill: false,
-                tension: 0.3,
-                pointBackgroundColor: 'blue',
-                pointRadius: 4
+                borderColor: '#435F77',
+                backgroundColor: (context) => {
+                    const chart = context.chart
+                    const { ctx, chartArea } = chart
+                    if (!chartArea) return null
+                    const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+                    gradient.addColorStop(0, 'rgba(67, 95, 119, 0.1)')
+                    gradient.addColorStop(1, 'rgba(67, 95, 119, 0.4)')
+                    return gradient
+                },
+                fill: true,
+                tension: 0.4
             }
         ]
     }
 })
 
-// Yearly chart data
+// Yearly chart with the same style
 const yearlyChartData = computed(() => {
     if (!props.chefTotalIncome?.yearly) return { labels: [], datasets: [] }
 
@@ -114,7 +192,7 @@ const yearlyChartData = computed(() => {
     const labels = []
     const data = []
 
-    for (let year = minYear; year <= maxYear + 2; year++) { // include future 2 years
+    for (let year = minYear; year <= maxYear + 2; year++) {
         labels.push(year)
         data.push(yearlyMap[year] || 0)
     }
@@ -126,11 +204,17 @@ const yearlyChartData = computed(() => {
                 label: 'Yearly Earnings',
                 data,
                 borderColor: 'green',
-                backgroundColor: 'transparent',
-                fill: false,
-                tension: 0.3,
-                pointBackgroundColor: 'green',
-                pointRadius: 4
+                backgroundColor: (context) => {
+                    const chart = context.chart
+                    const { ctx, chartArea } = chart
+                    if (!chartArea) return null
+                    const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+                    gradient.addColorStop(0, 'rgba(144, 238, 144, 0.1)')
+                    gradient.addColorStop(1, 'rgba(144, 238, 144, 0.4)')
+                    return gradient
+                },
+                fill: true,
+                tension: 0.4
             }
         ]
     }
@@ -142,65 +226,27 @@ const LineChart = Line
 <style scoped>
 .report-container {
     width: 100%;
-    height: 80%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    background: #f8fafc;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
 }
 
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-}
-
-.button-container button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: #e5e7eb;
-    color: #374151;
-}
-
-.button-container button:first-child {
-    background: #2563eb;
-    color: #fff;
-    cursor: default;
-    font-size: 15px;
-    letter-spacing: 0.3px;
-}
-
-.button-container button:not(:first-child):hover {
-    background: #2563eb;
-    color: #fff;
-    transform: translateY(-1px);
-}
-
-.button-container button.active {
-    background: #1d4ed8;
-    color: #fff;
-}
-
-.graph-container {
-    flex: 1;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+/* Graph container */
+.graph-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 600px;
-    overflow-x: auto; /* enable horizontal scroll for yearly chart */
+    width: 100%;
+}
+
+.graph-box {
+    width: 95%;
+    height: 450px;
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 </style>

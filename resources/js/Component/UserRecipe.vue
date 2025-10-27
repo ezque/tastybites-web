@@ -7,7 +7,7 @@
                 :class="activeFilter === 'saved' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'saved'"
             >
-                <span>Saved Recipe</span>
+                <span>SAVED</span>
             </button>
 
             <button
@@ -15,7 +15,7 @@
                 :class="activeFilter === 'purchased' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'purchased'"
             >
-                <span>Purchased Recipe</span>
+                <span>PURCHASED</span>
             </button>
 
             <button
@@ -23,7 +23,7 @@
                 :class="activeFilter === 'hidden' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
                 @click="activeFilter = 'hidden'"
             >
-                <span>Hidden Recipe</span>
+                <span>HIDDEN</span>
 
             </button>
 
@@ -39,12 +39,14 @@
                 @navigate="(component, data) => emit('navigate', component, data)"
             />
         </div>
+        <Footer />
     </div>
 </template>
 
 <script setup>
     import { ref, computed } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
         recipeCardDetails: Array,

@@ -9,14 +9,11 @@
         width: 100%;
         height: 6%;
         display: flex;
-        align-items: start;
+        align-items: center;
         justify-content: center;
         position: fixed;
-        bottom: -20px;
+        bottom: -10px;
         font-size: .7em;
         font-family: 'Poppins-SemiBold';
-    }
-    .footer p {
-        margin-right: 10%;
     }
 </style>

@@ -1,13 +1,13 @@
 <template>
     <div class="flex flex-col w-full h-full">
         <!-- Page Label -->
-        <div class="flex items-center w-full h-[10%]">
-            <h2 class="mt-9 ml-5 text-[35px] font-bold font-poppins">Registered Chefs</h2>
+        <div class="flex items-center">
+            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
         </div>
 
         <!-- Body -->
         <div class="flex items-center justify-center w-full h-[88%] p-5">
-            <div class="flex flex-row w-[70%] h-[90%] mb-24 overflow-hidden bg-indigo-100 rounded-3xl shadow-lg">
+            <div class="flex flex-row w-[70%] h-[90%] mb-24 overflow-hidden bg-[#E0E7FF] rounded-3xl shadow-lg">
 
                 <!-- Left Info -->
                 <div class="flex flex-col w-[30%] h-full p-5">
@@ -16,16 +16,16 @@
                         <div class="flex items-center justify-center w-[180px] h-[180px] mb-2 overflow-hidden bg-gray-200 rounded-full">
                             <img :src="getChefProfile()" alt="profile" class="object-cover w-full h-full" />
                         </div>
-                        <h2 class="text-xl font-bold text-gray-900 font-poppins">{{ chef?.user_info?.fullName }}</h2>
-                        <p class="text-sm text-gray-600 italic font-poppins">Since {{ new Date(chef.created_at).getFullYear() }}</p>
+                        <h2 class="text-xl text-gray-900 font-['Poppins-Bold']">{{ chef?.user_info?.fullName }}</h2>
+                        <p class="text-sm text-gray-600 font-['Poppins-Italic']">Since {{ new Date(chef.created_at).getFullYear() }}</p>
                     </div>
 
                     <!-- Certifications -->
-                    <p class="mt-5 mb-0 text-xs font-bold text-gray-900 font-poppins">Certifications</p>
+                    <p class="mt-5 mb-0 text-sm text-gray-900 font-['Poppins-BoldItalic']">Certifications</p>
                     <div class="flex flex-row items-center justify-between w-full h-1/2 p-2">
                         <button
                             @click="prevCertificate"
-                            class="flex items-center justify-center w-10 h-10 text-lg text-white bg-slate-700 rounded-full hover:bg-indigo-200 hover:text-gray-900 hover:shadow-lg hover:scale-110 transition"
+                            class="flex items-center justify-center w-10 h-10 text-lg text-white bg-slate-700 rounded-full hover:bg-indigo-200 hover:text-gray-900 hover:shadow-lg hover:scale-110 transition font-['Poppins-Bold']"
                         >
                             &lt;
                         </button>
@@ -39,13 +39,13 @@
                                 />
                             </div>
                             <div v-else>
-                                <p class="text-sm text-gray-600">No certificates available</p>
+                                <p class="text-xs text-gray-600 font-['Poppins-Italic']">No certificates available</p>
                             </div>
                         </div>
 
                         <button
                             @click="nextCertificate"
-                            class="flex items-center justify-center w-10 h-10 text-lg text-white bg-slate-700 rounded-full hover:bg-indigo-200 hover:text-gray-900 hover:shadow-lg hover:scale-110 transition"
+                            class="flex items-center justify-center w-10 h-10 text-lg text-white bg-slate-700 rounded-full hover:bg-indigo-200 hover:text-gray-900 hover:shadow-lg hover:scale-110 transition font-['Poppins-Bold']"
                         >
                             &gt;
                         </button>
@@ -53,7 +53,7 @@
                 </div>
 
                 <!-- Right Info -->
-                <div class="flex flex-col items-center justify-center w-[70%] h-full border-l-4 border-slate-400">
+                <div class="flex flex-col items-center justify-center w-[70%] h-[full] border-l-4 border-white">
                     <div
                         class="flex flex-wrap items-start justify-center w-full h-[90%] gap-4 p-2 overflow-y-auto scrollbar-hide"
                     >
@@ -74,12 +74,14 @@
                 </div>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 
 <script setup>
     import { ref, computed } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
+    import Footer from "@/Component/Footer.vue";
 
     const props = defineProps({
         chef: Object,

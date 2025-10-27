@@ -2,7 +2,7 @@
     <div class="flex flex-col w-full h-full overflow-hidden">
         <!-- Header -->
         <div class="flex items-center">
-            <h2 class="mt-5 ml-5 text-[35px] font-bold font-poppins">Chefs</h2>
+            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Chefs</h2>
         </div>
 
         <!-- Chefs Grid -->
@@ -28,11 +28,11 @@
                     </span>
 
                     <h2
-                        class="max-w-[90%] text-[20px] font-bold font-poppins text-center truncate"
+                        class="max-w-[90%] text-[20px] font-['Poppins-Bold'] text-center truncate"
                     >
                         {{ capitalizeFullName(chef.user_info?.fullName) }}
                     </h2>
-                    <p class="m-0 text-sm italic font-poppins">
+                    <p class="m-0 text-sm  font-['Poppins-Italic']">
                         Since {{ new Date(chef.created_at).getFullYear() }}
                     </p>
                 </button>
@@ -59,7 +59,7 @@
                         class="flex items-center justify-center w-[90px] h-[25px] gap-2 font-bold text-white transition-colors rounded hover:bg-indigo-100 hover:text-slate-700 hover:border-r hover:border-slate-400"
                     >
                         <img src="/public/images/Button-icon/report.png" alt="Report" class="w-[30%] h-[90%]" />
-                        <span class="w-[70%] text-left">Report</span>
+                        <span class="w-[70%] text-left font-['Poppins-Bold']">Report</span>
                     </button>
                 </div>
             </div>

@@ -29,7 +29,7 @@
                                 <p>{{ purchase.id }}</p>
                             </div>
                             <div class="row-2">
-                                <p>{{ new Date(purchase.created_at).toLocaleDateString() }}</p>
+                                <p>{{ new Date(purchase.created_at).toISOString().split('T')[0] }}</p>
                             </div>
                             <div class="row-3">
                                 <p>{{purchase.recipe.recipeName}}</p>
@@ -41,7 +41,7 @@
                                 <button
                                     @click="viewPurchase(purchase)"
                                 >
-                                    View
+                                    VIEW
                                 </button>
                             </div>
                         </div>
@@ -58,26 +58,31 @@
                 </div>
                <div class="purchase-details-body">
                     <div class="left-purchase">
-                        <div class="receipt-container">
-                            <img alt="receipt" :src="`/storage/${selectedRecipe.proof_path}`"/>
-                            <p>Date Paid:
-                                {{
-                                    new Date(selectedRecipe.created_at).toLocaleDateString("en-US", {
-                                        day: "2-digit",
-                                        month: "long",
-                                        year: "numeric"
-                                    })
-                                }}
-                                |
-                                {{
-                                    new Date(selectedRecipe.created_at).toLocaleTimeString("en-US", {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true
-                                    })
-                                }}
-                            </p>
+                    <div class="receipt-container">
+                        <img alt="receipt" :src="`/storage/${selectedRecipe.proof_path}`" />
+
+                        <div class="date-paid">
+                            Date Paid:
+                            <span class="date-info">
+                            {{
+                                new Date(selectedRecipe.created_at).toLocaleDateString("en-US", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric"
+                                })
+                            }}
+                            |
+                            {{
+                                new Date(selectedRecipe.created_at).toLocaleTimeString("en-US", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true
+                                })
+                            }}
+                            </span>
                         </div>
+                    </div>
+
                     </div>
                    <div class="purchase-body-line"></div>
                     <div class="right-purchase">
@@ -91,7 +96,7 @@
                             <div class="recipe-information">
                                 <h2>{{selectedRecipe.recipe.recipeName}}</h2>
                                 <h4>{{selectedRecipe.recipe.cuisineType}} Cuisine</h4>
-                                <h5>₱{{selectedRecipe.recipe.price}}</h5>
+                                <h5>₱  {{selectedRecipe.recipe.price}}.00</h5>
                             </div>
                         </div>
                         <div class="purchase-details-con">
@@ -132,7 +137,7 @@
                                     <p>Amount Paid:</p>
                                 </div>
                                 <div class="purchase-details">
-                                    <p>₱{{selectedRecipe.amount}}</p>
+                                    <p>₱  {{selectedRecipe.amount}}.00</p>
                                 </div>
                             </div>
                         </div>
@@ -141,13 +146,14 @@
                                 DECLINE
                             </button>
                             <button style="background-color: #E0E7FF" @click="updatePurchaseStatus(selectedRecipe.id, 'confirmed')">
-                                CONFIRM
+                                ACCEPT
                             </button>
                         </div>
                     </div>
                </div>
             </div>
         </div>
+        <Footer class="ml-35" />
     </div>
 
 </template>
@@ -156,6 +162,7 @@
     import { ref } from "vue";
     import axios from "axios";
     import Footer from "@/Component/Footer.vue";
+
     const props = defineProps({
         purchases: Array
     });
@@ -212,14 +219,13 @@
         align-items: center;
         justify-content: center;
         padding-top: 2px;
-        padding-bottom: 2px;
     }
     .card-label h2 {
-        font-weight: bold;
         margin: 0;
         padding: 0;
         color: #31485B;
-        font-family: 'Poppins', sans-serif;
+        font-size: 28px;
+        font-family: 'Poppins-Bold';
     }
     .card-body {
         height: 100%;
@@ -229,8 +235,8 @@
         justify-content: center;
     }
     .table {
-        width: 90%;
-        height: 90%;
+        width: 95%;
+        height: 95%;
         border-radius: 20px;
         background-color: #E0E7FF;
         display: flex;
@@ -253,21 +259,20 @@
     }
     .head-row-1 h1,.head-row-2 h1,.head-row-3 h1,.head-row-4 h1,.head-row-5 h1{
         color: black;
-        font-size: 1em;
-        font-family: 'Poppins', sans-serif;
-        margin-top: 20px;
+        font-size: .9em;
+        font-family: 'Poppins-Bold';
     }
     .head-row-1, .row-1{
-        width: 10%;
+        width: 5%;
     }
     .head-row-2, .row-2{
-        width: 25%;
+        width: 15%;
     }
     .head-row-3, .row-3{
-        width: 25%;
+        width: 35%;
     }
     .head-row-4, .row-4{
-        width: 25%;
+        width: 30%;
     }
     .head-row-5, .row-5 {
         width: 15%;
@@ -285,10 +290,23 @@
         flex-direction: row;
     }
     .row-1,.row-2,.row-3,.row-4,.row-5 {
-        border-bottom: 1px solid black;
+        border-bottom: 2px solid #B5BFDE;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .row-1,.row-2,.row-3,.row-4 {
+        border-right: 2px solid #B5BFDE;
+        font-size: .9em;
+    }
+    .row-1,.row-2 {
+        font-family: 'Poppins-Regular';
+    }
+    .row-3 {
+        font-family: 'Poppins-BoldItalic';
+    }
+    .row-4 {
+        font-family: 'Poppins-Italic';
     }
     .row-5 button{
         width: 50%;
@@ -300,9 +318,14 @@
         border: none;
         background-color: #435F77;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
+        font-size: .7em;
         cursor: pointer;
+        box-shadow: #AFADAD 1px 2px 3px;
     }
+    .row-5 button:hover {
+        background-color: #31485B;
+    }   
     .purchase-details-container {
         width: 60%;
         height: 650px;
@@ -325,8 +348,8 @@
         position: relative;
     }
     .close-container button {
-        height: 35px;
-        width: 35px;
+        height: 60px;
+        width: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -335,7 +358,8 @@
         padding: 10px;
         cursor: pointer;
         position: absolute;
-        margin-right: 10px;
+        margin-right: -25px;
+        margin-top: -15px;
     }
     .close-container button img {
         width: 100%;
@@ -363,17 +387,25 @@
         flex-direction: column;
     }
     .receipt-container img {
-        width: 70%;
-        height: 90%;
+        width: 80%;
+        height: 95%;
+        object-fit: contain; 
     }
-    .receipt-container p {
+    .date-paid {
+        margin: 5px 0 0 -70px;
+        color: white;
+        font-family: 'Poppins-Regular';
+        font-size: .8em;
+    }
+    .date-info {
         margin: 5px 40px 0 0;
         color: white;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-BoldItalic';
+        margin-left: 6px;
     }
     .purchase-body-line {
         width: 4px;
-        height: 75%;
+        height: 95%;
         background-color: #A2B0BC;
         border-radius: 20px;
         margin-bottom: 90px;
@@ -420,27 +452,26 @@
     }
     .recipe-information h2 {
         color: white;
-        font-family: 'Poppins', sans-serif;
-        font-weight: bold;
+        font-family: 'Poppins-Bold';
         margin: 2px;
-        font-size: 2.1em;
+        font-size: 2em;
         text-align: center;
     }
     .recipe-information h4 {
         margin: 0;
-        font-size: 1.5em;
+        font-size: 1em;
         color: #D9D9D9;
-        font-style: italic;
+        font-family: 'Poppins-Italic';
     }
     .recipe-information h5 {
         margin: 5px;
-        padding: 5px 20px 5px 20px;
+        margin-top: 10px;
+        padding: 5px 25px 5px 25px;
         background-color: #E0E7FF;
         border-radius: 20px;
         color: #435F77;
         font-size: 1em;
-        font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
     }
     .purchase-details-con {
         width: 100%;
@@ -465,6 +496,8 @@
     .purchase-label-con p {
         margin: 0;
         color: #D9D9D9;
+        font-family: 'Poppins-Regular';
+        font-size: .8em;
     }
     .purchase-details {
         width: 60%;
@@ -476,7 +509,7 @@
         color: white;
         margin-left: 10px;
         font-size: 1em;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-BoldItalic';
         font-weight: bold;
     }
     .buttons-container {
@@ -488,14 +521,15 @@
         gap: 20px;
     }
     .buttons-container button {
-        width: 100px;
-        padding: 10px;
+        padding: 5px 25px 5px 25px;
         border-radius: 20px;
         border: none;
         color: #435F77;
         font-weight: bold;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins-Bold';
         cursor: pointer;
+        box-shadow: #31485B 1px 4px 6px;
+        font-size: .8em;
     }
 
 

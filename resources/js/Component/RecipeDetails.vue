@@ -95,11 +95,26 @@
         </div>
         <!-- Pending purchase -->
         <div
-            class="pending-container"
-            v-else-if="pendingRecipe"
+        class="fixed inset-0 flex items-center justify-center"
+        v-else-if="pendingRecipe"
         >
-            <p>Your purchase is pending confirmation...</p>
+            <div class="w-1/3 h-1/3 bg-[#435F77] flex flex-col items-center justify-between rounded-[30px] ml-35 p-6">
+                <div class="flex-1 flex items-center justify-center px-4">
+                    <p class="text-[#E0E7FF] text-center text-2xl font-['Poppins-BoldItalic']">
+                        Your Payment has been sent. 
+                        Please wait for confirmation!
+                    </p>
+                </div>
+
+                <button
+                    class="mb-[10px] px-6 py-2 bg-[#E0E7FF] text-[#435F77] rounded-full font-['Poppins-Bold'] hover:bg-[#B5BFDE] hover:text-[#ffff] transition-all duration-300 cursor-pointer"
+                    @click="$emit('back')"
+                >
+                    CLOSE
+                </button>
+            </div>
         </div>
+
 
         <div class="not-buy-container" v-else>
             <div class="back-button-container">
