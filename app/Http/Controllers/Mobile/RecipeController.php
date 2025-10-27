@@ -23,6 +23,12 @@ class RecipeController extends Controller
         $recipes = $this->recipeServices->getRecipeCardDetails();
         return response()->json($recipes);
     }
+
+    public function getPurchaseSavedRecipes(Request $request)
+    {
+        $recipe = $this->recipeServices->getSavedPurchasedRecipes();
+        return response()->json($recipe);
+    }
     public function counts($id)
     {
         $recipe = Recipe::findOrFail($id);
