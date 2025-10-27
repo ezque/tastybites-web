@@ -31,10 +31,9 @@ class RecipeServices
                 }
             ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
-            ->orderBy('created_at', 'desc') // newest first
-            ->paginate(10); // fetch 10 per page
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        // map() won’t work directly on paginator, so transform items
         $recipes->getCollection()->transform(function ($recipe) use ($userId) {
             $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
             $recipe->userReactedLike = $recipe->reaction_type === '1';
@@ -87,9 +86,8 @@ class RecipeServices
             ])
             ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->orderBy('created_at', 'desc')
-            ->paginate(10); // ✅ Paginate 10 at a time
+            ->paginate(10);
 
-        // Transform each recipe in the collection
         $recipes->getCollection()->transform(function ($recipe) use ($userId) {
             $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
             $recipe->userReactedLike = $recipe->reaction_type === '1';
