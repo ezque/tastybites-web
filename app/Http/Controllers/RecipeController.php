@@ -239,6 +239,7 @@ class RecipeController extends Controller
                 Notification::create([
                     'userID' => $recipe->userID,
                     'senderID' => $userID,
+                    'recipeID' => $recipeID,
                     'message' => $reactorName . ' reacted to your recipe "' . $recipe->recipeName . '"',
                     'status' => 'unread',
                     'type' => $notificationType,

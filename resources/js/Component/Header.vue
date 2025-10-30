@@ -323,13 +323,35 @@
     };
 
     // ✅ FIXED VERSION — handle notification click
-    const handleNotificationClick = (notif) => {
-        if (notif.type === 'recipePurchaseApproved' && notif.recipeID) {
-            emit('navigate', 'RecipeDetails', { id: notif.recipeID });
+    const handleNotificationClick = async (notif) => {
+        try {
+            const response = await axios.post(`/read-notification/${notif.id}`);
+            notif.status = "read";
+
+            switch (notif.type) {
+                case 'recipePurchaseApproved':
+                case 'liked':
+                case 'disliked':
+                    if (notif.recipeID) {
+                        emit('navigate', 'RecipeDetails', { id: notif.recipeID });
+                    }
+                    break;
+                case 'recipePurchased':
+                    emit('navigate', 'ChefIncome');
+                    break
+                default:
+                    console.log("Unhandled notification type:", notif.type);
+                    break;
+            }
+
             isNotificationVisible.value = false;
-        } else {
-            console.log("Clicked notification:", notif.type);
+
+        } catch (error) {
+            console.error("Error updating notification:", error);
+            alert("Failed to update notification status.");
         }
     };
+
+
 </script>
 
