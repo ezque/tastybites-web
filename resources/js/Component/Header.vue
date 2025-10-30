@@ -87,27 +87,29 @@
                                 @click="handleNotificationClick(notif)"
                             >
                                 <span class="w-[10%]">
-                                   <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" alt="icon"/>
-                                   <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" alt="icon"/>
-                                   <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" alt="icon"/>
-                                   <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" alt="icon"/>
-                                   <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" alt="icon"/>
-                                   <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" alt="icon"/>
-                                   <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                                   <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" alt="icon"/>
-                                   <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" alt="icon"/>
-                                   <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" alt="icon"/>
-                                   <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" alt="icon"/>
-                                   <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/decline.png" alt="icon"/>
-                                   <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                                   <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                                   <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
+                                    <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" alt="icon"/>
+                                    <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                    <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" alt="icon"/>
+                                    <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" alt="icon"/>
+                                    <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" alt="icon"/>
+                                    <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" alt="icon"/>
+                                    <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                    <img v-if="notif.type === 'chefDisapproved'" src="/public/images/Button-icon/decline.png" alt="icon"/>
+                                    <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" alt="icon"/>
+                                    <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/decline.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                    <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
                                 </span>
                                 <span class="flex flex-col items-start w-[90%]">
                                     <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
                                         <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
                                         <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
                                         <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
+                                        <span v-else-if="notif.type === 'chefApproved'">{{ notif.message }} You are now a chef! Add your first recipe. </span>
                                         <span v-else>{{ notif.message }}</span>
                                     </span>
                                     <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
@@ -322,7 +324,6 @@
         }
     };
 
-    // ✅ FIXED VERSION — handle notification click
     const handleNotificationClick = async (notif) => {
         try {
             const response = await axios.post(`/read-notification/${notif.id}`);
@@ -341,7 +342,13 @@
                     emit('navigate', 'ChefIncome');
                     break;
                 case 'addPremiumRecipe':
-                    emit('navigate', 'AdminIncome')
+                    emit('navigate', 'AdminIncome');
+                    break;
+                case 'chefApplicant':
+                    emit('navigate', 'AdminChefs', { tab: 'request' });
+                    break
+                case 'chefApproved':
+                    emit('navigate', 'AddRecipe');
                     break;
                 default:
                     console.log("Unhandled notification type:", notif.type);

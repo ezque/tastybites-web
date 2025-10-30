@@ -45,20 +45,20 @@
             <div
                 class="w-full h-full flex flex-col overflow-auto mt-[30px] rounded-b-[20px] p-[5px] scrollbar-thin scrollbar-thumb-[#888] scrollbar-track-[#f1f1f1] hover:scrollbar-thumb-[#555]"
             >
-                <div
+                <button
                     v-for="notif in filteredNotifications"
                     :key="notif.id"
-                    @click="markAsRead(notif.id)"
-                    class="flex flex-col w-full"
+                    @click="handleNotificationClick(notif)"
+                    class="flex flex-col w-full cursor-pointer"
                 >
-                    <div
+                    <span
                         :class="[
                         'flex flex-row justify-between items-start bg-[#E0E7FF] rounded-[15px] border-r border-[#AFADAD] shadow-[0_4px_1px_#AFADAD] p-[15px] gap-[10px] w-full mt-[10px] transition',
                         notif.status === 'unread' ? 'ring-2 ring-[#B5BFDE]' : ''
                         ]"
                     >
                         <!-- Left: Icon -->
-                        <div class="w-[10%] flex justify-center">
+                        <span class="w-[10%] flex justify-center">
                         <img
                             v-if="notif.type === 'addPremiumRecipe'"
                             src="/public/images/premium-icon.png"
@@ -107,23 +107,23 @@
                             alt="Notification"
                             class="w-1/2"
                         />
-                    </div>
+                    </span>
 
                     <!-- Right: Content + Action Buttons -->
-                    <div class="flex flex-row w-[90%] items-center justify-between">
+                    <span class="flex flex-row w-[90%] items-center justify-between">
                         <!-- Message + Time -->
-                        <div class="flex flex-col">
-                            <p class="m-0 text-[12px] text-black font-[Poppins-Regular] text-left leading-tight">
+                        <span class="flex flex-col">
+                            <span class="m-0 text-[12px] text-black font-[Poppins-Regular] text-left leading-tight">
                                 <strong>@{{ notif.sender?.user_info?.userName || 'System' }}</strong>
                                 {{ notif.message }}
-                            </p>
-                            <span class="text-[9px] text-black font-[Poppins-Regular] mt-1">
+                            </span>
+                            <span class="text-[9px] text-black font-[Poppins-Regular] mt-1 self-start">
                                 {{ timeAgo(notif.created_at) }}
                             </span>
-                        </div>
+                        </span>
 
                         <!-- Action Buttons (inline, right side) -->
-                        <div class="flex flex-row gap-2 ml-3 shrink-0">
+                        <span class="flex flex-row gap-2 ml-3 shrink-0">
                             <button
                                 v-if="notif.type === 'report' && !notif.blocked"
                                 @click.stop="handleReport(notif)"
@@ -139,11 +139,11 @@
                                 <img src="/public/images/Button-icon/delete.png" alt="Delete" class="w-[20px] h-[20px]" />
                             </button>
 
-                        </div>
-                    </div>
+                        </span>
+                    </span>
 
-                </div>
-            </div>
+                </span>
+            </button>
 
             <!-- Empty State -->
             <div
@@ -166,10 +166,10 @@
     const props = defineProps({
         getNotification: Array
     });
+    const emit = defineEmits(['navigate']);
 
     const activeFilter = ref("all");
     const sortOrder = ref("desc");
-    const blockedReports = ref([]); // Track which reports are blocked
 
     function timeAgo(dateString) {
         const date = new Date(dateString);
@@ -251,5 +251,41 @@
             console.error(error.response?.data || error.message);
         }
     }
+    const handleNotificationClick = async (notif) => {
+        try {
+            const response = await axios.post(`/read-notification/${notif.id}`);
+            notif.status = "read";
+
+            switch (notif.type) {
+                case 'recipePurchaseApproved':
+                case 'liked':
+                case 'disliked':
+                case 'premiumRecipeApproved':
+                    if (notif.recipeID) {
+                        emit('navigate', 'RecipeDetails', { id: notif.recipeID });
+                    }
+                    break;
+                case 'recipePurchased':
+                    emit('navigate', 'ChefIncome');
+                    break;
+                case 'addPremiumRecipe':
+                    emit('navigate', 'AdminIncome');
+                    break;
+                case 'chefApplicant':
+                    emit('navigate', 'AdminChefs', { tab: 'request' });
+                    break
+                case 'chefApproved':
+                    emit('navigate', 'AddRecipe');
+                    break;
+                default:
+                    console.log("Unhandled notification type:", notif.type);
+                    break;
+            }
+
+        } catch (error) {
+            console.error("Error updating notification:", error);
+            alert("Failed to update notification status.");
+        }
+    };
 
 </script>

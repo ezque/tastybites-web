@@ -30,6 +30,7 @@
                 :chefs="chefs"
                 :user="user"
                 @navigate="handleNavigation"
+                :initialTab="selectedChef"
                 class="flex-1 overflow-y-auto"
             />
             <ChefDetails
@@ -69,14 +70,9 @@
             <Notification
                 v-if="activeComponent === 'Notification'"
                 :getNotification="getNotification"
+                @navigate="setActiveComponent"
                 class="flex-1 overflow-y-auto"
             />
-            <TheNotification
-                v-if="activeComponent === 'TheNotification'"
-                :notification="selectedNotification"
-                class="flex-1 overflow-y-auto"
-            />
-
         </div>
     </div>
 </template>
@@ -92,10 +88,8 @@
     import Users from "@/Component/Admin/Users.vue";
     import Recipes from "@/Component/Recipes.vue";
     import RecipeDetails from "@/Component/RecipeDetails.vue";
-    import ChefInfo from "@/Component/Admin/ChefInfo.vue";
     import AdminSettings from "@/Component/Admin/AdminSettings.vue";
     import Notification from "@/Component/Notification.vue";
-    import TheNotification from "@/Component/TheNotification.vue";
 
     const props = defineProps({
         user: Object,
@@ -127,6 +121,9 @@
             const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
             selectedRecipe.value = fullDetails || data;
             activeComponent.value = "RecipeDetails";
+        } else if (componentName === "AdminChefs") {
+            activeComponent.value = "AdminChefs";
+            selectedChef.value = data?.tab || "register";
         } else {
             activeComponent.value = componentName;
         }

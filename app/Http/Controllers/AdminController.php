@@ -29,11 +29,24 @@ class AdminController extends Controller
         $user = User::findOrFail($request->user_id);
         $user->update(['status' => 'active']);
 
+        $message = 'Congratulations! Your chef application has been accepted.';
+        $type = 'chefApproved';
+
+        $notification = Notification::create([
+            'userID'   => $user->id,
+            'senderID' => auth()->id(),
+            'message'  => $message,
+            'status'   => 'unread',
+            'type'     => $type,
+        ]);
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Chef accepted successfully.'
+            'message' => 'Chef accepted successfully.',
+            'notification' => $notification
         ]);
     }
+
     public function rejectChef(Request $request)
     {
         $request->validate([
@@ -43,12 +56,25 @@ class AdminController extends Controller
         $user = User::findOrFail($request->user_id);
         $user->update(['status' => 'inactive']);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Chef rejected successfully.'
+        // Create notification
+        $message = 'We’re sorry, but your chef application has been rejected.';
+        $type = 'chefDisapproved';
+
+        $notification = Notification::create([
+            'userID'   => $user->id,
+            'senderID' => auth()->id(),
+            'message'  => $message,
+            'status'   => 'unread',
+            'type'     => $type,
         ]);
 
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Chef rejected successfully.',
+            'notification' => $notification
+        ]);
     }
+
     public function updateUserStatus(Request $request)
     {
         $request->validate([

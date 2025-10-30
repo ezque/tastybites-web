@@ -217,7 +217,12 @@
 
     const props = defineProps({
         chefs: Array,
+        initialTab: {
+            type: String,
+            default: "register"
+        }
     })
+    const activeTab = ref(props.initialTab);
 
     const activeChefs = computed(() => {
       return props.chefs.filter(chef => chef.status === 'active');
@@ -259,8 +264,6 @@
       if (!path) return '';
       return path.split('/').pop();
     }
-
-    const activeTab = ref("register");
 
     async function acceptChef(userId) {
       try {

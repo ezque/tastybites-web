@@ -52,6 +52,7 @@
             <Notification
                 v-if="activeComponent === 'Notification'"
                 :getNotification="getNotification"
+                @navigate="setActiveComponent"
             />
             <UserChef
                 v-if="activeComponent === 'userChef'"
@@ -66,11 +67,6 @@
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
                 :user="user"
-            />
-            <TheNotification
-                v-if="activeComponent === 'TheNotification'"
-                :notification="selectedNotification"
-                class="flex-1 overflow-y-auto"
             />
             <UserRecipe
                 v-if="activeComponent === 'UserRecipe'"
@@ -95,7 +91,6 @@
     import Notification from "@/Component/Notification.vue";
     import UserChef from "@/Component/userChef.vue";
     import ChefDetails from "@/Component/chefDetails.vue";
-    import TheNotification from "@/Component/TheNotification.vue";
     import UserRecipe from "@/Component/UserRecipe.vue";
 
     const props = defineProps({
