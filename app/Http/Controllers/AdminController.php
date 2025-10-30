@@ -108,6 +108,7 @@ class AdminController extends Controller
         $notification = Notification::create([
             'userID'   => $recipientId,
             'senderID' => $senderId,
+            'recipeID' => $recipe->id,
             'message'  => $message,
             'status'   => 'unread',
             'type'     => $type,

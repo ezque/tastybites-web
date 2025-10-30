@@ -332,13 +332,17 @@
                 case 'recipePurchaseApproved':
                 case 'liked':
                 case 'disliked':
+                case 'premiumRecipeApproved':
                     if (notif.recipeID) {
                         emit('navigate', 'RecipeDetails', { id: notif.recipeID });
                     }
                     break;
                 case 'recipePurchased':
                     emit('navigate', 'ChefIncome');
-                    break
+                    break;
+                case 'addPremiumRecipe':
+                    emit('navigate', 'AdminIncome')
+                    break;
                 default:
                     console.log("Unhandled notification type:", notif.type);
                     break;
