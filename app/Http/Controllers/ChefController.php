@@ -49,6 +49,7 @@ class ChefController extends Controller
         $notification = Notification::create([
             'userID'   => $recipientId,
             'senderID' => $senderId,
+            'recipeID' => $purchase->recipe->id,
             'message'  => $message,
             'status'   => 'unread',
             'type'     => $type,

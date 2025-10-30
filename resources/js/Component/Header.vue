@@ -80,38 +80,38 @@
                         <div v-for="notif in filteredNotifications" :key="notif.id" class="flex flex-col gap-2">
                             <button
                                 v-if="notif.type"
-                                @click="goToNotification(notif)"
                                 :class="[
-                  'flex items-center gap-2 rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer',
-                  notif.status === 'unread' ? 'bg-[#E0E7FF]' : 'bg-white'
-                ]"
+                                  'flex items-center gap-2 rounded-xl px-3 py-2 shadow-sm border-r border-gray-400 mt-2 cursor-pointer',
+                                  notif.status === 'unread' ? 'bg-[#E0E7FF]' : 'bg-white'
+                                ]"
+                                @click="handleNotificationClick(notif)"
                             >
-                <span class="w-[10%]">
-                   <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" alt="icon"/>
-                   <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" alt="icon"/>
-                   <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" alt="icon"/>
-                   <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" alt="icon"/>
-                   <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" alt="icon"/>
-                   <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" alt="icon"/>
-                   <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                   <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" alt="icon"/>
-                   <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" alt="icon"/>
-                   <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" alt="icon"/>
-                   <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" alt="icon"/>
-                   <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/decline.png" alt="icon"/>
-                   <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                   <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
-                   <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
-                </span>
+                                <span class="w-[10%]">
+                                   <img v-if="notif.type === 'addPremiumRecipe'" src="/public/images/premium-icon.png" alt="icon"/>
+                                   <img v-if="notif.type === 'chefApplicant'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                   <img v-if="notif.type === 'userApplicant'" src="/public/images/Button-icon/new_user3.png" alt="icon"/>
+                                   <img v-if="notif.type === 'report'" src="/public/images/Button-icon/report.png" alt="icon"/>
+                                   <img v-if="notif.type === 'liked'" src="/public/images/Button-icon/filled_heart.png" alt="icon"/>
+                                   <img v-if="notif.type === 'disliked'" src="/public/images/Button-icon/filled_dislike.png" alt="icon"/>
+                                   <img v-if="notif.type === 'recipePurchased'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                   <img v-if="notif.type === 'followed'" src="/public/images/Button-icon/follow.png" alt="icon"/>
+                                   <img v-if="notif.type === 'recipeBlocked'" src="/public/images/Button-icon/block.png" alt="icon"/>
+                                   <img v-if="notif.type === 'chefApproved'" src="/public/images/Button-icon/chef.png" alt="icon"/>
+                                   <img v-if="notif.type === 'premiumRecipeApproved'" src="/public/images/Button-icon/approved.png" alt="icon"/>
+                                   <img v-if="notif.type === 'premiumRecipeDeclined'" src="/public/images/Button-icon/decline.png" alt="icon"/>
+                                   <img v-if="notif.type === 'recipePurchaseApproved'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                   <img v-if="notif.type === 'recipePurchaseDenied'" src="/public/images/Button-icon/payment.png" alt="icon"/>
+                                   <img v-if="notif.type === 'newRecipeAdded'" src="/public/images/Button-icon/RecipeFooter.png" alt="icon"/>
+                                </span>
                                 <span class="flex flex-col items-start w-[90%]">
-                    <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
-                        <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
-                        <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
-                        <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
-                        <span v-else>{{ notif.message }}</span>
-                    </span>
-                    <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
-                </span>
+                                    <span class="text-xs text-black m-0 text-justify font-[Poppins-Regular] ">
+                                        <span v-if="notif.type === 'addPremiumRecipe'"><strong>@{{ notif.sender.user_info.userName }}</strong> {{ notif.message }}</span>
+                                        <span v-else-if="notif.type === 'chefApplicant'"><strong>@{{ notif.sender.user_info.userName }}</strong> has signed up as a new chef. Review their profile.</span>
+                                        <span v-else-if="notif.type === 'userApplicant'">We have a new user! <strong>@{{ notif.sender.user_info.userName }}</strong> has joined the community.</span>
+                                        <span v-else>{{ notif.message }}</span>
+                                    </span>
+                                    <span class="text-[9px] text-black">{{ timeAgo(notif.created_at) }}</span>
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -175,152 +175,161 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
-import axios from 'axios';
+    import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+    import { Inertia } from '@inertiajs/inertia';
+    import axios from 'axios';
 
-const props = defineProps({
-    user: Object,
-    getNotification: Array,
-});
+    const props = defineProps({
+        user: Object,
+        getNotification: Array,
+    });
 
-const emit = defineEmits(['navigate']);
+    const emit = defineEmits(['navigate']);
 
-const isMenuVisible = ref(false);
-const isNotificationVisible = ref(false);
-const activeFilter = ref("all");
-const menuOpen = ref(false);
+    const isMenuVisible = ref(false);
+    const isNotificationVisible = ref(false);
+    const activeFilter = ref("all");
+    const menuOpen = ref(false);
 
-const profileButtonRef = ref(null);
-const menuRef = ref(null);
-const notifButtonRef = ref(null);
-const notifDropdownRef = ref(null);
+    const profileButtonRef = ref(null);
+    const menuRef = ref(null);
+    const notifButtonRef = ref(null);
+    const notifDropdownRef = ref(null);
 
-// ✅ Close dropdowns when clicking outside
-const handleClickOutside = (event) => {
-    const profileMenu = menuRef.value;
-    const profileButton = profileButtonRef.value;
-    const notifDropdown = notifDropdownRef.value;
-    const notifButton = notifButtonRef.value;
+    const handleClickOutside = (event) => {
+        const profileMenu = menuRef.value;
+        const profileButton = profileButtonRef.value;
+        const notifDropdown = notifDropdownRef.value;
+        const notifButton = notifButtonRef.value;
 
-    if (
-        isMenuVisible.value &&
-        profileMenu &&
-        !profileMenu.contains(event.target) &&
-        profileButton &&
-        !profileButton.contains(event.target)
-    ) {
-        isMenuVisible.value = false;
-    }
+        if (
+            isMenuVisible.value &&
+            profileMenu &&
+            !profileMenu.contains(event.target) &&
+            profileButton &&
+            !profileButton.contains(event.target)
+        ) {
+            isMenuVisible.value = false;
+        }
 
-    if (
-        isNotificationVisible.value &&
-        notifDropdown &&
-        !notifDropdown.contains(event.target) &&
-        notifButton &&
-        !notifButton.contains(event.target)
-    ) {
-        isNotificationVisible.value = false;
-    }
-};
+        if (
+            isNotificationVisible.value &&
+            notifDropdown &&
+            !notifDropdown.contains(event.target) &&
+            notifButton &&
+            !notifButton.contains(event.target)
+        ) {
+            isNotificationVisible.value = false;
+        }
+    };
 
-onMounted(() => {
-    document.addEventListener('click', handleClickOutside);
-});
+    onMounted(() => {
+        document.addEventListener('click', handleClickOutside);
+    });
 
-onBeforeUnmount(() => {
-    document.removeEventListener('click', handleClickOutside);
-});
+    onBeforeUnmount(() => {
+        document.removeEventListener('click', handleClickOutside);
+    });
 
-const filteredNotifications = computed(() => {
-    if (activeFilter.value === "unread") {
-        return props.getNotification.filter(n => n.status === "unread");
-    }
-    return props.getNotification;
-});
+    const filteredNotifications = computed(() => {
+        if (activeFilter.value === "unread") {
+            return props.getNotification.filter(n => n.status === "unread");
+        }
+        return props.getNotification;
+    });
 
-const toggleNotification = () => {
-    if (isMenuVisible.value) isMenuVisible.value = false;
-    isNotificationVisible.value = !isNotificationVisible.value;
-};
+    const toggleNotification = () => {
+        if (isMenuVisible.value) isMenuVisible.value = false;
+        isNotificationVisible.value = !isNotificationVisible.value;
+    };
 
-const toggleMenu = () => {
-    if (isNotificationVisible.value) isNotificationVisible.value = false;
-    isMenuVisible.value = !isMenuVisible.value;
-};
+    const toggleMenu = () => {
+        if (isNotificationVisible.value) isNotificationVisible.value = false;
+        isMenuVisible.value = !isMenuVisible.value;
+    };
 
-const toggleMenuOpen = () => {
-    menuOpen.value = !menuOpen.value;
-};
+    const toggleMenuOpen = () => {
+        menuOpen.value = !menuOpen.value;
+    };
 
-const capitalizedfullName = computed(() => {
-    const name = props.user?.user_info?.fullName ?? 'User';
-    return name
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-});
+    const capitalizedfullName = computed(() => {
+        const name = props.user?.user_info?.fullName ?? 'User';
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    });
 
-const roleLabels = {
-    admin: 'Administrator',
-    chef: 'Chef',
-    user: 'User',
-};
+    const roleLabels = {
+        admin: 'Administrator',
+        chef: 'Chef',
+        user: 'User',
+    };
 
-const handleLogout = () => {
-    if (confirm('Are you sure you want to logout?')) {
-        Inertia.post('/logout', {}, {
-            onFinish: () => {
-                window.location.reload();
-            },
+    const handleLogout = () => {
+        if (confirm('Are you sure you want to logout?')) {
+            Inertia.post('/logout', {}, {
+                onFinish: () => {
+                    window.location.reload();
+                },
+            });
+        }
+    };
+
+    function timeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (seconds < 60) return `${seconds}s ago`;
+        if (minutes < 60) return `${minutes}m ago`;
+        if (hours < 24) return `${hours}h ago`;
+        if (days < 7) return `${days}d ago`;
+
+        return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
         });
     }
-};
 
-function timeAgo(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now - date;
+    const goToNotification = async (notif) => {
+        try {
+            await axios.post(`/read-notification/${notif.id}`);
+            const target = props.getNotification.find(n => n.id === notif.id);
+            if (target) target.status = "read";
+            emit('navigate', 'TheNotification', notif);
+        } catch (error) {
+            console.error("Error marking notification as read:", error);
+            alert("Failed to update notification.");
+        }
+    };
 
-    const seconds = Math.floor(diffMs / 1000);
-    const minutes = Math.floor(diffMs / (1000 * 60));
-    const hours = Math.floor(diffMs / (1000 * 60 * 60));
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const markAllRead = async () => {
+        try {
+            const response = await axios.post("/read-all-notifications");
+            alert(response.data.message);
+            props.getNotification.forEach(n => (n.status = "read"));
+        } catch (error) {
+            console.error("Error marking all as read:", error);
+            alert("Failed to mark notifications as read.");
+        }
+    };
 
-    if (seconds < 60) return `${seconds}s ago`;
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    if (days < 7) return `${days}d ago`;
-
-    return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
-}
-
-const goToNotification = async (notif) => {
-    try {
-        await axios.post(`/read-notification/${notif.id}`);
-        const target = props.getNotification.find(n => n.id === notif.id);
-        if (target) target.status = "read";
-        emit('navigate', 'TheNotification', notif);
-    } catch (error) {
-        console.error("Error marking notification as read:", error);
-        alert("Failed to update notification.");
-    }
-};
-
-const markAllRead = async () => {
-    try {
-        const response = await axios.post("/read-all-notifications");
-        alert(response.data.message);
-        props.getNotification.forEach(n => (n.status = "read"));
-    } catch (error) {
-        console.error("Error marking all as read:", error);
-        alert("Failed to mark notifications as read.");
-    }
-};
-//new changes
+    // ✅ FIXED VERSION — handle notification click
+    const handleNotificationClick = (notif) => {
+        if (notif.type === 'recipePurchaseApproved' && notif.recipeID) {
+            emit('navigate', 'RecipeDetails', { id: notif.recipeID });
+            isNotificationVisible.value = false;
+        } else {
+            console.log("Clicked notification:", notif.type);
+        }
+    };
 </script>
+

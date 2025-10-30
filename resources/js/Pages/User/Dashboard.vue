@@ -84,21 +84,41 @@
     const selectedChef = ref(null);
     const selectedNotification = ref(null);
 
+    // const setActiveComponent = (componentName, data = null) => {
+    //     if (componentName === "TheNotification" && data) {
+    //         selectedNotification.value = data;
+    //         activeComponent.value = "TheNotification";
+    //     } else if (componentName === "ChefInfo") {
+    //         selectedChef.value = data;
+    //         activeComponent.value = "ChefInfo";
+    //     } else if (componentName === "RecipeDetails" && data) {
+    //         const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
+    //         selectedRecipe.value = fullDetails || data;
+    //         activeComponent.value = "RecipeDetails";
+    //     } else {
+    //         activeComponent.value = componentName;
+    //     }
+    // };
     const setActiveComponent = (componentName, data = null) => {
-        if (componentName === "TheNotification" && data) {
-            selectedNotification.value = data;
-            activeComponent.value = "TheNotification";
-        } else if (componentName === "ChefInfo") {
-            selectedChef.value = data;
-            activeComponent.value = "ChefInfo";
-        } else if (componentName === "RecipeDetails" && data) {
+        console.log("Navigation triggered:", componentName, data);
+        if (componentName === "RecipeDetails" && data) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
             selectedRecipe.value = fullDetails || data;
             activeComponent.value = "RecipeDetails";
-        } else {
+        }
+        else if (componentName === "TheNotification" && data) {
+            selectedNotification.value = data;
+            activeComponent.value = "TheNotification";
+        }
+        else if (componentName === "ChefInfo") {
+            selectedChef.value = data;
+            activeComponent.value = "ChefInfo";
+        }
+        else {
             activeComponent.value = componentName;
         }
     };
+
 
     const historyStack = ref([]);
 
@@ -140,4 +160,5 @@
 
         activeComponent.value = "RecipeDetails";
     };
+
 </script>

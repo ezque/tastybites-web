@@ -12,6 +12,7 @@ class Notification extends Model
         'userID',
         'senderID',
         'reportID',
+        'recipeID',
         'message',
         'status',
         'type',

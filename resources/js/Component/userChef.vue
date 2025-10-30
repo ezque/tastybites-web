@@ -16,7 +16,7 @@
             >
                 <!-- Card Button -->
                 <button
-                    class="flex flex-col items-center justify-center w-full h-full"
+                    class="flex flex-col items-center justify-center w-full h-full cursor-pointer"
                     @click="viewChefInfo(chef)"
                 >
                     <span class="w-[73%] h-[60%] rounded-full mb-3">
