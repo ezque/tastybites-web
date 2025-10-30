@@ -84,7 +84,8 @@
                 class="absolute left-[88%] top-[45px] ml-[10px] bg-[#435F77] rounded-tr-[10px] rounded-bl-[10px] rounded-br-[10px] z-[9] p-[10px] flex flex-col gap-[10px]"
             >
                 <button
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-[15px] cursor-pointer font-[Poppins-Bold] hover:-translate-y-[2px] transition-all duration-200 ease-in-out"
+                    class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-[15px] cursor-pointer font-[Poppins-Bold] hover:-translate-y-[2px] transition-all duration-200 ease-in-out"
+                    @click="updateUserStatus(chef.id)"
                 >
                 <img alt="icon" src="/public/images/Button-icon/block.png" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">Block</span>
@@ -130,7 +131,7 @@
                                 <a
                                     :href="chef.user_info?.credentials"
                                     :download="getFileName(chef.user_info?.credentials)"
-                                    class="text-[#435F77] underline font-[Poppins-Italic] text-[12px]" 
+                                    class="text-[#435F77] underline font-[Poppins-Italic] text-[12px]"
                                 >
                                     {{ chef.user_info?.credentials }}
                                 </a>
