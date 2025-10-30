@@ -49,6 +49,7 @@
             <UserRecipe
                 v-if="activeComponent === 'UserRecipe'"
                 :recipeCardDetails="recipeCardDetails"
+                @navigate="handleNavigation"
             />
         </div>
     </div>

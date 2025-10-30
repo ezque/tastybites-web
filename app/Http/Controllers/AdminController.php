@@ -13,6 +13,8 @@ use App\Services\ChefService;
 use App\Services\NotificationServices;
 use App\Models\Recipe;
 use App\Models\Notification;
+use App\Models\Report;
+
 
 class AdminController extends Controller
 {
@@ -121,6 +123,12 @@ class AdminController extends Controller
             'notification' => $notification,
         ]);
     }
+    public function getReport($id)
+    {
+        $report = Report::findOrFail($id);
+        return response()->json($report);
+    }
+
 
 
 

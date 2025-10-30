@@ -30,7 +30,7 @@
                             <span class="material-icons" v-else>thumb_down_off_alt</span>
                             <p>{{ dislikeCount }}</p>
                         </button>
-                        
+
                     </div>
                 </div>
                 <div class="right-side-details-container">
@@ -101,7 +101,7 @@
             <div class="w-1/3 h-1/3 bg-[#435F77] flex flex-col items-center justify-between rounded-[30px] ml-35 p-6">
                 <div class="flex-1 flex items-center justify-center px-4">
                     <p class="text-[#E0E7FF] text-center text-2xl font-['Poppins-BoldItalic']">
-                        Your Payment has been sent. 
+                        Your Payment has been sent.
                         Please wait for confirmation!
                     </p>
                 </div>
@@ -238,8 +238,8 @@
                                 </div>
 
                                 <div class="nb-submit-container">
-                                    <button 
-                                        @click="buyRecipe" 
+                                    <button
+                                        @click.prevent="buyRecipe"
                                         :disabled="!isFormComplete"
                                         :class="{ disabled: !isFormComplete }"
                                     >
@@ -531,7 +531,7 @@
         font-family: 'Poppins-Regular';
         font-size: 1em;
     }
-    .recipe-react-container button span {  
+    .recipe-react-container button span {
         font-size: 2em;
         color: #EC3F57;
     }
@@ -801,7 +801,7 @@
         margin-left: 20px;
         cursor: pointer;
         font-family: 'Poppins-Bold';
-        font-size: .7em;    
+        font-size: .7em;
     }
     .proof-payment-container p {
         color: #768082;
@@ -891,7 +891,7 @@
         border-radius: 20px;
         padding-left: 20px;
         border: none;
-        background-color: #B5BFDE;        
+        background-color: #B5BFDE;
         font-family: 'Poppins-Bold';
         font-size: 0.80em;
         color: #31485B;

@@ -375,6 +375,7 @@ class RecipeController extends Controller
                     'message'  => 'A recipe "' . ($recipe->recipeName ?? 'Unknown') . '" has been reported.',
                     'status'   => 'unread',
                     'type'     => 'report',
+                    'reportID' => $report->id,
                 ]);
             }
         }

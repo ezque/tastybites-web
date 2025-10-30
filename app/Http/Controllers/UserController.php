@@ -50,6 +50,7 @@ class UserController extends Controller
                     'message'  => 'A user has been reported. Reporter ID: ' . auth()->id(),
                     'status'   => 'unread',
                     'type'     => 'report',
+                    'reportID' => $report->id,
                 ]);
             } elseif ($report->reportedRecipeID !== null) {
                 $recipe = Recipe::find($report->reportedRecipeID);
@@ -60,6 +61,7 @@ class UserController extends Controller
                     'message'  => 'A recipe "' . ($recipe->recipeName ?? 'Unknown') . '" has been reported.',
                     'status'   => 'unread',
                     'type'     => 'report',
+                    'reportID' => $report->id,
                 ]);
             }
         }
