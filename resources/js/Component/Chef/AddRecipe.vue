@@ -1,13 +1,13 @@
 <template>
-    <div class="add-recipe-container">
-        <div class="top-container">
-            <button type="button" @click="emit('navigate', 'Recipes')" :class="{ active: active === 'Recipes' }">
-                <img src="/public/images/Button-icon/back.png" alt="back"/>
+    <div class="w-full h-full flex flex-col overflow-hidden">
+        <div class="w-full h-[10%] flex flex-row items-center gap-[15px]">
+            <button type="button" @click="emit('navigate', 'Recipes')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': active === 'Recipes' }" class="flex items-center justify-center w-[45px] h-[50%] bg-transparent cursor-pointer border-none ml-5">
+                <img src="/public/images/Button-icon/back.png" alt="back" class="w-[80%] h-auto"/>
             </button>
-            <h2>Create Recipe</h2>
+            <h2 class="text-4xl text-[#768082] font-['Poppins-Bold'] italic">Create Recipe</h2>
         </div>
-        <div class="main-body">
-            <div class="left-side-container">
+        <div class="w-full h-[83%] flex flex-row">
+            <div class="w-[35%] h-full flex flex-col items-center">
                 <input
                     type="file"
                     ref="fileInput"
@@ -15,148 +15,148 @@
                     @change="handleImagePick"
                     hidden
                 />
-                <button type="button" @click="triggerImageInput">
-                    <!-- Show preview image if available -->
+                <button type="button" @click="triggerImageInput" class="w-[60%] h-[350px] rounded-full mt-[15%] border-none cursor-pointer flex items-center justify-center bg-transparent shadow-[0_5px_3px_#AFADAD]">
                     <img
                         v-if="recipeImagePreview"
                         :src="recipeImagePreview"
                         alt="Preview"
-                        class="preview-image"
+                        class="h-full w-full rounded-full preview-image"
                     />
                     <img
                         v-else
                         src="/public/images/Button-icon/add_recipe_image.png"
                         alt="Default"
-                        class="default-image"
+                        class="h-full w-full rounded-full default-image"
                     />
                 </button>
 
                 <input
-                    class="recipe-name-input"
+                    class="w-[60%] h-[50px] mt-5 px-5 pt-[35px] pb-[35px] border-none rounded-t-lg bg-[#E0E7FF] font-['Poppins-Bold'] text-xl outline-none placeholder:font-['Poppins-Bold'] placeholder:text-xl"
                     placeholder="Recipe Name"
                     v-model="recipeName"
                 />
                 <input
-                    class="recipe-type-input"
+                    class="w-[60%] h-[35px] mt-[3px] px-5 pt-[25px] pb-[25px] border-none rounded-b-lg bg-[#E0E7FF] font-['Poppins-Italic'] text-sm outline-none"
                     placeholder="Type of Cuisine"
                     v-model="typeOfCuisine"
                 />
             </div>
-            <div class="right-side-container">
-                <div class="right-button-container">
-                    <button @click="setActiveComponent('descriptionCon')" :class="{ active: activeComponent === 'descriptionCon' }">
-                        <img src="/public/images/Button-icon/description.png" alt="img"/>
+            <div class="w-[70%] h-full flex flex-col">
+                <div class="w-full h-[100px] flex items-center justify-center flex-row gap-[30px]">
+                    <button @click="setActiveComponent('descriptionCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'descriptionCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                        <img src="/public/images/Button-icon/description.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('ingredientsCon')" :class="{ active: activeComponent === 'ingredientsCon' }">
-                        <img src="/public/images/Button-icon/ingredients.png" alt="img"/>
+                    <button @click="setActiveComponent('ingredientsCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'ingredientsCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                        <img src="/public/images/Button-icon/ingredients.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('procedureCon')" :class="{ active: activeComponent === 'procedureCon' }">
-                        <img src="/public/images/Button-icon/sidebar_recipe.png" alt="img"/>
+                    <button @click="setActiveComponent('procedureCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'procedureCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                        <img src="/public/images/Button-icon/sidebar_recipe.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('videoCon')" :class="{ active: activeComponent === 'videoCon' }">
-                        <img src="/public/images/Button-icon/video.png" alt="img"/>
+                    <button @click="setActiveComponent('videoCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'videoCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                        <img src="/public/images/Button-icon/video.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('paymentCon')" :class="{ active: activeComponent === 'paymentCon' }">
-                        <img src="/public/images/Button-icon/price.png" alt="img"/>
+                    <button @click="setActiveComponent('paymentCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'paymentCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                        <img src="/public/images/Button-icon/price.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
                 </div>
-                <div class="right-main-body">
-                    <div class="description-container" v-show="activeComponent === 'descriptionCon'">
+                <div class="w-full h-full flex items-start justify-center">
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex mt-[15px]" v-show="activeComponent === 'descriptionCon'">
                         <textarea
                             placeholder="Short description here..."
                             v-model="description"
-                        >
-                        </textarea>
+                            class="w-full h-[90%] border-none resize-none p-5 bg-[#F5F5F5] text-[1.4em] leading-[1.5] font-['Poppins-Bold'] italic focus:outline-none focus:shadow-none placeholder:text-[#AFADAD] placeholder:text-[1.1em] placeholder:font-['Poppins-Bold'] placeholder:italic placeholder:leading-[1.1] placeholder:align-top"
+                        ></textarea>
                     </div>
-                    <div class="ingredients-container" v-show="activeComponent === 'ingredientsCon'">
-                        <div class="ing-button-con">
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex flex-col mt-[15px]" v-show="activeComponent === 'ingredientsCon'">
+                        <div class="w-full h-[10%] flex items-center justify-center">
                             <button
                                 @click="addIngredient"
+                                class="w-[40%] h-[80%] flex flex-row items-center justify-center bg-[#435F77] text-white gap-[10px] font-['Poppins-Bold'] text-[0.8em] rounded-[20px] border-none cursor-pointer"
                             >
-                                <img src="/public/images/Button-icon/add.png" alt="icon"/>
+                                <img src="/public/images/Button-icon/add.png" alt="icon" class="w-[15px] h-auto filter brightness-0 saturate-0 invert"/>
                                 Add new ingredient
                             </button>
                         </div>
-                        <div class="ingredients-body">
+                        <div class="w-full h-[90%] flex flex-col items-center overflow-auto gap-[15px]">
                             <div
-                                class="ingredients-group-input"
+                                class="w-[90%] h-10 flex flex-row items-center p-[10px]"
                                 v-for="(ingredient, index) in ingredients"
                                 :key="ingredient.id"
                             >
-                                <h6>Ingredient {{ index + 1 }}</h6>
+                                <h6 class="w-[17%] font-['Poppins-Italic'] text-[#435F77] text-[0.8em]">Ingredient {{ index + 1 }}</h6>
                                 <input
-                                    class="quantity-input"
+                                    class="w-[40%] h-10 shadow-[2px_3px_2px_#AFADAD] border-none rounded-l-lg pl-5 font-['Poppins-Regular'] text-[0.8em] outline-none quantity-input"
                                     placeholder="Quantity"
                                     v-model="ingredient.quantity"
                                 />
                                 <input
-                                    class="ingredients-input"
+                                    class="w-full h-10 shadow-[2px_3px_2px_#AFADAD] border-none rounded-r-lg pl-5 font-['Poppins-Regular'] text-[0.8em] outline-none ingredients-input"
                                     placeholder="Ingredient"
                                     v-model="ingredient.name"
                                 />
                                 <button
-                                    class="ingredients-delete"
+                                    class="w-[30px] h-[25px] flex items-center justify-center border-none cursor-pointer bg-transparent ml-[5px] ingredients-delete"
                                     v-if="index !== 0"
                                     @click="removeIngredient(index)"
                                 >
-                                    <img src="/public/images/Button-icon/delete.png" />
+                                    <img src="/public/images/Button-icon/delete.png" class="w-auto h-[90%]"/>
                                 </button>
-
                             </div>
                         </div>
                     </div>
-                    <div class="procedure-container" v-show="activeComponent === 'procedureCon'">
-                        <div class="pro-button-con">
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex flex-col mt-[15px]" v-show="activeComponent === 'procedureCon'">
+                        <div class="w-full h-[10%] flex items-center justify-center">
                             <button
                                 @click="addProcedure"
+                                class="w-[40%] h-[80%] flex flex-row items-center justify-center bg-[#435F77] text-white gap-[10px] font-['Poppins-Bold'] text-[0.8em] rounded-[20px] border-none cursor-pointer"
                             >
-                                <img src="/public/images/Button-icon/add.png" alt="icon"/>
+                                <img src="/public/images/Button-icon/add.png" alt="icon" class="w-[15px] h-auto filter brightness-0 saturate-0 invert"/>
                                 Add new Procedure
                             </button>
                         </div>
-                        <div class="procedure-body">
+                        <div class="w-full flex-1 flex flex-col items-center overflow-auto gap-[15px]">
                             <div
-                                class="procedure-group-input"
+                                class="w-[90%] h-10 flex flex-row items-center p-[10px]"
                                 v-for="(procedure, index) in procedures"
                                 :key="procedure.id"
                             >
                                 <input
-                                    class="procedure-input"
+                                    class="w-full h-10 shadow-[2px_3px_2px_#AFADAD] border-none rounded-lg ml-[2px] pl-[10px] font-['Poppins-Regular'] text-[0.8em] outline-none procedure-input"
                                     :placeholder="`Procedure ${index + 1}`"
                                     v-model="procedure.name"
                                 />
                                 <button
-                                    class="procedure-delete"
+                                    class="w-[30px] h-[25px] flex items-center justify-center border-none cursor-pointer bg-transparent ml-[5px] procedure-delete"
                                     v-if="index !== 0"
                                     @click="removeProcedure(index)"
                                 >
-                                    <img src="/public/images/Button-icon/delete.png"/>
+                                    <img src="/public/images/Button-icon/delete.png" class="w-auto h-[90%]"/>
                                 </button>
-
                             </div>
                         </div>
-
                     </div>
-                    <div class="video-container" v-show="activeComponent === 'videoCon'">
-                        <div class="video-body">
-                            <label>Link</label>
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex items-center justify-center font-['Poppins-Italic'] text-[0.8em] mt-[15px]" v-show="activeComponent === 'videoCon'">
+                        <div class="w-1/2 h-[50px] bg-[#B5BFDE] p-[5px_10px] flex flex-row items-center justify-center gap-5 rounded-full">
+                            <label class="w-[15%] flex items-center justify-center bg-[#435F77] text-white font-bold font-['Poppins-Bold'] rounded-[20px] py-[5px] px-[45px] text-[13px]">Link</label>
                             <input
                                 placeholder="Insert Video Link here"
                                 v-model="videoLink"
+                                class="w-full h-full border-none bg-transparent outline-none shadow-none"
                             />
                         </div>
                     </div>
-                    <div class="payment-container" v-show="activeComponent === 'paymentCon'">
-                        <div class="payment-body">
-                            <div class="payment-left">
-                                <div class="price-container">
-                                    <label>Price</label>
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex mt-[15px]" v-show="activeComponent === 'paymentCon'">
+                        <div class="w-full h-full flex flex-row items-center">
+                            <div class="w-1/2 h-[90%] flex flex-col items-center justify-center gap-5 border-r-2 border-white">
+                                <div class="w-[90%] h-10 flex p-[10px] items-center flex-row gap-[10px]">
+                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-0 px-[35px]">Price</label>
                                     <input
                                         placeholder="₱"
                                         v-model="price"
+                                        class="w-[80%] h-full border-none bg-[#B5BFDE] rounded-lg text-black font-['Poppins-Regular'] outline-none p-5"
                                     >
                                 </div>
-                                <div class="chef-qrcode-container">
+                                <div class="bg-[#B5BFDE] w-[85%] h-[45px] flex items-center p-[10px] rounded-[30px] gap-[10px]">
                                     <input
                                         type="file"
                                         ref="qrFileInput"
@@ -164,33 +164,30 @@
                                         @change="handleQRCodePick"
                                         hidden
                                     />
-                                    <button type="button" @click="triggerQRCodeInput">
-                                        Your QR Code
-                                    </button>
-                                    <p v-if="qrCodeFileName">{{ qrCodeFileName }}</p>
-                                    <p v-else>Insert picture here</p>
+                                    <button type="button" @click="triggerQRCodeInput" class="bg-[#435F77] w-[30%] h-[35px] rounded-[20px] text-white border-none cursor-pointer font-bold font-['Poppins-Bold'] text-[0.7em]">Your QR Code</button>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular']" v-if="qrCodeFileName">{{ qrCodeFileName }}</p>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular']" v-else>Insert picture here</p>
                                 </div>
-                                <div class="number-container">
-                                    <label>GCash</label>
+                                <div class="w-[90%] h-10 p-[10px] flex flex-row gap-[10px]">
+                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-0 px-[35px] -mt-[10px]">GCash</label>
                                     <input
                                         placeholder="+63"
                                         v-model="gcash_number"
+                                        class="w-[80%] h-full border-none bg-[#B5BFDE] rounded-lg text-black font-['Poppins-Regular'] outline-none p-5 text-[0.8em] -mt-[10px]"
                                     />
                                 </div>
-                                <div class="total-amount-container">
-                                    <label>Recipe Fee</label>
-                                    <p v-if="recipeFee !== '0.00'">₱{{ recipeFee }}</p>
-                                    <p v-else>5% of the recipe price</p>
+                                <div class="bg-[#B5BFDE] w-[85%] h-[45px] flex items-center p-[10px] rounded-[30px] gap-[10px]">
+                                    <label class="w-[27%] h-[35px] bg-[#435F77] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.7em]">Recipe Fee</label>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular'] text-right w-[70%] pr-[10px]" v-if="recipeFee !== '0.00'">₱{{ recipeFee }}</p>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular'] text-right w-[70%] pr-[10px]" v-else>5% of the recipe price</p>
                                 </div>
                             </div>
-                            <div class="payment-right">
-                                <label>Recipe Collection Fee</label>
-                                <p>To help maintain and improve TastyBites: Gourmet Hunt, a one-time 5% collection fee is required before publishing any paid recipe.</p>
-                                <div class="admin-qr-code-container">
-<!--                                    <img src="/public/images/example-qr-code.jpg"/>-->
-                                </div>
-                                <p>Please send your payment to the QR code provided above and upload a screenshot as proof of payment. Your recipe will be published after verification.</p>
-                                <div class="upload-button-container">
+                            <div class="w-1/2 h-[90%] flex flex-col items-center justify-start border-l-4 border-white gap-[10px]">
+                                <label class="text-[1.6em] text-[#768082] font-['Poppins-Bold'] ml-[10px] self-start">Recipe Collection Fee</label>
+                                <p class="ml-5 text-[#768082] text-[0.8em] font-['Poppins-Italic'] text-justify">To help maintain and improve TastyBites: Gourmet Hunt, a one-time 5% collection fee is required before publishing any paid recipe.</p>
+                                <div class="w-1/2 h-1/2 bg-[url('/images/example-qr-code.jpg')] bg-center bg-contain bg-no-repeat"></div>
+                                <p class="ml-5 text-[#768082] text-[0.8em] font-['Poppins-Italic'] text-justify">Please send your payment to the QR code provided above and upload a screenshot as proof of payment. Your recipe will be published after verification.</p>
+                                <div class="bg-[#B5BFDE] w-[85%] h-[45px] flex items-center p-[10px] rounded-[30px]">
                                     <input
                                         type="file"
                                         ref="receiptFileInput"
@@ -198,14 +195,11 @@
                                         @change="handleRecieptPick"
                                         hidden
                                     />
-                                    <button type="button" @click="triggerReceiptInput">
-                                        Upload
-                                    </button>
-
-                                    <p v-if="recieptFileName">{{recieptFileName}}</p>
-                                    <p v-else>Proof of payment</p>
+                                    <button type="button" @click="triggerReceiptInput" class="w-[27%] h-[35px] bg-[#435F77] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.7em]">Upload</button>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-if="recieptFileName">{{recieptFileName}}</p>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-else>Proof of payment</p>
                                 </div>
-                                <button type="button" class="save-button" @click="submitRecipe">
+                                <button type="button" class="w-[85%] h-[60px] mt-[10px] rounded-[20px] border-none bg-[#435F77] text-white cursor-pointer font-['Poppins-Bold'] text-[0.9em] shadow-[3px_3px_3px_#AFADAD] hover:scale-105 save-button" @click="submitRecipe">
                                     Save
                                 </button>
                             </div>
@@ -217,718 +211,165 @@
         <Footer />
     </div>
 </template>
+
 <script setup>
-    import { ref, computed } from "vue";
-    import axios from "axios";
-    import Footer from "@/Component/Footer.vue";
+import { ref, computed } from "vue";
+import axios from "axios";
+import Footer from "@/Component/Footer.vue";
 
-    const emit = defineEmits(['navigate']);
+const emit = defineEmits(['navigate']);
 
-    const props = defineProps({
-        active: {
-            type: String,
-            required: true
+const props = defineProps({
+    active: {
+        type: String,
+        required: true
+    }
+});
+
+/* ---------- Form data ---------- */
+const recipeName        = ref('');
+const typeOfCuisine     = ref('');
+const description       = ref('');
+const videoLink         = ref('');
+const price             = ref('');          // nullable
+const gcash_number      = ref('');
+const recipeImage       = ref('');
+const recipeImagePreview= ref(null);
+const qrImage           = ref('');
+const recieptImage      = ref('');
+
+/* ---------- File refs ---------- */
+const fileInput        = ref(null);
+const qrFileInput      = ref(null);
+const receiptFileInput = ref(null);
+
+const qrCodeFileName   = ref('');
+const recieptFileName  = ref('');
+
+/* ---------- Image handlers ---------- */
+const triggerImageInput = () => fileInput.value?.click();
+const handleImagePick = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        recipeImage.value = file;
+        recipeImagePreview.value = URL.createObjectURL(file);
+    }
+};
+
+const triggerQRCodeInput = () => qrFileInput.value?.click();
+const handleQRCodePick = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        qrImage.value = file;
+        qrCodeFileName.value = file.name;
+    }
+};
+
+const triggerReceiptInput = () => receiptFileInput.value?.click();
+const handleRecieptPick = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        recieptImage.value = file;
+        recieptFileName.value = file.name;
+    }
+};
+
+/* ---------- Tab handling ---------- */
+const activeComponent = ref('descriptionCon');
+const setActiveComponent = (name) => activeComponent.value = name;
+
+/* ---------- Ingredients & Procedures ---------- */
+const ingredients = ref([{ id: Date.now(), quantity: '', name: '' }]);
+const procedures  = ref([{ id: Date.now(), name: '' }]);
+
+const addIngredient = () => ingredients.value.push({ id: Date.now(), quantity: '', name: '' });
+const removeIngredient = (i) => ingredients.value.splice(i, 1);
+
+const addProcedure = () => procedures.value.push({ id: Date.now(), name: '' });
+const removeProcedure = (i) => procedures.value.splice(i, 1);
+
+/* ---------- Computed ---------- */
+const recipeFee = computed(() => {
+    const v = parseFloat(price.value);
+    return (!isNaN(v)) ? (v * 0.05).toFixed(2) : '0.00';
+});
+
+/* ---------- Validation ---------- */
+const validateForm = () => {
+    const errors = [];
+
+    // Required always
+    if (!recipeName.value.trim())        errors.push('• Recipe Name is required.');
+    if (!typeOfCuisine.value.trim())     errors.push('• Type of Cuisine is required.');
+    if (!description.value.trim())       errors.push('• Description is required.');
+    if (!recipeImage.value)              errors.push('• Recipe Image is required.');
+
+    // At least one ingredient **name** (quantity is optional)
+    const hasIngredientName = ingredients.value.some(i => i.name.trim());
+    if (!hasIngredientName)               errors.push('• At least one Ingredient name is required.');
+
+    // At least one procedure step
+    const hasProcedure = procedures.value.some(p => p.name.trim());
+    if (!hasProcedure)                   errors.push('• At least one Procedure step is required.');
+
+    // Conditional – only when price is filled
+    const priceVal = parseFloat(price.value);
+    if (!isNaN(priceVal) && priceVal > 0) {
+        if (!gcash_number.value.trim())  errors.push('• GCash Number is required for paid recipes.');
+        if (!qrImage.value)              errors.push('• Your QR Code is required for paid recipes.');
+        if (!recieptImage.value)         errors.push('• Proof of Payment (receipt) is required for paid recipes.');
+    }
+
+    if (errors.length) {
+        alert('Please fix the following errors:\n\n' + errors.join('\n'));
+        return false;
+    }
+    return true;
+};
+
+/* ---------- Submit ---------- */
+const submitRecipe = async () => {
+    if (!validateForm()) return;
+
+    try {
+        const formData = new FormData();
+
+        formData.append('recipeName',      recipeName.value);
+        formData.append('cuisineType',     typeOfCuisine.value);
+        formData.append('description',     description.value);
+        formData.append('video_path',      videoLink.value);
+        formData.append('price',           price.value);
+        formData.append('gcash_number',    gcash_number.value);
+        formData.append('is_free',         price.value === '' || price.value === '0' ? 1 : 0);
+        formData.append('status',          1);
+
+        if (recipeImage.value)   formData.append('image_path',   recipeImage.value);
+        if (qrImage.value)       formData.append('gCash_path',   qrImage.value);
+        if (recieptImage.value)  formData.append('receipt_path', recieptImage.value);
+
+        ingredients.value.forEach((ing, i) => {
+            formData.append(`ingredients[${i}][ingredientName]`, ing.name);
+            formData.append(`ingredients[${i}][quantity]`,       ing.quantity); // quantity may be empty
+        });
+
+        procedures.value.forEach((proc, i) => {
+            formData.append(`procedures[${i}][instruction]`, proc.name);
+        });
+
+        await axios.post('/add-recipes', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        alert('Recipe added successfully!');
+        // optional: reset form / navigate
+    } catch (err) {
+        console.error(err);
+        if (err.response?.data?.errors) {
+            const msgs = Object.values(err.response.data.errors).flat();
+            alert('Server validation failed:\n' + msgs.join('\n'));
+        } else {
+            alert('Failed to submit recipe. Please try again.');
         }
-    })
-
-    // Form data
-    const recipeName = ref('');
-    const typeOfCuisine = ref('');
-    const description = ref('');
-    const videoLink = ref('');
-    const price = ref('');
-    const gcash_number = ref('');
-    const recipeImage = ref('');
-    const recipeImagePreview = ref(null);
-    const qrImage = ref('');
-    const recieptImage = ref('');
-
-    // File input refs
-    const fileInput = ref(null);
-    const qrFileInput = ref(null);
-    const receiptFileInput = ref(null);
-
-    const qrCodeFileName = ref('');
-    const recieptFileName = ref('');
-
-    // Recipe image selection
-    const triggerImageInput = () => {
-        fileInput.value?.click();
-    };
-    const handleImagePick = (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            recipeImage.value = file;
-            recipeImagePreview.value = URL.createObjectURL(file);
-        }
-    };
-
-    // QR code image selection
-    const triggerQRCodeInput = () => {
-        qrFileInput.value?.click();
-    };
-    const handleQRCodePick = (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            qrImage.value = file;
-            qrCodeFileName.value = file.name;
-        }
-    };
-
-
-
-    // Receipt image selection
-    const triggerReceiptInput = () => {
-        receiptFileInput.value?.click();
-    };
-    const handleRecieptPick = (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            recieptImage.value = file;
-            recieptFileName.value = file.name;
-        }
-    };
-
-    const activeComponent = ref('descriptionCon');
-    const setActiveComponent = (componentName) => {
-        activeComponent.value = componentName;
-    };
-
-    const ingredients = ref([
-        { id: Date.now(), quantity: '', name: '' }
-    ]);
-    const procedures = ref([
-        { id: Date.now(), name: '' }
-    ]);
-
-    const addIngredient = () => {
-        ingredients.value.push({ id: Date.now(), quantity: '', name: '' });
-    };
-    const removeIngredient = (index) => {
-        ingredients.value.splice(index, 1);
-    };
-
-    const addProcedure = () => {
-        procedures.value.push({ id: Date.now(), name: '' });
-    };
-    const removeProcedure = (index) => {
-        procedures.value.splice(index, 1);
-    };
-
-    const recipeFee = computed(() => {
-        const value = parseFloat(price.value);
-        if (!isNaN(value)) {
-            return (value * 0.05).toFixed(2);
-        }
-        return '0.00';
-    })
-
-    const submitRecipe = async () => {
-        try {
-            const formData = new FormData();
-
-            formData.append('recipeName', recipeName.value);
-            formData.append('cuisineType', typeOfCuisine.value);
-            formData.append('description', description.value);
-            formData.append('video_path', videoLink.value);
-            formData.append('price', price.value);
-            formData.append('gcash_number', gcash_number.value);
-            formData.append('is_free', price.value === '' || price.value === '0' ? 1 : 0);
-            formData.append('status', 1);
-
-            if (recipeImage.value) {
-                formData.append('image_path', recipeImage.value);
-            }
-
-            if (qrImage.value) {
-                formData.append('gCash_path', qrImage.value);
-            }
-
-            if (recieptImage.value) {
-                formData.append('receipt_path', recieptImage.value);
-            }
-
-            ingredients.value.forEach((ingredient, index) => {
-                formData.append(`ingredients[${index}][ingredientName]`, ingredient.name);
-                formData.append(`ingredients[${index}][quantity]`, ingredient.quantity);
-            });
-
-            procedures.value.forEach((procedure, index) => {
-                formData.append(`procedures[${index}][instruction]`, procedure.name);
-            });
-
-            const response = await axios.post('/add-recipes', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-
-
-            alert('Recipe added successfully!');
-        } catch (error) {
-            console.error(error);
-            if (error.response && error.response.data && error.response.data.errors) {
-                console.error('Validation errors:', error.response.data.errors);
-            }
-            alert('Failed to submit recipe.');
-        }
-    };
-
-
-
+    }
+};
 </script>
-
-<style scoped>
-    .add-recipe-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .top-container {
-        width: 100%;
-        height: 10%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 15px;
-    }
-    .top-container button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 45px;
-        height: 50%;
-        background-color: transparent;
-        cursor: pointer;
-        border: none;
-        margin-left: 20px;
-    }
-    .top-container button img {
-        width: 80%;
-        height: auto;
-    }
-    .top-container h2 {
-        font-size: 2em;
-        color: #768082;
-        font-family: 'Poppins-Bold';
-        font-style: italic;
-    }
-    .main-body {
-        width: 100%;
-        height: 83%;
-        display: flex;
-        flex-direction: row;
-    }
-    .left-side-container {
-        width: 35%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .left-side-container button{
-        width: 60%;
-        height: 350px;
-        border-radius: 50%;
-        margin-top: 15%;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: transparent;
-        box-shadow: 0 5px 3px #AFADAD;
-    }
-    .left-side-container button img {
-        height: 100%;
-        width: 100%;
-        border-radius: 50%;
-    }
-    .recipe-name-input {
-        width: 60%;
-        height: 50px;
-        margin-top: 20px;
-        padding: 35px 20px;
-        border: none;
-        border-radius: 10px 10px 0 0;
-        background-color: #E0E7FF;
-        font-family: 'Poppins-Bold';
-        font-size: 1.25em;
-        outline: none;
-    }
-    .recipe-name-input::placeholder{
-        font-family: 'Poppins-Bold';
-        font-size: 1.25em;
-    }
-    .recipe-type-input {
-        width: 60%;
-        height: 35px;
-        margin-top: 3px;
-        padding: 25px 20px;
-        border: none;
-        border-radius: 0 0 10px 10px;
-        background-color: #E0E7FF;
-        font-family: 'Poppins-Italic';
-        font-size: .9em;
-        outline: none;
-    }
-    .right-side-container {
-        width: 70%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .right-button-container {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        gap: 30px;
-    }
-    .right-button-container button{
-        width: 80px;
-        height: 70px;
-        border-radius: 10px;
-        cursor: pointer;
-        border: none;
-        background-color: #E0E7FF;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-    }
-    .right-button-container button img{
-        width: 40%;
-        height: auto;
-    }
-    .right-button-container button.active {
-        background-color: #B5BFDE;
-        color: white;
-        box-shadow: 0 4px 5px #AFADAD;
-        border: #435F77 dashed 1px;
-    }
-    .right-main-body {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: start;
-        justify-content: center;
-    }
-    .description-container, .ingredients-container,  .procedure-container,.video-container, .payment-container{
-        width: 80%;
-        height: 500px;
-        border-radius: 20px;
-        background-color: #F5F5F5;
-        box-shadow: 3px 5px 3px #AFADAD;
-        border: none;
-        padding: 20px;
-        display: flex;
-        margin-top: 15px;
-    }
-    .description-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .description-container textarea {
-        width: 100%;
-        height: 90%;
-        border: none;
-        resize: none;
-        padding: 20px;
-        background-color: #F5F5F5;
-        font-size: 1.4em;
-        line-height: 1.5;
-        font-family: 'Poppins-Bold';
-        font-style: italic;
-    }
-    .description-container textarea:focus {
-        outline: none;
-        box-shadow: none;
-    }
-    .description-container textarea::placeholder{
-        color: #AFADAD;
-        font-size: 1.1em;
-        font-family: inherit;
-        font-family: 'Poppins-Bold';
-        font-style: italic;
-        line-height: 1.1;
-        vertical-align: top;
-    }
-    .ingredients-container, .procedure-container {
-        display: flex;
-        flex-direction: column;
-    }
-    .ing-button-con,.pro-button-con {
-        width: 100%;
-        height: 10%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .ing-button-con button,.pro-button-con button {
-        width: 40%;
-        height: 80%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        background-color: #435F77;
-        color: white;
-        gap: 10px;
-        font-family: 'Poppins-Bold';
-        font-size: .8em;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-    }
-    .ing-button-con button img, .pro-button-con button img {
-        width: 15px;
-        height: auto;
-        filter: brightness(0) saturate(0%) invert(1);
-    }
-    .ingredients-body {
-        width: 100%;
-        height: 90%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow: auto;
-        gap: 15px;
-    }
-    .procedure-body {
-        width: 100%;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow: auto;
-        gap: 15px;
-    }
-    .ingredients-group-input, .procedure-group-input {
-        width: 90%;
-        height: 40px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 10px;
-    }
-    .procedure-delete,.ingredients-delete {
-        width: 30px;
-        height: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        cursor: pointer;
-        background-color: transparent;
-        margin-left: 5px;
-    }
-    .procedure-delete img,.ingredients-delete img{
-        width: auto;
-        height: 90%;
-    }
-    .ingredients-group-input h6{
-        width: 17%;
-        font-family: 'Poppins-Italic';
-        color: #435F77;
-        font-size: 0.8em;
-    }
-    .quantity-input {
-        width: 40%;
-        height: 40px;
-        box-shadow: 2px 3px 2px #AFADAD;
-        border: none;
-        border-radius: 10px 0 0 10px;
-        padding-left: 20px;
-        font-family: 'Poppins-Regular';
-        font-size: .8em;
-        outline: none;
-    }
-    .ingredients-input {
-        width: 100%;
-        height: 40px;
-        box-shadow: 2px 3px 2px #AFADAD;
-        border: none;
-        border-radius: 0 10px 10px 0;
-        padding-left: 20px;
-        font-family: 'Poppins-Regular';
-        font-size: .8em;
-        outline: none;
-    }
-    .procedure-input {
-        width: 100%;
-        height: 40px;
-        box-shadow: 2px 3px 2px #AFADAD;
-        border: none;
-        border-radius: 10px;
-        margin-left: 2px;
-        padding-left: 10px;
-        font-family: 'Poppins-Regular';
-        font-size: .8em;
-        outline: none;
-    }
-    .video-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Poppins-Italic';
-        font-size: .8em;
-    }
-    .video-body {
-        width: 50%;
-        height: 50px;
-        background-color: #B5BFDE;
-        padding: 5px 10px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        border-radius: 4em;
-    }
-    .video-body label {
-        width: 15%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #435F77;
-        color: white;
-        font-weight: bold;
-        font-family: 'Poppins-Bold';
-        border-radius: 20px;
-        padding: 5px 45px;
-        font-size: 13px;
-    }
-    .video-body input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        background-color: transparent;
-        outline: none;
-        box-shadow: none;
-    }
-    .payment-body {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    .payment-left {
-        width: 50%;
-        height: 90%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        border-right: 2px solid white;
-    }
-    .price-container {
-        width: 90%;
-        height: 40px;
-        display: flex;
-        padding: 10px;
-        align-items: center;
-        flex-direction: row;
-        gap: 10px;
-    }
-    .price-container label {
-        background-color: #435F77;
-        width: 20%;
-        height: 80%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        color: white;
-        font-family: 'Poppins-Bold';
-        font-size: .8em;
-        padding: 20px 35px;
-    }
-    .price-container input {
-        width: 80%;
-        height: 100%;
-        border: none;
-        background-color: #B5BFDE;
-        border-radius: 10px;
-        color: black;
-        font-family: 'Poppins-Regular';
-        outline: none;
-        padding: 20px;
-    }
-    .chef-qrcode-container {
-        background-color: #B5BFDE;
-        width: 85%;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 30px;
-        gap: 10px;
-    }
-    .chef-qrcode-container button {
-        background-color: #435F77;
-        width: 30%;
-        height: 35px;
-        border-radius: 20px;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        font-family: 'Poppins-Bold';
-        font-size: .7em;
-    }
-    .chef-qrcode-container p {
-        color: #768082;
-        font-size: .8em;
-        font-family: 'Poppins-Regular';
-    }
-    .number-container {
-        width: 90%;
-        height: 40px;
-        padding: 10px;
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-    }
-    .number-container label {
-        background-color: #435F77;
-        width: 20%;
-        height: 80%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        color: white;
-        font-family: 'Poppins-Bold';
-        font-size: .8em;
-        padding: 20px 35px;
-        margin-top: -10px;
-    }
-    .number-container input {
-        width: 80%;
-        height: 100%;
-        border: none;
-        background-color: #B5BFDE;
-        border-radius: 10px;
-        color: black;
-        font-family: 'Poppins-Regular';
-        outline: none;
-        padding: 20px;
-        font-size: .8em;
-        margin-top: -10px;
-    }
-    .total-amount-container {
-        background-color: #B5BFDE;
-        width: 85%;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 30px;
-        gap: 10px;
-    }
-    .total-amount-container label {
-        width: 27%;
-        height: 35px;
-        background-color: #435F77;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        color: white;
-        font-family: 'Poppins-Bold';
-        font-size: .7em;
-    }
-    .total-amount-container p {
-        color: #768082;
-        font-size: .8em;
-        font-family: 'Poppins-Regular';
-        text-align: right;
-        width: 70%;
-        padding-right: 10px;
-    }
-    .payment-right {
-        width: 50%;
-        height: 90%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: start;
-        border-left: 4px solid white;
-        gap: 10px;
-    }
-    .payment-right label {
-        font-size: 1.6em;
-        color: #768082;
-        font-family: 'Poppins-Bold';
-        margin-left: 10px;
-        align-self: start;
-    }
-    .payment-right p{
-        margin-left: 20px;
-        color: #768082;
-        font-size: .8em;
-        font-family: 'Poppins-Italic';
-        text-align: justify;
-    }
-    .admin-qr-code-container {
-        width: 50%;
-        height: 50%;
-        background-image: url("/images/example-qr-code.jpg");
-        background-position: center;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
-    .upload-button-container {
-        background-color: #B5BFDE;
-        width: 85%;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 30px;
-    }
-    .upload-button-container button {
-        width: 27%;
-        height: 35px;
-        background-color: #435F77;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        color: white;
-        font-family: 'Poppins-Bold';
-        font-size: .7em;
-    }
-    .upload-button-container p{
-        color: #768082;
-        font-size: .8em;
-        font-family: 'Poppins-Italic';
-        width: 75%;
-    }
-    .save-button {
-        width: 85%;
-        height: 60px;
-        margin-top: 10px;
-        border-radius: 20px;
-        border: none;
-        background-color: #435F77;
-        color: white;
-        cursor: pointer;
-        font-family: 'Poppins-Bold';
-        font-size: .9em;
-        box-shadow: 3px 3px 3px #AFADAD;
-    }
-    .save-button:hover {
-        transform: scale(1.05);
-    }
-
-</style>

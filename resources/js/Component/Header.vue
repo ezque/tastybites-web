@@ -350,6 +350,9 @@
                 case 'chefApproved':
                     emit('navigate', 'AddRecipe');
                     break;
+                case 'userApplicant':
+                    emit('navigate', 'Users');
+                    break
                 default:
                     console.log("Unhandled notification type:", notif.type);
                     break;

@@ -23,17 +23,17 @@ class RecipeController extends Controller
             'recipeName' => 'required|string|max:255',
             'cuisineType' => 'required|string|max:255',
             'description' => 'required|string',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:100000',
             'video_path' => 'nullable|string|max:255',
             'gcash_number' => 'nullable|string|max:255',
             'price' => 'nullable|numeric',
 
-            'gCash_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
-            'receipt_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'gCash_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:100000',
+            'receipt_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:100000',
 
             'ingredients' => 'required|array|min:1',
             'ingredients.*.ingredientName' => 'required|string|max:255',
-            'ingredients.*.quantity' => 'required|string|max:100',
+            'ingredients.*.quantity' => 'nullable|string|max:100',
 
             'procedures' => 'required|array|min:1',
             'procedures.*.instruction' => 'required|string',
