@@ -115,46 +115,46 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { ref } from "vue";
+    import axios from "axios";
+    import { ref } from "vue";
 
-const props = defineProps({
-    allReports: Array,
-});
+    const props = defineProps({
+        allReports: Array,
+    });
 
-const emit = defineEmits(["navigate"]);
+    const emit = defineEmits(["navigate"]);
 
-const allReports = ref(props.allReports || []);
+    const allReports = ref(props.allReports || []);
 
-// Display the entity that was reported (user or recipe)
-const reported = (report) => {
-    if (report.reportedUserID && report.reportedUser) {
-        return report.reportedUser?.user_info?.fullName || "Unknown User";
-    } else if (report.reportedRecipeID && report.reportedRecipe) {
-        return report.reportedRecipe?.recipeName || "Unknown Recipe";
-    } else {
-        return "Unknown";
-    }
-};
-
-const updateStatus = async (report, status) => {
-    try {
-        const response = await axios.post(`/respond/${report.id}`, { status });
-
-        // Update the local status immediately
-        report.status = status.charAt(0).toUpperCase() + status.slice(1);
-
-        if (status === "reviewed") {
-            if (report.reportedUserID && report.reportedUser) {
-                emit("navigate", "AdminChefs");
-            } else if (report.reportedRecipeID && report.reportedRecipe) {
-                emit("navigate", "RecipeDetails", report.reportedRecipe);
-            } else {
-                console.warn(`⚠️ Unknown report type for ID ${report.id}`, report);
-            }
+    // Display the entity that was reported (user or recipe)
+    const reported = (report) => {
+        if (report.reportedUserID && report.reportedUser) {
+            return report.reportedUser?.user_info?.fullName || "Unknown User";
+        } else if (report.reportedRecipeID && report.reportedRecipe) {
+            return report.reportedRecipe?.recipeName || "Unknown Recipe";
+        } else {
+            return "Unknown";
         }
-    } catch (error) {
-        console.error("❌ Error updating report:", error);
-    }
-};
+    };
+
+    const updateStatus = async (report, status) => {
+        try {
+            const response = await axios.post(`/respond/${report.id}`, { status });
+
+            // Update the local status immediately
+            report.status = status.charAt(0).toUpperCase() + status.slice(1);
+
+            if (status === "reviewed") {
+                if (report.reportedUserID && report.reportedUser) {
+                    emit("navigate", "AdminChefs");
+                } else if (report.reportedRecipeID && report.reportedRecipe) {
+                    emit("navigate", "RecipeDetails", report.reportedRecipe);
+                } else {
+                    console.warn(`⚠️ Unknown report type for ID ${report.id}`, report);
+                }
+            }
+        } catch (error) {
+            console.error("❌ Error updating report:", error);
+        }
+    };
 </script>
