@@ -353,6 +353,9 @@
                 case 'userApplicant':
                     emit('navigate', 'Users');
                     break
+                case 'report':
+                    emit('navigate', 'Reported');
+                    break;
                 default:
                     console.log("Unhandled notification type:", notif.type);
                     break;

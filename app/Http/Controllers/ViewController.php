@@ -6,13 +6,14 @@ use App\Services\ChefService;
 use App\Services\NotificationServices;
 use App\Services\RecipeService;
 use App\Services\UserService;
+use App\Services\ReportServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ViewController extends Controller
 {
-    public function adminDashboard(UserService $userService, RecipeService $recipeService, NotificationServices $notificationServices): \Inertia\Response
+    public function adminDashboard(UserService $userService, RecipeService $recipeService, NotificationServices $notificationServices, ReportServices $reportServices): \Inertia\Response
     {
         $user = Auth::user()->load('userInfo');
         $chefs = $userService->getChefInfo();
@@ -24,6 +25,7 @@ class ViewController extends Controller
         $adminTotalIncome = $recipeService->getAdminTotalIncome();
         $totalCountsUsers = $userService->totalCountsUsers();
         $getTotalRecipeCounts = $recipeService->getTotalRecipeCounts();
+        $getAllReports = $reportServices->getAllReports();
 
         return Inertia::render('Admin/Dashboard',
             [
@@ -37,6 +39,7 @@ class ViewController extends Controller
                 'adminTotalIncome' => $adminTotalIncome,
                 'totalCountsUsers' => $totalCountsUsers,
                 'getTotalRecipeCounts' => $getTotalRecipeCounts,
+                'allReports' => $getAllReports,
             ]
         );
     }

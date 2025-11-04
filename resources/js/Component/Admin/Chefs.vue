@@ -61,10 +61,11 @@
 
         <!-- Registered Chefs -->
         <div v-show="activeTab === 'register'" class="w-full h-[70%] mt-8 flex flex-wrap justify-center gap-[30px] overflow-auto">
-            <div
-            v-for="chef in activeChefs"
-            :key="chef.id"
-            class="relative w-[220px] h-[250px] flex flex-col items-center justify-center rounded-[20px] bg-[#E0E7FF] shadow-[5px_4px_2px_#AFADAD] cursor-pointer"
+            <button
+                v-for="chef in activeChefs"
+                :key="chef.id"
+                class="relative w-[220px] h-[250px] flex flex-col items-center justify-center rounded-[20px] bg-[#E0E7FF] shadow-[5px_4px_2px_#AFADAD] cursor-pointer"
+                @click="viewChefInfo(chef)"
             >
             <span class="w-[73%] h-[60%] rounded-full mb-3">
                 <img :src="getProfilePic(chef)" alt="img" class="w-full h-full rounded-full" />
@@ -98,7 +99,7 @@
             <span class="font-[Poppins-Italic] text-[0.9em]">
                 Since {{ new Date(chef.created_at).getFullYear() }}
             </span>
-            </div>
+            </button>
         </div>
 
         <!-- Pending Requests -->
@@ -298,9 +299,7 @@
     }
 
     const emit = defineEmits(["navigate"]);
-    function viewChefInfo(chef) {
-        emit("navigate", "ChefInfo", chef);
-    }
+
     async function updateUserStatus(userId) {
         try {
             const response = await axios.post('/update-user-status', { user_id: userId });
@@ -316,24 +315,9 @@
             console.error(error.response?.data || error.message);
         }
     }
-
-
-    /* para mu fit ang words into 1 line
-    function applyFitty() {
-      fitty(".registered-chef-main-body button h2", {
-        minSize: 12,
-        maxSize: 20
-      });
+    function viewChefInfo(chef) {
+        emit("navigate", "ChefDetails", chef);
     }
-
-    onMounted(() => {
-      applyFitty();
-    });
-
-    onUpdated(() => {
-      applyFitty();
-    });
-    */
 </script>
 
 

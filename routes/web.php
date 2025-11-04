@@ -53,5 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/report/{id}', [AdminController::class, 'getReport']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteNotification']);
+
+    Route::post('/respond/{id}', [AdminController::class, 'respondReport']);
 });
 

@@ -63,12 +63,12 @@
                             :recipeCardDetail="recipeCardDetail"
                             :index="index"
                             @navigate="(component, recipeData) => {
-                if (component === 'RecipeDetails') {
-                  emit('recipeNavigate', recipeData)
-                } else {
-                  emit('navigate', component, recipeData)
-                }
-              }"
+                                if (component === 'RecipeDetails') {
+                                  emit('recipeNavigate', recipeData)
+                                } else {
+                                  emit('navigate', component, recipeData)
+                                }
+                            }"
                         />
                     </div>
                 </div>

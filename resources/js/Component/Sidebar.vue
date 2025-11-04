@@ -112,6 +112,20 @@
                 <img src="/public/images/Button-icon/chef_reports.png" alt="img" class="w-[50px] h-auto"/>
                 <h1 class="text-[12px] font-[Poppins-Bold] m-0">Reports</h1>
             </button>
+            <button
+                class="w-[90%] flex flex-col items-center justify-center py-[10px]
+                       rounded-[50px_0_0_50px] bg-transparent cursor-pointer
+                       gap-[5px] transition-all duration-500 ease-in-out
+                       hover:bg-[#E0E7FF]
+                       [&.active]:bg-[#E0E7FF] [&.active]:border-r [&.active]:border-[#AFADAD]
+                       [&.active]:shadow-[0px_4px_1px_rgba(77,102,51,0.2)]"
+                v-if="isAdmin"
+                :class="{ active: active === 'Reported' }"
+                @click="emit('navigate','Reported')"
+            >
+                <img src="/public/images/Button-icon/report sidebar.png" alt="img" class="w-[50px] h-auto"/>
+                <h1 class="text-[12px] font-[Poppins-Bold] m-0">Reports</h1>
+            </button>
         </div>
         <div class="w-[100px] flex items-center justify-center mb-[30px] fixed bottom-[-30px] left-[23px]">
             <button class="p-[10px] flex items-center bg-transparent border-none cursor-pointer" @click="handleLogout">

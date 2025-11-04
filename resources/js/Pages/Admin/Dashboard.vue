@@ -34,7 +34,7 @@
                 class="flex-1 overflow-y-auto"
             />
             <ChefDetails
-                v-if="activeComponent === 'ChefInfo'"
+                v-if="activeComponent === 'ChefDetails'"
                 :chef="selectedChef"
                 :recipeCardDetails="recipeCardDetails"
                 @navigate="handleNavigation"
@@ -73,6 +73,12 @@
                 @navigate="setActiveComponent"
                 class="flex-1 overflow-y-auto"
             />
+            <Reported
+                v-if="activeComponent === 'Reported'"
+                :allReports="allReports"
+                @navigate="setActiveComponent"
+                class="flex-1 overflow-y-auto"
+            />
         </div>
     </div>
 </template>
@@ -90,6 +96,7 @@
     import RecipeDetails from "@/Component/RecipeDetails.vue";
     import AdminSettings from "@/Component/Admin/AdminSettings.vue";
     import Notification from "@/Component/Notification.vue";
+    import Reported from "@/Component/Admin/Reported.vue";
 
     const props = defineProps({
         user: Object,
@@ -102,6 +109,7 @@
         adminTotalIncome: Object,
         totalCountsUsers: Object,
         getTotalRecipeCounts: Object,
+        allReports: Array,
     })
 
     const isAdmin = computed(() => props.user.role === 'admin');
@@ -114,9 +122,9 @@
         if (componentName === "TheNotification" && data) {
             selectedNotification.value = data;
             activeComponent.value = "TheNotification";
-        } else if (componentName === "ChefInfo") {
+        } else if (componentName === "ChefDetails") {
             selectedChef.value = data;
-            activeComponent.value = "ChefInfo";
+            activeComponent.value = "ChefDetails";
         } else if (componentName === "RecipeDetails" && data) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
             selectedRecipe.value = fullDetails || data;
@@ -129,9 +137,9 @@
         }
     };
     const handleNavigation = (componentName, data = null) => {
-        if (componentName === "ChefInfo") {
+        if (componentName === "ChefDetails") {
             selectedChef.value = data;
-            activeComponent.value = "ChefInfo";
+            activeComponent.value = "ChefDetails";
         }
         else if (componentName === "RecipeDetails" && data) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === data.id);
@@ -140,6 +148,7 @@
         }
         else {
             activeComponent.value = componentName;
+            data = null;
         }
     };
 

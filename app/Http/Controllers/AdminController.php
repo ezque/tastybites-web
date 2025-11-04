@@ -156,7 +156,22 @@ class AdminController extends Controller
         return response()->json($report);
     }
 
+    public function respondReport(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:reviewed,dismissed,pending',
+        ]);
 
+        $report = Report::findOrFail($id);
+        $report->status = ucfirst($request->status);
+        $report->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Report status updated successfully.',
+            'report' => $report,
+        ]);
+    }
 
 
 }
