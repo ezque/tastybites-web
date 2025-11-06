@@ -59,6 +59,38 @@ class Recipe extends Model
     {
         return $this->hasMany(Report::class, 'reportedRecipeID');
     }
+    public function allPurchases() {
+        return $this->hasMany(Purchase::class, 'recipeID');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($recipe) {
+            // Delete related data
+            $recipe->ingredient()->delete();
+            $recipe->procedure()->delete();
+            $recipe->reactions()->delete();
+            $recipe->reports()->delete();
+            $recipe->allPurchases()->delete(); // if you want to delete purchases
+
+            // Delete files from storage
+            if ($recipe->image_path && file_exists(public_path('storage/' . $recipe->image_path))) {
+                unlink(public_path('storage/' . $recipe->image_path));
+            }
+            if ($recipe->video_path && file_exists(public_path('storage/' . $recipe->video_path))) {
+                unlink(public_path('storage/' . $recipe->video_path));
+            }
+            if ($recipe->gCash_path && file_exists(public_path('storage/' . $recipe->gCash_path))) {
+                unlink(public_path('storage/' . $recipe->gCash_path));
+            }
+            if ($recipe->receipt_path && file_exists(public_path('storage/' . $recipe->receipt_path))) {
+                unlink(public_path('storage/' . $recipe->receipt_path));
+            }
+        });
+    }
+
 
 
 }

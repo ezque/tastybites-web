@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full flex flex-col overflow-hidden">
         <div class="w-full h-[10%] flex flex-row items-center gap-[15px]">
-            <button type="button" @click="emit('navigate', 'Recipes')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': active === 'Recipes' }" class="flex items-center justify-center w-[45px] h-[50%] bg-transparent cursor-pointer border-none ml-5">
+            <button type="button" @click="$emit('back')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': active === 'Recipes' }" class="flex items-center justify-center w-[45px] h-[50%] bg-transparent cursor-pointer border-none ml-5">
                 <img src="/public/images/Button-icon/back.png" alt="back" class="w-[80%] h-auto"/>
             </button>
             <h2 class="text-4xl text-[#768082] font-['Poppins-Bold'] italic">Create Recipe</h2>
@@ -199,9 +199,14 @@
                                     <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-if="recieptFileName">{{recieptFileName}}</p>
                                     <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-else>Proof of payment</p>
                                 </div>
-                                <button type="button" class="w-[85%] h-[60px] mt-[10px] rounded-[20px] border-none bg-[#435F77] text-white cursor-pointer font-['Poppins-Bold'] text-[0.9em] shadow-[3px_3px_3px_#AFADAD] hover:scale-105 save-button" @click="submitRecipe">
-                                    Save
+                                <button
+                                    type="button"
+                                    class="w-[85%] h-[60px] mt-[10px] rounded-[20px] border-none bg-[#435F77] text-white cursor-pointer font-['Poppins-Bold'] text-[0.9em] shadow-[3px_3px_3px_#AFADAD] hover:scale-105 save-button"
+                                    @click="handleSave"
+                                >
+                                    {{ props.isEditMode ? 'Update' : 'Save' }}
                                 </button>
+
                             </div>
                         </div>
                     </div>
@@ -213,163 +218,295 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import axios from "axios";
-import Footer from "@/Component/Footer.vue";
+    import { ref, computed, onMounted, watch } from "vue";
+    import axios from "axios";
+    import Footer from "@/Component/Footer.vue";
 
-const emit = defineEmits(['navigate']);
 
-const props = defineProps({
-    active: {
-        type: String,
-        required: true
-    }
-});
+    const props = defineProps({
+        active: {
+            type: String,
+            required: true
+        },
+        recipeData: {
+            type: Object,
+            default: null
+        },
+        isEditMode: {
+            type: Boolean,
+            default: false
+        }
+    });
+    const emit = defineEmits(['navigate', 'back']);
 
-/* ---------- Form data ---------- */
-const recipeName        = ref('');
-const typeOfCuisine     = ref('');
-const description       = ref('');
-const videoLink         = ref('');
-const price             = ref('');          // nullable
-const gcash_number      = ref('');
-const recipeImage       = ref('');
-const recipeImagePreview= ref(null);
-const qrImage           = ref('');
-const recieptImage      = ref('');
+    /* ---------- Form data ---------- */
+    const recipeName        = ref('');
+    const typeOfCuisine     = ref('');
+    const description       = ref('');
+    const videoLink         = ref('');
+    const price             = ref('');
+    const gcash_number      = ref('');
+    const recipeImage       = ref('');
+    const recipeImagePreview= ref(null);
+    const qrImage           = ref('');
+    const recieptImage      = ref('');
 
-/* ---------- File refs ---------- */
-const fileInput        = ref(null);
-const qrFileInput      = ref(null);
-const receiptFileInput = ref(null);
+    /* ---------- File refs ---------- */
+    const fileInput        = ref(null);
+    const qrFileInput      = ref(null);
+    const receiptFileInput = ref(null);
 
-const qrCodeFileName   = ref('');
-const recieptFileName  = ref('');
+    const qrCodeFileName   = ref('');
+    const recieptFileName  = ref('');
 
-/* ---------- Image handlers ---------- */
-const triggerImageInput = () => fileInput.value?.click();
-const handleImagePick = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-        recipeImage.value = file;
-        recipeImagePreview.value = URL.createObjectURL(file);
-    }
-};
+    /* ---------- Image handlers ---------- */
+    const triggerImageInput = () => fileInput.value?.click();
+    const handleImagePick = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            recipeImage.value = file;
+            recipeImagePreview.value = URL.createObjectURL(file);
+        }
+    };
 
-const triggerQRCodeInput = () => qrFileInput.value?.click();
-const handleQRCodePick = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-        qrImage.value = file;
-        qrCodeFileName.value = file.name;
-    }
-};
+    const triggerQRCodeInput = () => qrFileInput.value?.click();
+    const handleQRCodePick = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            qrImage.value = file;
+            qrCodeFileName.value = file.name;
+        }
+    };
 
-const triggerReceiptInput = () => receiptFileInput.value?.click();
-const handleRecieptPick = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-        recieptImage.value = file;
-        recieptFileName.value = file.name;
-    }
-};
+    const triggerReceiptInput = () => receiptFileInput.value?.click();
+    const handleRecieptPick = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            recieptImage.value = file;
+            recieptFileName.value = file.name;
+        }
+    };
 
-/* ---------- Tab handling ---------- */
-const activeComponent = ref('descriptionCon');
-const setActiveComponent = (name) => activeComponent.value = name;
+    /* ---------- Tab handling ---------- */
+    const activeComponent = ref('descriptionCon');
+    const setActiveComponent = (name) => activeComponent.value = name;
 
-/* ---------- Ingredients & Procedures ---------- */
-const ingredients = ref([{ id: Date.now(), quantity: '', name: '' }]);
-const procedures  = ref([{ id: Date.now(), name: '' }]);
+    /* ---------- Ingredients & Procedures ---------- */
+    const ingredients = ref([{ id: Date.now(), quantity: '', name: '' }]);
+    const procedures  = ref([{ id: Date.now(), name: '' }]);
 
-const addIngredient = () => ingredients.value.push({ id: Date.now(), quantity: '', name: '' });
-const removeIngredient = (i) => ingredients.value.splice(i, 1);
+    const addIngredient = () => ingredients.value.push({ id: Date.now(), quantity: '', name: '' });
+    const removeIngredient = (i) => ingredients.value.splice(i, 1);
 
-const addProcedure = () => procedures.value.push({ id: Date.now(), name: '' });
-const removeProcedure = (i) => procedures.value.splice(i, 1);
+    const addProcedure = () => procedures.value.push({ id: Date.now(), name: '' });
+    const removeProcedure = (i) => procedures.value.splice(i, 1);
 
-/* ---------- Computed ---------- */
-const recipeFee = computed(() => {
-    const v = parseFloat(price.value);
-    return (!isNaN(v)) ? (v * 0.05).toFixed(2) : '0.00';
-});
+    /* ---------- Computed ---------- */
+    const recipeFee = computed(() => {
+        const v = parseFloat(price.value);
+        return (!isNaN(v)) ? (v * 0.05).toFixed(2) : '0.00';
+    });
 
-/* ---------- Validation ---------- */
-const validateForm = () => {
-    const errors = [];
 
-    // Required always
-    if (!recipeName.value.trim())        errors.push('• Recipe Name is required.');
-    if (!typeOfCuisine.value.trim())     errors.push('• Type of Cuisine is required.');
-    if (!description.value.trim())       errors.push('• Description is required.');
-    if (!recipeImage.value)              errors.push('• Recipe Image is required.');
+    const validateForm = () => {
+        const errors = [];
 
-    // At least one ingredient **name** (quantity is optional)
-    const hasIngredientName = ingredients.value.some(i => i.name.trim());
-    if (!hasIngredientName)               errors.push('• At least one Ingredient name is required.');
+        // Required always
+        if (!recipeName.value.trim())        errors.push('• Recipe Name is required.');
+        if (!typeOfCuisine.value.trim())     errors.push('• Type of Cuisine is required.');
+        if (!description.value.trim())       errors.push('• Description is required.');
+        if (!recipeImagePreview.value)       errors.push('• Recipe Image is required.');
 
-    // At least one procedure step
-    const hasProcedure = procedures.value.some(p => p.name.trim());
-    if (!hasProcedure)                   errors.push('• At least one Procedure step is required.');
+        // At least one ingredient **name** (quantity is optional)
+        const hasIngredientName = ingredients.value.some(i => i.name.trim());
+        if (!hasIngredientName)              errors.push('• At least one Ingredient name is required.');
 
-    // Conditional – only when price is filled
-    const priceVal = parseFloat(price.value);
-    if (!isNaN(priceVal) && priceVal > 0) {
-        if (!gcash_number.value.trim())  errors.push('• GCash Number is required for paid recipes.');
-        if (!qrImage.value)              errors.push('• Your QR Code is required for paid recipes.');
-        if (!recieptImage.value)         errors.push('• Proof of Payment (receipt) is required for paid recipes.');
-    }
+        // At least one procedure step
+        const hasProcedure = procedures.value.some(p => p.name.trim());
+        if (!hasProcedure)                   errors.push('• At least one Procedure step is required.');
 
-    if (errors.length) {
-        alert('Please fix the following errors:\n\n' + errors.join('\n'));
-        return false;
-    }
-    return true;
-};
+        // Conditional – only when price is filled
+        const priceVal = parseFloat(price.value);
+        if (!isNaN(priceVal) && priceVal > 0) {
+            if (!gcash_number.value.trim())  errors.push('• GCash Number is required for paid recipes.');
+            if (!qrCodeFileName.value)       errors.push('• Your QR Code is required for paid recipes.');  // ← Check filename (existing or new)
+            if (!recieptFileName.value)      errors.push('• Proof of Payment (receipt) is required for paid recipes.');  // ← Check filename
+        }
 
-/* ---------- Submit ---------- */
-const submitRecipe = async () => {
-    if (!validateForm()) return;
+        if (errors.length) {
+            alert('Please fix the following errors:\n\n' + errors.join('\n'));
+            return false;
+        }
+        return true;
+    };
 
-    try {
-        const formData = new FormData();
+    /* ---------- Submit ---------- */
+    const submitRecipe = async () => {
+        if (!validateForm()) return;
 
-        formData.append('recipeName',      recipeName.value);
-        formData.append('cuisineType',     typeOfCuisine.value);
-        formData.append('description',     description.value);
-        formData.append('video_path',      videoLink.value);
-        formData.append('price',           price.value);
-        formData.append('gcash_number',    gcash_number.value);
-        formData.append('is_free',         price.value === '' || price.value === '0' ? 1 : 0);
-        formData.append('status',          1);
+        try {
+            const formData = new FormData();
 
-        if (recipeImage.value)   formData.append('image_path',   recipeImage.value);
-        if (qrImage.value)       formData.append('gCash_path',   qrImage.value);
-        if (recieptImage.value)  formData.append('receipt_path', recieptImage.value);
+            formData.append('recipeName',      recipeName.value);
+            formData.append('cuisineType',     typeOfCuisine.value);
+            formData.append('description',     description.value);
+            formData.append('video_path',      videoLink.value);
+            formData.append('price',           price.value);
+            formData.append('gcash_number',    gcash_number.value);
+            formData.append('is_free',         price.value === '' || price.value === '0' ? 1 : 0);
+            formData.append('status',          1);
 
-        ingredients.value.forEach((ing, i) => {
-            formData.append(`ingredients[${i}][ingredientName]`, ing.name);
-            formData.append(`ingredients[${i}][quantity]`,       ing.quantity); // quantity may be empty
-        });
+            if (recipeImage.value)   formData.append('image_path',   recipeImage.value);
+            if (qrImage.value)       formData.append('gCash_path',   qrImage.value);
+            if (recieptImage.value)  formData.append('receipt_path', recieptImage.value);
 
-        procedures.value.forEach((proc, i) => {
-            formData.append(`procedures[${i}][instruction]`, proc.name);
-        });
+            ingredients.value.forEach((ing, i) => {
+                formData.append(`ingredients[${i}][ingredientName]`, ing.name);
+                formData.append(`ingredients[${i}][quantity]`,       ing.quantity); // quantity may be empty
+            });
 
-        await axios.post('/add-recipes', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+            procedures.value.forEach((proc, i) => {
+                formData.append(`procedures[${i}][instruction]`, proc.name);
+            });
 
-        alert('Recipe added successfully!');
-        // optional: reset form / navigate
-    } catch (err) {
-        console.error(err);
-        if (err.response?.data?.errors) {
-            const msgs = Object.values(err.response.data.errors).flat();
-            alert('Server validation failed:\n' + msgs.join('\n'));
+            await axios.post('/add-recipes', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            alert('Recipe added successfully!');
+            // optional: reset form / navigate
+        } catch (err) {
+            console.error(err);
+            if (err.response?.data?.errors) {
+                const msgs = Object.values(err.response.data.errors).flat();
+                alert('Server validation failed:\n' + msgs.join('\n'));
+            } else {
+                alert('Failed to submit recipe. Please try again.');
+            }
+        }
+    };
+
+    const updateRecipe = async () => {
+        if (!props.recipeData) return;
+
+        try {
+            const formData = new FormData();
+            formData.append('_method', 'PATCH');
+
+            // Only append fields that were edited or exist in the form
+            if (recipeName.value !== props.recipeData.recipeName)
+                formData.append('recipeName', recipeName.value);
+
+            if (typeOfCuisine.value !== props.recipeData.cuisineType)
+                formData.append('cuisineType', typeOfCuisine.value);
+
+            if (description.value !== props.recipeData.description)
+                formData.append('description', description.value);
+
+            if (videoLink.value !== props.recipeData.video_path)
+                formData.append('video_path', videoLink.value);
+
+            if (price.value !== props.recipeData.price)
+                formData.append('price', price.value);
+
+            if (gcash_number.value !== props.recipeData.gcash_number)
+                formData.append('gcash_number', gcash_number.value);
+
+            // Optional image uploads — only if user selected new files
+            if (recipeImage.value) formData.append('image_path', recipeImage.value);
+            if (qrImage.value) formData.append('gCash_path', qrImage.value);
+            if (recieptImage.value) formData.append('receipt_path', recieptImage.value);
+
+            // ✅ Ingredients (compare only if changed)
+            const newIngredients = ingredients.value.map(i => ({
+                ingredientName: i.name,
+                quantity: i.quantity
+            }));
+            formData.append('ingredients', JSON.stringify(newIngredients));
+
+            // ✅ Procedures
+            const newProcedures = procedures.value.map(p => ({
+                instruction: p.name
+            }));
+            formData.append('procedures', JSON.stringify(newProcedures));
+
+            await axios.post(`/update-recipe/${props.recipeData.id}`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            alert('✅ Recipe updated successfully!');
+        } catch (err) {
+            console.error(err);
+            alert('❌ Failed to update recipe.');
+        }
+    };
+
+
+    const handleSave = () => {
+        if (props.isEditMode) updateRecipe();
+        else submitRecipe();
+    };
+
+
+    onMounted(() => loadRecipeData());
+    watch(
+        () => props.recipeData,
+        (newVal) => {
+            if (newVal && Object.keys(newVal).length > 0) {
+                loadRecipeData();
+            }
+        },
+        { deep: true, immediate: true } // 👈 'immediate' ensures it runs once even on mount
+    );
+
+
+    function loadRecipeData() {
+        if (!props.recipeData) return;
+
+        recipeName.value   = props.recipeData.recipeName || '';
+        typeOfCuisine.value = props.recipeData.cuisineType || '';
+        description.value   = props.recipeData.description || '';
+        videoLink.value     = props.recipeData.video_path || '';
+        price.value         = props.recipeData.price || '';
+        gcash_number.value  = props.recipeData.gcash_number || '';
+
+        // ✅ Recipe image
+        recipeImagePreview.value = props.recipeData.image_path
+            ? `/storage/${props.recipeData.image_path}`
+            : null;
+
+        // ✅ QR Code preview
+        qrCodeFileName.value = props.recipeData.gCash_path
+            ? props.recipeData.gCash_path.split('/').pop()
+            : '';
+
+        // ✅ Receipt preview
+        recieptFileName.value = props.recipeData.receipt_path
+            ? props.recipeData.receipt_path.split('/').pop()
+            : '';
+
+        // ✅ Ingredients list
+        const ing = props.recipeData.ingredients || props.recipeData.ingredient;
+        if (ing && ing.length > 0) {
+            ingredients.value = ing.map(i => ({
+                id: i.id || Date.now() + Math.random(),
+                quantity: i.quantity || '',
+                name: i.ingredientName || i.name || ''
+            }));
         } else {
-            alert('Failed to submit recipe. Please try again.');
+            ingredients.value = [{ id: Date.now(), quantity: '', name: '' }];
+        }
+
+        // ✅ Procedures list
+        const proc = props.recipeData.procedures || props.recipeData.procedure;
+        if (proc && proc.length > 0) {
+            procedures.value = proc.map(p => ({
+                id: p.id || Date.now() + Math.random(),
+                name: p.instruction || p.name || ''
+            }));
+        } else {
+            procedures.value = [{ id: Date.now(), name: '' }];
         }
     }
-};
+
 </script>

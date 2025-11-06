@@ -23,7 +23,7 @@ class RecipeService
                 $q->where('userID', $userId);
             },
         ])
-            ->select('id', 'recipeName', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
+            ->select('id', 'recipeName', 'description', 'video_path', 'gcash_number', 'receipt_path', 'gCash_path', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
             ->get()
             ->map(function ($recipe) use ($userId) {
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
@@ -44,6 +44,11 @@ class RecipeService
 
                 return $recipe;
             });
+        foreach ($recipes as $recipe) {
+            if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
+                $recipe->load(['ingredient', 'procedure']);
+            }
+        }
 
         return $recipes;
     }
@@ -72,11 +77,11 @@ class RecipeService
                 return $recipe;
             });
 
-        foreach ($recipes as $recipe) {
-            if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
-                $recipe->load(['ingredient', 'procedure']);
+            foreach ($recipes as $recipe) {
+                if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
+                    $recipe->load(['ingredient', 'procedure']);
+                }
             }
-        }
 
         return $recipes;
     }

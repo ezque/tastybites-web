@@ -25,10 +25,18 @@
                 :recipeCardDetails="recipeCardDetails"
                 :user="user"
             />
+<!--            <AddRecipe-->
+<!--                v-if="activeComponent === 'AddRecipe'"-->
+<!--                @navigate="setActiveComponent"-->
+<!--                :active="activeComponent"-->
+<!--                :recipeData="selectedRecipe"-->
+<!--            />-->
             <AddRecipe
                 v-if="activeComponent === 'AddRecipe'"
-                @navigate="setActiveComponent"
                 :active="activeComponent"
+                :recipeData="selectedRecipe"
+                :isEditMode="isEditMode"
+                @back="back"
             />
 
             <RecipeDetails
@@ -105,7 +113,8 @@
     })
 
     const isChef = computed(() => props.user.role === 'chef');
-    const selectedChef = ref(null)
+    const selectedChef = ref(null);
+    const isEditMode = ref(false)
 
     const activeComponent = ref(isChef.value ? 'Home' : 'ChefIncome');
 
@@ -128,9 +137,15 @@
         }
     };
 
-    const handleNavigation = (componentName, recipeData = null, data = null) => {
+    const handleNavigation = (componentName, recipeData = null, extraData = null) => {
+        // Push current page to history (except when going back)
+        if (activeComponent.value && activeComponent.value !== componentName) {
+            historyStack.value.push(activeComponent.value);
+        }
+
         if (componentName === 'AddRecipe') {
-            selectedRecipe.value = null;
+            selectedRecipe.value = recipeData?.recipeData || null;
+            isEditMode.value = recipeData?.isEditMode || false;
             activeComponent.value = 'AddRecipe';
             return;
         }
@@ -155,8 +170,13 @@
     const back = () => {
         if (historyStack.value.length > 0) {
             activeComponent.value = historyStack.value.pop();
+            // Clear form data when leaving AddRecipe
+            if (activeComponent.value !== 'AddRecipe') {
+                selectedRecipe.value = null;
+                isEditMode.value = false;
+            }
         } else {
-            activeComponent.value = isUser.value ? 'Home' : null;
+            activeComponent.value = isChef.value ? 'Home' : 'ChefIncome';
         }
     };
 
@@ -171,4 +191,5 @@
 
         activeComponent.value = "RecipeDetails";
     };
+
 </script>

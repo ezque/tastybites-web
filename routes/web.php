@@ -34,6 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
 
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
+    Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);
+    Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
     Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
 
     Route::post('/edit-personal-information', [AuthController::class, 'editPersonalInformation']);

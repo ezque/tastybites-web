@@ -142,6 +142,87 @@ class RecipeController extends Controller
             ], 500);
         }
     }
+    public function updateRecipe(Request $request, $id)
+    {
+        $recipe = Recipe::findOrFail($id);
+
+        // ✅ Validation: only validate fields present in request
+        $validator = Validator::make($request->all(), [
+            'recipeName' => 'sometimes|required|string|max:255',
+            'cuisineType' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'video_path' => 'sometimes|nullable|string|max:255',
+            'price' => 'sometimes|nullable|numeric',
+            'gcash_number' => 'sometimes|nullable|string|max:255',
+            'image_path' => 'sometimes|nullable|image|mimes:jpeg,png,jpg|max:100000',
+            'gCash_path' => 'sometimes|nullable|image|mimes:jpeg,png,jpg|max:100000',
+            'receipt_path' => 'sometimes|nullable|image|mimes:jpeg,png,jpg|max:100000',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // ✅ Update only fields included in the request
+        $recipe->fill($request->only([
+            'recipeName', 'cuisineType', 'description', 'video_path', 'price', 'gcash_number'
+        ]));
+
+        // ✅ Handle optional file uploads
+        if ($request->hasFile('image_path')) {
+            $recipe->image_path = $request->file('image_path')->store('recipes', 'public');
+        }
+
+        if ($request->hasFile('gCash_path')) {
+            $recipe->gCash_path = $request->file('gCash_path')->store('gcash', 'public');
+        }
+
+        if ($request->hasFile('receipt_path')) {
+            $recipe->receipt_path = $request->file('receipt_path')->store('receipts', 'public');
+        }
+
+        $recipe->save();
+
+        // ✅ Update ingredients if included in request
+        if ($request->filled('ingredients')) {
+            $recipe->ingredient()->delete(); // delete existing ingredients
+            foreach (json_decode($request->ingredients, true) as $ingredient) {
+                $recipe->ingredient()->create($ingredient); // use singular relationship
+            }
+        }
+
+        // ✅ Update procedures if included in request
+        if ($request->filled('procedures')) {
+            $recipe->procedure()->delete(); // delete existing procedures
+            foreach (json_decode($request->procedures, true) as $procedure) {
+                $recipe->procedure()->create($procedure); // use singular relationship
+            }
+        }
+
+        return response()->json(['message' => 'Recipe updated successfully']);
+    }
+
+    public function deleteRecipe(Request $request, $id)
+    {
+        $recipe = Recipe::find($id);
+
+        if (!$recipe) {
+            return response()->json(['message' => 'Recipe not found'], 404);
+        }
+
+        // Optional: Check ownership
+        if ($recipe->userID !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // This triggers the boot() deleting event above
+        $recipe->delete();
+
+        return response()->json(['message' => 'Recipe deleted successfully']);
+    }
+
+
+
 
     public function buyRecipe(Request $request): \Illuminate\Http\JsonResponse
     {
