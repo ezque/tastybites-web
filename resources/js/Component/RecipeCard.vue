@@ -19,7 +19,7 @@
 
         <!-- Dot Menu Button -->
         <button
-            @click="toggleMenu"
+            @click.stop="toggleMenu"
             class="absolute top-1 right-1 mt-2 p-0 bg-transparent border-none cursor-pointer flex items-center justify-center w-5"
         >
             <img src="/public/images/Button-icon/option.png" alt="options" class="w-2 h-6" />
@@ -27,7 +27,7 @@
 
         <!-- Dropdown Menu -->
         <div
-            v-if="menuOpen"
+            v-if="activeMenuId === recipeCardDetail.id"
             class="absolute left-[88%] top-[45px] ml-2 bg-[#435F77] rounded-r-xl rounded-bl-xl rounded-br-xl p-2.5 flex flex-col gap-2.5 z-10"
         >
             <!-- Hide/Unhide -->
@@ -156,12 +156,16 @@
 
     const props = defineProps({
         recipeCardDetail: Object,
+        activeMenuId: Number,
     })
-    const emit = defineEmits(['navigate'])
+    const emit = defineEmits(['navigate', 'toggle-menu'])
 
     const likeCount = ref(0)
     const dislikeCount = ref(0)
-    const menuOpen = ref(false)
+
+    const toggleMenu = () => {
+        emit('toggle-menu', props.recipeCardDetail.id)
+    }
 
     const fetchCounts = async () => {
         try {
@@ -173,9 +177,6 @@
         }
     }
 
-    const toggleMenu = () => {
-        menuOpen.value = !menuOpen.value
-    }
 
     const react = async (type) => {
         let newType = type

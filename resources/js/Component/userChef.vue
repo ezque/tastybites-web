@@ -66,6 +66,62 @@
         </div>
 
         <Footer />
+        <div
+            v-if="showReportDialog"
+            class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+        >
+            <div class="bg-white rounded-2xl shadow-lg w-[400px] p-6 flex flex-col gap-4">
+                <h3 class="text-xl font-['Poppins-Bold'] text-center text-[#435F77]">
+                    Report {{ selectedChef?.user_info?.fullName || 'Chef' }}
+                </h3>
+
+                <p class="text-sm text-gray-700 font-['Poppins-Regular'] text-center">
+                    Please select a reason for reporting:
+                </p>
+
+                <!-- Report Reason Choices -->
+                <div class="flex flex-col gap-2">
+                    <label
+                        v-for="(reason, index) in reasons"
+                        :key="index"
+                        class="flex items-center gap-2 cursor-pointer font-['Poppins-Regular']"
+                    >
+                        <input
+                            type="radio"
+                            :value="reason"
+                            v-model="selectedReason"
+                            class="accent-[#435F77]"
+                        />
+                        {{ reason }}
+                    </label>
+                </div>
+
+                <!-- Custom Reason (shown if "Other" is selected) -->
+                <textarea
+                    v-if="selectedReason === 'Other'"
+                    v-model="customReason"
+                    maxlength="1000"
+                    placeholder="Please specify your reason..."
+                    class="w-full h-[80px] mt-2 p-2 border rounded-lg border-[#B5BFDE] outline-none text-sm font-['Poppins-Regular']"
+                ></textarea>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3 mt-3">
+                    <button
+                        @click="cancelReport"
+                        class="px-4 py-2 rounded-full bg-gray-300 text-gray-700 font-['Poppins-Bold'] hover:bg-gray-400 transition"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        @click="submitReport"
+                        class="px-4 py-2 rounded-full bg-[#435F77] text-white font-['Poppins-Bold'] hover:bg-[#32495c] transition"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -80,9 +136,20 @@
     });
 
     const emit = defineEmits(["navigate"]);
+    const showReportDialog = ref(false);
+    const selectedChef = ref(null);
+    const selectedReason = ref("");
+    const customReason = ref("");
+
+    const reasons = [
+        "Inappropriate behavior",
+        "Harassment or offensive content",
+        "Fake profile or impersonation",
+        "Scam or misleading information",
+        "Other"
+    ];
 
     const activeChefs = computed(() => {
-        // Filter out inactive chefs and the currently logged-in user
         return props.chefs.filter(
             (chef) => chef.status === "active" && chef.id !== props.user.id
         );
@@ -124,29 +191,56 @@
     onMounted(() => document.addEventListener("click", handleClickOutside));
     onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside));
 
-    async function reportChef(chef) {
-        const reason = prompt(
-            `Why are you reporting ${chef.user_info?.fullName || "this chef"}? (Max 1000 characters)`
-        );
+    function reportChef(chef) {
+        selectedChef.value = chef;
+        selectedReason.value = "";
+        customReason.value = "";
+        showReportDialog.value = true;
+        openMenuIndex.value = null;
+    }
 
-        if (!reason || reason.trim() === "") {
-            alert("Report cancelled or no reason provided.");
+    // Cancel the dialog
+    function cancelReport() {
+        showReportDialog.value = false;
+        selectedChef.value = null;
+        selectedReason.value = "";
+        customReason.value = "";
+    }
+    async function submitReport() {
+        if (!selectedReason.value) {
+            alert("Please select a reason before submitting.");
+            return;
+        }
+
+        const reason =
+            selectedReason.value === "Other"
+                ? customReason.value.trim()
+                : selectedReason.value;
+
+        if (reason === "") {
+            alert("Please provide a reason for reporting.");
             return;
         }
 
         try {
-            openMenuIndex.value = null;
-            const response = await axios.post(`/report/chef/${chef.id}`, {
+            const response = await axios.post(`/report/chef/${selectedChef.value.id}`, {
                 type: "user",
-                reason: reason.trim(),
+                reason
             });
-            alert(response.data.message);
+
+            showReportDialog.value = false;
+            selectedChef.value = null;
+            selectedReason.value = "";
+            customReason.value = "";
+
+            // Optional toast
+            console.log(response.data.message);
         } catch (error) {
             console.error("Reporting error:", error);
             const errorMessage =
                 error.response?.data?.message ||
                 "Failed to submit report. Please try again.";
-            alert(errorMessage);
+            console.error(errorMessage);
         }
     }
 </script>

@@ -60,6 +60,8 @@
                 :recipeCardDetail="recipeCardDetail"
                 :index="index"
                 @navigate="(component, data) => emit('navigate', component, data)"
+                :activeMenuId="activeMenuId"
+                @toggle-menu="handleToggleMenu"
             />
         </div>
 
@@ -68,7 +70,7 @@
 </template>
 
 <script setup>
-    import {computed, ref} from "vue";
+    import {computed, ref, onMounted, onBeforeUnmount} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     import Footer from "@/Component/Footer.vue";
     const emit = defineEmits(['navigate'])
@@ -78,6 +80,29 @@
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array
+    })
+    const activeMenuId = ref(null)
+    function handleToggleMenu(id) {
+        activeMenuId.value = activeMenuId.value === id ? null : id
+    }
+    function handleClickOutside(e) {
+        const menuButtons = document.querySelectorAll('[data-menu-button]')
+        const dropdowns = document.querySelectorAll('[data-menu-dropdown]')
+
+        const clickedInsideButton = Array.from(menuButtons).some(btn => btn.contains(e.target))
+        const clickedInsideDropdown = Array.from(dropdowns).some(drop => drop.contains(e.target))
+
+        if (!clickedInsideButton && !clickedInsideDropdown) {
+            activeMenuId.value = null
+        }
+    }
+
+    onMounted(() => {
+        document.addEventListener('click', handleClickOutside)
+    })
+
+    onBeforeUnmount(() => {
+        document.removeEventListener('click', handleClickOutside)
     })
     const userRecipes = computed(() => {
         return props.recipeCardDetails.filter(

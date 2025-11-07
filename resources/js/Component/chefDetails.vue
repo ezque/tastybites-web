@@ -2,12 +2,6 @@
     <div class="flex flex-col w-full h-full">
         <!-- Page Label -->
         <div class="flex items-center">
-            <button
-                class="w-[50px] h-[50px] cursor-pointer flex items-center justify-center"
-                @click="$emit('navigate', 'AdminChefs')"
-            >
-                <img src="/public/images/Button-icon/back.png" alt="icon" class="w-full h-auto"/>
-            </button>
             <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
         </div>
 
@@ -68,6 +62,8 @@
                             :key="recipeCardDetail.id"
                             :recipeCardDetail="recipeCardDetail"
                             :index="index"
+                            :activeMenuId="activeMenuId"
+                            @toggle-menu="handleToggleMenu"
                             @navigate="(component, recipeData) => {
                                 if (component === 'RecipeDetails') {
                                   emit('recipeNavigate', recipeData)
@@ -85,7 +81,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref, computed, onMounted, onBeforeUnmount } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     import Footer from "@/Component/Footer.vue";
 
@@ -95,6 +91,30 @@
         recipeCardDetails: Array,
     });
     const emit = defineEmits(["navigate", "recipeNavigate"]);
+
+    const activeMenuId = ref(null)
+    function handleToggleMenu(id) {
+        activeMenuId.value = activeMenuId.value === id ? null : id
+    }
+    function handleClickOutside(e) {
+        const menuButtons = document.querySelectorAll('[data-menu-button]')
+        const dropdowns = document.querySelectorAll('[data-menu-dropdown]')
+
+        const clickedInsideButton = Array.from(menuButtons).some(btn => btn.contains(e.target))
+        const clickedInsideDropdown = Array.from(dropdowns).some(drop => drop.contains(e.target))
+
+        if (!clickedInsideButton && !clickedInsideDropdown) {
+            activeMenuId.value = null
+        }
+    }
+
+    onMounted(() => {
+        document.addEventListener('click', handleClickOutside)
+    })
+
+    onBeforeUnmount(() => {
+        document.removeEventListener('click', handleClickOutside)
+    })
 
     const chefRecipe = computed(() => {
         if (!props.chef) return [];
