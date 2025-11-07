@@ -173,6 +173,8 @@ class RecipeController extends Controller
 
             // price > 0 = premium
             $recipe->is_free = $price > 0 ? 'premium' : 'free';
+            // from free to premium need to confirm by admin
+            $recipe->status = $price > 0 ? 'pending' : 'active';
         }
 
         // ✅ Handle optional file uploads
