@@ -168,6 +168,13 @@ class RecipeController extends Controller
             'recipeName', 'cuisineType', 'description', 'video_path', 'price', 'gcash_number'
         ]));
 
+        if ($request->has('price')) {
+            $price = floatval($request->price);
+
+            // price > 0 = premium
+            $recipe->is_free = $price > 0 ? 'premium' : 'free';
+        }
+
         // ✅ Handle optional file uploads
         if ($request->hasFile('image_path')) {
             $recipe->image_path = $request->file('image_path')->store('recipes', 'public');
@@ -193,9 +200,18 @@ class RecipeController extends Controller
 
         // ✅ Update procedures if included in request
         if ($request->filled('procedures')) {
-            $recipe->procedure()->delete(); // delete existing procedures
-            foreach (json_decode($request->procedures, true) as $procedure) {
-                $recipe->procedure()->create($procedure); // use singular relationship
+
+            // Delete old procedures
+            $recipe->procedure()->delete();
+
+            // Insert updated procedures with auto step numbering
+            $procedures = json_decode($request->procedures, true);
+
+            foreach ($procedures as $index => $procedure) {
+                $recipe->procedure()->create([
+                    'step'        => $index + 1,               // auto numbering
+                    'instruction' => $procedure['instruction'] // step text
+                ]);
             }
         }
 

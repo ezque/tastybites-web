@@ -303,7 +303,7 @@
         font-family: 'Poppins-Regular';
     }
     .row-3 {
-        font-family: 'Poppins-BoldItalic';
+        font-family: 'Poppins-Bold';
     }
     .row-4 {
         font-family: 'Poppins-Italic';

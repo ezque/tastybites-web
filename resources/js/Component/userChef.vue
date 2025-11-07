@@ -39,7 +39,7 @@
 
                 <!-- Dot Menu -->
                 <button
-                    class="absolute w-5 bg-transparent cursor-pointer top-2 right-2"
+                    class="absolute top-1 right-1 mt-2 p-0 bg-transparent border-none cursor-pointer flex items-center justify-center w-5"
                     @click.stop="toggleMenu(index)"
                 >
                     <img

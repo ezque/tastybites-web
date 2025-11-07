@@ -5,21 +5,21 @@
             <h2 class="text-[32px] font-[Poppins-Bold] text-gray-800 tracking-wide">
                 Reports
             </h2>
-            <span class="text-sm text-gray-500">Total Reports: {{ allReports?.length || 0 }}</span>
+            <span class="text-sm font-['Poppins-Regular'] text-gray-500">Total Reports: {{ allReports?.length || 0 }}</span>
         </div>
 
         <!-- Table Container -->
         <div class="flex flex-row flex-wrap justify-center mt-6 mb-10 w-full px-6">
-            <div class="overflow-x-auto w-full bg-white shadow-lg rounded-2xl border border-gray-200">
+            <div class="w-[95%] h-[100%] flex flex-col rounded-lg overflow-hidden shadow-md">
                 <table class="min-w-full text-sm text-gray-700">
-                    <thead class="bg-gradient-to-r from-[#E0E7FF] to-[#CBD5F1] text-gray-700 uppercase">
+                    <thead class="bg-gradient-to-r bg-[#7592AB] text-black uppercase">
                     <tr>
-                        <th class="py-4 px-6 text-center font-semibold">ID</th>
-                        <th class="py-4 px-6 text-left font-semibold">Reporter</th>
-                        <th class="py-4 px-6 text-left font-semibold">Reported</th>
-                        <th class="py-4 px-6 text-left font-semibold">Reason</th>
-                        <th class="py-4 px-6 text-center font-semibold">Status</th>
-                        <th class="py-4 px-6 text-center font-semibold">Action</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">ID</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">Reporter</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">Reported</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">Reason</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">Status</th>
+                        <th class="py-4 px-6 text-center font-['Poppins-Bold']">Action</th>
                     </tr>
                     </thead>
 
@@ -27,47 +27,46 @@
                     <tr
                         v-for="report in allReports"
                         :key="report.id"
-                        class="hover:bg-[#f9fafc] transition duration-200 border-b last:border-none"
+                        class="bg-[#E0E7FF] hover:bg-[white] transition duration-200 border-b-2 border-[#B5BFDE] last:border-none"
                     >
                         <!-- ID -->
-                        <td class="py-4 px-6 text-center font-medium text-gray-700">
+                        <td class="py-4 px-6 text-center text-sm font-[Poppins-Regular] border-r-2 border-[#B5BFDE] text-black">
                             {{ report.id }}
                         </td>
 
                         <!-- Reporter -->
-                        <td class="py-4 px-6 text-left">
-                <span class="font-semibold text-gray-800">
-                  {{ report.reporter?.user_info?.fullName || 'Unknown' }}
-                </span>
+                        <td class="py-4 px-6 text-left font-[Poppins-Regular] border-r-2 border-[#B5BFDE] text-black">
+                            <span>
+                            {{ report.reporter?.user_info?.fullName || 'Unknown' }}
+                            </span>
                         </td>
 
                         <!-- Reported Entity -->
-                        <td class="py-4 px-6 text-left">
-                <span
-                    class="px-2 py-1 text-sm font-medium rounded-full"
-                    :class="report.reportedUserID ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'"
-                >
-                  {{ reported(report) }}
-                </span>
+                        <td class="py-4 px-6 text-center font-[Poppins-Bold] border-r-2 border-[#B5BFDE] text-black">
+                            <span
+                                :class="report.reportedUserID ? 'text-blue-800' : 'text-green-800'"
+                            >
+                            {{ reported(report) }}
+                            </span>
                         </td>
 
                         <!-- Reason -->
-                        <td class="py-4 px-6 text-left text-gray-600 max-w-[200px] truncate">
+                        <td class="py-4 px-6 text-left font-[Poppins-Regular] border-r-2 border-[#B5BFDE] text-black max-w-[200px] truncate">
                             {{ report.reason }}
                         </td>
 
                         <!-- Status -->
-                        <td class="py-4 px-6 text-center">
-                <span
-                    class="px-3 py-1 rounded-full text-xs font-semibold capitalize"
-                    :class="{
-                    'bg-yellow-100 text-yellow-800': report.status.toLowerCase() === 'pending',
-                    'bg-green-100 text-green-800': report.status.toLowerCase() === 'reviewed',
-                    'bg-red-100 text-red-800': report.status.toLowerCase() === 'dismissed'
-                  }"
-                >
-                  {{ report.status }}
-                </span>
+                        <td class="py-4 px-6 text-center font-[Poppins-BoldItalic] border-r-2 border-[#B5BFDE] text-black">
+                            <span
+                                class="px-5 py-2 rounded-full text-xs capitalize"
+                                :class="{
+                                'bg-yellow-100 text-yellow-700': report.status.toLowerCase() === 'pending',
+                                'bg-green-100 text-green-700': report.status.toLowerCase() === 'reviewed',
+                                'bg-red-100 text-red-700': report.status.toLowerCase() === 'dismissed'
+                            }"
+                            >
+                            {{ report.status }}
+                            </span>
                         </td>
 
                         <!-- Actions -->
@@ -76,15 +75,15 @@
                             <template v-if="report.status.toLowerCase() === 'pending'">
                                 <button
                                     @click="updateStatus(report, 'reviewed')"
-                                    class="bg-green-500 hover:bg-green-600 text-white py-1.5 px-3 rounded-md text-sm font-medium transition duration-200"
+                                    class="bg-green-500 hover:bg-green-600 text-white py-1.5 px-3 rounded-md text-sm font-['Poppins-Bold'] transition duration-200"
                                 >
-                                    Reviewed
+                                    Review
                                 </button>
                                 <button
                                     @click="updateStatus(report, 'dismissed')"
-                                    class="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded-md text-sm font-medium transition duration-200"
+                                    class="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded-md text-sm font-['Poppins-Bold'] transition duration-200"
                                 >
-                                    Dismissed
+                                    Dismiss
                                 </button>
                             </template>
 
@@ -92,7 +91,7 @@
                             <template v-else>
                                 <button
                                     disabled
-                                    class="bg-gray-400 text-white py-1.5 px-3 rounded-md text-sm font-medium cursor-not-allowed opacity-70"
+                                    class="bg-gray-400 text-white py-1.5 px-3 rounded-md text-sm font-['Poppins-Bold'] cursor-not-allowed opacity-70"
                                 >
                                     Responded
                                 </button>

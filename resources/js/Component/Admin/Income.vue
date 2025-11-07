@@ -283,6 +283,7 @@
         display: flex;
         flex-direction: row;
         border: 1px solid #B5BFDE;
+        text-transform: uppercase;
     }
     .head-row-1,.head-row-2,.head-row-3,.head-row-4,.head-row-5{
         height: 100%;

@@ -43,24 +43,25 @@
             </div>
             <div class="w-[70%] h-full flex flex-col">
                 <div class="w-full h-[100px] flex items-center justify-center flex-row gap-[30px]">
-                    <button @click="setActiveComponent('descriptionCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'descriptionCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                    <button @click="setActiveComponent('descriptionCon')" :class="[ 'w-20 h-[70px] rounded-lg cursor-pointer border border-[#E0E7FF] flex items-center justify-center', activeComponent === 'descriptionCon' ? 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[black]' : ' bg-[#E0E7FF]' ]">
                         <img src="/public/images/Button-icon/description.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('ingredientsCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'ingredientsCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                    <button @click="setActiveComponent('ingredientsCon')" :class="[ 'w-20 h-[70px] rounded-lg cursor-pointer border border-[#E0E7FF] flex items-center justify-center', activeComponent === 'ingredientsCon' ? 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[black]' : ' bg-[#E0E7FF]' ]">
                         <img src="/public/images/Button-icon/ingredients.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('procedureCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'procedureCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                    <button @click="setActiveComponent('procedureCon')" :class="[ 'w-20 h-[70px] rounded-lg cursor-pointer border border-[#E0E7FF] flex items-center justify-center', activeComponent === 'procedureCon' ? 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[black]' : ' bg-[#E0E7FF]' ]">
                         <img src="/public/images/Button-icon/sidebar_recipe.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('videoCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'videoCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
+                    <button @click="setActiveComponent('videoCon')" :class="[ 'w-20 h-[70px] rounded-lg cursor-pointer border border-[#E0E7FF] flex items-center justify-center', activeComponent === 'videoCon' ? 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[black]' : ' bg-[#E0E7FF]' ]">
                         <img src="/public/images/Button-icon/video.png" alt="img" class="w-[40%] h-auto"/>
                     </button>
-                    <button @click="setActiveComponent('paymentCon')" :class="{ 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[#435F77]': activeComponent === 'paymentCon' }" class="w-20 h-[70px] rounded-lg cursor-pointer border-none bg-[#E0E7FF] flex items-center justify-center">
-                        <img src="/public/images/Button-icon/price.png" alt="img" class="w-[40%] h-auto"/>
+                    <button @click="setActiveComponent('paymentCon')" :class="['w-20 h-[70px] rounded-lg cursor-pointer border border-[#E0E7FF] flex items-center justify-center', activeComponent === 'paymentCon' ? 'bg-[#B5BFDE] text-white shadow-[0_4px_5px_#AFADAD] border border-dashed border-[black]' : ' bg-[#E0E7FF]' ]">
+                        <img src="/public/images/Button-icon/price.png" alt="img" class="w-[40%] h-auto" />
                     </button>
+
                 </div>
                 <div class="w-full h-full flex items-start justify-center">
-                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex mt-[15px]" v-show="activeComponent === 'descriptionCon'">
+                    <div class="w-[80%] h-[500px] rounded-[20px] bg-[#F5F5F5] shadow-[3px_5px_3px_#AFADAD] border-none p-5 flex mt-[15px]" v-show="activeComponent === 'descriptionCon'" >
                         <textarea
                             placeholder="Short description here..."
                             v-model="description"
@@ -149,7 +150,7 @@
                         <div class="w-full h-full flex flex-row items-center">
                             <div class="w-1/2 h-[90%] flex flex-col items-center justify-center gap-5 border-r-2 border-white">
                                 <div class="w-[90%] h-10 flex p-[10px] items-center flex-row gap-[10px]">
-                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-0 px-[35px]">Price</label>
+                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-[20px] px-[35px]">Price</label>
                                     <input
                                         placeholder="₱"
                                         v-model="price"
@@ -165,11 +166,11 @@
                                         hidden
                                     />
                                     <button type="button" @click="triggerQRCodeInput" class="bg-[#435F77] w-[30%] h-[35px] rounded-[20px] text-white border-none cursor-pointer font-bold font-['Poppins-Bold'] text-[0.7em]">Your QR Code</button>
-                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular']" v-if="qrCodeFileName">{{ qrCodeFileName }}</p>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular'] truncate" v-if="qrCodeFileName">{{ qrCodeFileName }}</p>
                                     <p class="text-[#768082] text-[0.8em] font-['Poppins-Regular']" v-else>Insert picture here</p>
                                 </div>
                                 <div class="w-[90%] h-10 p-[10px] flex flex-row gap-[10px]">
-                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-0 px-[35px] -mt-[10px]">GCash</label>
+                                    <label class="bg-[#435F77] w-[20%] h-[80%] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.8em] py-[20px] px-[35px] -mt-[10px]">GCash</label>
                                     <input
                                         placeholder="+63"
                                         v-model="gcash_number"
@@ -187,7 +188,7 @@
                                 <p class="ml-5 text-[#768082] text-[0.8em] font-['Poppins-Italic'] text-justify">To help maintain and improve TastyBites: Gourmet Hunt, a one-time 5% collection fee is required before publishing any paid recipe.</p>
                                 <div class="w-1/2 h-1/2 bg-[url('/images/example-qr-code.jpg')] bg-center bg-contain bg-no-repeat"></div>
                                 <p class="ml-5 text-[#768082] text-[0.8em] font-['Poppins-Italic'] text-justify">Please send your payment to the QR code provided above and upload a screenshot as proof of payment. Your recipe will be published after verification.</p>
-                                <div class="bg-[#B5BFDE] w-[85%] h-[45px] flex items-center p-[10px] rounded-[30px]">
+                                <div class="bg-[#B5BFDE] w-[85%] h-[45px] flex items-center p-[10px] rounded-[30px] gap-[10px]">
                                     <input
                                         type="file"
                                         ref="receiptFileInput"
@@ -196,7 +197,7 @@
                                         hidden
                                     />
                                     <button type="button" @click="triggerReceiptInput" class="w-[27%] h-[35px] bg-[#435F77] flex items-center justify-center rounded-[20px] text-white font-['Poppins-Bold'] text-[0.7em]">Upload</button>
-                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-if="recieptFileName">{{recieptFileName}}</p>
+                                    <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%] truncate" v-if="recieptFileName">{{recieptFileName}}</p>
                                     <p class="text-[#768082] text-[0.8em] font-['Poppins-Italic'] w-[75%]" v-else>Proof of payment</p>
                                 </div>
                                 <button

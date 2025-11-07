@@ -22,7 +22,7 @@
             @click="toggleMenu"
             class="absolute top-1 right-1 mt-2 p-0 bg-transparent border-none cursor-pointer flex items-center justify-center w-5"
         >
-            <img src="/public/images/Button-icon/option.png" alt="options" class="w-3 h-6" />
+            <img src="/public/images/Button-icon/option.png" alt="options" class="w-2 h-6" />
         </button>
 
         <!-- Dropdown Menu -->
@@ -33,7 +33,7 @@
             <!-- Hide/Unhide -->
             <button
                 @click="toggleHide"
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-bold text-sm"
+                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
             >
                 <img src="/public/images/Button-icon/hide.png" alt="hide" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">{{ recipeIsHidden ? 'Unhide' : 'Hide' }}</span>
@@ -42,7 +42,7 @@
             <!-- Save/Unsave -->
             <button
                 @click="saveRecipe"
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-bold text-sm"
+                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
             >
                 <img src="/public/images/Button-icon/save.png" alt="save" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">{{ recipeIsSave ? 'Unsave' : 'Save' }}</span>
@@ -52,7 +52,7 @@
             <button
                 @click="reportRecipe"
                 v-if="!recipeCardDetail.is_owned"
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-bold text-sm"
+                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
             >
                 <img src="/public/images/Button-icon/report.png" alt="report" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">Report</span>
@@ -62,7 +62,7 @@
             <button
                 @click="editRecipe"
                 v-if="recipeCardDetail.is_owned"
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-bold text-sm"
+                class="w-[95px] h-[30px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
             >
                 <img src="/public/images/Button-icon/edit-icon.png" alt="edit" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">Edit</span>
@@ -71,9 +71,9 @@
             <button
                 @click="deleteRecipe"
                 v-if="recipeCardDetail.is_owned"
-                class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-bold text-sm"
+                class="w-[85px] h-[23px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
             >
-                <img src="/public/images/Button-icon/edit-icon.png" alt="edit" class="h-[90%] w-[30%]" />
+                <img src="/public/images/Button-icon/delete_white.png" alt="edit" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">Delete</span>
             </button>
         </div>
@@ -81,14 +81,14 @@
         <!-- Text Content -->
         <div class="flex flex-col items-center justify-center w-full h-[30%] mt-1 text-center">
             <h2
-                class="text-lg font-bold font-poppins-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
+                class="text-lg font-['Poppins-Bold'] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
             >
                 {{ recipeCardDetail.recipeName }}
             </h2>
-            <h3 class="text-sm font-bold italic font-poppins-bold-italic">
+            <h3 class="text-sm font-['Poppins-BoldItalic']">
                 {{ recipeCardDetail.cuisineType }}
             </h3>
-            <p class="text-sm font-poppins-regular">
+            <p class="text-sm font-['Poppins-Regular']">
                 Chef: @{{ recipeCardDetail.user.user_info.userName }}
             </p>
         </div>
@@ -98,7 +98,7 @@
             <!-- View Recipe Button -->
             <button
                 @click="emit('navigate', 'RecipeDetails', recipeCardDetail)"
-                class="w-1/2 h-8 rounded-xl border-none bg-[#435F77] text-white font-poppins-bold text-sm cursor-pointer hover:bg-[#E0E7FF] hover:text-[#435F77] hover:shadow-[4px_4px_12px_#AFADAD] hover:border-r hover:border-[#AFADAD] transition-all"
+                class="w-1/2 h-8 rounded-xl border-none bg-[#435F77] text-white font-['Poppins-Bold'] text-sm cursor-pointer hover:bg-[#E0E7FF] hover:text-[#435F77] hover:shadow-[4px_4px_12px_#AFADAD] hover:border-r hover:border-[#AFADAD] transition-all"
             >
                 View Recipe
             </button>
@@ -252,10 +252,18 @@
         }
 
         try {
-            const { data } = await axios.delete(`/delete-recipe/${props.recipeCardDetail.id}`);
-            alert(data.message || "Recipe deleted successfully.");
+            const token = localStorage.getItem("token");
 
-            // 🔄 Refresh the page
+            const { data } = await axios.delete(
+                `/delete-recipe/${props.recipeCardDetail.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            alert(data.message || "Recipe deleted successfully.");
             window.location.reload();
 
         } catch (error) {

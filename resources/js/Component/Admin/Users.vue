@@ -47,7 +47,7 @@
         >
             <div class="w-[95%] h-[100%] flex flex-col rounded-lg overflow-hidden shadow-md">
                 <!-- Table Head -->
-                <div class="h-[5%] min-h-[50px] flex text-[14px] text-black font-[Poppins-Bold] text-center bg-[#7592AB]">
+                <div class="h-[5%] min-h-[50px] flex text-[14px] text-black font-[Poppins-Bold] text-center bg-[#7592AB] uppercase">
                     <div class="w-[5%] flex justify-center items-center">ID</div>
                     <div class="w-[20%] flex justify-center items-center">Full Name</div>
                     <div class="w-[15%] flex justify-center items-center">User Name</div>

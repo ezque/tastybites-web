@@ -4,10 +4,13 @@
         <div class="flex flex-col gap-4">
             <!-- Label Row -->
             <div class="flex justify-between items-center">
-                <div class="mt-5 ml-5">
-                    <h2 v-if="activeTab === 'register'" class="text-[35px] font-[Poppins-Bold]">Registered Chefs</h2>
-                    <h2 v-if="activeTab === 'request'" class="text-[35px] font-[Poppins-Bold]">Chefs Request</h2>
-                    <h2 v-if="activeTab === 'block'" class="text-[35px] font-[Poppins-Bold]">Blocked Chefs</h2>
+                <div class="mt-5 ml-5 flex flex-row">
+                    <button class="w-[50px] h-[50px] cursor-pointer flex items-center justify-center">
+                        <img src="/public/images/Button-icon/back.png" alt="icon" class="w-full h-auto"/>
+                    </button>
+                    <h2 v-if="activeTab === 'register'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Registered Chefs</h2>
+                    <h2 v-if="activeTab === 'request'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Chefs Request</h2>
+                    <h2 v-if="activeTab === 'block'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Blocked Chefs</h2>
                 </div>
 
                 <!-- Search -->
@@ -71,34 +74,37 @@
                 <img :src="getProfilePic(chef)" alt="img" class="w-full h-full rounded-full" />
             </span>
 
-            <!-- Three-dot menu button -->
-            <button
-                class="absolute top-[5px] right-[5px] mt-[10px] w-[20px] flex items-center justify-center bg-transparent border-none cursor-pointer"
-                @click.stop="toggleMenu(chef.id)"
-            >
-                <img alt="icon" src="/public/images/Button-icon/option.png" class="w-[10px] h-[24px]" />
-            </button>
+                <!-- Three-dot menu button -->
+                <span>
+                    <button
+                        class="absolute top-1 right-1 mt-2 p-0 bg-transparent border-none cursor-pointer flex items-center justify-center w-5"
+                        @click.stop="toggleMenu(chef.id)"
+                    >
+                        <img alt="icon" src="/public/images/Button-icon/option.png" class="w-2 h-6" />
+                    </button>
+                </span>
 
-            <!-- Menu for this specific chef -->
-            <div
-                v-if="menuOpen === chef.id"
-                class="absolute left-[88%] top-[45px] ml-[10px] bg-[#435F77] rounded-tr-[10px] rounded-bl-[10px] rounded-br-[10px] z-[9] p-[10px] flex flex-col gap-[10px]"
-            >
-                <button
-                    class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-[15px] cursor-pointer font-[Poppins-Bold] hover:-translate-y-[2px] transition-all duration-200 ease-in-out"
-                    @click="updateUserStatus(chef.id)"
+
+                <!-- Menu for this specific chef -->
+                <span
+                    v-if="menuOpen === chef.id"
+                    class="absolute left-[88%] top-[45px] ml-[10px] bg-[#435F77] rounded-tr-[10px] rounded-bl-[10px] rounded-br-[10px] z-[9] p-[10px] flex flex-col gap-[10px]"
                 >
-                <img alt="icon" src="/public/images/Button-icon/block.png" class="h-[90%] w-[30%]" />
-                <span class="w-[70%] text-left">Block</span>
-                </button>
-            </div>
+                    <button
+                        class="w-[90px] h-[25px] bg-transparent border-none flex items-center justify-center text-white gap-[15px] cursor-pointer font-[Poppins-Bold] hover:-translate-y-[2px] transition-all duration-200 ease-in-out"
+                        @click="updateUserStatus(chef.id)"
+                    >
+                    <img alt="icon" src="/public/images/Button-icon/block.png" class="h-[90%] w-[30%]" />
+                    <span class="w-[70%] text-left">Block</span>
+                    </button>
+                </span>
 
-            <span class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
-                {{ capitalizeFullName(chef.user_info?.fullName) }}
-            </span>
-            <span class="font-[Poppins-Italic] text-[0.9em]">
-                Since {{ new Date(chef.created_at).getFullYear() }}
-            </span>
+                <span class="text-[20px] font-[Poppins-Bold] truncate max-w-[90%] text-center">
+                    {{ capitalizeFullName(chef.user_info?.fullName) }}
+                </span>
+                <span class="font-[Poppins-Italic] text-[0.9em]">
+                    Since {{ new Date(chef.created_at).getFullYear() }}
+                </span>
             </button>
         </div>
 
