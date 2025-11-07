@@ -2,6 +2,12 @@
     <div class="flex flex-col w-full h-full">
         <!-- Page Label -->
         <div class="flex items-center">
+            <button
+                class="w-[50px] h-[50px] cursor-pointer flex items-center justify-center"
+                @click="$emit('navigate', 'AdminChefs')"
+            >
+                <img src="/public/images/Button-icon/back.png" alt="icon" class="w-full h-auto"/>
+            </button>
             <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
         </div>
 
@@ -88,6 +94,7 @@
         user: Object,
         recipeCardDetails: Array,
     });
+    const emit = defineEmits(["navigate", "recipeNavigate"]);
 
     const chefRecipe = computed(() => {
         if (!props.chef) return [];
@@ -125,15 +132,12 @@
         currentIndex.value = (currentIndex.value + 1) % totalItems;
     }
 
-    const emit = defineEmits(["navigate", "recipeNavigate"]);
-    </script>
+</script>
 
-    <style>
-    /* Hide scrollbars for Chrome, Safari, Edge */
+<style>
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
     }
-    /* Hide scrollbar for IE, Edge and Firefox */
     .scrollbar-hide {
         -ms-overflow-style: none;
         scrollbar-width: none;

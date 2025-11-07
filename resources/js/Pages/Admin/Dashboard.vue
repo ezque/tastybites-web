@@ -146,6 +146,10 @@
             selectedRecipe.value = fullDetails || data;
             activeComponent.value = "RecipeDetails";
         }
+        else if (componentName === "AdminChefs") {
+            selectedChef.value = null;
+            activeComponent.value = "AdminChefs";
+        }
         else {
             activeComponent.value = componentName;
             data = null;

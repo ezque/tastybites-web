@@ -8,6 +8,7 @@
             <!-- Search -->
             <div class="flex items-center bg-[#F5F5F5] px-1 py-1 mr-5 mt-3 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
                 <input
+                    v-model="searchQuery"
                     placeholder="Search Users"
                     class="border-none outline-none w-[200px] px-5 py-2 bg-[#435F77] rounded-full font-[Poppins-Italic] text-white"
                 />
@@ -60,7 +61,7 @@
                 <!-- Table Body -->
                 <div class="max-h-[90%] flex flex-col w-full overflow-y-auto overflow-x-hidden">
                     <div
-                        v-for="user in users"
+                        v-for="user in filteredUsers"
                         :key="user.id"
                         class="w-[100%] flex items-center justify-center border-b-2 border-[#B5BFDE] bg-[#E0E7FF] transition-colors duration-200 hover:bg-[#eef3f8]"
                     >
@@ -114,7 +115,7 @@
                 <!-- Table Body -->
                 <div class="max-h-[90%] flex flex-col w-full overflow-y-auto overflow-x-hidden">
                     <div
-                        v-for="user in blockedUsers"
+                        v-for="user in filteredUsers.filter(u => u.status === 'blocked')"
                         :key="user.id"
                         class="w-[100%] flex items-center justify-center border-b-2 border-[#B5BFDE] bg-[#E0E7FF] transition-colors duration-200 hover:bg-[#eef3f8]"
                     >
@@ -168,12 +169,20 @@
 
 
     const users = ref([...props.usersInfo])
-
+    const searchQuery = ref("");
     const activeTab = ref('all')
 
     const blockedUsers = computed(() =>
         users.value.filter(user => user.status === 'blocked')
     )
+    const filteredUsers = computed(() => {
+        const query = searchQuery.value.toLowerCase();
+        return users.value.filter(user =>
+            user.user_info?.fullName?.toLowerCase().includes(query) ||
+            user.user_info?.userName?.toLowerCase().includes(query) ||
+            user.email?.toLowerCase().includes(query)
+        );
+    });
 
     async function updateUserStatus(userId) {
         try {

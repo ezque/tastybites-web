@@ -5,9 +5,7 @@
             <!-- Label Row -->
             <div class="flex justify-between items-center">
                 <div class="mt-5 ml-5 flex flex-row">
-                    <button class="w-[50px] h-[50px] cursor-pointer flex items-center justify-center">
-                        <img src="/public/images/Button-icon/back.png" alt="icon" class="w-full h-auto"/>
-                    </button>
+
                     <h2 v-if="activeTab === 'register'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Registered Chefs</h2>
                     <h2 v-if="activeTab === 'request'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Chefs Request</h2>
                     <h2 v-if="activeTab === 'block'" class="text-[35px] font-[Poppins-Bold] ml-[10px]">Blocked Chefs</h2>
@@ -16,9 +14,12 @@
                 <!-- Search -->
                 <div class="flex items-center bg-[#F5F5F5] px-1 py-1 mr-5 mt-3 rounded-full border-r border-[#B5BFDE] border-b-[3px] border-b-[#B5BFDE]">
                     <input
+                        v-model="searchQuery"
                         placeholder="Search Chefs"
                         class="border-none outline-none w-[200px] px-5 py-2 bg-[#435F77] rounded-full font-[Poppins-Italic] text-white"
                     />
+
+
                     <img src="/public/images/Button-icon/search.png" alt="icon" class="w-[20px] h-[20px] ml-1 cursor-pointer" />
                 </div>
             </div>
@@ -218,7 +219,7 @@
 
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref, computed, watch } from "vue";
     import axios from "axios";
     import Footer from "@/Component/Footer.vue";
 
@@ -229,25 +230,48 @@
             default: "register"
         }
     })
+
     const activeTab = ref(props.initialTab);
+    const searchQuery = ref('');
+    const menuOpen = ref(null);
 
     const activeChefs = computed(() => {
-      return props.chefs.filter(chef => chef.status === 'active');
+        return props.chefs.filter(chef =>
+            chef.status === 'active' &&
+            matchesSearch(chef)
+        );
     });
 
     const pendingChefs = computed(() => {
-      return props.chefs.filter(chef => chef.status === 'pending');
+        return props.chefs.filter(chef =>
+            chef.status === 'pending' &&
+            matchesSearch(chef)
+        );
     });
 
     const blockedChefs = computed(() => {
-        return props.chefs.filter(chef => chef.status === 'blocked');
-    })
+        return props.chefs.filter(chef =>
+            chef.status === 'blocked' &&
+            matchesSearch(chef)
+        );
+    });
 
-    const menuOpen = ref(null);
+    function matchesSearch(chef) {
+        if (!searchQuery.value.trim()) return true;
+
+        const q = searchQuery.value.toLowerCase();
+        const name = chef.user_info?.fullName?.toLowerCase() || '';
+        const email = chef.email?.toLowerCase() || '';
+
+        return name.includes(q) || email.includes(q);
+    }
 
     function toggleMenu(chefId) {
         menuOpen.value = menuOpen.value === chefId ? null : chefId;
     }
+    watch(activeTab, () => {
+        searchQuery.value = '';
+    });
 
     function getProfilePic(chef) {
         const path = chef.user_info?.profilePath;
@@ -324,6 +348,7 @@
     function viewChefInfo(chef) {
         emit("navigate", "ChefDetails", chef);
     }
+
 </script>
 
 
