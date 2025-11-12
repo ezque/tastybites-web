@@ -14,8 +14,20 @@ use App\Models\Notification;
 
 class AuthController extends Controller
 {
-    public function login(): \Inertia\Response
+    public function login(): \Inertia\Response|\Illuminate\Http\RedirectResponse
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            $redirect = match ($user->role ?? 'user') {
+                'admin' => '/admin-dashboard',
+                'chef' => '/chef-dashboard',
+                default => '/user-dashboard',
+            };
+
+            return redirect($redirect);
+        }
+
         return Inertia::render('Auth/Login');
     }
     public function register(): \Inertia\Response
@@ -35,7 +47,6 @@ class AuthController extends Controller
             'experience' => 'required_if:role,chef|string|nullable',
             'credentials' => 'required_if:role,chef|file|nullable',
         ]);
-
 
 
         if ($validator->fails()) {
@@ -103,15 +114,28 @@ class AuthController extends Controller
 
     public function loginPost(Request $request)
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            $redirect = match ($user->role ?? 'user') {
+                'admin' => '/admin-dashboard',
+                'chef' => '/chef-dashboard',
+                default => '/user-dashboard',
+            };
+
+            return response()->json(['redirect' => $redirect]);
+        }
+
+        // ✅ Validate input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
-
         $remember = $request->has('remember');
 
+        // ✅ Attempt login
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
@@ -126,10 +150,12 @@ class AuthController extends Controller
             return response()->json(['redirect' => $redirect]);
         }
 
+        // ❌ Invalid login
         return response()->json([
             'errors' => ['email' => ['Invalid credentials.']],
         ], 422);
     }
+
 
 
     public function logout(Request $request)
@@ -146,8 +172,6 @@ class AuthController extends Controller
 
     public function editPersonalInformation(Request $request): \Illuminate\Http\JsonResponse
     {
-        \Log::info('Updating Personal Information.');
-
         $validated = $request->validate([
             'fullName' => 'nullable|string|max:255',
             'userName' => 'nullable|string|max:255|unique:user_info,userName,' . Auth::id() . ',userID',

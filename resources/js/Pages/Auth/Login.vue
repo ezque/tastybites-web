@@ -6,15 +6,18 @@
             class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain"
         />
 
-
         <!-- Left side -->
         <div class="p-2 items-center justify-center z-10 relative hidden lg:flex">
             <img src="/public/images/tastybites_plate.png" class="h-[700px] w-auto max-w-full" />
         </div>
 
         <!-- Right side -->
-        <div class="p-[50px_30px_30px_30px] border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative">
-            <h1 class="text-[4.5em] font-[100] font-[Rouge_Script] text-center relative -bottom-[15px] m-0">
+        <div
+            class="p-[50px_30px_30px_30px] border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative"
+        >
+            <h1
+                class="text-[4.5em] font-[100] font-[Rouge_Script] text-center relative -bottom-[15px] m-0"
+            >
                 Welcome Back!
             </h1>
 
@@ -25,9 +28,14 @@
                 <div class="bg-white rounded-[10px] flex items-center p-[10px] w-[400px]">
                     <img src="/public/images/Button-icon/email.png" class="w-6 h-[18px]" />
                     <input
+                        type="email"
+                        name="email"
+                        id="email"
                         placeholder="Email"
                         v-model="form.email"
-                        id="email"
+                        autocomplete="email"
+                        autocapitalize="off"
+                        spellcheck="false"
                         class="w-full h-full ml-2 border-0 outline-0 text-[#768082] font-[Poppins] text-base"
                     />
                 </div>
@@ -35,11 +43,16 @@
                 <p v-if="errors.password" class="text-[#ff4d4f] text-sm">{{ errors.password[0] }}</p>
 
                 <div class="bg-white rounded-[10px] flex items-center p-[10px] w-[400px]">
-                    <img src="/public/images/Button-icon/password.png" class="w-6 h-[22px] ml-[2px] cursor-pointer" />
+                    <img src="/public/images/Button-icon/password.png" class="w-6 h-[22px] ml-[2px]" />
                     <input
                         :type="showPassword ? 'text' : 'password'"
+                        name="password"
+                        id="password"
                         placeholder="Password"
                         v-model="form.password"
+                        autocomplete="current-password"
+                        autocapitalize="off"
+                        spellcheck="false"
                         class="w-full h-full ml-2 border-0 outline-0 text-[#768082] font-[Poppins] text-base"
                     />
                     <img
@@ -68,14 +81,19 @@
                 @click="handleLogin"
                 :disabled="loading"
             >
-                <span v-if="loading" class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span
+                    v-if="loading"
+                    class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+                ></span>
                 <span v-else>LOGIN</span>
             </button>
 
             <!-- Below button text -->
             <p class="mt-2 text-[13px] font-[Poppins-Regular]">
                 Don't have an account?
-                <a href="/register" class="text-[#435F77] font-[Poppins-SemiBold] italic">Register</a>
+                <a href="/register" class="text-[#435F77] font-[Poppins-SemiBold] italic"
+                >Register</a
+                >
             </p>
 
             <!-- Footer Logo -->
@@ -84,47 +102,48 @@
     </div>
 </template>
 
-
 <script setup>
-    import { reactive, ref } from 'vue'
-    import axios from 'axios'
+import { reactive, ref } from "vue";
+import axios from "axios";
 
-    const loading = ref(false)
-    const showPassword = ref(false)
-    const errors = reactive({})
+const loading = ref(false);
+const showPassword = ref(false);
+const errors = reactive({});
 
-    function togglePassword() {
-        showPassword.value = !showPassword.value
-    }
+function togglePassword() {
+    showPassword.value = !showPassword.value;
+}
 
-    const form = reactive({
-        email: '',
-        password: '123456',
-        remember: false
-    })
+const form = reactive({
+    email: "",
+    password: "",
+    remember: false,
+});
 
-    const handleLogin = async () => {
-        loading.value = true
-        Object.keys(errors).forEach((key) => delete errors[key])
+const handleLogin = async () => {
+    loading.value = true;
+    Object.keys(errors).forEach((key) => delete errors[key]);
 
-        try {
-            const response = await axios.post('/login-post', form, {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                }
-            })
+    try {
+        const response = await axios.post("/login-post", form, {
+            headers: {
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        });
 
-            if (response.data.redirect) {
-                window.location.href = response.data.redirect
-            }
-        } catch (error) {
-            if (error.response?.status === 422) {
-                Object.assign(errors, error.response.data.errors)
-            } else {
-                console.error('Unexpected login error:', error)
-            }
-        } finally {
-            loading.value = false
+        if (response.data.redirect) {
+            window.location.href = response.data.redirect;
         }
+    } catch (error) {
+        if (error.response?.status === 422) {
+            Object.assign(errors, error.response.data.errors);
+        } else {
+            console.error("Unexpected login error:", error);
+        }
+    } finally {
+        loading.value = false;
     }
+};
 </script>

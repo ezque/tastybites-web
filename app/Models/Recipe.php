@@ -28,10 +28,15 @@ class Recipe extends Model
     public function ingredient(){
         return $this->hasMany(Ingredient::class, 'recipeID');
     }
+//    public function procedure()
+//    {
+//        return $this->hasMany(Procedure::class, 'recipeID');
+//    }
     public function procedure()
     {
-        return $this->hasMany(Procedure::class, 'recipeID');
+        return $this->hasMany(Procedure::class, 'recipeID', 'id');
     }
+
     public function purchase()
     {
         return $this->hasOne(Purchase::class, 'recipeID')->where('userID', auth()->id());
@@ -47,7 +52,7 @@ class Recipe extends Model
     }
     public function hidden()
     {
-        return $this->hasOne(HideRecipe::class, 'recipeID')
+        return $this->hasOne(HideRecipe::class, 'recipeID', 'id')
             ->where('userID', auth()->id());
     }
     public function savedBy()

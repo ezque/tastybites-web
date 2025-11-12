@@ -23,11 +23,21 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            \Log::warning("Login failed for email: {$request->email}");
+        if (!$user) {
+            // Email not registered
+            \Log::warning("Login failed — email not registered: {$request->email}");
             return response()->json([
-                'message' => 'Invalid credentials',
+                'message' => 'Email not registered',
                 'field'   => 'email',
+            ], 404);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            // Wrong password
+            \Log::warning("Login failed — wrong password for email: {$request->email}");
+            return response()->json([
+                'message' => 'Incorrect password',
+                'field'   => 'password',
             ], 401);
         }
 
@@ -41,6 +51,7 @@ class AuthController extends Controller
             'id'           => $user->id,
         ]);
     }
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -100,6 +111,111 @@ class AuthController extends Controller
             'message' => 'Registration successful',
             'user' => $user,
         ], 201);
+    }
+    public function getPersonalInformation(Request $request)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        // Load the user with the related userInfo
+        $user->load('userInfo');
+
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
+    }
+
+
+    public function updateProfile(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $userInfo = $user->userInfo;
+
+        // Validate inputs
+        $validated = $request->validate([
+            'fullName' => 'nullable|string|max:255',
+            'userName' => 'nullable|string|max:255|unique:user_info,userName,' . $userInfo->userID . ',userID',
+            'gender' => 'nullable|string|in:Male,Female,Other',
+            'profilePath' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // image validation
+        ]);
+
+        // Update text fields if provided
+        if (isset($validated['fullName'])) {
+            $userInfo->fullName = $validated['fullName'];
+        }
+        if (isset($validated['userName'])) {
+            $userInfo->userName = $validated['userName'];
+        }
+        if (isset($validated['gender'])) {
+            $userInfo->gender = $validated['gender'];
+        }
+
+        // Handle profile image if uploaded
+        if ($request->hasFile('profilePath')) {
+            // Delete old image if exists
+            if ($userInfo->profilePath && Storage::disk('public')->exists($userInfo->profilePath)) {
+                Storage::disk('public')->delete($userInfo->profilePath);
+            }
+
+            // Store new image
+            $path = $request->file('profilePath')->store('profiles', 'public');
+            $userInfo->profilePath = $path;
+        }
+
+        $userInfo->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully.',
+            'user' => $user->load('userInfo'),
+        ]);
+    }
+
+    public function changePassword(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect.'
+            ], 422);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password updated successfully.',
+        ]);
     }
 
 

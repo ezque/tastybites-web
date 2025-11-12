@@ -24,6 +24,7 @@ class RecipeService
             },
         ])
             ->select('id', 'recipeName', 'description', 'video_path', 'gcash_number', 'receipt_path', 'gCash_path', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
+            ->inRandomOrder()
             ->get()
             ->map(function ($recipe) use ($userId) {
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
