@@ -2,14 +2,15 @@
     <div class="w-full h-screen bg-gray-100 flex flex-col overflow-hidden">
         <Header
             :user="user"
-            @navigate="setActiveComponent"
             :getNotification="getNotification"
+            @navigate="setActiveComponent"
+            @search="handleSearch"
         />
         <div class="w-full h-full flex flex-row bg-white">
             <Sidebar
                 :user="user"
-                @navigate="setActiveComponent"
                 :active="activeComponent"
+                @navigate="setActiveComponent"
             />
 
             <Home
@@ -27,11 +28,11 @@
             />
             <Chefs
                 v-if="activeComponent === 'AdminChefs'"
+                class="flex-1 overflow-y-auto"
                 :chefs="chefs"
                 :user="user"
-                @navigate="handleNavigation"
                 :initialTab="selectedChef"
-                class="flex-1 overflow-y-auto"
+                @navigate="handleNavigation"
             />
             <ChefDetails
                 v-if="activeComponent === 'ChefDetails'"
@@ -50,10 +51,11 @@
             />
             <Recipes
                 v-if="activeComponent === 'Recipes'"
-                @navigate="handleNavigation"
+                class="flex-1 overflow-y-auto"
                 :recipeCardDetails="recipeCardDetails"
                 :user="user"
-                class="flex-1 overflow-y-auto"
+                :searchQuery="searchQuery"
+                @navigate="handleNavigation"
             />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails' && selectedRecipe"
@@ -118,6 +120,11 @@
     const selectedChef = ref(null);
     const selectedNotification = ref(null);
 
+    const searchQuery = ref("");
+
+    function handleSearch(value) {
+        searchQuery.value = value;
+    }
     const setActiveComponent = (componentName, data = null) => {
         if (componentName === "TheNotification" && data) {
             selectedNotification.value = data;

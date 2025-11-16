@@ -79,7 +79,8 @@
 
     const props = defineProps({
         user: Object,
-        recipeCardDetails: Array
+        recipeCardDetails: Array,
+        searchQuery: String
     })
     const activeMenuId = ref(null)
     function handleToggleMenu(id) {
@@ -118,18 +119,21 @@
 
     const filteredRecipes = computed(() => {
         return baseRecipes.value.filter((recipe) => {
-            // always exclude pending recipes first
             if (recipe.status === "pending") return false;
 
-            // then apply activeFilter logic
             switch (activeFilter.value) {
                 case "premium":
-                    return recipe.is_free === "premium";
+                    if (recipe.is_free !== "premium") return false;
+                    break;
                 case "free":
-                    return recipe.is_free === "free";
-                default:
-                    return true;
+                    if (recipe.is_free !== "free") return false;
+                    break;
             }
+
+            if (props.searchQuery && !recipe.recipeName.toLowerCase().includes(props.searchQuery.toLowerCase())) {
+                return false;
+            }
+            return true;
         });
     });
 

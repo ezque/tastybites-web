@@ -34,7 +34,7 @@ class Recipe extends Model
 //    }
     public function procedure()
     {
-        return $this->hasMany(Procedure::class, 'recipeID', 'id');
+        return $this->hasMany(Procedure::class, 'recipeID', 'id')->orderBy('step', 'asc');
     }
 
     public function purchase()

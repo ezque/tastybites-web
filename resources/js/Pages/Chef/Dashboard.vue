@@ -125,7 +125,6 @@
 
     const searchQuery = ref("");
 
-
     function handleSearch(value) {
         searchQuery.value = value;
     }

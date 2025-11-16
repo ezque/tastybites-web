@@ -2,11 +2,14 @@
     <div class="relative w-60 h-[270px] rounded-2xl bg-[#CFDAFF] shadow-[5px_4px_2px_#AFADAD] border-b border-[#AFADAD]">
         <!-- Recipe Image -->
         <div class="flex items-center justify-center w-full h-[45%] p-1">
-            <img
-                :src="`/storage/${recipeCardDetail.image_path}`"
-                alt="recipe"
-                class="w-[65%] h-full rounded-full mt-2 object-cover"
-            />
+            <div class="w-[50%] h-full rounded-full">
+                <img
+                    :src="`/storage/${recipeCardDetail.image_path}`"
+                    alt="recipe"
+                    class="w-full h-full rounded-full mt-2 object-cover"
+                />
+            </div>
+
         </div>
 
         <!-- Premium Icon -->
@@ -14,8 +17,14 @@
             v-if="recipeCardDetail.is_free === 'premium'"
             src="/public/images/premium-icon.png"
             alt="premium"
-            class="absolute top-4 left-4 w-6 h-auto"
+            class="w-10 h-auto absolute -top-6 -left-5 -rotate-30"
         />
+        <p
+            v-if="recipeCardDetail.is_free === 'premium'"
+            class="absolute top-1 left-3 font-['Poppins-Regular'] text-[1.1rem]"
+        >
+            ₱{{recipeCardDetail.price}}
+        </p>
 
         <!-- Dot Menu Button -->
         <button
@@ -162,7 +171,10 @@
 
     const likeCount = ref(0)
     const dislikeCount = ref(0)
-
+    const recipeIsHidden = computed(() => Number(props.recipeCardDetail?.is_hidden) === 1)
+    const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
+    const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
+    const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
     const toggleMenu = () => {
         emit('toggle-menu', props.recipeCardDetail.id)
     }
@@ -199,9 +211,7 @@
         fetchCounts()
     })
 
-    const recipeIsHidden = computed(() => Number(props.recipeCardDetail?.is_hidden) === 1)
-    const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
-    const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
+
 
     const toggleHide = async () => {
         try {
@@ -223,7 +233,7 @@
         }
     }
 
-    const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
+
 
     watch(recipeIsSave, (newVal) => {
         console.log("recipeIsSave changed:", newVal)
@@ -272,7 +282,5 @@
             alert("Failed to delete the recipe.");
         }
     };
-
-
 
 </script>

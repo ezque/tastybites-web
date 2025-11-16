@@ -1,27 +1,37 @@
 <template>
     <div class="w-full h-screen flex flex-col overflow-hidden">
-        <Header :user="user" @navigate="setActiveComponent" :getNotification="getNotification" />
+        <Header
+            :user="user"
+            :getNotification="getNotification"
+            @navigate="setActiveComponent"
+            @search="handleSearch"
+        />
 
         <div class="w-full h-full flex flex-row bg-white">
-            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent" />
+            <Sidebar
+                :user="user"
+                :active="activeComponent"
+                @navigate="setActiveComponent"
+            />
 
             <Home
                 v-if="activeComponent === 'Home'"
-                @navigate="handleNavigation"
                 :recipeCardDetails="recipeCardDetails"
+                :searchQuery="searchQuery"
+                @navigate="handleNavigation"
             />
             <RecipeDetails
                 v-if="activeComponent === 'RecipeDetails'"
-                @navigate="setActiveComponent"
-                @back="back"
                 :user="user"
                 :recipe="selectedRecipe"
+                @navigate="setActiveComponent"
+                @back="back"
             />
             <UserSettings
                 v-if="activeComponent === 'Settings'"
-                @navigate="handleNavigation"
                 :user="user"
                 :recipeCardDetails="recipeCardDetails"
+                @navigate="handleNavigation"
             />
             <Notification
                 v-if="activeComponent === 'Notification'"
@@ -38,9 +48,9 @@
                 v-if="activeComponent === 'ChefDetails'"
                 :chef="selectedChef"
                 :recipeCardDetails="recipeCardDetails"
+                :user="user"
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
-                :user="user"
             />
             <UserRecipe
                 v-if="activeComponent === 'UserRecipe'"
@@ -78,6 +88,13 @@
     const selectedRecipe = ref(null);
     const selectedChef = ref(null);
     const selectedNotification = ref(null);
+
+    const searchQuery = ref("");
+
+    function handleSearch(value) {
+        searchQuery.value = value;
+    }
+
     const setActiveComponent = (componentName, data = null) => {
         console.log("Navigation triggered:", componentName, data);
         if (componentName === "RecipeDetails" && data) {
