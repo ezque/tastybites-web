@@ -3,6 +3,7 @@
         <Header
             :user="user"
             @navigate="setActiveComponent"
+            @search="handleSearch"
             :getNotification="getNotification"
         />
 
@@ -13,6 +14,7 @@
             <Home
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails"
+                :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
             <Income
@@ -120,6 +122,13 @@
 
     const selectedRecipe = ref(null);
     const selectedNotification = ref(null);
+
+    const searchQuery = ref("");
+
+
+    function handleSearch(value) {
+        searchQuery.value = value;
+    }
 
     const setActiveComponent = (componentName, data = null) => {
         if (componentName === "TheNotification" && data) {

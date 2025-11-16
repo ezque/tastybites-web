@@ -7,6 +7,28 @@
         <div class="flex items-center gap-3 pl-5">
             <!-- Notification box -->
             <div class="relative flex">
+                <div
+                    class="relative group flex items-center "
+                    @mouseenter="isSearchOpen = true"
+                    @mouseleave="handleMouseLeave"
+                >
+                    <img
+                        src="/public/images/Button-icon/search.png"
+                        alt="icon"
+                        class="absolute left-2 w-[25px] h-auto pointer-events-none"
+                    />
+                    <input
+                        v-model="searchText"
+                        type="text"
+                        placeholder="Search..."
+                        @input="isSearchOpen = true"
+                        :class="[
+                            'transition-all duration-300 focus:outline-none focus:ring-0 border border-gray-300 rounded-lg py-1.5 pl-10 pr-2 bg-[#F5F5F5]',
+                            isSearchOpen ? 'w-48 opacity-100' : 'w-0 opacity-0'
+                        ]"
+                    />
+                </div>
+
                 <button
                     ref="notifButtonRef"
                     class="p-1 flex items-center justify-center bg-transparent cursor-pointer"
@@ -28,19 +50,23 @@
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'all'
-                  ? 'bg-[#B5BFDE] text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                                    ? 'bg-[#B5BFDE] text-[#435F77]'
+                                    : 'hover:bg-[#E0E7FF] text-[#435F77]'"
                                 style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'all'"
-                            >All</button>
+                            >
+                                All
+                            </button>
                             <button
                                 class="px-3 py-1 text-sm rounded-md"
                                 :class="activeFilter === 'unread'
-                  ? 'bg-[#B5BFDE] text-[#435F77]'
-                  : 'hover:bg-[#E0E7FF] text-[#435F77]'"
+                                    ? 'bg-[#B5BFDE] text-[#435F77]'
+                                    : 'hover:bg-[#E0E7FF] text-[#435F77]'"
                                 style="font-family: 'Poppins-Regular'"
                                 @click="activeFilter = 'unread'"
-                            >Unread</button>
+                            >
+                                Unread
+                            </button>
                         </div>
                     </div>
 
@@ -177,7 +203,7 @@
 </template>
 
 <script setup>
-    import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+    import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
     import { Inertia } from '@inertiajs/inertia';
     import axios from 'axios';
 
@@ -186,7 +212,7 @@
         getNotification: Array,
     });
 
-    const emit = defineEmits(['navigate']);
+    const emit = defineEmits(['navigate', 'search']);
 
     const isMenuVisible = ref(false);
     const isNotificationVisible = ref(false);
@@ -198,6 +224,15 @@
     const notifButtonRef = ref(null);
     const notifDropdownRef = ref(null);
 
+    const searchText = ref("");
+    const isSearchOpen = ref(false);
+
+    function handleMouseLeave() {
+        if (searchText.value.trim() === "") {
+            isSearchOpen.value = false;
+        }
+    }
+    watch(searchText, (val) => emit("search", val));
     const handleClickOutside = (event) => {
         const profileMenu = menuRef.value;
         const profileButton = profileButtonRef.value;
