@@ -12,11 +12,11 @@ class RecipeService
     {
         $userId = auth()->id();
 
-        // Base query for all recipes
+        // Fetch all recipes with related data
         $recipes = Recipe::with([
             'user.userInfo',
             'purchase.user', // current user's purchase
-            'userReaction', // current user's reaction
+            'userReaction',  // current user's reaction
             'hidden' => fn($q) => $q->where('userID', $userId),
             'savedBy' => fn($q) => $q->where('userID', $userId),
         ])
@@ -25,21 +25,28 @@ class RecipeService
             ])
             ->get()
             ->map(function ($recipe) use ($userId) {
+                // User reaction
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
 
+                // Hidden and saved status
                 $recipe->is_hidden = $recipe->hidden?->is_hidden ?? 0;
                 $recipe->is_saved = $recipe->savedBy?->save_status ?? 0;
+
+                // Ownership
                 $recipe->is_owned = $recipe->userID === $userId;
-                $recipe->is_purchased = $recipe->purchase ? true : false;
+
+                // Purchase status
+                $recipe->purchase_status = $recipe->purchase?->status; // 'pending', 'confirmed', or null
+                $recipe->is_purchased = $recipe->purchase_status === 'confirmed';
+                $recipe->is_pending_purchase = $recipe->purchase_status === 'pending';
+
+                // Access
                 $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
-                if (
-                    $recipe->is_free ||
-                    ($recipe->purchase && $recipe->purchase->status === 'confirmed') ||
-                    $recipe->userID == $userId
-                ) {
+                // Load full recipe data if allowed
+                if ($recipe->is_free || $recipe->is_purchased || $recipe->is_owned) {
                     $recipe->load(['ingredient', 'procedure']);
                 }
 
@@ -52,10 +59,10 @@ class RecipeService
             ->take(5)
             ->values();
 
-        // Top purchased premium recipes (all users) with the same mapping
+        // Top purchased premium recipes
         $topPurchasedPremium = Recipe::with([
             'user.userInfo',
-            'allPurchases.user', // all purchases for counting
+            'allPurchases.user',
             'ingredient',
             'procedure',
             'userReaction' => fn($q) => $q->where('userID', $userId),
@@ -77,7 +84,11 @@ class RecipeService
                 $recipe->is_hidden = $recipe->hidden?->is_hidden ?? 0;
                 $recipe->is_saved = $recipe->savedBy?->save_status ?? 0;
                 $recipe->is_owned = $recipe->userID === $userId;
-                $recipe->is_purchased = $recipe->purchase ? true : false;
+
+                $recipe->purchase_status = $recipe->purchase?->status;
+                $recipe->is_purchased = $recipe->purchase_status === 'confirmed';
+                $recipe->is_pending_purchase = $recipe->purchase_status === 'pending';
+
                 $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
                 return $recipe;
@@ -86,9 +97,10 @@ class RecipeService
         return [
             'all' => $recipes,
             'topLiked' => $topLiked,
-            'topPurchased' => $topPurchasedPremium
+            'topPurchased' => $topPurchasedPremium,
         ];
     }
+
 
 
 

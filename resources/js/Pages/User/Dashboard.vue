@@ -16,7 +16,6 @@
 
             <Home
                 v-if="activeComponent === 'Home'"
-                :recipeCardDetails="recipeCardDetails.all"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
@@ -54,7 +53,6 @@
             />
             <UserRecipe
                 v-if="activeComponent === 'UserRecipe'"
-                :recipeCardDetails="recipeCardDetails.all"
                 @navigate="handleNavigation"
             />
         </div>

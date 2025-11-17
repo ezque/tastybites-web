@@ -17,7 +17,13 @@
             >
                 <span>PURCHASED</span>
             </button>
-
+            <button
+                class="w-[170px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300"
+                :class="activeFilter === 'pendingPurchase' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
+                @click="activeFilter = 'pendingPurchase'"
+            >
+                <span>PENDING</span>
+            </button>
             <button
                 class="w-[170px] h-[40px] rounded-[20px] cursor-pointer text-[13px] font-[Poppins-Bold] transition-transform duration-300"
                 :class="activeFilter === 'hidden' ? 'bg-[#E0E7FF] text-[#435F77] shadow-[4px_4px_12px_#AFADAD] border-r border-[#AFADAD]' : 'bg-[#435F77] text-white hover:scale-110'"
@@ -49,15 +55,21 @@
     import { ref, computed, onMounted, onBeforeUnmount } from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     import Footer from "@/Component/Footer.vue";
-
-    const props = defineProps({
-        recipeCardDetails: Array,
-    });
+    import axios from "axios";
 
     const activeFilter = ref("saved");
     const emit = defineEmits(["navigate"]);
     const activeMenuId = ref(null)
-
+    const loading = ref(true);
+    const recipeCardDetails = ref({
+        all: [],
+    });
+    const allRecipes = computed(() => {
+        // Ensure this is always an array
+        if (Array.isArray(recipeCardDetails.value)) return recipeCardDetails.value;
+        if (Array.isArray(recipeCardDetails.value.all)) return recipeCardDetails.value.all;
+        return [];
+    });
     function handleToggleMenu(id) {
         activeMenuId.value = activeMenuId.value === id ? null : id
     }
@@ -82,13 +94,34 @@
     })
 
     const filteredRecipes = computed(() => {
+        const recipes = allRecipes.value; // ✅ use .value
         if (activeFilter.value === "saved") {
-            return props.recipeCardDetails.filter((r) => r.is_saved);
-        }  else if (activeFilter.value === "purchased") {
-            return props.recipeCardDetails.filter((r) => r.is_purchased);
+            return recipes.filter(r => r.is_saved);
+        } else if (activeFilter.value === "purchased") {
+            return recipes.filter(r => r.is_purchased);
+        }else if (activeFilter.value === "pendingPurchase") {
+            return recipes.filter(r => r.is_pending_purchase);
         } else if (activeFilter.value === "hidden") {
-            return props.recipeCardDetails.filter(r => r.is_hidden === '1');
+            return recipes.filter(r => r.is_hidden === '1');
         }
-        return props.recipeCardDetails;
+        return recipes;
+    });
+
+    const fetchRecipe = async () => {
+        loading.value = true;
+        try {
+            const { data } = await axios.get('/all-recipes', {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            recipeCardDetails.value = data;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    onMounted(() => {
+        fetchRecipe();
     });
 </script>
