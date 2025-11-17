@@ -17,8 +17,6 @@
             <Home
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails.all"
-                :topLikeRecipe="recipeCardDetails.topLiked"
-                :topPurchased="recipeCardDetails.topPurchased"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
@@ -32,7 +30,6 @@
             <UserSettings
                 v-if="activeComponent === 'Settings'"
                 :user="user"
-                :recipeCardDetails="recipeCardDetails.all"
                 @navigate="handleNavigation"
             />
             <Notification
@@ -42,6 +39,7 @@
             />
             <UserChef
                 v-if="activeComponent === 'userChef'"
+                :searchQuery="searchQuery"
                 :chefs="chefs"
                 :user="user"
                 @navigate="handleNavigation"
@@ -75,7 +73,8 @@
     import ChefDetails from "@/Component/chefDetails.vue";
     import UserRecipe from "@/Component/UserRecipe.vue";
 
-    import { computed, ref } from "vue";
+    import { computed, ref, onMounted  } from "vue";
+    import axios from "axios";
 
     const props = defineProps({
         user: Object,
@@ -158,5 +157,7 @@
 
         activeComponent.value = "RecipeDetails";
     };
+
+
 
 </script>

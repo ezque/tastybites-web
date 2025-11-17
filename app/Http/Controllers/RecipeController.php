@@ -15,6 +15,7 @@ use App\Models\Reaction;
 use App\Models\HideRecipe;
 use App\Models\SaveRecipe;
 use App\Models\Notification;
+use App\Services\RecipeService;
 class RecipeController extends Controller
 {
     public function addRecipe(Request $request): \Illuminate\Http\JsonResponse
@@ -486,5 +487,12 @@ class RecipeController extends Controller
             'report'  => $report,
         ]);
     }
+
+    public function getAllRecipes(RecipeService $recipeService)
+    {
+        $recipeCardDetails = $recipeService->getRecipeCardDetails();
+        return response()->json($recipeCardDetails);
+    }
+
 
 }

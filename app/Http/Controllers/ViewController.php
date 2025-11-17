@@ -47,7 +47,6 @@ class ViewController extends Controller
     {
         $user = Auth::user()->load('userInfo');
 
-        $recipeCardDetails = $recipeService->getRecipeCardDetails();
         $recipeAllDetails = $recipeService->getAllRecipeDetails();
         $getNotification = $notificationServices->getNotification();
         $chefs = $userService->getChefInfo();
@@ -56,7 +55,6 @@ class ViewController extends Controller
             [
                 'user' => $user,
                 'chefs' => $chefs,
-                'recipeCardDetails' => $recipeCardDetails,
                 'recipeAllDetails' => $recipeAllDetails,
                 'getNotification' => $getNotification
             ]

@@ -15,27 +15,37 @@
                 class="relative flex flex-col items-center justify-center w-[220px] h-[250px] rounded-2xl bg-indigo-100 shadow-md"
             >
                 <!-- Card Button -->
-                <button
-                    class="flex flex-col items-center justify-center w-full h-full cursor-pointer"
-                    @click="viewChefInfo(chef)"
+                <div
+                    class="flex flex-col items-center justify-center w-full h-full
+                    bg-[#CFDAFF]  rounded-2xl shadow-md p-4 transition-transform duration-300
+                    hover:shadow-xl hover:scale-105"
                 >
-                    <span class="w-[73%] h-[60%] rounded-full mb-3">
+                    <span class="w-[100px] h-[100px] mb-3 relative">
                         <img
                             :src="getProfilePic(chef)"
                             alt="Chef Image"
-                            class="w-full h-full  rounded-full"
+                            class="w-full h-full rounded-full object-cover border-2 border-indigo-200"
                         />
                     </span>
 
                     <h2
-                        class="max-w-[90%] text-[20px] font-['Poppins-Bold'] text-center truncate"
+                        class="text-[18px] font-['Poppins-Bold'] text-center text-gray-800 truncate mb-1"
+                        :title="capitalizeFullName(chef.user_info?.fullName)"
                     >
                         {{ capitalizeFullName(chef.user_info?.fullName) }}
                     </h2>
-                    <p class="m-0 text-sm  font-['Poppins-Italic']">
+                    <p class="text-sm font-['Poppins-Italic'] text-gray-500 mb-3">
                         Since {{ new Date(chef.created_at).getFullYear() }}
                     </p>
-                </button>
+
+                    <button
+                        class="bg-indigo-500 text-white w-[80%] px-4 py-2 rounded-full text-sm font-medium
+                        hover:bg-indigo-600 transition-colors duration-300 shadow-sm  cursor-pointer"
+                        @click="viewChefInfo(chef)"
+                    >
+                        Details
+                    </button>
+                </div>
 
                 <!-- Dot Menu -->
                 <button
@@ -133,6 +143,7 @@
     const props = defineProps({
         chefs: Array,
         user: Object,
+        searchQuery: String,
     });
 
     const emit = defineEmits(["navigate"]);
@@ -150,10 +161,15 @@
     ];
 
     const activeChefs = computed(() => {
-        return props.chefs.filter(
-            (chef) => chef.status === "active" && chef.id !== props.user.id
-        );
+        return props.chefs
+            .filter(chef => chef.status === "active" && chef.id !== props.user.id)
+            .filter(chef => {
+                if (!props.searchQuery) return true;
+                const fullName = chef.user_info?.fullName || "";
+                return fullName.toLowerCase().includes(props.searchQuery.toLowerCase());
+            });
     });
+
 
     function viewChefInfo(chef) {
         emit("navigate", "ChefDetails", chef);
