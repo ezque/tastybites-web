@@ -37,7 +37,7 @@
             <ChefDetails
                 v-if="activeComponent === 'ChefDetails'"
                 :chef="selectedChef"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
                 :user="user"
@@ -52,7 +52,7 @@
             <Recipes
                 v-if="activeComponent === 'Recipes'"
                 class="flex-1 overflow-y-auto"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 :user="user"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
@@ -103,7 +103,7 @@
     const props = defineProps({
         user: Object,
         chefs: Array,
-        recipeCardDetails: Array,
+        recipeCardDetails: Object,
         recipeAllDetails: Object,
         usersInfo: Array,
         getRecipeDetailsAdmin: Array,

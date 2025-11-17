@@ -8,7 +8,7 @@
             </div>
             <div class="details-main-container w-full h-screen flex flex-row">
                 <div class="left-side-details-container h-[72%] w-[40%] flex flex-col items-center justify-center">
-                    <div class="recipe-img-container w-[65%] h-[59%] rounded-full flex items-center justify-center">
+                    <div class="recipe-img-container w-[57%] h-[59%] rounded-full flex items-center justify-center">
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image" class="w-full h-full rounded-full"/>
                     </div>
                     <div class="recipe-name-container w-full h-auto flex flex-col items-center mt-[20px]">
@@ -122,7 +122,7 @@
             </div>
             <div class="details-main-container w-full h-screen flex flex-row">
                 <div class="left-side-details-container h-[72%] w-[40%] flex flex-col items-center justify-center">
-                    <div class="recipe-img-container w-[65%] h-[59%] rounded-full flex items-center justify-center">
+                    <div class="recipe-img-container w-[57%] h-[57%] rounded-full flex items-center justify-center">
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image" class="w-full h-full rounded-full"/>
                     </div>
                     <div class="recipe-name-container w-full h-auto flex flex-col items-center mt-[20px]">

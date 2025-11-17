@@ -12,47 +12,60 @@ class RecipeService
     {
         $userId = auth()->id();
 
-        $recipes = Recipe::with([
+        $baseQuery = Recipe::with([
             'user.userInfo',
             'purchase.user',
             'userReaction',
-            'hidden' => function ($q) use ($userId) {
-                $q->where('userID', $userId);
-            },
-            'savedBy' => function ($q) use ($userId) {
-                $q->where('userID', $userId);
-            },
+            'hidden' => fn($q) => $q->where('userID', $userId),
+            'savedBy' => fn($q) => $q->where('userID', $userId),
         ])
-            ->select('id', 'recipeName', 'description', 'video_path', 'gcash_number', 'receipt_path', 'gCash_path', 'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
-            ->inRandomOrder()
-            ->get()
-            ->map(function ($recipe) use ($userId) {
-                $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
-                $recipe->userReactedLike = $recipe->reaction_type === '1';
-                $recipe->userReactedDislike = $recipe->reaction_type === '2';
+            ->select('id', 'recipeName', 'description', 'video_path', 'gcash_number', 'receipt_path', 'gCash_path',
+                'price', 'cuisineType', 'status', 'image_path', 'userID', 'is_free')
+            ->withCount([
+                'reactions as likes_count' => fn($q) => $q->where('reaction_type', '1'),
+                'purchase as purchase_count'
+            ]);
 
-                $recipe->is_hidden = $recipe->hidden?->is_hidden ?? 0;
-                $recipe->is_saved = $recipe->savedBy?->save_status ?? 0;
+        // All recipes
+        $recipes = $baseQuery->inRandomOrder()->get()->map(function ($recipe) use ($userId) {
+            $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
+            $recipe->userReactedLike = $recipe->reaction_type === '1';
+            $recipe->userReactedDislike = $recipe->reaction_type === '2';
 
-                // ✅ Ownership check
-                $recipe->is_owned = $recipe->userID === $userId;
+            $recipe->is_hidden = $recipe->hidden?->is_hidden ?? 0;
+            $recipe->is_saved = $recipe->savedBy?->save_status ?? 0;
+            $recipe->is_owned = $recipe->userID === $userId;
+            $recipe->is_purchased = $recipe->purchase ? true : false;
+            $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
-                // ✅ Purchase check (for current user)
-                $recipe->is_purchased = $recipe->purchase ? true : false;
-
-                // ✅ Can the user access this recipe? (owned OR purchased OR free)
-                $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
-
-                return $recipe;
-            });
-        foreach ($recipes as $recipe) {
             if ($recipe->is_free || ($recipe->purchase && $recipe->purchase->status === 'confirmed') || $recipe->userID == $userId) {
                 $recipe->load(['ingredient', 'procedure']);
             }
-        }
 
-        return $recipes;
+            return $recipe;
+        });
+
+        // Top 5 most liked recipes
+        $topLiked = $recipes
+            ->sortByDesc('likes_count')  // sort collection by likes
+            ->take(5)                    // take top 5
+            ->values();                  // reset keys
+
+        // Top 5 most purchased recipes
+        $topPurchased = $recipes
+            ->sortByDesc('purchase_count')
+            ->take(5)
+            ->values();
+
+        return [
+            'all' => $recipes,
+            'topLiked' => $topLiked,
+            'topPurchased' => $topPurchased
+        ];
     }
+
+
+
 
 
 

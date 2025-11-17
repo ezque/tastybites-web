@@ -32,6 +32,21 @@
             </div>
 
         </div>
+        <h2 class="font-[Poppins-Bold] ml-22 text-[2rem] mb-0 p-0">
+            Popular Recipes
+        </h2>
+        <div class="flex flex-wrap flex-row gap-[70px] items-center justify-center pt-4 pb-3 w-full
+           shadow-[0_10px_10px_-5px_rgba(0,0,0,0.3)]">
+            <RecipeCard
+                v-for="(recipeCardDetail, index) in topLikeRecipe"
+                :key="recipeCardDetail.id"
+                :recipeCardDetail="recipeCardDetail"
+                :index="index"
+                @navigate="(component, data) => emit('navigate', component, data)"
+                :activeMenuId="activeMenuId"
+                @toggle-menu="handleToggleMenu"
+            />
+        </div>
         <!-- ====================== RECIPE CARDS ====================== -->
         <div class="flex flex-wrap flex-row gap-[70px] items-center justify-center pt-7 pb-3 w-full">
             <RecipeCard
@@ -58,8 +73,9 @@
     const emit = defineEmits(['navigate'])
 
     const props = defineProps({
-        recipeCardDetails: Array,
-        searchQuery: String
+        recipeCardDetails: Object,
+        topLikeRecipe: Array,
+        searchQuery: String,
     })
 
     const activeMenuId = ref(null)

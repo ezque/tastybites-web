@@ -97,7 +97,7 @@
             <h3 class="text-sm font-['Poppins-BoldItalic']">
                 {{ recipeCardDetail.cuisineType }}
             </h3>
-            <p class="text-sm font-['Poppins-Regular']">
+            <p class="text-sm font-['Poppins-Regular'] lowercase italic">
                 Chef: @{{ recipeCardDetail.user.user_info.userName }}
             </p>
         </div>

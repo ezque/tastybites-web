@@ -16,7 +16,8 @@
 
             <Home
                 v-if="activeComponent === 'Home'"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
+                :topLikeRecipe="recipeCardDetails.topLiked"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
@@ -30,7 +31,7 @@
             <UserSettings
                 v-if="activeComponent === 'Settings'"
                 :user="user"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 @navigate="handleNavigation"
             />
             <Notification
@@ -47,14 +48,14 @@
             <ChefDetails
                 v-if="activeComponent === 'ChefDetails'"
                 :chef="selectedChef"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 :user="user"
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
             />
             <UserRecipe
                 v-if="activeComponent === 'UserRecipe'"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 @navigate="handleNavigation"
             />
         </div>
@@ -78,7 +79,7 @@
     const props = defineProps({
         user: Object,
         chefs: Array,
-        recipeCardDetails: Array,
+        recipeCardDetails: Object,
         recipeAllDetails: Object,
         getNotification: Array,
     })

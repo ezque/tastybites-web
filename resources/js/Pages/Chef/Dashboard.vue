@@ -13,7 +13,8 @@
             <!-- Pages -->
             <Home
                 v-if="activeComponent === 'Home'"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
+                :topLikeRecipe="recipeCardDetails.topLiked"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
@@ -106,7 +107,7 @@
     const props = defineProps({
         user: Object,
         chefs: Array,
-        recipeCardDetails: Array,
+        recipeCardDetails: Object,
         recipeAllDetails: Object,
         purchases: Array,
         getNotification: Array,
