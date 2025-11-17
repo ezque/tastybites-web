@@ -41,6 +41,11 @@ class Recipe extends Model
     {
         return $this->hasOne(Purchase::class, 'recipeID')->where('userID', auth()->id());
     }
+    public function allPurchases()
+    {
+        return $this->hasMany(Purchase::class, 'recipeID');
+    }
+
     public function reactions()
     {
         return $this->hasMany(Reaction::class, 'recipeID');
@@ -63,9 +68,6 @@ class Recipe extends Model
     public function reports()
     {
         return $this->hasMany(Report::class, 'reportedRecipeID');
-    }
-    public function allPurchases() {
-        return $this->hasMany(Purchase::class, 'recipeID');
     }
 
     protected static function boot()
@@ -95,7 +97,5 @@ class Recipe extends Model
             }
         });
     }
-
-
 
 }

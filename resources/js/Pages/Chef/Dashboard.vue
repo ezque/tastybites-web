@@ -15,6 +15,7 @@
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails.all"
                 :topLikeRecipe="recipeCardDetails.topLiked"
+                :topPurchased="recipeCardDetails.topPurchased"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
@@ -25,15 +26,9 @@
             <Recipes
                 v-if="activeComponent === 'Recipes'"
                 @navigate="handleNavigation"
-                :recipeCardDetails="recipeCardDetails"
+                :recipeCardDetails="recipeCardDetails.all"
                 :user="user"
             />
-<!--            <AddRecipe-->
-<!--                v-if="activeComponent === 'AddRecipe'"-->
-<!--                @navigate="setActiveComponent"-->
-<!--                :active="activeComponent"-->
-<!--                :recipeData="selectedRecipe"-->
-<!--            />-->
             <AddRecipe
                 v-if="activeComponent === 'AddRecipe'"
                 :active="activeComponent"
@@ -114,6 +109,7 @@
         chefCertificate: Array,
         chefTotalIncome: Object,
     })
+    console.log(props.recipeCardDetails.topPurchased)
 
     const isChef = computed(() => props.user.role === 'chef');
     const selectedChef = ref(null);

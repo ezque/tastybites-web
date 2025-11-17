@@ -18,6 +18,7 @@
                 v-if="activeComponent === 'Home'"
                 :recipeCardDetails="recipeCardDetails.all"
                 :topLikeRecipe="recipeCardDetails.topLiked"
+                :topPurchased="recipeCardDetails.topPurchased"
                 :searchQuery="searchQuery"
                 @navigate="handleNavigation"
             />
