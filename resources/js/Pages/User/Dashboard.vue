@@ -46,7 +46,6 @@
             <ChefDetails
                 v-if="activeComponent === 'ChefDetails'"
                 :chef="selectedChef"
-                :recipeCardDetails="recipeCardDetails.all"
                 :user="user"
                 @navigate="handleNavigation"
                 @recipeNavigate="goToRecipeDetails"
@@ -133,6 +132,7 @@
         if (componentName === "ChefDetails") {
             selectedChef.value = recipeData;
             activeComponent.value = "ChefDetails";
+            console.log("Chef set:", selectedChef.value);
             return;
         }
 

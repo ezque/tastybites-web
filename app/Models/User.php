@@ -66,7 +66,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class, 'userID');
     }
+    // Users I am following
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'followerID');
+    }
 
+    // Users following me
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followedID');
+    }
 
 
 

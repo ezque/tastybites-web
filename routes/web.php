@@ -19,44 +19,43 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user-dashboard', [ViewController::class, 'userDashboard']);
-    Route::get('/chef-dashboard', [ViewController::class, 'chefDashboard']);
-    Route::get('/admin-dashboard', [ViewController::class, 'adminDashboard']);
-    Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
-    Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
-    Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);
-    Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
-
-    //accept or decline the purchase of a recipe by the user
-    Route::post('/purchase-status/{id}', [ChefController::class, 'purchaseStatus']);
-
-    Route::get('/all-recipes', [RecipeController::class, 'getAllRecipes']);
-    Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
-    Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
-
-    Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
-    Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);
-    Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
-    Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
-
     Route::post('/edit-personal-information', [AuthController::class, 'editPersonalInformation']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/update-profile-picture', [AuthController::class, 'updateProfilePicture']);
+
+    Route::get('/user-dashboard', [ViewController::class, 'userDashboard']);
+    Route::get('/chef-dashboard', [ViewController::class, 'chefDashboard']);
+    Route::get('/admin-dashboard', [ViewController::class, 'adminDashboard']);
+
+    Route::post('/accept-chef', [AdminController::class, 'acceptChef']);
+    Route::post('/decline-chef', [AdminController::class, 'rejectChef']);
+    Route::post('/update-user-status', [AdminController::class, 'updateUserStatus']);
+    Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
+    Route::post('/respond/{id}', [AdminController::class, 'respondReport']);
+    Route::get('/report/{id}', [AdminController::class, 'getReport']);
+
+    Route::post('/purchase-status/{id}', [ChefController::class, 'purchaseStatus']);
+    Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
+
+    Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
+    Route::get('/all-recipes', [RecipeController::class, 'getAllRecipes']);
+    Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
+    Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
     Route::post('/hide-recipe/{id}', [RecipeController::class, 'hideUnhideRecipe']);
     Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsiveRecipe']);
-
-    Route::post('/recipes/{id}/status', [AdminController::class, 'updateChefRecipeStatus']);
+    Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
     Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
+    Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);
+    Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
+
     Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
+    Route::post('/follow/{id}', [UserController::class, 'follow']);
 
-    //Notification Read All
+    //Notification
     Route::post('/read-all-notifications', [NotificationController::class, 'readAllNotifications']);
-    //Read a Notification
     Route::post('/read-notification/{id}', [NotificationController::class, 'readNotification']);
-
-    Route::get('/report/{id}', [AdminController::class, 'getReport']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteNotification']);
 
-    Route::post('/respond/{id}', [AdminController::class, 'respondReport']);
+
 });
 

@@ -7,72 +7,17 @@
 
         <!-- Chefs Grid -->
         <div
-            class="relative flex flex-wrap justify-center w-full h-[70%] gap-[60px] mt-8 overflow-y-auto"
+            class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6 overflow-y-auto"
         >
-            <div
+            <ChefCard
                 v-for="(chef, index) in activeChefs"
                 :key="chef.id"
-                class="relative flex flex-col items-center justify-center w-[220px] h-[250px] rounded-2xl bg-indigo-100 shadow-md"
-            >
-                <!-- Card Button -->
-                <div
-                    class="flex flex-col items-center justify-center w-full h-full
-                    bg-[#CFDAFF]  rounded-2xl shadow-md p-4 transition-transform duration-300
-                    hover:shadow-xl hover:scale-105"
-                >
-                    <span class="w-[100px] h-[100px] mb-3 relative">
-                        <img
-                            :src="getProfilePic(chef)"
-                            alt="Chef Image"
-                            class="w-full h-full rounded-full object-cover border-2 border-indigo-200"
-                        />
-                    </span>
-
-                    <h2
-                        class="text-[18px] font-['Poppins-Bold'] text-center text-gray-800 truncate mb-1"
-                        :title="capitalizeFullName(chef.user_info?.fullName)"
-                    >
-                        {{ capitalizeFullName(chef.user_info?.fullName) }}
-                    </h2>
-                    <p class="text-sm font-['Poppins-Italic'] text-gray-500 mb-3">
-                        Since {{ new Date(chef.created_at).getFullYear() }}
-                    </p>
-
-                    <button
-                        class="bg-indigo-500 text-white w-[80%] px-4 py-2 rounded-full text-sm font-medium
-                        hover:bg-indigo-600 transition-colors duration-300 shadow-sm  cursor-pointer"
-                        @click="viewChefInfo(chef)"
-                    >
-                        Details
-                    </button>
-                </div>
-
-                <!-- Dot Menu -->
-                <button
-                    class="absolute top-1 right-1 mt-2 p-0 bg-transparent border-none cursor-pointer flex items-center justify-center w-5"
-                    @click.stop="toggleMenu(index)"
-                >
-                    <img
-                        src="/public/images/Button-icon/option.png"
-                        alt="Options"
-                        class="w-2 h-6"
-                    />
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div
-                    v-if="openMenuIndex === index"
-                    class="absolute z-10 flex flex-col p-2 ml-2 bg-slate-700 rounded-br-xl rounded-tl-none rounded-tr-xl rounded-bl-xl left-[88%] top-11"
-                >
-                    <button
-                        @click="reportChef(chef)"
-                        class="flex items-center justify-center w-[90px] h-[25px] gap-2 font-bold text-white transition-colors rounded hover:bg-indigo-100 hover:text-slate-700 hover:border-r hover:border-slate-400"
-                    >
-                        <img src="/public/images/Button-icon/report.png" alt="Report" class="w-[30%] h-[90%]" />
-                        <span class="w-[70%] text-left font-['Poppins-Bold']">Report</span>
-                    </button>
-                </div>
-            </div>
+                :chef="chef"
+                :index="index"
+                @navigate="handleNavigation"
+                @follow="follow"
+                @report="reportChef"
+            />
         </div>
 
         <Footer />
@@ -138,6 +83,7 @@
 <script setup>
     import { ref, computed, onMounted, onBeforeUnmount } from "vue";
     import Footer from "@/Component/Footer.vue";
+    import ChefCard from "@/Component/ChefCard.vue";
     import axios from "axios";
 
     const props = defineProps({
@@ -147,6 +93,7 @@
     });
 
     const emit = defineEmits(["navigate"]);
+
     const showReportDialog = ref(false);
     const selectedChef = ref(null);
     const selectedReason = ref("");
@@ -159,7 +106,9 @@
         "Scam or misleading information",
         "Other"
     ];
-
+    const handleNavigation = (componentName, chefData) => {
+        emit("navigate", componentName, chefData);
+    };
     const activeChefs = computed(() => {
         return props.chefs
             .filter(chef => chef.status === "active" && chef.id !== props.user.id)
@@ -171,32 +120,8 @@
     });
 
 
-    function viewChefInfo(chef) {
-        emit("navigate", "ChefDetails", chef);
-    }
 
-    function getProfilePic(chef) {
-        const path = chef.user_info?.profilePath;
-        if (path && path.trim() !== "") return `/storage/${path}`;
-        const gender = chef.user_info?.gender;
-        return gender === "female" ? "/images/female.png" : "/images/male.png";
-    }
-
-    function capitalizeFullName(name) {
-        if (!name) return "No Name Provided";
-        return name
-            .toLowerCase()
-            .split(" ")
-            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-            .join(" ");
-    }
-
-    // --- Menu logic ---
     const openMenuIndex = ref(null);
-
-    const toggleMenu = (index) => {
-        openMenuIndex.value = openMenuIndex.value === index ? null : index;
-    };
 
     // Close menu when clicking outside
     const handleClickOutside = (e) => {
@@ -259,4 +184,19 @@
             console.error(errorMessage);
         }
     }
+    const follow = async (chef) => {
+        try {
+            const response = await axios.post(`/follow/${chef.id}`,{
+                headers: {'Content-Type': 'multipart/form-data'},
+            });
+
+            // Update status locally without refreshing
+            chef.follow_status = response.data.status;
+
+            console.log(response.data.message);
+        } catch (error) {
+            console.error(error.response?.data || error);
+        }
+    };
+
 </script>

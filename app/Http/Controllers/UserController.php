@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\Recipe;
 use App\Models\Report;
 use App\Models\User;
+use App\Models\Follow;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,5 +73,60 @@ class UserController extends Controller
             'report'  => $report,
         ]);
     }
+    public function follow(Request $request, $id)
+    {
+        $authUserId = auth()->id();
+        $targetUserId = $id;
+
+        // Cannot follow yourself
+        if ($authUserId == $targetUserId) {
+            return response()->json([
+                'success' => false,
+                'message' => "You cannot follow yourself."
+            ], 400);
+        }
+
+        // Check if entry exists
+        $follow = Follow::where('followerID', $authUserId)
+            ->where('followedID', $targetUserId)
+            ->first();
+
+        // If follow already exists → toggle status
+        if ($follow) {
+            if ($follow->status === 'following') {
+                $follow->status = 'unfollowed';
+                $follow->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Unfollowed successfully.',
+                    'status' => 'unfollowed'
+                ]);
+            } else {
+                $follow->status = 'following';
+                $follow->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Followed successfully.',
+                    'status' => 'following'
+                ]);
+            }
+        }
+
+        // Create follow if not exists
+        Follow::create([
+            'followerID' => $authUserId,
+            'followedID' => $targetUserId,
+            'status' => 'following'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Followed successfully.',
+            'status' => 'following'
+        ]);
+    }
+
 
 }

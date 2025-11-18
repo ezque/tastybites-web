@@ -8,7 +8,11 @@
         />
 
         <div class="w-full h-full flex flex-row bg-white">
-            <Sidebar :user="user" @navigate="setActiveComponent" :active="activeComponent" />
+            <Sidebar
+                :user="user"
+                @navigate="setActiveComponent"
+                :active="activeComponent"
+            />
 
             <!-- Pages -->
             <Home
@@ -59,6 +63,7 @@
             />
             <UserChef
                 v-if="activeComponent === 'userChef'"
+                :searchQuery="searchQuery"
                 :chefs="chefs"
                 :user="user"
                 @navigate="handleNavigation"
