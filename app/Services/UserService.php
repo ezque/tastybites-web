@@ -9,10 +9,26 @@ class UserService
 
     public function getChefInfo()
     {
-        return User::with(['userInfo', 'certificates'])
+        $userId = auth()->id();
+
+        $chefs = User::with(['userInfo', 'certificates'])
+            ->withCount(['followers as followers_count' => function($query) {
+                $query->where('status', 'following');
+            }])
             ->where('role', 'chef')
+            ->inRandomOrder()
             ->get();
+
+        // Add follow status for the logged-in user
+        $chefs->map(function($chef) use ($userId) {
+            $follow = $chef->followers()->where('followerID', $userId)->first();
+            $chef->follow_status = $follow ? $follow->status : 'unfollowed';
+            return $chef;
+        });
+
+        return $chefs;
     }
+
     public function totalCountsUsers()
     {
         return [

@@ -17,7 +17,10 @@ use App\Services\NotificationServices;
 
 class UserController extends Controller
 {
-
+    public function getChefInfo(UserService $userService){
+        $chefInfo = $userService->getChefInfo();
+        return response()->json($chefInfo);
+    }
     public function reportChef(Request $request, $id)
     {
         $request->validate([

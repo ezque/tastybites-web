@@ -39,7 +39,6 @@
             <UserChef
                 v-if="activeComponent === 'userChef'"
                 :searchQuery="searchQuery"
-                :chefs="chefs"
                 :user="user"
                 @navigate="handleNavigation"
             />

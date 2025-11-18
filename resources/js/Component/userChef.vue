@@ -9,11 +9,17 @@
         <div
             class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6 overflow-y-auto"
         >
+            <div class="absolute inset-0 flex items-center justify-center" v-if="loading">
+                <div class="w-10 h-10 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+
             <ChefCard
                 v-for="(chef, index) in activeChefs"
                 :key="chef.id"
                 :chef="chef"
                 :index="index"
+                :open-menu-index="openMenuIndex"
+                @update:openMenuIndex="openMenuIndex = $event"
                 @navigate="handleNavigation"
                 @follow="follow"
                 @report="reportChef"
@@ -87,7 +93,6 @@
     import axios from "axios";
 
     const props = defineProps({
-        chefs: Array,
         user: Object,
         searchQuery: String,
     });
@@ -98,6 +103,9 @@
     const selectedChef = ref(null);
     const selectedReason = ref("");
     const customReason = ref("");
+    const allChefs = ref([]);
+    const loading = ref(true);
+    const openMenuIndex = ref(null);
 
     const reasons = [
         "Inappropriate behavior",
@@ -110,7 +118,7 @@
         emit("navigate", componentName, chefData);
     };
     const activeChefs = computed(() => {
-        return props.chefs
+        return allChefs.value
             .filter(chef => chef.status === "active" && chef.id !== props.user.id)
             .filter(chef => {
                 if (!props.searchQuery) return true;
@@ -118,10 +126,6 @@
                 return fullName.toLowerCase().includes(props.searchQuery.toLowerCase());
             });
     });
-
-
-
-    const openMenuIndex = ref(null);
 
     // Close menu when clicking outside
     const handleClickOutside = (e) => {
@@ -198,5 +202,18 @@
             console.error(error.response?.data || error);
         }
     };
+    const fetchChef = async () => {
+        try {
+            const { data } = await axios.get('/chef-info');
+            allChefs.value = data;
+        } catch (error) {
+            console.error("Failed to load chef info:", error);
+        } finally {
+            loading.value = false;
+        }
+    };
+    onMounted(() => {
+        fetchChef();
+    });
 
 </script>

@@ -55,23 +55,34 @@
                 <!-- Right Info -->
                 <div class="flex flex-col items-center justify-center w-[70%] h-[full] border-l-4 border-white">
                     <div
-                        class="flex flex-wrap items-start justify-center w-full h-[90%] gap-4 p-2 overflow-y-auto scrollbar-hide"
+                        class="flex flex-wrap items-start justify-center w-full h-[90%] gap-4 p-2 overflow-y-auto scrollbar-hide pt-7"
                     >
-                        <RecipeCard
-                            v-for="(recipeCardDetail, index) in chefRecipe"
-                            :key="recipeCardDetail.id"
-                            :recipeCardDetail="recipeCardDetail"
-                            :index="index"
-                            :activeMenuId="activeMenuId"
-                            @toggle-menu="handleToggleMenu"
-                            @navigate="(component, recipeData) => {
-                                if (component === 'RecipeDetails') {
-                                  emit('recipeNavigate', recipeData)
-                                } else {
-                                  emit('navigate', component, recipeData)
-                                }
-                            }"
-                        />
+                        <!-- LOADING SPINNER -->
+                        <div
+                            v-if="loading"
+                            class="absolute inset-0 flex items-center justify-center bg-white/60 z-20"
+                        >
+                            <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                        <!-- Recipe Cards -->
+                        <template v-else>
+                            <RecipeCard
+                                v-for="(recipeCardDetail, index) in chefRecipe"
+                                :key="recipeCardDetail.id"
+                                :recipeCardDetail="recipeCardDetail"
+                                :index="index"
+                                :activeMenuId="activeMenuId"
+                                @toggle-menu="handleToggleMenu"
+                                @navigate="(component, recipeData) => {
+                                    if (component === 'RecipeDetails') {
+                                          emit('recipeNavigate', recipeData)
+                                    } else {
+                                          emit('navigate', component, recipeData)
+                                    }
+                                }"
+                            />
+                        </template>
+
                     </div>
                 </div>
             </div>

@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);
     Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
 
+    Route::get('/chef-info', [UserController::class, 'getChefInfo']);
     Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
     Route::post('/follow/{id}', [UserController::class, 'follow']);
 
