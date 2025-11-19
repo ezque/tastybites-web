@@ -1,8 +1,13 @@
 <template>
     <div class="flex flex-col w-full h-full">
+        <!-- Back -->
+
         <!-- Page Label -->
-        <div class="flex items-center">
-            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
+        <div class="flex items-center ">
+            <button class="w-[40px] h-[40px] flex items-center justify-center ml-2 mt-4 cursor-pointer" v-if="!isAdmin">
+                <img alt="icon" src="/public/images/Button-icon/back.png" class="h-full w-full"/>
+            </button>
+            <h2 class="mt-5 ml-2 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
         </div>
 
         <!-- Body -->
@@ -111,9 +116,13 @@
         topLiked: [],
         topPurchased: []
     });
+
+    const isAdmin = computed(() => props.user?.role === "admin");
+
     function handleToggleMenu(id) {
         activeMenuId.value = activeMenuId.value === id ? null : id
     }
+
     function handleClickOutside(e) {
         const menuButtons = document.querySelectorAll('[data-menu-button]')
         const dropdowns = document.querySelectorAll('[data-menu-dropdown]')

@@ -96,23 +96,23 @@ class UserController extends Controller
 
         // If follow already exists → toggle status
         if ($follow) {
-            if ($follow->status === 'following') {
-                $follow->status = 'unfollowed';
+            if ($follow->status === 'true') {
+                $follow->status = 'false';
                 $follow->save();
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Unfollowed successfully.',
-                    'status' => 'unfollowed'
+                    'status' => 'false'
                 ]);
             } else {
-                $follow->status = 'following';
+                $follow->status = 'true';
                 $follow->save();
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Followed successfully.',
-                    'status' => 'following'
+                    'status' => 'true'
                 ]);
             }
         }
@@ -121,13 +121,13 @@ class UserController extends Controller
         Follow::create([
             'followerID' => $authUserId,
             'followedID' => $targetUserId,
-            'status' => 'following'
+            'status' => 'true'
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Followed successfully.',
-            'status' => 'following'
+            'status' => 'true'
         ]);
     }
 

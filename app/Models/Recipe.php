@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
@@ -69,6 +70,32 @@ class Recipe extends Model
     {
         return $this->hasMany(Report::class, 'reportedRecipeID');
     }
+    public function ratings()
+    {
+        return $this->hasMany(RecipeRating::class, 'recipe_id');
+    }
+
+    public function userRating()
+    {
+        return $this->hasOne(RecipeRating::class, 'recipe_id')
+            ->where('user_id', auth()->id());
+    }
+    protected function averageRating(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->ratings()->avg('rating')
+                ? round($this->ratings()->avg('rating'), 1)
+                : 0
+        );
+    }
+
+    protected function ratingsCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->ratings()->count()
+        );
+    }
+
 
     protected static function boot()
     {

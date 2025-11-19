@@ -190,18 +190,28 @@
     }
     const follow = async (chef) => {
         try {
-            const response = await axios.post(`/follow/${chef.id}`,{
-                headers: {'Content-Type': 'multipart/form-data'},
-            });
+            const response = await axios.post(`/follow/${chef.id}`);
 
-            // Update status locally without refreshing
-            chef.follow_status = response.data.status;
+            // Status returned by your API (following / unfollowed)
+            const newStatus = response.data.status;
 
-            console.log(response.data.message);
+            // Update local status
+            chef.follow_status = newStatus;
+
+            // Update followers count immediately
+            if (newStatus === "true") {
+                chef.followers_count += 1;
+            } else {
+                chef.followers_count -= 1;
+            }
+
+            // Do NOT reload chefs. UI updates instantly now.
+            // fetchChef(); ❌ remove this
         } catch (error) {
             console.error(error.response?.data || error);
         }
     };
+
     const fetchChef = async () => {
         try {
             const { data } = await axios.get('/chef-info');

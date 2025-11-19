@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-60 h-[270px] rounded-2xl bg-[#CFDAFF] shadow-[5px_4px_2px_#AFADAD] border-b border-[#AFADAD]">
+    <div class="relative w-60 h-[285px] rounded-2xl bg-[#CFDAFF] shadow-[5px_4px_2px_#AFADAD] border-b border-[#AFADAD]">
         <!-- Recipe Image -->
         <div class="flex items-center justify-center w-full h-[45%] p-1">
             <div class="w-[50%] h-full rounded-full">
@@ -21,7 +21,7 @@
         />
         <p
             v-if="recipeCardDetail.is_free === 'premium'"
-            class="absolute top-1 left-3 font-['Poppins-Regular'] text-[1.1rem]"
+            class="absolute top-1 left-3 font-['Poppins-Bold'] text-[1.1rem] text-red-500"
         >
             ₱{{recipeCardDetail.price}}
         </p>
@@ -100,6 +100,17 @@
             <p class="text-sm font-['Poppins-Regular'] lowercase italic">
                 Chef: @{{ recipeCardDetail.user.user_info.userName }}
             </p>
+            <div class="flex gap-2">
+                <span
+                    v-for="n in 5"
+                    :key="n"
+                    class="material-icons text-[32px] "
+                    :class="iconClass(n)"
+                >
+                    {{ getStarIcon(n) }}
+                </span>
+            </div>
+
         </div>
 
         <!-- Action Buttons -->
@@ -175,6 +186,31 @@
     const userReactedLike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 1)
     const userReactedDislike = computed(() => Number(props.recipeCardDetail?.reaction_type) === 2)
     const recipeIsSave = computed(() => Number(props.recipeCardDetail?.is_saved) === 1)
+
+    const rating = ref(props.recipeCardDetail.average_rating);
+    const getStarIcon = (index) => {
+        const fullStars = Math.floor(rating.value);
+        const decimal = rating.value - fullStars;
+
+        if (index <= fullStars) {
+            return "star";
+        }
+        if (index === fullStars + 1 && decimal >= 0.25) {
+            return "star_half";
+        }
+        return "star_border";
+    };
+
+
+    const iconClass = (index) => {
+        if (rating.value >= index) return "text-yellow-400";
+        if (rating.value >= index - 0.5) return "text-yellow-300";
+        return "text-gray-400";
+    };
+    // If recipe changes (e.g., reactivity from parent), update rating
+    watch(() => props.recipeCardDetail.average_rating, (newVal) => {
+        rating.value = newVal;
+    });
     const toggleMenu = () => {
         emit('toggle-menu', props.recipeCardDetail.id)
     }

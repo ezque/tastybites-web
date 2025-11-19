@@ -45,6 +45,10 @@ class RecipeService
                 // Access
                 $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
+                // ⭐ Ratings
+                $recipe->average_rating = $recipe->average_rating;
+                $recipe->ratings_count = $recipe->ratings_count;
+
                 // Load full recipe data if allowed
                 if ($recipe->is_free || $recipe->is_purchased || $recipe->is_owned) {
                     $recipe->load(['ingredient', 'procedure']);
@@ -89,6 +93,10 @@ class RecipeService
                 $recipe->is_purchased = $recipe->purchase_status === 'confirmed';
                 $recipe->is_pending_purchase = $recipe->purchase_status === 'pending';
 
+                // ⭐ Ratings
+                $recipe->average_rating = $recipe->average_rating;
+                $recipe->ratings_count = $recipe->ratings_count;
+
                 $recipe->can_access = $recipe->is_owned || $recipe->is_purchased || $recipe->is_free;
 
                 return $recipe;
@@ -124,6 +132,9 @@ class RecipeService
                 $recipe->reaction_type = $recipe->userReaction->reaction_type ?? null;
                 $recipe->userReactedLike = $recipe->reaction_type === '1';
                 $recipe->userReactedDislike = $recipe->reaction_type === '2';
+                // ⭐ Ratings
+                $recipe->average_rating = $recipe->average_rating;
+                $recipe->ratings_count = $recipe->ratings_count;
                 return $recipe;
             });
 

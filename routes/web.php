@@ -8,6 +8,7 @@ use App\Http\Controllers\ChefController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RatingController;
 
 
 
@@ -57,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/read-notification/{id}', [NotificationController::class, 'readNotification']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'deleteNotification']);
 
-
+    Route::get('/user-ratings/{id}', [RatingController::class, 'getUserRateForRecipe']);
+    Route::post('/rate-recipe/{id}', [RatingController::class, 'rateRecipe']);
 });
 

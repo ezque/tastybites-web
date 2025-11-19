@@ -73,16 +73,24 @@
     import {computed, ref, onMounted, onBeforeUnmount} from "vue";
     import RecipeCard from "@/Component/RecipeCard.vue";
     import Footer from "@/Component/Footer.vue";
-    const emit = defineEmits(['navigate'])
-
-    const activeFilter = ref("all")
+    import axios from "axios";
 
     const props = defineProps({
         user: Object,
         recipeCardDetails: Array,
         searchQuery: String
     })
-    const activeMenuId = ref(null)
+
+    const emit = defineEmits(['navigate']);
+
+    const activeFilter = ref("all");
+    const activeMenuId = ref(null);
+    const recipeCardDetails = ref({ all: [], topLiked: [], topPurchased: [] });
+    const loading = ref(true);
+
+
+
+
     function handleToggleMenu(id) {
         activeMenuId.value = activeMenuId.value === id ? null : id
     }
@@ -106,13 +114,13 @@
         document.removeEventListener('click', handleClickOutside)
     })
     const userRecipes = computed(() => {
-        return props.recipeCardDetails.filter(
+        return recipeCardDetails.value.all.filter(
             recipe => recipe.userID === props.user.id
         )
     })
     const baseRecipes = computed(() => {
         if (props.user.role === "admin") {
-            return props.recipeCardDetails
+            return recipeCardDetails.value.all
         }
         return userRecipes.value
     })
@@ -137,7 +145,23 @@
         });
     });
 
+    const fetchRecipe = async () => {
+        loading.value = true;
+        try {
+            const { data } = await axios.get('/all-recipes', {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            recipeCardDetails.value = data;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
 
+    onMounted(() => {
+        fetchRecipe();
+    });
 
 </script>
 

@@ -13,7 +13,7 @@ class UserService
 
         $chefs = User::with(['userInfo', 'certificates'])
             ->withCount(['followers as followers_count' => function($query) {
-                $query->where('status', 'following');
+                $query->where('status', 'true');
             }])
             ->where('role', 'chef')
             ->inRandomOrder()
@@ -22,12 +22,13 @@ class UserService
         // Add follow status for the logged-in user
         $chefs->map(function($chef) use ($userId) {
             $follow = $chef->followers()->where('followerID', $userId)->first();
-            $chef->follow_status = $follow ? $follow->status : 'unfollowed';
+            $chef->follow_status = $follow ? $follow->status : 'false';
             return $chef;
         });
 
         return $chefs;
     }
+
 
     public function totalCountsUsers()
     {

@@ -8,7 +8,7 @@
             </div>
             <div class="details-main-container w-full h-screen flex flex-row">
                 <div class="left-side-details-container h-[72%] w-[40%] flex flex-col items-center justify-center">
-                    <div class="recipe-img-container w-[57%] h-[59%] rounded-full flex items-center justify-center">
+                    <div class="recipe-img-container w-[53%] h-[55%] rounded-full flex items-center justify-center">
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image" class="w-full h-full rounded-full"/>
                     </div>
                     <div class="recipe-name-container w-full h-auto flex flex-col items-center mt-[20px]">
@@ -28,7 +28,23 @@
                             <span class="material-icons text-[2em] text-[#EC3F57]" v-else>thumb_down_off_alt</span>
                             <p>{{ dislikeCount }}</p>
                         </button>
-
+                    </div>
+                    <div class="w-full h-auto flex flex-col items-center justify-center ">
+                        <!-- Replace the entire star rating div with this -->
+                        <div class="flex gap-2">
+                            <span
+                                v-for="n in 5"
+                                :key="n"
+                                class="material-icons cursor-pointer text-[32px] transition-all hover:scale-110"
+                                :class="n <= rating ? 'text-yellow-400' : 'text-gray-400'"
+                                @click="rating = n; rateRecipe()"
+                            >
+                                {{ n <= rating ? 'star' : 'star_border' }}
+                            </span>
+                        </div>
+                        <span class="text-yellow-500 font-bold text-xl p-0">
+                            Average Rating: {{ recipe.average_rating || '0' }}
+                        </span>
                     </div>
                 </div>
                 <div class="right-side-details-container h-[72%] w-[60%]">
@@ -268,7 +284,44 @@
         user: Object,
     });
 
+    console.log(props.recipe);
+
     const recipeIsFree = computed(() => props.recipe?.is_free === "free");
+    const userReactedLike = computed(() => Number(props.recipe?.reaction_type) === 1)
+    const userReactedDislike = computed(() => Number(props.recipe?.reaction_type) === 2)
+    const rating = ref(0);
+
+    const fetchUserRatings = async () => {
+        try {
+            const response = await axios.get(`/user-ratings/${props.recipe.id}`,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (response.data.rating !== null) {
+                rating.value = response.data.rating
+            }
+        } catch (error) {
+            console.log('No rating yet or not logged in')
+            rating.value = 0
+        }
+    }
+    const rateRecipe = async () => {
+        try {
+            const res = await axios.post(`/rate-recipe/${props.recipe.id}`, {
+                rating: rating.value
+            })
+            console.log(res.data.message)
+        } catch (error) {
+            if (error.response?.status === 401) {
+                alert('Please login to rate')
+            } else {
+                alert('Failed to save rating')
+            }
+            // Revert stars if failed
+            await fetchUserRatings()
+        }
+    }
 
     const ownedRecipe = computed(() => {
         return props.recipe?.purchase?.status === "confirmed";
@@ -313,7 +366,7 @@
         phone_number: "",
         amount: "",
         reference: "",
-        proof: null, // this will hold the file object
+        proof: null,
     });
     const fileInput = ref(null);
 
@@ -399,12 +452,9 @@
             console.error(error)
         }
     }
-    onMounted(() => {
-        fetchCounts()
-    })
 
-    const userReactedLike = computed(() => Number(props.recipe?.reaction_type) === 1)
-    const userReactedDislike = computed(() => Number(props.recipe?.reaction_type) === 2)
+
+
 
     const isFormComplete = computed(() => {
         return (
@@ -414,4 +464,10 @@
             form.proof !== null
         );
     });
+    onMounted(() => {
+        fetchCounts()
+    })
+    onMounted(() => {
+        fetchUserRatings()
+    })
 </script>
