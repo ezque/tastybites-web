@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
 
     Route::get('/chef-info', [UserController::class, 'getChefInfo']);
+    Route::get('/top-chef', [UserController::class, 'getTopChefs']);
     Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
     Route::post('/follow/{id}', [UserController::class, 'follow']);
 

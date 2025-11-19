@@ -28,6 +28,21 @@ class UserService
 
         return $chefs;
     }
+    public function getTopChefs()
+    {
+        $chefs = User::with(['userInfo', 'certificates'])
+            ->withCount(['ownedRecipes as total_purchases_count' => function($query) {
+                $query->join('purchases', 'recipes.id', '=', 'purchases.recipeID')
+                    ->where('purchases.status', 'confirmed'); // Only count confirmed purchases
+            }])
+            ->where('role', 'chef')
+            ->orderByDesc('total_purchases_count')
+            ->take(6)
+            ->get();
+
+        return $chefs;
+    }
+
 
 
     public function totalCountsUsers()

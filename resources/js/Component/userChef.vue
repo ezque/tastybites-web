@@ -1,32 +1,49 @@
 <template>
     <div class="flex flex-col w-full h-full overflow-hidden">
         <!-- Header -->
-        <div class="flex items-center">
-            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Chefs</h2>
-        </div>
-
-        <!-- Chefs Grid -->
         <div
-            class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6 overflow-y-auto"
+            class="relative flex flex-col w-full h-[80%] gap-[50px] mt-6 overflow-y-auto"
         >
             <div class="absolute inset-0 flex items-center justify-center" v-if="loading">
                 <div class="w-10 h-10 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"></div>
             </div>
-
-            <ChefCard
-                v-for="(chef, index) in activeChefs"
-                :key="chef.id"
-                :chef="chef"
-                :index="index"
-                :open-menu-index="openMenuIndex"
-                @update:openMenuIndex="openMenuIndex = $event"
-                @navigate="handleNavigation"
-                @follow="follow"
-                @report="reportChef"
-            />
+            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Top Chefs</h2>
+            <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6">
+                <div
+                    v-for="(chef, index) in topChefs"
+                    :key="chef.id"
+                    class="flex-shrink-0 w-[220px]"
+                >
+                    <ChefCard
+                        :chef="chef"
+                        :index="index"
+                        :open-menu-index="openMenuIndex"
+                        @update:openMenuIndex="openMenuIndex = $event"
+                        @navigate="handleNavigation"
+                        @follow="follow"
+                        @report="reportChef"
+                    />
+                </div>
+            </div>
+            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">All Chefs</h2>
+            <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6">
+                <ChefCard
+                    v-for="(chef, index) in activeChefs"
+                    :key="chef.id"
+                    :chef="chef"
+                    :index="index"
+                    :open-menu-index="openMenuIndex"
+                    @update:openMenuIndex="openMenuIndex = $event"
+                    @navigate="handleNavigation"
+                    @follow="follow"
+                    @report="reportChef"
+                />
+            </div>
         </div>
 
         <Footer />
+
+        <!-- Report Dialog -->
         <div
             v-if="showReportDialog"
             class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
@@ -35,7 +52,6 @@
                 <h3 class="text-xl font-['Poppins-Bold'] text-center text-[#435F77]">
                     Report {{ selectedChef?.user_info?.fullName || 'Chef' }}
                 </h3>
-
                 <p class="text-sm text-gray-700 font-['Poppins-Regular'] text-center">
                     Please select a reason for reporting:
                 </p>
@@ -57,7 +73,7 @@
                     </label>
                 </div>
 
-                <!-- Custom Reason (shown if "Other" is selected) -->
+                <!-- Custom Reason -->
                 <textarea
                     v-if="selectedReason === 'Other'"
                     v-model="customReason"
@@ -104,6 +120,7 @@
     const selectedReason = ref("");
     const customReason = ref("");
     const allChefs = ref([]);
+    const topChefs = ref([]);
     const loading = ref(true);
     const openMenuIndex = ref(null);
 
@@ -114,9 +131,12 @@
         "Scam or misleading information",
         "Other"
     ];
+
     const handleNavigation = (componentName, chefData) => {
         emit("navigate", componentName, chefData);
     };
+
+
     const activeChefs = computed(() => {
         return allChefs.value
             .filter(chef => chef.status === "active" && chef.id !== props.user.id)
@@ -151,6 +171,7 @@
         selectedReason.value = "";
         customReason.value = "";
     }
+
     async function submitReport() {
         if (!selectedReason.value) {
             alert("Please select a reason before submitting.");
@@ -168,7 +189,7 @@
         }
 
         try {
-            const response = await axios.post(`/report/chef/${selectedChef.value.id}`, {
+            await axios.post(`/report/chef/${selectedChef.value.id}`, {
                 type: "user",
                 reason
             });
@@ -178,52 +199,53 @@
             selectedReason.value = "";
             customReason.value = "";
 
-            // Optional toast
-            console.log(response.data.message);
         } catch (error) {
             console.error("Reporting error:", error);
-            const errorMessage =
-                error.response?.data?.message ||
-                "Failed to submit report. Please try again.";
-            console.error(errorMessage);
         }
     }
+
     const follow = async (chef) => {
         try {
             const response = await axios.post(`/follow/${chef.id}`);
-
-            // Status returned by your API (following / unfollowed)
             const newStatus = response.data.status;
 
-            // Update local status
             chef.follow_status = newStatus;
 
-            // Update followers count immediately
             if (newStatus === "true") {
                 chef.followers_count += 1;
             } else {
                 chef.followers_count -= 1;
             }
 
-            // Do NOT reload chefs. UI updates instantly now.
-            // fetchChef(); ❌ remove this
         } catch (error) {
             console.error(error.response?.data || error);
         }
     };
 
+    // Fetch all chefs
     const fetchChef = async () => {
         try {
             const { data } = await axios.get('/chef-info');
             allChefs.value = data;
         } catch (error) {
             console.error("Failed to load chef info:", error);
+        }
+    };
+
+    // Fetch top 5 chefs (sorted by total purchases)
+    const fetchTopChef = async () => {
+        try {
+            const { data } = await axios.get('/top-chef'); // Backend returns top 5 based on purchases
+            topChefs.value = data;
+        } catch (error) {
+            console.error("Failed to load top chefs:", error);
         } finally {
             loading.value = false;
         }
     };
+
     onMounted(() => {
         fetchChef();
+        fetchTopChef();
     });
-
 </script>

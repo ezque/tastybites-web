@@ -4,7 +4,10 @@
 
         <!-- Page Label -->
         <div class="flex items-center ">
-            <button class="w-[40px] h-[40px] flex items-center justify-center ml-2 mt-4 cursor-pointer" v-if="!isAdmin">
+            <button class="w-[40px] h-[40px] flex items-center justify-center ml-2 mt-4 cursor-pointer"
+                    v-if="!isAdmin"
+                    @click="back"
+            >
                 <img alt="icon" src="/public/images/Button-icon/back.png" class="h-full w-full"/>
             </button>
             <h2 class="mt-5 ml-2 text-[35px] font-['Poppins-Bold']">Registered Chefs</h2>
@@ -118,6 +121,10 @@
     });
 
     const isAdmin = computed(() => props.user?.role === "admin");
+
+    const back = () => {
+        emit("navigate", "userChef", { userChef: null });
+    }
 
     function handleToggleMenu(id) {
         activeMenuId.value = activeMenuId.value === id ? null : id

@@ -21,6 +21,11 @@ class UserController extends Controller
         $chefInfo = $userService->getChefInfo();
         return response()->json($chefInfo);
     }
+    public function getTopChefs(UserService $userService)
+    {
+        $topChefs = $userService->getTopChefs();
+        return response()->json($topChefs);
+    }
     public function reportChef(Request $request, $id)
     {
         $request->validate([
@@ -117,7 +122,6 @@ class UserController extends Controller
             }
         }
 
-        // Create follow if not exists
         Follow::create([
             'followerID' => $authUserId,
             'followedID' => $targetUserId,
