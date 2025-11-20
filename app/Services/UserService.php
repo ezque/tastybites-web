@@ -35,6 +35,9 @@ class UserService
                 $query->join('purchases', 'recipes.id', '=', 'purchases.recipeID')
                     ->where('purchases.status', 'confirmed'); // Only count confirmed purchases
             }])
+            ->withCount(['followers as followers_count' => function($query) {
+                $query->where('status', 'true');
+            }])
             ->where('role', 'chef')
             ->orderByDesc('total_purchases_count')
             ->take(6)

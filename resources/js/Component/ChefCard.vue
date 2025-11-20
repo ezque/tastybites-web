@@ -91,7 +91,6 @@
     const isMenuOpen = computed(() => props.openMenuIndex === props.index);
 
     const toggleMenu = () => {
-        // If this card is already open, close it; otherwise open it
         emit("update:openMenuIndex", isMenuOpen.value ? null : props.index);
     };
 

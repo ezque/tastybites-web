@@ -37,7 +37,7 @@
         <!-- Dropdown Menu -->
         <div
             v-if="activeMenuId === recipeCardDetail.id"
-            class="absolute left-[88%] top-[45px] ml-2 bg-[#435F77] rounded-r-xl rounded-bl-xl rounded-br-xl p-2.5 flex flex-col gap-2.5 z-10"
+            class="absolute left-[88%] top-[45px] ml-2 bg-[#435F77] rounded-r-xl rounded-bl-xl rounded-br-xl p-3 pl-5 pr-5 flex flex-col gap-2.5 z-10"
         >
             <!-- Hide/Unhide -->
             <button
@@ -75,6 +75,15 @@
             >
                 <img src="/public/images/Button-icon/edit-icon.png" alt="edit" class="h-[90%] w-[30%]" />
                 <span class="w-[70%] text-left">Edit</span>
+            </button>
+            <!-- Purchase (Owner only) -->
+            <button
+                @click="whoPurchase"
+                v-if="recipeCardDetail.is_owned"
+                class="w-[95px] h-[30px] bg-transparent border-none flex items-center justify-center text-white gap-4 cursor-pointer font-['Poppins-Bold'] text-sm hover:transform hover:scale-105 transition-all"
+            >
+                <img src="/public/images/Button-icon/edit-icon.png" alt="edit" class="h-[90%] w-[30%]" />
+                <span class="w-[70%] text-left">Purchase</span>
             </button>
             <!-- Delete (Owner only) -->
             <button
@@ -292,6 +301,9 @@
             recipeData: props.recipeCardDetail,
             isEditMode: true
         })
+    }
+    const whoPurchase = () => {
+        emit('navigate', 'whoPurchase', props.recipeCardDetail)
     }
     const deleteRecipe = async () => {
         if (!confirm("Are you sure you want to delete this recipe? This action cannot be undone.")) {

@@ -404,7 +404,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    public function saveUnsiveRecipe(Request $request, $id)
+    public function saveUnsaveRecipe(Request $request, $id)
     {
         $userId = Auth::id();
 
@@ -493,6 +493,12 @@ class RecipeController extends Controller
         $recipeCardDetails = $recipeService->getRecipeCardDetails();
         return response()->json($recipeCardDetails);
     }
+
+    public function getWhoPurchase($recipeID, RecipeService $recipeService)
+    {
+        return $recipeService->getAllWhoPurchasedRecipe($recipeID);
+    }
+
 
 
 }

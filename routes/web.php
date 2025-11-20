@@ -40,10 +40,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
     Route::get('/all-recipes', [RecipeController::class, 'getAllRecipes']);
+    Route::get('/who-purchase/{recipeID}', [RecipeController::class, 'getWhoPurchase']);
     Route::post('/react-recipe/{id}', [RecipeController::class, 'reactRecipe']);
     Route::post('/buy-recipe', [RecipeController::class, 'buyRecipe']);
     Route::post('/hide-recipe/{id}', [RecipeController::class, 'hideUnhideRecipe']);
-    Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsiveRecipe']);
+    Route::post('/save-recipe/{id}', [RecipeController::class, 'saveUnsaveRecipe']);
     Route::post('/add-recipes', [RecipeController::class, 'addRecipe'])->name('recipes.store');
     Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
     Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);

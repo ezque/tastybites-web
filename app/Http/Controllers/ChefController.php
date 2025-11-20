@@ -61,8 +61,6 @@ class ChefController extends Controller
         ]);
     }
 
-
-
     public function addCertificate(Request $request)
     {
         $request->validate([

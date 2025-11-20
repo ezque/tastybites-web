@@ -80,6 +80,10 @@
                 v-if="activeComponent === 'UserRecipe'"
                 :recipeCardDetails="recipeCardDetails"
             />
+            <RecipeReportPurchase
+                v-if="activeComponent === 'whoPurchase'"
+                :recipe="selectedRecipe"
+            />
         </div>
     </div>
 </template>
@@ -100,6 +104,7 @@
     import UserChef from "@/Component/userChef.vue";
     import ChefDetails from "@/Component/chefDetails.vue";
     import UserRecipe from "@/Component/UserRecipe.vue";
+    import RecipeReportPurchase from "@/Component/Chef/RecipeReportPurchase.vue";
 
     const props = defineProps({
         user: Object,
@@ -165,6 +170,12 @@
         if (componentName === 'RecipeDetails' && recipeData) {
             const fullDetails = props.recipeAllDetails.find(r => r.id === recipeData.id);
             selectedRecipe.value = fullDetails;
+        }
+
+        if (componentName === "whoPurchase") {
+            selectedRecipe.value = recipeData;
+            activeComponent.value = "whoPurchase";
+            return;
         }
 
         activeComponent.value = componentName;

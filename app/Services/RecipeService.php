@@ -109,11 +109,6 @@ class RecipeService
         ];
     }
 
-
-
-
-
-
     public function getAllRecipeDetails()
     {
         $userId = auth()->id();
@@ -187,6 +182,33 @@ class RecipeService
             'recipeCounts' => Recipe::where('status', 'active')->count()
         ];
     }
+
+    public function getAllWhoPurchasedRecipe($recipeID)
+    {
+        try {
+            $purchases = Purchase::with([
+                'user',
+                'user.userInfo'
+            ])
+                ->where('status', 'confirmed')
+                ->where('recipeID', $recipeID)
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'purchases' => $purchases
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch purchase data',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 
 
 
