@@ -7,8 +7,17 @@
             <div class="absolute inset-0 flex items-center justify-center" v-if="loading">
                 <div class="w-10 h-10 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"></div>
             </div>
-            <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">Top Chefs</h2>
-            <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6">
+
+            <h2
+                class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']"
+                v-if="!props.searchQuery"
+            >
+                Top Chefs
+            </h2>
+            <div
+                class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6"
+                v-if="!props.searchQuery"
+            >
                 <div
                     v-for="(chef, index) in topChefs"
                     :key="chef.id"
@@ -25,6 +34,7 @@
                     />
                 </div>
             </div>
+
             <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">All Chefs</h2>
             <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6">
                 <ChefCard
@@ -112,7 +122,6 @@
         user: Object,
         searchQuery: String,
     });
-
     const emit = defineEmits(["navigate"]);
 
     const showReportDialog = ref(false);
@@ -132,30 +141,39 @@
         "Other"
     ];
 
+    // Navigation
     const handleNavigation = (componentName, chefData) => {
         emit("navigate", componentName, chefData);
     };
 
-
+    // Active Chefs Computed (exclude top chefs unless searching)
+    const topChefIDs = computed(() => topChefs.value.map(c => c.id));
     const activeChefs = computed(() => {
-        return allChefs.value
-            .filter(chef => chef.status === "active" && chef.id !== props.user.id)
-            .filter(chef => {
-                if (!props.searchQuery) return true;
+        let chefs = allChefs.value.filter(
+            chef => chef.status === "active" && chef.id !== props.user.id
+        );
+
+        if (props.searchQuery) {
+            // Search query: include all matches
+            chefs = chefs.filter(chef => {
                 const fullName = chef.user_info?.fullName || "";
                 return fullName.toLowerCase().includes(props.searchQuery.toLowerCase());
             });
+        } else {
+            // Exclude top chefs in normal view
+            chefs = chefs.filter(chef => !topChefIDs.value.includes(chef.id));
+        }
+
+        return chefs;
     });
 
-    // Close menu when clicking outside
+    // Click outside to close menu
     const handleClickOutside = (e) => {
         const clickedInside = e.target.closest(".chef-card");
         if (!clickedInside) openMenuIndex.value = null;
     };
 
-    onMounted(() => document.addEventListener("click", handleClickOutside));
-    onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside));
-
+    // Report functions
     function reportChef(chef) {
         selectedChef.value = chef;
         selectedReason.value = "";
@@ -164,7 +182,6 @@
         openMenuIndex.value = null;
     }
 
-    // Cancel the dialog
     function cancelReport() {
         showReportDialog.value = false;
         selectedChef.value = null;
@@ -194,16 +211,13 @@
                 reason
             });
 
-            showReportDialog.value = false;
-            selectedChef.value = null;
-            selectedReason.value = "";
-            customReason.value = "";
-
+            cancelReport();
         } catch (error) {
             console.error("Reporting error:", error);
         }
     }
 
+    // Follow/Unfollow
     const follow = async (chef) => {
         try {
             const response = await axios.post(`/follow/${chef.id}`);
@@ -222,7 +236,7 @@
         }
     };
 
-    // Fetch all chefs
+    // Fetch chefs
     const fetchChef = async () => {
         try {
             const { data } = await axios.get('/chef-info');
@@ -232,10 +246,10 @@
         }
     };
 
-    // Fetch top 5 chefs (sorted by total purchases)
+    // Fetch top chefs
     const fetchTopChef = async () => {
         try {
-            const { data } = await axios.get('/top-chef'); // Backend returns top 5 based on purchases
+            const { data } = await axios.get('/top-chef'); // backend returns top N
             topChefs.value = data;
         } catch (error) {
             console.error("Failed to load top chefs:", error);
@@ -244,8 +258,13 @@
         }
     };
 
+    // Lifecycle
     onMounted(() => {
         fetchChef();
         fetchTopChef();
+        document.addEventListener("click", handleClickOutside);
+    });
+    onBeforeUnmount(() => {
+        document.removeEventListener("click", handleClickOutside);
     });
 </script>
