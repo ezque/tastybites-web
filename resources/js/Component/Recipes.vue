@@ -41,7 +41,7 @@
 
         <!-- Main Body -->
         <div
-            class="w-full h-[690px] flex flex-wrap flex-row gap-[90px] items-center justify-center py-2 overflow-auto scrollbar-thin scrollbar-thumb-[#AFADAD] scrollbar-track-transparent "
+            class="w-full h-[690px] flex flex-wrap flex-row gap-[90px] items-center justify-center pt-6 py-2 overflow-auto scrollbar-thin scrollbar-thumb-[#AFADAD] scrollbar-track-transparent "
         >
             <!-- Add Recipe Button -->
             <button
