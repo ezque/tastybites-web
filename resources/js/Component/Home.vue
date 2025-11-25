@@ -18,8 +18,8 @@
             <div class="w-[20%] h-full flex items-start px-4">
                 <select
                     v-model="selectedFilter"
-                    class="w-full h-[45px] bg-white border border-indigo-100 rounded-lg
-                 text-[14px] font-medium text-gray-700 px-0
+                    class="w-[80%] h-[45px] bg-white border border-indigo-100 rounded-lg
+                 text-sm font-['Poppins-Bold'] text-gray-700 px-0
                  focus:outline-none focus:ring-2 focus:ring-indigo-400
                  hover:border-indigo-400 transition-all duration-200 shadow-md"
                 >
@@ -37,10 +37,10 @@
                     :max="maxPrice"
                     step="1"
                     v-model="priceFrom"
-                    class="w-full h-2 rounded-lg accent-indigo-500 cursor-pointer"
+                    class="w-[20%] h-2 rounded-lg accent-indigo-500 cursor-pointer ml-auto"
                 />
-                <div class="ml-4 w-[60px] text-center font-bold text-gray-700">
-                    ${{ priceFrom }}
+                <div class="w-[60px] text-center font-bold text-gray-700">
+                    ₱{{ priceFrom }}
                 </div>
             </div>
         </div>
@@ -53,9 +53,9 @@
         <template v-else>
             <template v-if="!props.searchQuery && !selectedFilter && priceFrom <= 0">
                 <!-- Popular Recipes -->
-                <h2 class="font-[Poppins-Bold] ml-22 text-[2rem] mb-0 p-0">Popular Recipes</h2>
+                <h2 class="font-[Poppins-Bold] ml-22 text-xl mb-0 p-0 mt-5">Popular Recipes</h2>
                 <div
-                    class="flex flex-wrap flex-row gap-[70px] items-center justify-center pt-4 pb-3 w-full shadow-[0_10px_10px_-5px_rgba(0,0,0,0.3)]"
+                    class="flex flex-wrap flex-row gap-[70px] items-center justify-center pt-4 pb-3 w-full shadow-[0_10px_10px_-5px_rgba(0,0,0,0.3)] mt-2"
                 >
                     <RecipeCard
                         v-for="(recipeCardDetail, index) in topLiked"
@@ -69,7 +69,7 @@
                 </div>
 
                 <!-- Most Purchased Recipes -->
-                <h2 class="font-[Poppins-Bold] ml-22 text-[2rem] mb-0 p-0">Most Purchased Recipes</h2>
+                <h2 class="font-[Poppins-Bold] ml-22 text-xl mb-0 p-0 mt-5">Most Purchased Recipes</h2>
                 <div
                     class="flex flex-wrap flex-row gap-[70px] items-center justify-center pt-4 pb-3 w-full shadow-[0_10px_10px_-5px_rgba(0,0,0,0.3)]"
                 >

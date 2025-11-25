@@ -15,7 +15,7 @@
                 Top Chefs
             </h2>
             <div
-                class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6"
+                class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-2"
                 v-if="!props.searchQuery"
             >
                 <div
@@ -36,7 +36,7 @@
             </div>
 
             <h2 class="mt-5 ml-5 text-[35px] font-['Poppins-Bold']">All Chefs</h2>
-            <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-6">
+            <div class="relative flex flex-wrap justify-center w-full h-[75%] gap-[50px] mt-2">
                 <ChefCard
                     v-for="(chef, index) in activeChefs"
                     :key="chef.id"

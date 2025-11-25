@@ -12,7 +12,7 @@
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image" class="w-full h-full rounded-full"/>
                     </div>
                     <div class="recipe-name-container w-full h-auto flex flex-col items-center mt-[20px]">
-                        <p class="recipe-name m-0 p-0 font-['Poppins-Bold'] text-[2.3em] text-[#31485B]">{{ recipe.recipeName}}</p>
+                        <p class="m-0 p-0 font-['Poppins-Bold'] text-3xl text-[#31485B]">{{ recipe.recipeName}}</p>
                         <p class="cuisine-type m-0 p-0 font-['Poppins-SemiBold'] italic text-[1.3em] text-[#768082]">{{ recipe.cuisineType }}</p>
                         <p class="chef-name mt-[5px] p-0 font-['Poppins-Regular'] text-[1em] text-[#768082]">Chef: @{{ recipe.user.user_info.userName }}</p>
                     </div>
@@ -42,8 +42,8 @@
                                 {{ n <= rating ? 'star' : 'star_border' }}
                             </span>
                         </div>
-                        <span class="text-yellow-500 font-bold text-xl p-0">
-                            Average Rating: {{ recipe.average_rating || '0' }}
+                        <span class="text-gray-500 font-['Poppins-SemiBold'] text-xs p-0 mt-2">
+                            {{ recipe.average_rating || '0' }} out of 5
                         </span>
                     </div>
                 </div>
@@ -141,8 +141,8 @@
                     <div class="recipe-img-container w-[57%] h-[57%] rounded-full flex items-center justify-center">
                         <img :src="`/storage/${recipe.image_path}`" alt="recipe image" class="w-full h-full rounded-full"/>
                     </div>
-                    <div class="recipe-name-container w-full h-auto flex flex-col items-center mt-[20px]">
-                        <p class="recipe-name m-0 p-0 font-['Poppins-Bold'] text-[2.3em] text-[#31485B]">{{ recipe.recipeName}}</p>
+                    <div class="recipe-name-container w-full flex flex-col items-center mt-[20px]">
+                        <p class="m-0 p-0 font-['Poppins-Bold'] text-3xl text-[#31485B] text-center">{{ recipe.recipeName }}</p>
                         <p class="cuisine-type m-0 p-0 font-['Poppins-SemiBold'] italic text-[1.3em] text-[#768082]">{{ recipe.cuisineType }}</p>
                         <p class="chef-name mt-[5px] p-0 font-['Poppins-Regular'] text-[1em] text-[#768082]">Chef: @{{ recipe.user.user_info.userName }}</p>
                     </div>

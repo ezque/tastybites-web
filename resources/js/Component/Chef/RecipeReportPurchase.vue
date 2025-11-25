@@ -1,21 +1,21 @@
 <template>
-    <div class="w-full h-[80%] flex flex-col p-6 bg-gray-50 rounded-xl shadow-lg">
+    <div class="w-full h-[80%] flex flex-col p-6 bg-gray-50 rounded-xl">
 
         <!-- Header -->
         <div class="mb-6">
-            <h2 class="text-3xl font-bold text-gray-800">Recipe Purchases</h2>
-            <h3 class="text-lg text-gray-600 mt-1">{{ recipe.recipeName }}</h3>
+            <h2 class="text-3xl font-['Poppins-Bold'] text-gray-800">Recipe Purchases</h2>
+            <h3 class="text-xl text-gray-600 mt-5 font-['Poppins-SemiBoldItalic']">{{ recipe.recipeName }}</h3>
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200">
-            <table class="min-w-full bg-white rounded-lg overflow-hidden">
-                <thead class="bg-blue-50 border-b border-gray-200">
+        <div class="overflow-x-auto rounded-lg align-center justify-center width-full">
+            <table class="w-[80%] bg-white rounded-lg overflow-hidden align-center justify-center">
+                <thead class="bg-[#B5BFDE] border-b border-gray-200 align-center">
                 <tr>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">User</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Purchased At</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Action</th>
+                    <th class="px-6 py-3 text-sm font-['Poppins-Bold'] text-gray-700">User</th>
+                    <th class="px-6 py-3 text-sm font-['Poppins-Bold'] text-gray-700">Email</th>
+                    <th class="px-6 py-3 text-sm font-['Poppins-Bold'] text-gray-700">Purchased At</th>
+                    <th class="px-6 py-3 text-sm font-['Poppins-Bold'] text-gray-700">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                     :key="p.id"
                     class="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                 >
-                    <td class="px-6 py-4 font-medium text-gray-800">
+                    <td class="px-6 py-4 font-['Poppins-Bold'] text-gray-800 border-left border-#afadad-20">
                         {{ p.user.user_info.fullName || 'N/A' }}
                     </td>
                     <td class="px-6 py-4 text-gray-600 text-sm">

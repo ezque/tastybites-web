@@ -27,13 +27,13 @@
             </p>
 
             <!-- Followers -->
-            <p class="text-sm font-['Poppins-Medium'] text-gray-700 mt-2">
+            <p class="text-xs font-['Poppins-SemiBold'] text-gray-700 mt-2">
                 👥 {{ chef.followers_count }} Followers
             </p>
 
             <!-- Details Button -->
             <button
-                class="mt-3 bg-indigo-500 text-white w-[85%] py-2 rounded-full text-sm font-semibold shadow-md
+                class="mt-3 bg-indigo-500 text-white w-[85%] py-2 rounded-full text-xs font-['Poppins-SemiBold'] shadow-md
                 hover:bg-indigo-600 hover:shadow-lg transition-all duration-300"
                 @click="openDetails"
             >
@@ -46,7 +46,7 @@
             class="absolute top-2 right-2 bg-white/80 rounded-full shadow-sm p-1 cursor-pointer hover:bg-white transition"
             @click.stop="toggleMenu"
         >
-            <img src="/public/images/Button-icon/option.png" alt="Options" class="w-4 h-4 opacity-75 hover:opacity-100">
+            <img src="/public/images/Button-icon/option.png" alt="Options" class="w-1 h-4 opacity-75 hover:opacity-100">
         </button>
 
         <!-- Dropdown Menu -->
@@ -56,21 +56,21 @@
         >
             <button
                 @click="emit('follow', chef)"
-                class="flex items-center gap-2 w-full py-1 text-sm font-semibold hover:bg-indigo-100 hover:text-slate-700 rounded-md px-2 transition"
+                class="flex items-center gap-2 w-full py-1 text-sm font-['Poppins-SemiBold'] hover:bg-indigo-100 hover:text-slate-700 rounded-md px-2 transition"
             >
                 <span class="material-icons text-base">
                     {{ chef.follow_status === 'following' ? 'person_remove' : 'person_add' }}
                 </span>
-                        <span>
+                <span>
                     {{ chef.follow_status === 'following' ? 'Unfollow' : 'Follow' }}
                 </span>
             </button>
 
             <button
                 @click="emit('report', chef)"
-                class="flex items-center gap-2 w-full py-1 text-sm font-semibold hover:bg-red-100 hover:text-slate-700 rounded-md px-2 transition"
+                class="flex items-center gap-2 w-full py-1 text-sm font-['Poppins-SemiBold'] hover:bg-red-100 hover:text-slate-700 rounded-md px-2 transition ml-1"
             >
-                <img src="/public/images/Button-icon/report.png" class="w-4 h-4" />
+                <img src="/public/images/Button-icon/report.png" class="w-5 h-5" />
                 <span>Report</span>
             </button>
         </div>
