@@ -49,6 +49,12 @@
                 </div>
                 <div class="right-side-details-container h-[72%] w-[60%]">
                     <div class="right-side-details-main bg-[#B5BFDE] w-[85%] h-[95%] rounded-[35px] ml-[30px] overflow-auto p-[20px] sm:p-[40px] flex flex-col">
+                        <div class="h-auto w-full flex justify-end ">
+                            <button @click="downloadPdf" class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
+                                Download PDF
+                            </button>
+                        </div>
+
                         <div class="description-container w-full h-auto mb-[10px] mt-[10px]">
                             <div class="label-container w-full h-[50px] flex items-center">
                                 <img src="/public/images/Button-icon/description.png" alt="description" class="w-[30px] h-[30px]"/>
@@ -430,6 +436,24 @@
             console.error(error)
         }
     }
+
+    const downloadPdf = async () => {
+        try {
+            const response = await axios.get(`/recipe-pdf/${props.recipe.id}`, {
+                responseType: "blob", // VERY IMPORTANT
+            });
+
+            // Create a Blob URL from the PDF data
+            const fileURL = URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }));
+
+            // Open the PDF in a new tab
+            window.open(fileURL, "_blank");
+
+        } catch (error) {
+            console.error("PDF download failed:", error);
+        }
+    };
+
 
     const react = async (type) => {
         let newType = type

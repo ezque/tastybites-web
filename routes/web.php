@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChefController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\RecipePdfController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RatingController;
@@ -49,6 +50,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/report/{id}', [RecipeController::class, 'reportRecipe'])->name('report.recipe');
     Route::patch('/update-recipe/{id}', [RecipeController::class, 'updateRecipe']);
     Route::delete('/delete-recipe/{id}', [RecipeController::class, 'deleteRecipe']);
+
+    Route::get('/recipe-pdf/{id}', [RecipePdfController::class, 'recipePdf']);
 
     Route::get('/chef-info', [UserController::class, 'getChefInfo']);
     Route::get('/top-chef', [UserController::class, 'getTopChefs']);
