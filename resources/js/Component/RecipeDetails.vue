@@ -50,12 +50,12 @@
                 <div class="right-side-details-container h-[72%] w-[60%]">
                     <div class="right-side-details-main bg-[#B5BFDE] w-[85%] h-[95%] rounded-[35px] ml-[30px] overflow-auto p-[20px] sm:p-[40px] flex flex-col">
                         <div class="h-auto w-full flex justify-end ">
-                            <button @click="downloadPdf" class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
+                            <button @click="downloadPdf" class="px-4 py-2 bg-[#435F77] text-white font-['Poppins-Regular'] text-xs rounded cursor-pointer hover:bg-[#E0E7FF] hover:text-[#435F77] hover:scale-110">
                                 Download PDF
                             </button>
                         </div>
 
-                        <div class="description-container w-full h-auto mb-[10px] mt-[10px]">
+                        <div class="description-container w-full h-auto mb-[10px] ">
                             <div class="label-container w-full h-[50px] flex items-center">
                                 <img src="/public/images/Button-icon/description.png" alt="description" class="w-[30px] h-[30px]"/>
                                 <h2 class="m-0 ml-[13px] font-['Poppins-Bold'] text-[1.3em]">Description</h2>
