@@ -80,4 +80,11 @@ class ChefController extends Controller
             'certificate' => $certificate
         ]);
     }
+
+    public function chefLeaderboards(UserService $userService)
+    {
+        $chefLeaderboard = $userService->chefLeaderboards();
+
+        return response()->json($chefLeaderboard);
+    }
 }

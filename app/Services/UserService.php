@@ -3,7 +3,7 @@
 namespace App\Services;
 use App\Models\User;
 use App\Models\UserInfo;
-
+use App\Models\Purchase;
 class UserService
 {
 
@@ -63,4 +63,20 @@ class UserService
             ->where('role', 'user')
             ->get();
     }
+    public function chefLeaderboards()
+    {
+        return User::where('role', 'chef')
+            ->where('status', 'active') // this is users.status
+            ->with('userInfo')
+            ->withSum(['recipePurchases as total_revenue' => function ($query) {
+                $query->where('purchases.status', 'confirmed'); // <-- specify table
+            }], 'amount')
+            ->orderByDesc('total_revenue')
+            ->take(20)
+            ->get();
+    }
+
+
+
+
 }

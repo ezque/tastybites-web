@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/purchase-status/{id}', [ChefController::class, 'purchaseStatus']);
     Route::post('add-certificate', [ChefController::class, 'addCertificate'])->name('certificates.store');
+    Route::get('/chefs/leaderboards', [ChefController::class, 'chefLeaderboards']);
 
     Route::get('/recipes/{id}/counts', [RecipeController::class, 'counts']);
     Route::get('/all-recipes', [RecipeController::class, 'getAllRecipes']);
@@ -57,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/top-chef', [UserController::class, 'getTopChefs']);
     Route::post('/report/chef/{id}', [UserController::class, 'reportChef'])->name('report.chef');
     Route::post('/follow/{id}', [UserController::class, 'follow']);
+
 
     //Notification
     Route::post('/read-all-notifications', [NotificationController::class, 'readAllNotifications']);

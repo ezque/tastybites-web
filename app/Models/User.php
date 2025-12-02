@@ -77,6 +77,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Follow::class, 'followedID');
     }
+    public function recipePurchases()
+    {
+        return $this->hasManyThrough(
+            Purchase::class,    // Final model
+            Recipe::class,      // Middle model
+            'userID',           // recipes.userID = chef id
+            'recipeID',         // purchases.recipeID = recipe id
+            'id',               // users.id
+            'id'                // recipes.id
+        );
+    }
 
 
 

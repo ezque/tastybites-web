@@ -88,9 +88,30 @@
         <div class="h-auto w-[100%] py-5 border border-black-500 mt-10 flex flex-col">
             <!-- Label -->
             <h2 class="capitalize mt-1 ml-5 text-[35px] font-[Poppins-Bold]">leaderboards</h2>
-            <div>
+            <!-- Card container-->
+            <div class="w-full h-auto p-10 flex flex-col">
+                <div
+                    v-for="(chef, index) in leaderboards"
+                    :key="chef.id"
+                    class="p-4 border-b flex items-center justify-between"
+                >
+                    <!-- RANK -->
+                    <span class="text-xl font-bold">
+                        #{{ index + 1 }}
+                    </span>
 
+                                <!-- USERNAME -->
+                                <span class="text-lg">
+                        {{ chef.user_info?.userName || 'No Name' }}
+                    </span>
+
+                                <!-- TOTAL REVENUE -->
+                                <span class="text-lg font-semibold text-green-600">
+                        ₱{{ chef.total_revenue ?? 0 }}
+                    </span>
+                </div>
             </div>
+
         </div>
 
 
@@ -100,7 +121,7 @@
 
 
 <script setup>
-    import { ref, computed } from 'vue'
+import {ref, computed, onMounted} from 'vue'
     import {
         Chart as ChartJS,
         Title,
@@ -114,6 +135,7 @@
     } from 'chart.js'
     import { Line } from 'vue-chartjs'
     import Footer from "@/Component/Footer.vue"
+    import axios from "axios";
 
     ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler)
 
@@ -127,6 +149,7 @@
     const LineChart = Line
     const currentView = ref('month')
     const dropdownOpen = ref(false)
+    const leaderboards = ref([])
 
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
@@ -258,4 +281,17 @@
         currentView.value = view
         dropdownOpen.value = false
     }
+
+    const fetchChefLeaderboards = async () => {
+        try {
+            const response = await axios.get('/chefs/leaderboards')
+            leaderboards.value = response.data  // <-- store data here
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    onMounted(() => {
+        fetchChefLeaderboards()
+    })
 </script>
