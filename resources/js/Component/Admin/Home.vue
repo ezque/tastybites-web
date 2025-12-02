@@ -1,26 +1,21 @@
 <template>
-    <!-- Main Container -->
-    <div class="flex flex-col w-full h-[97%] overflow-auto">
-        <!-- Header -->
-        <h2 class="mt-5 ml-5 text-[35px] font-[Poppins-Bold]">Dashboard</h2>
+    <div class="flex flex-col w-full h-[97%] overflow-auto **bg-[#F4F7FA]**">
+        <h2 class="mt-5 ml-5 text-[35px] font-[Poppins-Bold] **text-gray-800**">Dashboard</h2>
 
-        <!-- Cards Section -->
-        <div class="flex flex-row flex-wrap items-center justify-center mt-5 pb-2 w-full">
-            <!-- Income -->
-            <button class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[380px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+        <div class="flex flex-row flex-wrap items-center justify-center mt-5 pb-2 w-full gap-5">
+            <button class="flex items-center justify-between **bg-white** rounded-xl p-5 w-[380px] h-[130px] cursor-pointer text-left **shadow-xl hover:shadow-2xl** transition **border-b-4 border-[#28A745]**">
                 <span class="flex flex-col justify-center align-center w-[70%]">
-                    <span class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">TOTAL INCOME</span>
-                    <span class="text-[36px] font-[Poppins-Bold] text-[#435F77] my-1">₱{{ props.adminTotalIncome.total }}</span>
+                    <span class="text-[16px] font-[Poppins-Bold] text-gray-500 m-0">TOTAL INCOME</span>
+                    <span class="text-[36px] font-[Poppins-Bold] **text-[#28A745]** my-1">₱{{ props.adminTotalIncome.total }}</span>
                 </span>
                 <span class="flex flex-col justify-center items-center w-[30%] h-full">
-                    <img src="/public/images/Button-icon/dashboard-sales.png" alt="money icon" class="w-[90px] h-[90px]" />
+                    <img src="/public/images/Button-icon/dashboard-sales.png" alt="money icon" class="w-[90px] h-[90px] opacity-80" />
                 </span>
             </button>
 
-            <!-- Users -->
-            <button @click="emit('navigate','Users')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[390px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','Users')" class="flex items-center justify-between **bg-white** rounded-xl p-5 w-[390px] h-[130px] cursor-pointer text-left **shadow-xl hover:shadow-2xl** transition **border-b-4 border-[#435F77]**">
                 <span class="flex flex-col justify-center w-[70%]">
-                    <span class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">USERS</span>
+                    <span class="text-[16px] font-[Poppins-Bold] text-gray-500 m-0">USERS</span>
                     <span class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.usersCounts }}</span>
                     <span class="flex items-center gap-2">
                         <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
@@ -28,14 +23,13 @@
                     </span>
                 </span>
                 <span class="flex flex-col justify-center items-center w-[30%] h-full">
-                    <img src="/public/images/Button-icon/dashboars-users.png" alt="users icon" class="w-[100px] h-[75px]" />
+                    <img src="/public/images/Button-icon/dashboars-users.png" alt="users icon" class="w-[100px] h-[75px] opacity-80" />
                 </span>
             </button>
 
-            <!-- Chefs -->
-            <button @click="emit('navigate','AdminChefs')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[390px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','AdminChefs')" class="flex items-center justify-between **bg-white** rounded-xl p-5 w-[390px] h-[130px] cursor-pointer text-left **shadow-xl hover:shadow-2xl** transition **border-b-4 border-[#435F77]**">
                 <span class="flex flex-col justify-center w-[70%]">
-                    <span class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">CHEFS</span>
+                    <span class="text-[16px] font-[Poppins-Bold] text-gray-500 m-0">CHEFS</span>
                     <span class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.totalCountsUsers.chefsCounts }}</span>
                     <span class="flex items-center gap-2">
                         <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
@@ -43,14 +37,13 @@
                     </span>
                 </span>
                 <span class="flex flex-col justify-center items-center w-[30%] h-full">
-                    <img src="/public/images/Button-icon/dashboard-chef.png" alt="chef icon" class="w-[90px] h-[90px]" />
+                    <img src="/public/images/Button-icon/dashboard-chef.png" alt="chef icon" class="w-[90px] h-[90px] opacity-80" />
                 </span>
             </button>
 
-            <!-- Recipes -->
-            <button @click="emit('navigate','Recipes')" class="flex items-center justify-between bg-[#D9D9D9] rounded-lg p-5 w-[380px] h-[130px] mx-5 cursor-pointer text-left hover:shadow-md transition">
+            <button @click="emit('navigate','Recipes')" class="flex items-center justify-between **bg-white** rounded-xl p-5 w-[380px] h-[130px] cursor-pointer text-left **shadow-xl hover:shadow-2xl** transition **border-b-4 border-[#435F77]**">
                 <span class="flex flex-col justify-center w-[70%]">
-                    <span class="text-[16px] font-[Poppins-Bold] text-[#333] m-0">RECIPES</span>
+                    <span class="text-[16px] font-[Poppins-Bold] text-gray-500 m-0">RECIPES</span>
                     <span class="text-[32px] font-[Poppins-Bold] text-[#435F77] my-1">{{ props.getTotalRecipeCounts.recipeCounts }}</span>
                     <span class="flex items-center gap-2">
                         <img src="/public/images/Button-icon/approved.png" alt="approved" class="inline w-3 h-auto ml-1"/>
@@ -58,56 +51,57 @@
                     </span>
                 </span>
                 <span class="flex flex-col justify-center items-center w-[30%] h-full">
-                    <img src="/public/images/Button-icon/dashboard-recipes.png" alt="recipes icon" class="w-[90px] h-[90px]" />
+                    <img src="/public/images/Button-icon/dashboard-recipes.png" alt="recipes icon" class="w-[90px] h-[90px] opacity-80" />
                 </span>
             </button>
         </div>
 
-        <!-- Graph Section -->
-        <div class="flex flex-col bg-[#D9D9D9] rounded-lg shadow-md p-3 w-[80%] mt-[60px] mx-auto">
-            <!-- Graph Header -->
-            <div class="flex items-center justify-between px-2">
-                <h3 class="text-[18px] font-[Poppins-Bold] m-2">Income Recap Report</h3>
+        <div class="flex flex-col **bg-white** rounded-xl **shadow-xl** p-6 w-[80%] mt-[60px] mx-auto">
+            <div class="flex items-center justify-between px-2 pb-2 border-b border-gray-100">
+                <h3 class="text-[18px] font-[Poppins-Bold] m-2 **text-gray-800**">Income Recap Report</h3>
                 <div class="relative">
-                    <button class="bg-transparent border-none cursor-pointer" @click="toggleDropdown">
-                        <img src="/public/images/Button-icon/option.png" alt="dropdown" class="w-2 h-auto"/>
+                    <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-1 px-3 rounded text-sm transition" @click="toggleDropdown">
+                        {{ currentView === 'month' ? 'Monthly' : 'Yearly' }} <span class="ml-1">&#9662;</span>
                     </button>
-                    <div v-if="dropdownOpen" class="absolute top-[35px] right-[5px] bg-[#435F77] rounded-tr-none rounded-bl-lg rounded-br-lg shadow-md w-[100px] flex flex-col">
-                        <a href="#" @click.prevent="setView('month')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B]">Month</a>
-                        <a href="#" @click.prevent="setView('year')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] border-t-2 border-white">Year</a>
+                    <div v-if="dropdownOpen" class="absolute top-[35px] right-[5px] bg-[#435F77] rounded-lg shadow-xl w-[100px] flex flex-col z-10">
+                        <a href="#" @click.prevent="setView('month')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] rounded-t-lg">Month</a>
+                        <a href="#" @click.prevent="setView('year')" class="block text-white text-center font-[Poppins-Bold] py-2 hover:bg-[#31485B] border-t-2 border-gray-50 rounded-b-lg">Year</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Chart -->
-            <div class="w-[95%] h-[300px] bg-white p-2 self-center">
+            <div class="w-full h-[300px] p-2 self-center">
                 <LineChart :data="chartData" :options="chartOptions" class="w-full h-full"/>
             </div>
         </div>
-        <!-- LeaderBoard -->
-        <div class="h-auto w-[100%] py-5 border border-black-500 mt-10 flex flex-col">
-            <!-- Label -->
-            <h2 class="capitalize mt-1 ml-5 text-[35px] font-[Poppins-Bold]">leaderboards</h2>
-            <!-- Card container-->
-            <div class="w-full h-auto p-10 flex flex-col">
+
+        <div class="h-auto w-[100%] py-5 mt-10 flex flex-col">
+            <h2 class="capitalize mt-1 ml-5 text-[35px] font-[Poppins-Bold] **text-gray-800**">leaderboards</h2>
+            <div class="w-full h-auto p-10 flex flex-col **gap-2**">
                 <div
                     v-for="(chef, index) in leaderboards"
                     :key="chef.id"
-                    class="p-4 border-b flex items-center justify-between"
+                    :class="[
+                        'p-4 flex items-center justify-between rounded-lg shadow-md',
+                        index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]', // Zebra striping
+                        'hover:shadow-lg transition duration-300'
+                    ]"
                 >
-                    <!-- RANK -->
-                    <span class="text-xl font-bold">
+                    <span :class="[
+                        'text-xl font-extrabold w-8 text-center',
+                        index === 0 ? 'text-yellow-600' :
+                        index === 1 ? 'text-gray-500' :
+                        index === 2 ? 'text-yellow-800' : 'text-gray-500'
+                    ]">
                         #{{ index + 1 }}
                     </span>
 
-                                <!-- USERNAME -->
-                                <span class="text-lg">
+                    <span class="text-lg **text-gray-700** flex-grow mx-4 truncate">
                         {{ chef.user_info?.userName || 'No Name' }}
                     </span>
 
-                                <!-- TOTAL REVENUE -->
-                                <span class="text-lg font-semibold text-green-600">
-                        ₱{{ chef.total_revenue ?? 0 }}
+                    <span class="text-lg font-bold **text-[#28A745]**">
+                        ₱{{ chef.total_revenue?.toLocaleString('en-PH', {minimumFractionDigits: 0, maximumFractionDigits: 0}) ?? 0 }}
                     </span>
                 </div>
             </div>
