@@ -9,7 +9,7 @@
 
         <!-- Table -->
         <div class="overflow-x-auto rounded-lg align-center justify-center width-full">
-            <table class="w-[80%] bg-white rounded-lg overflow-hidden align-center justify-center">
+            <table class="w-full bg-white rounded-lg overflow-hidden align-center justify-center self-center">
                 <thead class="bg-[#B5BFDE] border-b border-gray-200 align-center">
                 <tr>
                     <th class="px-6 py-3 text-sm font-['Poppins-Bold'] text-gray-700">User</th>
@@ -27,15 +27,15 @@
                     <td class="px-6 py-4 font-['Poppins-Bold'] text-gray-800 border-left border-#afadad-20">
                         {{ p.user.user_info.fullName || 'N/A' }}
                     </td>
-                    <td class="px-6 py-4 text-gray-600 text-sm">
+                    <td class="px-6 py-4 text-blue-600 font-['Poppins-Italic'] underline text-sm">
                         {{ p.user.email }}
                     </td>
-                    <td class="px-6 py-4 text-gray-600 text-sm">
+                    <td class="px-6 py-4 text-gray-600 font-['Poppins-Regular'] text-center text-sm">
                         {{ new Date(p.purchase_at).toLocaleString() }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 rounded-lg text-xs font-['Poppins-Bold'] text-gray-800 flex justify-center">
                         <button
-                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all shadow"
+                            class="px-4 py-2 bg-[#435f77] text-white hover:bg-blue-600 transition-all shadow rounded-lg"
                             @click="openModal(p)"
                         >
                             View
@@ -73,48 +73,53 @@
                         ✖
                     </button>
 
-                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Purchase Details</h2>
+                    <h2 class="text-2xl font-[Poppins-Bold] mb-4 text-gray-800">Purchase Details</h2>
 
-                    <div class="flex flex-col gap-3">
-                        <p>
-                            <span class="font-semibold text-gray-700">User:</span>
-                            {{ selectedPurchase.user.user_info.fullName }}
-                        </p>
-                        <p>
-                            <span class="font-semibold text-gray-700">Email:</span>
-                            {{ selectedPurchase.user.email }}
-                        </p>
-                        <p>
-                            <span class="font-semibold text-gray-700">Phone:</span>
-                            {{ selectedPurchase.phone_number || 'N/A' }}
-                        </p>
-                        <p>
-                            <span class="font-semibold text-gray-700">Amount:</span>
-                            ₱{{ selectedPurchase.amount }}
-                        </p>
-                        <p>
-                            <span class="font-semibold text-gray-700">Purchased At:</span>
-                            {{ new Date(selectedPurchase.purchase_at).toLocaleString() }}
-                        </p>
-                        <p>
-                            <span class="font-semibold text-gray-700">Reference:</span>
-                            {{ selectedPurchase.reference || 'N/A' }}
-                        </p>
-                        <p v-if="selectedPurchase.proof_path">
-                            <span class="font-semibold text-gray-700">Proof:</span>
-                            <a
-                                :href="`/storage/${selectedPurchase.proof_path}`"
-                                target="_blank"
-                                class="text-blue-500 underline hover:text-blue-700"
-                            >
-                                View Proof
-                            </a>
-                        </p>
-                    </div>
+                    <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">User:</td>
+                                <td class="px-4 py-2 font-[Poppins-Bold] text-md">{{ selectedPurchase.user.user_info.fullName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Email:</td>
+                                <td class="px-4 py-2 font-[Poppins-Italic] text-sm text-blue-600 underline truncate">{{ selectedPurchase.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Phone:</td>
+                                <td class="px-4 py-2 font-[Poppins-Regular] text-md">{{ selectedPurchase.phone_number || 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Amount:</td>
+                                <td class="px-4 py-2 font-[Poppins-Bold] text-md">₱{{ selectedPurchase.amount }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Purchased At:</td>
+                                <td class="px-4 py-2 font-[Poppins-Regular] text-sm">{{ new Date(selectedPurchase.purchase_at).toLocaleString() }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Reference:</td>
+                                <td class="px-4 py-2 font-[Poppins-Regular] text-md">{{ selectedPurchase.reference || 'N/A' }}</td>
+                            </tr>
+                            <tr v-if="selectedPurchase.proof_path">
+                                <td class="px-4 py-2 font-[Poppins-BoldItalic] text-sm text-gray-700">Proof:</td>
+                                <td class="px-4 py-2">
+                                    <a
+                                    :href="`/storage/${selectedPurchase.proof_path}`"
+                                    target="_blank"
+                                    class="text-[#435f77] underline hover:text-[#B5BFDE] font-[Poppins-Italic] text-sm"
+                                    >
+                                    View Proof
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
 
                     <div class="mt-6 flex justify-end">
                         <button
-                            class="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 shadow transition-all"
+                            class="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 shadow transition-all font-[Poppins-Bold] text-xs"
                             @click="closeModal"
                         >
                             Close
