@@ -1,11 +1,6 @@
 <template>
-    <div
-        v-if="isPageLoading"
-        class="fixed inset-0 bg-white z-50 flex items-center justify-center"
-    >
-        <div
-            class="w-14 h-14 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"
-        ></div>
+    <div v-if="isPageLoading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="w-14 h-14 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"></div>
     </div>
     <div
         v-else
@@ -14,10 +9,10 @@
         <!-- Background -->
         <img
             src="/public/images/register_back - rotated.png"
-            class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain
-           transition-transform duration-1500 ease-out"
+            class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain transition-transform duration-1000 ease-out"
             :class="slideIn ? 'translate-x-0' : '-translate-x-full'"
         />
+
 
 
         <!-- Left side -->
@@ -117,7 +112,7 @@
 </template>
 
 <script setup>
-    import { reactive, ref, onMounted } from "vue";
+    import { reactive, ref, onMounted, nextTick  } from "vue";
     import axios from "axios";
 
     const loading = ref(false);
@@ -163,32 +158,34 @@
         }
     };
     onMounted(() => {
-        const images = document.images;
-        let loaded = 0;
+        const images = Array.from(document.images);
+        let loadedCount = 0;
+
+        const finishLoading = async () => {
+            isPageLoading.value = false;
+            // Wait for DOM to update
+            await nextTick();
+            // Small delay to trigger CSS transition
+            setTimeout(() => {
+                slideIn.value = true;
+            }, 50);
+        };
 
         if (images.length === 0) {
-            isPageLoading.value = false;
-            return;
-        }
-
-        for (let img of images) {
-            if (img.complete) {
-                loaded++;
-            } else {
-                img.onload = img.onerror = () => {
-                    loaded++;
-                    if (loaded === images.length) {
-                        isPageLoading.value = false;
-                    }
-                };
-            }
+            finishLoading();
+        } else {
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                } else {
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === images.length) finishLoading();
+                    };
+                }
+            });
         }
     });
 
-    onMounted(() => {
-        requestAnimationFrame(() => {
-            slideIn.value = true;
-        });
-    });
 
 </script>
