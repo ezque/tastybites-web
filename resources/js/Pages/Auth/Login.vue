@@ -1,10 +1,24 @@
 <template>
-    <div class="h-screen w-full flex items-center justify-center relative">
+    <div
+        v-if="isPageLoading"
+        class="fixed inset-0 bg-white z-50 flex items-center justify-center"
+    >
+        <div
+            class="w-14 h-14 border-4 border-[#435F77] border-t-transparent rounded-full animate-spin"
+        ></div>
+    </div>
+    <div
+        v-else
+        class="h-screen w-full flex items-center justify-center relative"
+    >
         <!-- Background -->
         <img
             src="/public/images/register_back - rotated.png"
-            class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain"
+            class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain
+           transition-transform duration-700 ease-out"
+            :class="slideIn ? 'translate-x-0' : '-translate-x-full'"
         />
+
 
         <!-- Left side -->
         <div class="p-2 items-center justify-center z-10 relative hidden lg:flex">
@@ -103,47 +117,78 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import axios from "axios";
+    import { reactive, ref, onMounted } from "vue";
+    import axios from "axios";
 
-const loading = ref(false);
-const showPassword = ref(false);
-const errors = reactive({});
+    const loading = ref(false);
+    const showPassword = ref(false);
+    const isPageLoading = ref(true);
+    const slideIn = ref(false);
+    const errors = reactive({});
 
-function togglePassword() {
-    showPassword.value = !showPassword.value;
-}
-
-const form = reactive({
-    email: "",
-    password: "",
-    remember: false,
-});
-
-const handleLogin = async () => {
-    loading.value = true;
-    Object.keys(errors).forEach((key) => delete errors[key]);
-
-    try {
-        const response = await axios.post("/login-post", form, {
-            headers: {
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-        });
-
-        if (response.data.redirect) {
-            window.location.href = response.data.redirect;
-        }
-    } catch (error) {
-        if (error.response?.status === 422) {
-            Object.assign(errors, error.response.data.errors);
-        } else {
-            console.error("Unexpected login error:", error);
-        }
-    } finally {
-        loading.value = false;
+    function togglePassword() {
+        showPassword.value = !showPassword.value;
     }
-};
+
+    const form = reactive({
+        email: "",
+        password: "",
+        remember: false,
+    });
+
+    const handleLogin = async () => {
+        loading.value = true;
+        Object.keys(errors).forEach((key) => delete errors[key]);
+
+        try {
+            const response = await axios.post("/login-post", form, {
+                headers: {
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+            });
+
+            if (response.data.redirect) {
+                window.location.href = response.data.redirect;
+            }
+        } catch (error) {
+            if (error.response?.status === 422) {
+                Object.assign(errors, error.response.data.errors);
+            } else {
+                console.error("Unexpected login error:", error);
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+    onMounted(() => {
+        const images = document.images;
+        let loaded = 0;
+
+        if (images.length === 0) {
+            isPageLoading.value = false;
+            return;
+        }
+
+        for (let img of images) {
+            if (img.complete) {
+                loaded++;
+            } else {
+                img.onload = img.onerror = () => {
+                    loaded++;
+                    if (loaded === images.length) {
+                        isPageLoading.value = false;
+                    }
+                };
+            }
+        }
+    });
+
+    onMounted(() => {
+        requestAnimationFrame(() => {
+            slideIn.value = true;
+        });
+    });
+
 </script>

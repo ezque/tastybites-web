@@ -21,11 +21,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::middleware('role:user')->group(function () {
+        Route::get('/user-dashboard', [ViewController::class, 'userDashboard']);
+    });
+
     Route::post('/edit-personal-information', [AuthController::class, 'editPersonalInformation']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/update-profile-picture', [AuthController::class, 'updateProfilePicture']);
 
-    Route::get('/user-dashboard', [ViewController::class, 'userDashboard']);
+
     Route::get('/chef-dashboard', [ViewController::class, 'chefDashboard']);
     Route::get('/admin-dashboard', [ViewController::class, 'adminDashboard']);
 
