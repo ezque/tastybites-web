@@ -15,7 +15,7 @@
         <img
             src="/public/images/register_back - rotated.png"
             class="w-2/5 h-auto max-h-[88%] absolute top-0 left-0 z-0 object-contain
-           transition-transform duration-700 ease-out"
+           transition-transform duration-1500 ease-out"
             :class="slideIn ? 'translate-x-0' : '-translate-x-full'"
         />
 
