@@ -17,12 +17,22 @@
 
         <!-- Left side -->
         <div class="p-2 items-center justify-center z-10 relative hidden lg:flex">
-            <img src="/public/images/tastybites_plate.png" class="h-[700px] w-auto max-w-full" />
+            <img
+                src="/public/images/tastybites_plate.png"
+                class="h-[700px] w-auto max-w-full transition-transform duration-1000 ease-out"
+                :class="slideIn ? 'translate-y-0' : '-translate-y-full'"
+            />
+
         </div>
 
         <!-- Right side -->
         <div
-            class="p-[50px_30px_30px_30px] border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative"
+            class="p-[50px_30px_30px_30px] border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px]
+           flex flex-col items-center z-10 relative
+           transition-all duration-700 ease-out"
+            :class="slideIn
+            ? 'translate-x-0 opacity-100'
+            : 'translate-x-full opacity-0'"
         >
             <h1
                 class="text-[4.5em] font-[100] font-[Rouge_Script] text-center relative -bottom-[15px] m-0"

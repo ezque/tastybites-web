@@ -3,18 +3,25 @@
         <!-- Background image -->
         <img
             src="/public/images/register_back - rotated.png"
-            class="w-2/5 h-auto max-h-full absolute top-0 left-0 z-0 object-contain hidden md:block"
+            class="w-2/5 h-auto max-h-full absolute top-0 left-0 z-0 object-contain hidden md:block transition-transform duration-1000 ease-out"
+            :class="slideIn ? 'translate-x-0' : '-translate-x-full'"
             alt="icon"
         />
 
         <!-- Left side (plate image) -->
-        <div class="p-2 flex items-center justify-center z-10 relative hidden lg:flex">
+        <div
+            class="p-2 flex items-center justify-center z-10 relative hidden lg:flex transition-transform duration-1000 ease-out"
+            :class="slideIn ? 'translate-y-0' : '-translate-y-full'"
+        >
             <img src="/public/images/tastybites_plate.png" class="max-h-[600px] w-auto" alt="icon"/>
         </div>
 
         <!-- Right side (form) -->
         <div
-            class="p-8 border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative w-[90%] sm:w-[500px]"
+            class="p-8 border border-[#D9D9D9] bg-[#CFDAFF] rounded-[25px] flex flex-col items-center z-10 relative w-[90%] sm:w-[500px] transition-transform duration-1000 ease-out"
+            :class="slideIn
+            ? 'translate-x-0 opacity-100'
+            : 'translate-x-full opacity-0'"
         >
             <!-- Title -->
             <h1 class="text-[3em] sm:text-[4.5em] font-[100] font-[Rouge_Script] text-center mb-4">
@@ -187,10 +194,12 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue'
+    import {ref, computed, onMounted, nextTick} from 'vue'
     import axios from 'axios'
 
     const loading = ref(false)
+    const isPageLoading = ref(true);
+    const slideIn = ref(false);
     const password = ref('')
     const confirmPassword = ref('')
     const fullName = ref('')
@@ -264,4 +273,34 @@
         if (!confirmPassword.value) return true
         return password.value === confirmPassword.value
     })
+
+    onMounted(() => {
+        const images = Array.from(document.images);
+        let loadedCount = 0;
+
+        const finishLoading = async () => {
+            isPageLoading.value = false;
+            // Wait for DOM to update
+            await nextTick();
+            // Small delay to trigger CSS transition
+            setTimeout(() => {
+                slideIn.value = true;
+            }, 50);
+        };
+
+        if (images.length === 0) {
+            finishLoading();
+        } else {
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                } else {
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === images.length) finishLoading();
+                    };
+                }
+            });
+        }
+    });
 </script>
